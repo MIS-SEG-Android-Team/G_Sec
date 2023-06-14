@@ -1,3 +1,42 @@
-<resources>
-    <string name="app_name">G_Sec</string>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.app
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 4/24/21 3:19 PM
+  ~ project file last modified : 4/24/21 3:17 PM
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Guanzon Security</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Guanzon Security</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="default_notification_channel_id">101</string>
+
+    <string name="menu_home">Guanzon Security</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="action_logout">Logout</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+
+
+    <!--   CAMERA -->
+
+    <string name="summary_settings_export">Exporting your database is only allowed if problem occurs and if supervise by MIS</string>
+    <string name="summary_settings_localDB">Download new records of data from server.</string>
+    <string name="summary_settings_account">Change your account password</string>
+    <string name="summary_settings_update">Check your for new system updates.</string>
+    <string name="summary_settings_dMode">Use by developers and implementors for testing phase. Only MIS-SEG are able to use this mode.</string>
+    <string name="sDataManagerInfo">Clearing app data will erase all, records, pending loan applications, pending dcp remittance and selfie login data. Please make sure all data has been uploaded to server.</string>
+
 </resources>

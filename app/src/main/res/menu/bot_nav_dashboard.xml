@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_home"
+        android:title=""
+        android:icon="@drawable/ic_personel"
+        android:enabled="true"/>
+
+    <item android:id="@+id/textinput_placeholder"
+        android:title=""/>
+
+    <item android:id="@+id/nav_clock"
+        android:title=""
+        android:icon="@drawable/ic_clock"
+        android:enabled="true"/>
+</menu>
