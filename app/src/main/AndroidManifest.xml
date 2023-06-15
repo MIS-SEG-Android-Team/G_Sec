@@ -13,17 +13,16 @@
         android:theme="@style/Theme.G_Sec"
         tools:targetApi="31">
         <activity
-            android:name=".Activity.Activity_Dashboard"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".Activity_SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="org.rmj.guanzongroup.authlibrary.Activity.Activity_Login"
+            android:exported="false" />
     </application>
 
 </manifest>
