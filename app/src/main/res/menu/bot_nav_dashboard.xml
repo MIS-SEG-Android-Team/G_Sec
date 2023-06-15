@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/nav_home"
-        android:title=""
+    <item
+        android:id="@+id/lblPersonel"
         android:icon="@drawable/ic_personel"
-        android:enabled="true"/>
+        android:title="Personnel"/>
 
-    <item android:id="@+id/textinput_placeholder"
+    <item
+        android:id="@+id/textinput_placeholder"
         android:title=""/>
 
-    <item android:id="@+id/nav_clock"
-        android:title=""
+    <item
+        android:id="@+id/lblFacilities"
         android:icon="@drawable/ic_clock"
-        android:enabled="true"/>
+        android:title="Personnel3"/>
 </menu>
