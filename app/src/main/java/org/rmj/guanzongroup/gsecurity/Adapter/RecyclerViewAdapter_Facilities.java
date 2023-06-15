@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,8 @@ public class RecyclerViewAdapter_Facilities extends RecyclerView.Adapter<Recycle
         String facilityname = list.get(position).getFacilityname();
         String lastvisit = list.get(position).getRecentvisitor();
         String timesvisited = list.get(position).getTimesvisited();
+
+        Log.d("Facility Name", facilityname);
 
         holder.mtv_facilityname.setText(facilityname);
         holder.mtv_lastvisit.setText(lastvisit);
