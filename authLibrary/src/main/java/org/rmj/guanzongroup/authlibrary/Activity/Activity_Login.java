@@ -1,5 +1,9 @@
 package org.rmj.guanzongroup.authlibrary.Activity;
 
+import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -15,9 +19,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Account.pojo.UserAuthInfo;
+import org.rmj.g3appdriver.utils.ServiceScheduler;
 import org.rmj.guanzongroup.authlibrary.R;
 import org.rmj.guanzongroup.authlibrary.UserInterface.Login.LoginCallback;
 import org.rmj.guanzongroup.authlibrary.UserInterface.Login.VMLogin;
@@ -35,7 +41,6 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
     private VMLogin mViewModel;
     private LoadDialog podialog;
     private AppConfigPreference poConfigx;
-    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,6 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
         mtv_createaccount = findViewById(R.id.mtv_createaccount);
         mtv_forgotpassw = findViewById(R.id.mtv_forgotpassw);
         btn_log = findViewById(R.id.btn_log);
-        navController = Navigation.findNavController(this, R.id.fragment_auth_container);
 
         btn_log.setOnClickListener(new View.OnClickListener() {
             @Override
