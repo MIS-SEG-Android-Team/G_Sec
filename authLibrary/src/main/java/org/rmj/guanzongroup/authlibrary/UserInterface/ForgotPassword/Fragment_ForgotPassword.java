@@ -21,24 +21,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.android.material.divider.MaterialDivider;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.imageview.ShapeableImageView;
-import  com.google.android.material.checkbox.MaterialCheckBox;
 
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
@@ -51,7 +39,6 @@ import java.util.Objects;
 public class Fragment_ForgotPassword extends Fragment implements VMForgotPassword.RequestPasswordCallback {
 
     private VMForgotPassword mViewModel;
-
     private TextInputEditText tieEmail;
     private MaterialButton btnSendEmail;
     private LoadDialog poDialog;

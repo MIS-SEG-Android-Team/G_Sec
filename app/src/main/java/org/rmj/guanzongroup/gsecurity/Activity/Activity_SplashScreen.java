@@ -63,7 +63,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
         //initiate activity launcher
         InitActivityResultLaunchers();
     }
-
     private void InitActivityResultLaunchers(){
         //instantiate activity launcher
         poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
