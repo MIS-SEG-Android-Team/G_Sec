@@ -54,10 +54,10 @@ public class  MessageBox {
         lblMsgxx = view.findViewById(R.id.lbl_dialogMessage);
         midBorder = view.findViewById(R.id.view_midBorder);
         btnPositive = view.findViewById(R.id.btn_dialogPositive);
-        btnPositive.setVisibility(View.GONE);
+//        btnPositive.setVisibility(View.GONE);
         btnNegative = view.findViewById(R.id.btn_dialogNegative);
-        midBorder.setVisibility(View.GONE);
-        btnNegative.setVisibility(View.GONE);
+//        midBorder.setVisibility(View.GONE);
+//        btnNegative.setVisibility(View.GONE);
     }
 
     public void setMessage(String psMessage) {
@@ -85,15 +85,15 @@ public class  MessageBox {
         });
     }
 
-    public void setNegativeButton(String psBtnNegt, final DialogButton listener) {
-        midBorder.setVisibility(View.VISIBLE);
-        btnNegative.setVisibility(View.VISIBLE);
-        btnNegative.setText(psBtnNegt);
-        btnNegative.setOnClickListener(view -> {
-            listener.OnButtonClick(view, poDialogx);
-//            isDialogShown = false;
-        });
-    }
+//    public void setNegativeButton(String psBtnNegt, final DialogButton listener) {
+//        midBorder.setVisibility(View.VISIBLE);
+//        btnNegative.setVisibility(View.VISIBLE);
+//        btnNegative.setText(psBtnNegt);
+//        btnNegative.setOnClickListener(view -> {
+//            listener.OnButtonClick(view, poDialogx);
+////            isDialogShown = false;
+//        });
+//    }
 
     public void show() {
         if(!poDialogx.isShowing()) {
