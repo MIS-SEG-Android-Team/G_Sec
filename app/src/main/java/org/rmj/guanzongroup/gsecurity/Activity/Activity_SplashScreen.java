@@ -1,5 +1,7 @@
-package org.rmj.guanzongroup.gsecurity;
+package org.rmj.guanzongroup.gsecurity.Activity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,15 +14,19 @@ import android.view.View;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.textview.MaterialTextView;
 
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Login;
+import org.rmj.guanzongroup.gsecurity.R;
 
 public class Activity_SplashScreen extends AppCompatActivity {
+    private ActivityResultLauncher<Intent> poLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        AppConfigPreference.getInstance(Activity_SplashScreen.this).setProductID("gRider");
 
         MessageBox messageBox = new MessageBox(this);
         messageBox.initDialog();
@@ -48,11 +54,24 @@ public class Activity_SplashScreen extends AppCompatActivity {
         messageBox.setPositiveButton("Continue", new MessageBox.DialogButton() {
             @Override
             public void OnButtonClick(View view, AlertDialog dialog) {
-                Intent intent = new Intent(Activity_SplashScreen.this, Activity_Login.class);
-                startActivity(intent);
+                //launch activity launcher with result
+                poLogin.launch(new Intent(Activity_SplashScreen.this, Activity_Login.class));
+                dialog.dismiss();
             }
         });
-
         messageBox.show();
+        //initiate activity launcher
+        InitActivityResultLaunchers();
+    }
+    private void InitActivityResultLaunchers(){
+        //instantiate activity launcher
+        poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) { //no return
+                startActivity(new Intent(Activity_SplashScreen.this, Activity_Facilities.class));
+                finish();
+            } else if (result.getResultCode() == RESULT_CANCELED) { //cancelled or closed activity
+                finish();
+            }
+        });
     }
 }

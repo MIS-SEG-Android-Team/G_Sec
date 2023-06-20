@@ -25,7 +25,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".3"/>
+                app:layout_constraintHeight_percent=".250"/>
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/PrimaryHeaderStyle"
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
-                android:text="Username"
+                android:text="Email"
                 app:layout_constraintTop_toBottomOf="@+id/splashtitle"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -64,16 +64,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="15sp"
-                    android:textStyle="bold"
                     android:imeOptions="actionNext"
-                    android:maxLength="20"/>
+                    android:inputType="text"
+                    android:textStyle="bold"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/mtv_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:text="Password"
                 app:layout_constraintTop_toBottomOf="@+id/username_layout"
@@ -106,7 +106,7 @@
                 android:id="@+id/mtv_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="Mobile No."
                 app:layout_constraintTop_toBottomOf="@+id/passw_layout"
                 app:layout_constraintStart_toStartOf="@id/passw_layout"/>
@@ -117,8 +117,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:passwordToggleDrawable="@drawable/baseline_visibility_24"
-                app:passwordToggleEnabled="true"
                 app:layout_constraintTop_toBottomOf="@+id/mtv_mobile"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +128,7 @@
                     android:layout_height="match_parent"
                     android:textSize="15sp"
                     android:imeOptions="actionNext"
-                    android:inputType="textPassword"
+                    android:inputType="number"
                     android:textStyle="bold"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,16 +155,18 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:layout_marginTop="50dp"
                 android:hint="LOGIN"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
                 app:cornerRadius="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tvCompany"
                 app:layout_constraintTop_toBottomOf="@+id/mtv_createaccount"
-                app:layout_constraintWidth_percent="0.750"
-                app:layout_constraintHeight_percent="0.090"/>
+                app:layout_constraintWidth_percent="0.650"
+                app:layout_constraintHeight_percent="0.070"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvCompany"
@@ -176,7 +176,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/sLblCompName"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@+id/btn_log"
+                app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -188,7 +188,7 @@
                 android:text="@string/sLblCopyright"
                 android:textSize="11sp"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/tvCompany"
+                app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -199,7 +199,8 @@
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/lblBuildVersion"
                 android:textSize="11sp"
-                app:layout_constraintTop_toBottomOf="@+id/tvCopyright"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

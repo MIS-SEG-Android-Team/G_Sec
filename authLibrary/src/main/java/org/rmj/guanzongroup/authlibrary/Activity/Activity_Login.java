@@ -2,8 +2,6 @@ package org.rmj.guanzongroup.authlibrary.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,7 +33,6 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
     private VMLogin mViewModel;
     private LoadDialog podialog;
     private AppConfigPreference poConfigx;
-    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +50,6 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
         mtv_createaccount = findViewById(R.id.mtv_createaccount);
         mtv_forgotpassw = findViewById(R.id.mtv_forgotpassw);
         btn_log = findViewById(R.id.btn_log);
-        navController = Navigation.findNavController(this, R.id.fragment_auth_container);
 
         btn_log.setOnClickListener(new View.OnClickListener() {
             @Override

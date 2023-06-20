@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.GRider.Database.Repositories;
+package org.rmj.g3appdriver.GRider.Etc.Repositories;
 
 import static org.junit.Assert.*;
 

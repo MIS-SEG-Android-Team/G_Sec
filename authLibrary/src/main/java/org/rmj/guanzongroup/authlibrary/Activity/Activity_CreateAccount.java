@@ -27,7 +27,8 @@ public class Activity_CreateAccount extends AppCompatActivity implements CreateA
     private LoadDialog dialog;
     private MessageBox loMessage;
     private AppConfigPreference poConfigx;
-    private TextInputEditText tieLastname, tieFirstname, tieMiddname, tieSuffix, tieEmail, tiePassword, tiecPassword, tieMobileno, lbl_versionInfo;
+    private TextInputEditText tieLastname, tieFirstname, tieMiddname,  tieEmail, tiePassword, tiecPassword, tieMobileno;
+    private MaterialTextView lbl_versionInfo;
     private MaterialButton btn_createAccount;
     private MaterialToolbar toolbar;
 
@@ -70,7 +71,6 @@ public class Activity_CreateAccount extends AppCompatActivity implements CreateA
             accountInfo.setLastName(Objects.requireNonNull(tieLastname.getText()).toString());
             accountInfo.setFrstName(Objects.requireNonNull(tieFirstname.getText()).toString());
             accountInfo.setMiddName(Objects.requireNonNull(tieMiddname.getText()).toString());
-            accountInfo.setSuffix(Objects.requireNonNull(tieSuffix.getText()).toString());
             accountInfo.setEmail(Objects.requireNonNull(tieEmail.getText()).toString());
             accountInfo.setPassword(Objects.requireNonNull(tiePassword.getText()).toString());
             accountInfo.setcPasswrd(Objects.requireNonNull(tiecPassword.getText()).toString());
