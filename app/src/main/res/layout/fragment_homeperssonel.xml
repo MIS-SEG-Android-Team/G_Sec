@@ -6,7 +6,9 @@ android:theme="@style/GhostRiderMaterialTheme"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".Fragment.Dashboard.Fragment_Dashboard">
-
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.constraintlayout.widget.ConstraintLayout>
 <org.rmj.g3appdriver.etc.NonSwipeableViewPager
     android:id="@+id/viewpager"
     android:layout_width="match_parent"

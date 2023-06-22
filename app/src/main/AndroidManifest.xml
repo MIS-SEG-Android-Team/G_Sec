@@ -22,10 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.Activity_Facilities"
-            android:exported="true" />
-        <activity
-            android:name=".Activity.Activity_Itineraries"
+            android:name=".Activity.Activity_Dashboard"
             android:exported="true" />
         <activity
             android:name="org.rmj.guanzongroup.authlibrary.Activity.Activity_Login"

@@ -36,4 +36,8 @@ public class VMFragmentAdminHome extends AndroidViewModel {
     }
     // TODO: Implement the ViewModel
 
+    public LiveData<EEmployeeInfo> getEmployeeInfo() {
+        return poEmployee.GetEmployeeInfo();
+    }
+
 }

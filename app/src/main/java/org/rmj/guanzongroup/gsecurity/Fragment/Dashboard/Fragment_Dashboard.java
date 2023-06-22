@@ -1,15 +1,12 @@
-package org.rmj.guanzongroup.gsecurity.Fragment;
+package org.rmj.guanzongroup.gsecurity.Fragment.Dashboard;
 
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +15,9 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rmj.guanzongroup.gsecurity.Adapter.FragmentAdapter;
+import org.rmj.guanzongroup.gsecurity.Fragment.Home.Fragment_AdminHome;
+import org.rmj.guanzongroup.gsecurity.Fragment.Home.Fragment_PersonnelHome;
+import org.rmj.guanzongroup.gsecurity.Fragment.Fragment_PersonnelList;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.ViewModel.VMFragmentDashboard;
 

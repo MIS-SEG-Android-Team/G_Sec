@@ -29,7 +29,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
         AppConfigPreference.getInstance(Activity_SplashScreen.this).setProductID("gRider");
 
         MessageBox messageBox = new MessageBox(this);
-        messageBox.initDialog();
 
         MaterialTextView progresstext = findViewById(R.id.progresstext);
         LinearProgressIndicator progressIndicator = findViewById(R.id.progressbar);
@@ -49,6 +48,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
         progresstext.setText("Finished");
 
+        messageBox.initDialog();
         messageBox.setTitle("G-Sec App");
         messageBox.setMessage("This application is intended for dashboard of Guanzon Admins.");
         messageBox.setPositiveButton("Continue", new MessageBox.DialogButton() {
@@ -67,7 +67,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         //instantiate activity launcher
         poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) { //no return
-                startActivity(new Intent(Activity_SplashScreen.this, Activity_Facilities.class));
+                startActivity(new Intent(Activity_SplashScreen.this, Activity_Dashboard.class));
                 finish();
             } else if (result.getResultCode() == RESULT_CANCELED) { //cancelled or closed activity
                 finish();

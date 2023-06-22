@@ -26,7 +26,7 @@ public class EEmployeeInfo {
     @ColumnInfo(name = "sBranchCD")
     private String BranchCD;
     @ColumnInfo(name = "sBranchNm")
-    private String BranchNm;
+private String BranchNm;
     @ColumnInfo(name = "sLogNoxxx")
     private String LogNoxxx;
     @ColumnInfo(name = "sUserIDxx")

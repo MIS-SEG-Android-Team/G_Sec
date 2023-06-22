@@ -47,12 +47,13 @@ public class Activity_Dashboard extends AppCompatActivity implements NavigationV
         mViewModel = new ViewModelProvider(this).get(VMMainDashboard.class);
         setContentView(R.layout.activity_dashboard);
         initWidgets();
+
         mViewModel.getEmployeeInfo().observe(this, eEmployeeInfo -> {
             try{
                 AppConfigPreference.getInstance(Activity_Dashboard.this).setIsAppFirstLaunch(false);
-                imgDept.setImageResource(AppDeptIcon.getIcon("3"));
-                lblDept.setText(DeptCode.getDepartmentName("3"));
-                Fragment[] loFragment = new Fragment[]{mViewModel.GetUserFragments(3)};
+                imgDept.setImageResource(AppDeptIcon.getIcon(eEmployeeInfo.getDeptIDxx()));
+                lblDept.setText(DeptCode.getDepartmentName(eEmployeeInfo.getDeptIDxx()));
+                Fragment[] loFragment = new Fragment[]{mViewModel.GetUserFragments(eEmployeeInfo)};
                 viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), loFragment));
             } catch (Exception e){
                 e.printStackTrace();

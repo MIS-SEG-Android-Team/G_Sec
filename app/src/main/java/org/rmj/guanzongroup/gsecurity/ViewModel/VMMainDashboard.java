@@ -1,22 +1,19 @@
 package org.rmj.guanzongroup.gsecurity.ViewModel;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import android.app.Application;
-import android.os.Bundle;
 
 import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
-import org.rmj.g3appdriver.lib.Panalo.Obj.ILOVEMYJOB;
-import org.rmj.guanzongroup.gsecurity.Fragment.Fragment_AdminHome;
-import org.rmj.guanzongroup.gsecurity.Fragment.Fragment_PersonnelHome;
-import org.rmj.guanzongroup.gsecurity.Fragment.Fragment_PersonnelList;
-import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.Fragment.Dashboard.Fragment_Dashboard;
+import org.rmj.guanzongroup.gsecurity.Fragment.Dashboard.Fragment_HomePersonnel;
+import org.rmj.guanzongroup.gsecurity.Fragment.Home.Fragment_AdminHome;
+import org.rmj.guanzongroup.gsecurity.Fragment.Home.Fragment_PersonnelHome;
 
 import java.util.List;
 
@@ -44,14 +41,29 @@ public class VMMainDashboard extends AndroidViewModel {
         return poUser.GetEmployeeInfo();
     }
 
-    public Fragment GetUserFragments(Integer args) {
+    public Fragment GetUserFragments(EEmployeeInfo args) {
         Fragment userLevel;
-        if (args == 3) {
-            userLevel = new Fragment_AdminHome();
-            return userLevel;
-        } else {
-            userLevel = new Fragment_PersonnelHome();
-            return userLevel;
+        switch (args.getEmpLevID()) {
+            case 3:
+                userLevel = new Fragment_Dashboard();
+                break;
+            case 4:
+                userLevel = new Fragment_HomePersonnel();
+                break;
+            default:
+                userLevel = new Fragment_Dashboard();
+                break;
+//                switch (args.getDeptIDxx()) {
+//                    case "032":
+//                        userLevel = new Fragment_Dashboard();
+//                        break;
+//                    default:
+//                        userLevel = new Fragment_Dashboard();
+//                        break;
+//                }
         }
+        return userLevel;
     }
 }
+
+

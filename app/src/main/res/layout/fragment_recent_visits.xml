@@ -15,7 +15,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:theme="@style/GhostRiderMaterialTheme"
 xmlns:app="http://schemas.android.com/apk/res-auto"
-tools:context=".Fragment.Fragment_AdminHome">
+tools:context=".Fragment.Home.Fragment_AdminHome">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
