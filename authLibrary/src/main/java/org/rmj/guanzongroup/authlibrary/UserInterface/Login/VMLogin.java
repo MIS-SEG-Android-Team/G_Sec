@@ -12,8 +12,6 @@ package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
-import static org.rmj.g3appdriver.lib.Firebase.CrashReportingUtil.reportException;
-
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.view.View;
@@ -73,7 +71,7 @@ public class VMLogin extends AndroidViewModel {
         TaskExecutor.Execute(authInfo, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
-                callback.OnAuthenticationLoad("Guanzon Circle", "Authenticating to ghostrider app. Please wait...");
+                callback.OnAuthenticationLoad("G-Sec App", "Authenticating to ghostrider app. Please wait...");
             }
 
             @Override

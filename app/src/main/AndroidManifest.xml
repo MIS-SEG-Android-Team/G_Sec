@@ -8,12 +8,12 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_kay_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.G_Sec"
+        android:theme="@style/GhostRiderMaterialTheme"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.Activity_SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity.Activity_Facilities"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.Activity_Itineraries"
+            android:exported="true" />
+        <activity
+            android:name="org.rmj.guanzongroup.authlibrary.Activity.Activity_Login"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

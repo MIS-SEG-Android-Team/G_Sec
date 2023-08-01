@@ -1,81 +1,69 @@
-/*
- * Created by Android Team MIS-SEG Year 2021
- * Copyright (c) 2021. Guanzon Central Office
- * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
- * Project name : GhostRider_Android
- * Module : GhostRider_Android.authLibrary
- * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:17 PM
- */
+package org.rmj.guanzongroup.authlibrary.Activity;
 
-package org.rmj.guanzongroup.authlibrary.UserInterface.ForgotPassword;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
-
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.authlibrary.R;
+import org.rmj.guanzongroup.authlibrary.UserInterface.ForgotPassword.VMForgotPassword;
 
 import java.util.Objects;
 
-public class Fragment_ForgotPassword extends Fragment implements VMForgotPassword.RequestPasswordCallback {
-
+public class Activity_ForgotPassword extends AppCompatActivity implements VMForgotPassword.RequestPasswordCallback {
     private VMForgotPassword mViewModel;
-    private TextInputEditText tieEmail;
-    private MaterialButton btnSendEmail;
     private LoadDialog poDialog;
     private MessageBox poMsgBox;
-    private MaterialTextView lblVersion;
-
     private AppConfigPreference poConfigx;
-
-    public static Fragment_ForgotPassword newInstance() {
-        return new Fragment_ForgotPassword();
-    }
+    private MaterialTextView lblVersion;
+    private TextInputEditText tie_email;
+    private MaterialButton btn_log;
+    private MaterialToolbar toolbar;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_forgot_password, container, false);
-        poDialog = new LoadDialog(getActivity());
-        poMsgBox = new MessageBox(getActivity());
-        poConfigx = AppConfigPreference.getInstance(getActivity());
-        tieEmail = v.findViewById(R.id.tie_fp_Email);
-        btnSendEmail = v.findViewById(R.id.btn_sendEmail);
-        lblVersion = v.findViewById(R.id.lbl_versionInfo);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_forgot_password);
 
-        return v;
-    }
+        poDialog = new LoadDialog(this);
+        poMsgBox = new MessageBox(this);
+        poConfigx = AppConfigPreference.getInstance(this);
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        toolbar = findViewById(R.id.toolbar);
+        lblVersion = findViewById(R.id.lbl_versionInfo);
+        tie_email = findViewById(R.id.email);
+        btn_log = findViewById(R.id.btn_log);
 
-        try {
-            mViewModel = new ViewModelProvider(this).get(VMForgotPassword.class);
-            lblVersion.setText(poConfigx.getVersionInfo());
-            btnSendEmail.setOnClickListener(view -> {
-                String email = Objects.requireNonNull(tieEmail.getText()).toString().trim();
-                //mViewModel.RequestPassword(email, Fragment_ForgotPassword.this);
+        setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
+        getSupportActionBar().setTitle("Account Info"); //set default title for action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //set back button to toolbar
+        getSupportActionBar().setDisplayShowHomeEnabled(true); //enable the back button set on toolbar
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        mViewModel = new ViewModelProvider(this).get(VMForgotPassword.class);
+        lblVersion.setText(poConfigx.getVersionInfo());
+
+        btn_log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = Objects.requireNonNull(tie_email.getText()).toString().trim();
+
                 mViewModel.RequestPassword(email, new VMForgotPassword.RequestPasswordCallback() {
                     @Override
                     public void OnSendRequest(String title, String message) {
@@ -115,10 +103,8 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
                         poMsgBox.show();
                     }
                 });
-            });
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+            }
+        });
     }
 
     @Override
