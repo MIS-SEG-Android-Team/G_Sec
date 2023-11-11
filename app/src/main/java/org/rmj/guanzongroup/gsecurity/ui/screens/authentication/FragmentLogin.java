@@ -16,7 +16,9 @@ import org.rmj.guanzongroup.gsecurity.R;
 
 public class FragmentLogin extends Fragment {
 
-    private VMFragmentLogin mViewModel;
+    private VMLogin mViewModel;
+
+//    private FragmentLogigBinding binding;
 
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
@@ -25,14 +27,11 @@ public class FragmentLogin extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_fragment_login, container, false);
-    }
+        mViewModel = new ViewModelProvider(this).get(VMLogin.class);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMFragmentLogin.class);
-        // TODO: Use the ViewModel
-    }
+        View view = inflater.inflate(R.layout.fragment_fragment_login, container, false);
 
+
+        return view;
+    }
 }

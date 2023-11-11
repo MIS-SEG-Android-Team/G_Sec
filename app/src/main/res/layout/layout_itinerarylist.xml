@@ -5,70 +5,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_timesched"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:cornerRadius="10dp"
-            app:icon="@drawable/baseline_access_time_24"
-            app:iconSize="30dp"
-            app:layout_constraintWidth_percent=".150"
-            app:layout_constraintHeight_percent="1.100"/>
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/btn_timesched"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:cornerRadius="10dp"-->
+<!--            app:icon="@drawable/baseline_access_time_24"-->
+<!--            app:iconSize="30dp"-->
+<!--            app:layout_constraintWidth_percent=".150"-->
+<!--            app:layout_constraintHeight_percent="1.100"/>-->
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/PrimaryHeaderStyle"
-            android:id="@+id/mtv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8:00 AM"
-            android:layout_marginStart="10dp"
-            android:textSize="18sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_timesched"/>
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            style="@style/PrimaryHeaderStyle"-->
+<!--            android:id="@+id/mtv_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="8:00 AM"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:textSize="18sp"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/btn_timesched"/>-->
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/DescriptionHeaderStyle"
-            android:id="@+id/mtv_place"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Warehouse Front"
-            android:layout_marginStart="10dp"
-            android:textSize="15sp"
-            android:paddingVertical="5dp"
-            app:layout_constraintStart_toEndOf="@+id/btn_timesched"
-            app:layout_constraintTop_toBottomOf="@+id/mtv_time"
-            app:layout_constraintWidth_percent=".5"/>
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            style="@style/DescriptionHeaderStyle"-->
+<!--            android:id="@+id/mtv_place"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Warehouse Front"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:textSize="15sp"-->
+<!--            android:paddingVertical="5dp"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/btn_timesched"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/mtv_time"-->
+<!--            app:layout_constraintWidth_percent=".5"/>-->
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/PrimaryHeaderStyle"
-            android:id="@+id/mtv_lbltimevisit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Time Visited"
-            android:layout_marginStart="150dp"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mtv_time"/>
+<!--&lt;!&ndash;        <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;            style="@style/PrimaryHeaderStyle"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/mtv_lbltimevisit"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:text="Time Visited"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginStart="150dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:textSize="18sp"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:layout_constraintStart_toEndOf="@+id/mtv_time"/>&ndash;&gt;-->
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/DescriptionHeaderStyle"
-            android:id="@+id/mtv_timevisit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="8:20 PM"
-            android:textSize="15sp"
-            android:paddingVertical="5dp"
-            android:gravity="end"
-            android:paddingEnd="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mtv_lbltimevisit"
-            app:layout_constraintWidth_percent=".260"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            style="@style/DescriptionHeaderStyle"-->
+<!--            android:id="@+id/mtv_timevisit"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="8:20 PM"-->
+<!--            android:textSize="15sp"-->
+<!--            android:paddingVertical="5dp"-->
+<!--            android:gravity="end"-->
+<!--            android:paddingEnd="10dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/mtv_lbltimevisit"-->
+<!--            app:layout_constraintWidth_percent=".260"/>-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.appcompat.widget.LinearLayoutCompat>

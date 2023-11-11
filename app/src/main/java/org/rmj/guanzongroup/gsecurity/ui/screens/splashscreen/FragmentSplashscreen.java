@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.settings;
+package org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,24 +14,24 @@ import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
 
-public class FragmentSettings extends Fragment {
+public class FragmentSplashscreen extends Fragment {
 
-    private VMSettings mViewModel;
+    private VMSplashscreen mViewModel;
 
-    public static FragmentSettings newInstance() {
-        return new FragmentSettings();
+    public static FragmentSplashscreen newInstance() {
+        return new FragmentSplashscreen();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_splashscreen, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMSettings.class);
+        mViewModel = new ViewModelProvider(this).get(VMSplashscreen.class);
         // TODO: Use the ViewModel
     }
 

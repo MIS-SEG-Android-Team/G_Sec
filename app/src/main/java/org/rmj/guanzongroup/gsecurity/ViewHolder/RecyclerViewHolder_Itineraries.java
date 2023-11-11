@@ -19,9 +19,9 @@ public class RecyclerViewHolder_Itineraries extends RecyclerView.ViewHolder {
     public RecyclerViewHolder_Itineraries(@NonNull View itemView) {
         super(itemView);
 
-        btn_timesched = itemView.findViewById(R.id.btn_timesched);
-        mtv_time = itemView.findViewById(R.id.mtv_time);
-        mtv_place = itemView.findViewById(R.id.mtv_place);
-        mtv_timevisit = itemView.findViewById(R.id.mtv_timevisit);
+//        btn_timesched = itemView.findViewById(R.id.btn_timesched);
+//        mtv_time = itemView.findViewById(R.id.mtv_time);
+//        mtv_place = itemView.findViewById(R.id.mtv_place);
+//        mtv_timevisit = itemView.findViewById(R.id.mtv_timevisit);
     }
 }

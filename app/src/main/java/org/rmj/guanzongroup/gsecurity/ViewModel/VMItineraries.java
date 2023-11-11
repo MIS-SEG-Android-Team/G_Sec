@@ -4,10 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-
-import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
-import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.gsecurity.Etc.VisitLists;
 
 import java.util.ArrayList;
@@ -28,20 +24,4 @@ public class VMItineraries extends AndroidViewModel {
     }
 
     public void importVisitList(){}
-
-    public class ImportVisitList{
-        public void execute(){
-            TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
-                @Override
-                public Object DoInBackground(Object args) {
-                    return null;
-                }
-
-                @Override
-                public void OnPostExecute(Object object) {
-
-                }
-            });
-        }
-    }
 }
