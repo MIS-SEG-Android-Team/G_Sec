@@ -1,7 +1,23 @@
 <resources>
-    <string name="app_name">G_Sec</string>
+
+<!--    Application Name-->
+    <string name="app_name">GSecure</string>
+
+<!--    List of Screen Titles-->
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+<!--    List of Labels-->
+    <string name="label_guanzon_group">Guanzon Group of Companies</string>
+
+<!--    Buttons-->
+
+<!--    Sentences-->
+
+<!--    Place Holders-->
+    <string name="version_name">Version v.1</string>
+    <string name="build_version_detail">Build Version 12-10-2023 </string>
+
 </resources>

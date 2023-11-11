@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.authentication;
+package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
 import androidx.lifecycle.ViewModel;
 

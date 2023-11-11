@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.Adapter;
+package org.rmj.guanzongroup.gsecurity.ui.adapters;
 
 import android.content.Context;
 import android.util.Log;
