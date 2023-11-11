@@ -1,8 +1,10 @@
-package org.rmj.guanzongroup.gsecurity;
+package org.rmj.guanzongroup.gsecurity.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import org.rmj.guanzongroup.gsecurity.R;
 
 public class MainActivity extends AppCompatActivity {
 

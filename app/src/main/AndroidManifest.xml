@@ -28,10 +28,7 @@
             android:name=".Activity.Activity_Itineraries"
             android:exported="true" />
         <activity
-            android:name="org.rmj.guanzongroup.authlibrary.Activity.Activity_Login"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true" />
     </application>
 
