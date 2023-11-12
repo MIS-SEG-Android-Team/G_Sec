@@ -13,7 +13,7 @@
     <dimen name="screen_footer">12sp</dimen>
     <dimen name="screen_footer_body">10sp</dimen>
 
-    <dimen name="horizontal_padding_default">10dp</dimen>
+    <dimen name="horizontal_padding_default">16dp</dimen>
 
     <dimen name="view_padding_4">4dp</dimen>
     <dimen name="view_padding_8">8dp</dimen>

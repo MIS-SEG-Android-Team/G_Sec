@@ -23,8 +23,27 @@ android {
         }
     }
 
+    flavorDimensions.add("environment")
+
+    productFlavors {
+        production {
+            dimension "environment"
+            resValue "string", "app_name", "GSecure"
+            buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
+        }
+
+//       Change the base URL value to any test/local server for Dev
+//       This way the endpoint of the API this app will connect will be on Development side/Testing
+        dev {
+            dimension "environment"
+            resValue "string", "app_name", "GSecure Alpha"
+            buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
+        }
+    }
+
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
 
     packagingOptions {

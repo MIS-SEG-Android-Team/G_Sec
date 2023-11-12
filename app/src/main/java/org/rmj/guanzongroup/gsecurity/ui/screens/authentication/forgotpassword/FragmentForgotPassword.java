@@ -13,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentForgotPasswordBinding;
 
 public class FragmentForgotPassword extends Fragment {
 
     private VMForgotPassword mViewModel;
+
+    private FragmentForgotPasswordBinding binding;
 
     public static FragmentForgotPassword newInstance() {
         return new FragmentForgotPassword();
@@ -25,14 +28,12 @@ public class FragmentForgotPassword extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMForgotPassword.class);
-        // TODO: Use the ViewModel
+        binding = FragmentForgotPasswordBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+
+
+        return view;
     }
 
 }

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_splashscreen">
+    app:startDestination="@+id/fragmentSplashscreen">
 
     <fragment
-        android:id="@+id/navigation_splashscreen"
+        android:id="@+id/fragmentSplashscreen"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen.FragmentSplashscreen"
         android:label="fragment_splashscreen"
         tools:layout="@layout/fragment_splashscreen" >
@@ -21,28 +21,35 @@
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.admin.FragmentAdminDashboard"
         android:label="fragment_admin_dashboard"
         tools:layout="@layout/fragment_admin_dashboard" />
+
     <fragment
         android:id="@+id/fragmentPersonnelDashboard"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnel.FragmentPersonnelDashboard"
         android:label="fragment_personnel_dashboard"
         tools:layout="@layout/fragment_personnel_dashboard" />
+
     <fragment
         android:id="@+id/fragmentLogin"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login.FragmentLogin"
         android:label="fragment_fragment_login"
         tools:layout="@layout/fragment_fragment_login" >
+
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentSignUp"
             app:destination="@id/fragmentSignUp" />
+
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentForgotPassword"
             app:destination="@id/fragmentForgotPassword" />
+
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentAdminDashboard"
             app:destination="@id/fragmentAdminDashboard" />
+
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentPersonnelDashboard"
             app:destination="@id/fragmentPersonnelDashboard" />
+
     </fragment>
 
     <fragment

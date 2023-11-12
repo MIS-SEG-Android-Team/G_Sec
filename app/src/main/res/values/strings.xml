@@ -8,13 +8,22 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_login">Login</string>
 
 <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>
+    <string name="label_forgot_password">Forgot Password</string>
+    <string name="label_create_account">Create Account</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_new_personnel">New personnel? </string>
 
 <!--    Buttons-->
 
 <!--    Sentences-->
+
+<!--    Error Messages-->
+    <string name="error_loading_app_failed">Loading application failed</string>
 
 <!--    Place Holders-->
     <string name="version_name">Version v.1</string>
