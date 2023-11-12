@@ -16,10 +16,23 @@
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.recentactivities.FragmentRecentActivities"
         android:label="fragment_recent_activities"
         tools:layout="@layout/fragment_recent_activities" />
+
+    <fragment
+        android:id="@+id/fragmentPlaces"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces"
+        android:label="fragment_places"
+        tools:layout="@layout/fragment_places" />
+
     <fragment
         android:id="@+id/fragmentSettings"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.FragmentSettings"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/fragmentVisitArea"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.request.FragmentVisitArea"
+        android:label="fragment_visit_area"
+        tools:layout="@layout/fragment_visit_area" />
 
 </navigation>

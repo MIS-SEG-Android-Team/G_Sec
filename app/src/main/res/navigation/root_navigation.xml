@@ -46,6 +46,7 @@
             android:id="@+id/action_fragmentSplashscreen_to_fragmentLogin"
             app:destination="@id/fragmentLogin" />
     </fragment>
+
     <fragment
         android:id="@+id/fragmentAdminDashboard"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.admin.FragmentAdminDashboard"

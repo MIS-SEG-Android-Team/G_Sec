@@ -9,8 +9,17 @@
         android:title="@string/title_recent_activities"
         android:icon="@drawable/ic_recent"/>
 
+    <item android:id="@+id/fragmentVisitArea"
+        android:title="@string/title_visit_area"
+        android:icon="@drawable/ic_visit_site"/>
+
+    <item android:id="@+id/fragmentPlaces"
+        android:title="@string/title_nfc_sites"
+        android:icon="@drawable/ic_nfc"/>
+
     <item android:id="@+id/fragmentSettings"
         android:title="@string/title_settings"
         android:icon="@drawable/ic_settings"/>
+
 
 </menu>
