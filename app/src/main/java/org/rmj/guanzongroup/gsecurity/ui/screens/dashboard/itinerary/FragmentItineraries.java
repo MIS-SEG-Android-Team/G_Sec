@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.signup;
+package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.itinerary;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,25 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
-import org.rmj.guanzongroup.gsecurity.databinding.FragmentSignUpBinding;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentItinerariesBinding;
 
-public class FragmentSignUp extends Fragment {
+public class FragmentItineraries extends Fragment {
 
-    private VMSignUp mViewModel;
+    private VMItineraries mViewModel;
 
-    private FragmentSignUpBinding binding;
+    private FragmentItinerariesBinding binding;
 
-    public static FragmentSignUp newInstance() {
-        return new FragmentSignUp();
+    public static FragmentItineraries newInstance() {
+        return new FragmentItineraries();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMSignUp.class);
-        binding = FragmentSignUpBinding.inflate(getLayoutInflater());
-
-
+        mViewModel = new ViewModelProvider(this).get(VMItineraries.class);
+        binding = FragmentItinerariesBinding.inflate(getLayoutInflater());
 
         return binding.getRoot();
     }

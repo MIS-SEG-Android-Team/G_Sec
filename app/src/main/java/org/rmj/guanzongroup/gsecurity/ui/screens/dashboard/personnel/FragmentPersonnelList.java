@@ -14,19 +14,19 @@ import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
 
-public class FragmentPersonnelDashboard extends Fragment {
+public class FragmentPersonnelList extends Fragment {
 
-    private VMPersonnelDashboard mViewModel;
+    private VMPersonnelList mViewModel;
 
-    public static FragmentPersonnelDashboard newInstance() {
-        return new FragmentPersonnelDashboard();
+    public static FragmentPersonnelList newInstance() {
+        return new FragmentPersonnelList();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMPersonnelDashboard.class);
-        View view = inflater.inflate(R.layout.fragment_personnel_dashboard, container, false);
+        mViewModel = new ViewModelProvider(this).get(VMPersonnelList.class);
+        View view = inflater.inflate(R.layout.fragment_personnel_list, container, false);
 
 
         return view;

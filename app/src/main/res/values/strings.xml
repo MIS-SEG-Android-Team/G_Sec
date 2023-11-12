@@ -9,6 +9,11 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_login">Login</string>
+    <string name="title_add_nfc">Add NFC Tag</string>
+    <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring></string>
+    <string name="title_personnel_list">Personnel List</string>
+    <string name="title_recent_activities">Recent Activities</string>
+    <string name="title_settings">Settings</string>
 
 <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>
@@ -19,6 +24,8 @@
     <string name="label_new_personnel">New personnel? </string>
 
 <!--    Buttons-->
+    <string name="button_okay">Okay</string>
+    <string name="button_cancel">Cancel</string>
 
 <!--    Sentences-->
 
@@ -28,5 +35,10 @@
 <!--    Place Holders-->
     <string name="version_name">Version v.1</string>
     <string name="build_version_detail">Build Version 12-10-2023 </string>
+    <string name="dialog_title">Title</string>
+    <string name="dialog_message">Message</string>
+
+<!--    Content Description-->
+    <string name="close_button">Close</string>
 
 </resources>

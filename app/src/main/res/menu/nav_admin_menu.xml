@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/fragmentPersonnelList"
+        android:title="@string/title_personnel_list"
+        android:icon="@drawable/ic_personnel_list"/>
+
+    <item android:id="@+id/fragmentRecentActivities"
+        android:title="@string/title_recent_activities"
+        android:icon="@drawable/ic_recent"/>
+
+    <item android:id="@+id/fragmentSettings"
+        android:title="@string/title_settings"
+        android:icon="@drawable/ic_settings"/>
+
+</menu>

@@ -24,4 +24,7 @@
     <dimen name="view_padding_24">24dp</dimen>
     <dimen name="view_padding_28">28dp</dimen>
     <dimen name="view_padding_36">36dp</dimen>
+
+    <dimen name="dialog_card_corner_radius">14dp</dimen>
+    <dimen name="dialog_card_elevation">5dp</dimen>
 </resources>

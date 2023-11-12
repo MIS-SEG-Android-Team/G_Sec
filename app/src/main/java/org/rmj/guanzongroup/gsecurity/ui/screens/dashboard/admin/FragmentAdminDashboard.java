@@ -13,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentAdminDashboardBinding;
 
 public class FragmentAdminDashboard extends Fragment {
 
     private VMAdminDashboard mViewModel;
+
+    private FragmentAdminDashboardBinding binding;
 
     public static FragmentAdminDashboard newInstance() {
         return new FragmentAdminDashboard();
@@ -26,9 +29,9 @@ public class FragmentAdminDashboard extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMAdminDashboard.class);
-        View view = inflater.inflate(R.layout.fragment_admin_dashboard, container, false);
 
+        binding = FragmentAdminDashboardBinding.inflate(getLayoutInflater());
 
-        return view;
+        return binding.getRoot();
     }
 }

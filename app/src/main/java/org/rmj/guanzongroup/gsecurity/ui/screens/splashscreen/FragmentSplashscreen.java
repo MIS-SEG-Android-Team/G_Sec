@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSplashscreenBinding;
 
+import java.util.Objects;
+
 public class FragmentSplashscreen extends Fragment {
 
     private VMSplashscreen mViewModel;
@@ -44,9 +46,8 @@ public class FragmentSplashscreen extends Fragment {
             @Override
             public void onFinished(String args) {
                 NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
-                NavController navController = navHostFragment.getNavController();
+                NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
                 navController.navigate(R.id.fragmentLogin);
-
             }
 
             @Override
