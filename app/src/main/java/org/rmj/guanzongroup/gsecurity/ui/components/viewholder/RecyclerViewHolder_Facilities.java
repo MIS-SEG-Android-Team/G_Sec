@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ViewHolder;
+package org.rmj.guanzongroup.gsecurity.ui.components.viewholder;
 
 import android.view.View;
 

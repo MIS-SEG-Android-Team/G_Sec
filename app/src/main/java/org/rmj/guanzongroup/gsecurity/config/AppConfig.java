@@ -14,6 +14,8 @@ public class AppConfig {
 
     private static final String CONFIG_NAME = "GSecure_Local_Configuration";
 
+    private static final String APP_FIRST_LAUNCH = "cFrstLnch";
+
     private AppConfig(Context context){
         this.context = context;
         this.preferences = context.getSharedPreferences(CONFIG_NAME, Context.MODE_PRIVATE);
@@ -26,5 +28,14 @@ public class AppConfig {
         }
 
         return instance;
+    }
+
+    public void setAppFirstLaunch(boolean isAppFirstLaunch){
+        editor.putBoolean(APP_FIRST_LAUNCH, isAppFirstLaunch);
+        editor.commit();
+    }
+
+    public boolean isAppFirstLaunch(){
+        return preferences.getBoolean(APP_FIRST_LAUNCH, false);
     }
 }

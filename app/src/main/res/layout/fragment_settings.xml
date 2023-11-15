@@ -1,13 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.settings.FragmentSettings">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.screens.settings.FragmentSettings"
+    android:padding="@dimen/horizontal_padding_default">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        style="@style/ScreenTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/subTitle"
+        style="@style/ScreenSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sub_title_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/view_padding_36"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subTitle"
+        app:layout_constraintVertical_bias="0.0">
 
-</FrameLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/accountLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_account"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/screen_sub_header1"
+            android:layout_marginVertical="@dimen/view_padding_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:gravity="start|center_vertical"
+            android:text="@string/label_change_password"
+            android:textSize="@dimen/screen_body"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:gravity="start|center_vertical"
+            android:text="@string/label_change_pin"
+            android:textSize="@dimen/screen_body"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/nfcLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_nfc_settings"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/screen_sub_header1"
+            android:layout_marginVertical="@dimen/view_padding_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:gravity="start|center_vertical"
+            android:text="@string/button_nfc_places"
+            android:textSize="@dimen/screen_body"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:gravity="start|center_vertical"
+            android:text="@string/button_overwrite"
+            android:textSize="@dimen/screen_body"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

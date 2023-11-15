@@ -18,9 +18,8 @@
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentForgotPassword"
             app:destination="@id/fragmentForgotPassword" />
-
         <action
-            android:id="@+id/action_fragmentLogin_to_fragmentAdminDashboard3"
+            android:id="@+id/action_fragmentLogin_to_fragmentAdminDashboard"
             app:destination="@id/fragmentAdminDashboard" />
 
     </fragment>
@@ -46,6 +45,8 @@
             android:id="@+id/action_fragmentSplashscreen_to_fragmentLogin"
             app:destination="@id/fragmentLogin" />
     </fragment>
+
+<!--    Dashboard Destinations for ADMIN-->
 
     <fragment
         android:id="@+id/fragmentAdminDashboard"

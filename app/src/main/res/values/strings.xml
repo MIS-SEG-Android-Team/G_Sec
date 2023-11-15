@@ -17,7 +17,12 @@
     <string name="title_visit_area">Visit Area</string>
 
 <!--    Sub Title-->
-    <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring></string>
+    <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring</string>
+    <string name="sub_title_personnel_list">List of active personnel</string>
+    <string name="sub_title_recent_activities">Recently visited areas by different personnel</string>
+    <string name="sub_title_visit_area">Request a personnel to visit an area</string>
+    <string name="sub_title_nfc_sites">Locations of NFC tags</string>
+    <string name="sub_title_settings">GSecure settings</string>
 
 <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>
@@ -25,11 +30,20 @@
     <string name="label_create_account">Create Account</string>
     <string name="label_email">Email</string>
     <string name="label_password">Password</string>
-    <string name="label_new_personnel">New personnel? </string>
+    <string name="label_new_personnel">New personnel?</string>
+    <string name="label_change_password">Change Password</string>
+    <string name="label_change_pin">Change PIN</string>
+    <string name="label_nfc_settings">NFC Settings</string>
+    <string name="label_account">Account Settings</string>
+    <string name="label_NFC">NFC</string>
 
 <!--    Buttons-->
     <string name="button_okay">Okay</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_nfc_places">NFC Places</string>
+    <string name="button_add_tag">Print NFC Tag</string>
+    <string name="button_overwrite">Overwrite</string>
+    <string name="button_close">Close</string>
 
 <!--    Sentences-->
 

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ViewHolder;
+package org.rmj.guanzongroup.gsecurity.ui.components.viewholder;
 
 import android.view.View;
 
@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
-
-import org.rmj.guanzongroup.gsecurity.R;
 
 public class RecyclerViewHolder_Itineraries extends RecyclerView.ViewHolder {
     public MaterialButton btn_timesched;

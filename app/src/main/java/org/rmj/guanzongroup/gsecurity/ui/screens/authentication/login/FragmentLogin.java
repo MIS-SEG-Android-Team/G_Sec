@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 import androidx.activity.OnBackPressedCallback;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -19,7 +18,8 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentLoginBinding;
 import org.rmj.guanzongroup.gsecurity.pojo.login.LoginCredentials;
-import org.rmj.guanzongroup.gsecurity.ui.components.dialogmessage.DialogMessage;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.util.Objects;
 
@@ -47,27 +47,28 @@ public class FragmentLogin extends Fragment {
         binding.signupButton.setOnClickListener(view -> navController.navigate(R.id.fragmentSignUp));
 
         binding.loginButton.setOnClickListener(view1 -> {
-            LoginCredentials loginCredentials = new LoginCredentials(
-                    Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
-                    Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()
-            );
-
-            mViewModel.login(loginCredentials, new LoginCallback() {
-                @Override
-                public void onLogin(String title, String message) {
-
-                }
-
-                @Override
-                public void onSuccess(String message) {
-                    navController.navigate(R.id.fragmentAdminDashboard);
-                }
-
-                @Override
-                public void onFailed(String message) {
-
-                }
-            });
+            DialogResult.viewResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Login in successfully").showDialog();
+//            LoginCredentials loginCredentials = new LoginCredentials(
+//                    Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
+//                    Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()
+//            );
+//
+//            mViewModel.login(loginCredentials, new LoginCallback() {
+//                @Override
+//                public void onLogin(String title, String message) {
+//
+//                }
+//
+//                @Override
+//                public void onSuccess(String message) {
+//                    navController.navigate(R.id.action_fragmentLogin_to_fragmentAdminDashboard);
+//                }
+//
+//                @Override
+//                public void onFailed(String message) {
+//
+//                }
+//            });
         });
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {

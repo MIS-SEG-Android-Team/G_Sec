@@ -234,4 +234,15 @@
         <item name="android:textSize">@dimen/screen_title</item>
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
+
+    <style name="ScreenSubTitle">
+        <item name="android:textSize">@dimen/screen_sub_title</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="LoginHeaderBackground">
+        <item name="android:src">@drawable/img_header_background_light</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
 </resources>

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.gsecurity.Etc.Facility_List;
 import org.rmj.guanzongroup.gsecurity.R;
-import org.rmj.guanzongroup.gsecurity.ViewHolder.RecyclerViewHolder_Facilities;
+import org.rmj.guanzongroup.gsecurity.ui.components.viewholder.RecyclerViewHolder_Facilities;
 
 import java.util.List;
 

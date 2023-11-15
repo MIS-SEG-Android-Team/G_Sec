@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.components.dialogmessage;
+package org.rmj.guanzongroup.gsecurity.ui.components.dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
