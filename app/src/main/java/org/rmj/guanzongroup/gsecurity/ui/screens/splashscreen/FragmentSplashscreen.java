@@ -15,6 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSplashscreenBinding;
 
@@ -26,6 +30,10 @@ public class FragmentSplashscreen extends Fragment {
 
     private FragmentSplashscreenBinding binding;
 
+    private NavController navController;
+
+    private FirebaseAuth firebaseAuth;
+
     public static FragmentSplashscreen newInstance() {
         return new FragmentSplashscreen();
     }
@@ -36,6 +44,17 @@ public class FragmentSplashscreen extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMSplashscreen.class);
         binding = FragmentSplashscreenBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+        navController = Objects.requireNonNull(navHostFragment).getNavController();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        if(currentUser == null)
+            navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
+        else
+            navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentAdminDashboard);
 
         mViewModel.startApp(new OnLoadApplicationCallback() {
             @Override
@@ -45,9 +64,6 @@ public class FragmentSplashscreen extends Fragment {
 
             @Override
             public void onFinished(String args) {
-                NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
-                NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-                navController.navigate(R.id.fragmentLogin);
             }
 
             @Override

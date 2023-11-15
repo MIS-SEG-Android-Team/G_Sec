@@ -36,6 +36,9 @@
     <string name="label_nfc_settings">NFC Settings</string>
     <string name="label_account">Account Settings</string>
     <string name="label_NFC">NFC</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_first_name">First Name</string>
+    <string name="label_middle_name">Middle Name</string>
 
 <!--    Buttons-->
     <string name="button_okay">Okay</string>
@@ -44,6 +47,7 @@
     <string name="button_add_tag">Print NFC Tag</string>
     <string name="button_overwrite">Overwrite</string>
     <string name="button_close">Close</string>
+    <string name="button_register">Register</string>
 
 <!--    Sentences-->
 

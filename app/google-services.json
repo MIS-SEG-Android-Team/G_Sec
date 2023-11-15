@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "572407852741",
+    "firebase_url": "https://realtime-db-project-3e709-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "realtime-db-project-3e709",
+    "storage_bucket": "realtime-db-project-3e709.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572407852741:android:8f76965bd4550a3cf24aac",
+        "android_client_info": {
+          "package_name": "org.rmj.guanzongroup.gsecurity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHhga4j5qnNZBYMIoXO_Zlr4ofxpQKuqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

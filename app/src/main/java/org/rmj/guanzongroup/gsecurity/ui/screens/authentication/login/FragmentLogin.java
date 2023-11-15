@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentLoginBinding;
 import org.rmj.guanzongroup.gsecurity.pojo.login.LoginCredentials;
@@ -47,7 +49,7 @@ public class FragmentLogin extends Fragment {
         binding.signupButton.setOnClickListener(view -> navController.navigate(R.id.fragmentSignUp));
 
         binding.loginButton.setOnClickListener(view1 -> {
-            DialogResult.viewResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Login in successfully").showDialog();
+//            DialogResult.viewResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Login in successfully").showDialog();
 //            LoginCredentials loginCredentials = new LoginCredentials(
 //                    Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
 //                    Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()

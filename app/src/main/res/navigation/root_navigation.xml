@@ -13,11 +13,19 @@
 
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentSignUp"
-            app:destination="@id/fragmentSignUp" />
+            app:destination="@id/fragmentSignUp"
+            app:enterAnim="@anim/anim_pop_in"
+            app:exitAnim="@anim/anim_pop_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
 
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentForgotPassword"
-            app:destination="@id/fragmentForgotPassword" />
+            app:destination="@id/fragmentForgotPassword"
+            app:enterAnim="@anim/anim_pop_in"
+            app:exitAnim="@anim/anim_pop_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentAdminDashboard"
             app:destination="@id/fragmentAdminDashboard" />
@@ -43,7 +51,14 @@
         tools:layout="@layout/fragment_splashscreen" >
         <action
             android:id="@+id/action_fragmentSplashscreen_to_fragmentLogin"
-            app:destination="@id/fragmentLogin" />
+            app:destination="@id/fragmentLogin"
+            app:enterAnim="@anim/anim_pop_in"
+            app:exitAnim="@anim/anim_pop_out"
+            app:popEnterAnim="@anim/anim_pop_in"
+            app:popExitAnim="@anim/anim_pop_out" />
+        <action
+            android:id="@+id/action_fragmentSplashscreen_to_fragmentAdminDashboard"
+            app:destination="@id/fragmentAdminDashboard" />
     </fragment>
 
 <!--    Dashboard Destinations for ADMIN-->
