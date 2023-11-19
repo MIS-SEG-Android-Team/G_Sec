@@ -12,13 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
         tools:targetApi="31">
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="userPortrait" />
+
+        <activity
+            android:name=".ui.activity.AuthenticationActivity"
+            android:exported="true"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_authentication"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

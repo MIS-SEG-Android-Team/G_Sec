@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.screens.nfc.FragmentAddPlace"
-    android:padding="@dimen/horizontal_padding_default">
+    android:paddingTop="?attr/actionBarSize"
+    android:paddingHorizontal="@dimen/horizontal_padding_default">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView"
@@ -14,12 +15,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/title_add_nfc"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/closeButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/closeButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:adjustViewBounds="true"

@@ -28,11 +28,12 @@
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/view_padding_36"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,18 +44,15 @@
             android:id="@+id/accountLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_account"
             android:fontFamily="@font/roboto_medium"
-            android:textSize="@dimen/screen_sub_header1"
-            android:layout_marginVertical="@dimen/view_padding_8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            android:text="@string/label_account"
+            android:textSize="@dimen/screen_sub_header1"/>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/changePasswordButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:gravity="start|center_vertical"
             android:text="@string/label_change_password"
             android:textSize="@dimen/screen_body"
@@ -62,11 +60,43 @@
             app:iconGravity="end" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/changePinButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:gravity="start|center_vertical"
             android:text="@string/label_change_pin"
+            android:textSize="@dimen/screen_body"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/personnelLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding_16"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/title_personnel_settings"
+            android:textSize="@dimen/screen_sub_header1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addPersonnelButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="@string/button_add_personnel"
+            android:textSize="@dimen/screen_body"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/createScheduleButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="@string/button_create_schedule"
             android:textSize="@dimen/screen_body"
             app:icon="@drawable/ic_chevron_right"
             app:iconGravity="end" />
@@ -75,34 +105,56 @@
             android:id="@+id/nfcLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_nfc_settings"
+            android:layout_marginTop="@dimen/view_padding_16"
             android:fontFamily="@font/roboto_medium"
-            android:textSize="@dimen/screen_sub_header1"
-            android:layout_marginVertical="@dimen/view_padding_8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            android:text="@string/label_nfc_settings"
+            android:textSize="@dimen/screen_sub_header1" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/nfcCategoryButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="@string/button_nfc_categories"
+            android:textSize="@dimen/screen_body"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addNfcTagButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="@string/title_add_nfc"
+            android:textSize="@dimen/screen_body"
+            app:icon="@drawable/ic_chevron_right"
+            app:iconGravity="end" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nfcPlacesButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="start|center_vertical"
             android:text="@string/button_nfc_places"
             android:textSize="@dimen/screen_body"
             app:icon="@drawable/ic_chevron_right"
             app:iconGravity="end" />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:gravity="start|center_vertical"
-            android:text="@string/button_overwrite"
-            android:textSize="@dimen/screen_body"
-            app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="end" />
-
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_logout"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/screen_body"
+        app:cornerRadius="@dimen/view_padding_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

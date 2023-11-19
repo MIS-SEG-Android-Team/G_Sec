@@ -1,45 +1,53 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
-import static org.rmj.guanzongroup.gsecurity.constants.Messages.getLocalMessage;
+import static org.rmj.guanzongroup.gsecurity.constants.Messages.getMessage;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+
 import org.rmj.guanzongroup.gsecurity.pojo.login.LoginCredentials;
-import org.rmj.guanzongroup.gsecurity.task.OnTaskExecuteListener;
-import org.rmj.guanzongroup.gsecurity.task.TaskExecutor;
 
 public class VMLogin extends AndroidViewModel {
 
-    private String message = "";
     public VMLogin(@NonNull Application application) {
         super(application);
     }
 
     public void login(LoginCredentials loginCredentials, LoginCallback callback){
-        TaskExecutor.Execute(loginCredentials, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-                callback.onLogin("Authenticating", "Please wait...");
+
+        callback.onLogin("Authenticating", "Please wait...");
+
+        LoginCredentials.Validator validator = new LoginCredentials.Validator();
+
+        if(!validator.isDataValid(loginCredentials)){
+            callback.onFailed(validator.getMessage());
+            return;
+        }
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        firebaseAuth.signInWithEmailAndPassword(
+                loginCredentials.getEmail(),
+                loginCredentials.getPassword()
+        ).addOnCompleteListener(task -> {
+            if(!task.isSuccessful()) {
+                Exception exception = task.getException();
+                FirebaseAuthException authException = (FirebaseAuthException) exception;
+
+                assert authException != null;
+                String errorCode = authException.getErrorCode();
+
+                String message = getMessage(errorCode);
+                callback.onFailed(message);
+                return;
             }
 
-            @Override
-            public Object DoInBackground(Object args) {
-                try{
-
-                } catch (Exception e){
-                    e.printStackTrace();
-                    message = getLocalMessage(e);
-                }
-                return true;
-            }
-
-            @Override
-            public void OnPostExecute(Object object) {
-                callback.onSuccess("Login success");
-            }
+            callback.onSuccess("Login success");
         });
     }
 }

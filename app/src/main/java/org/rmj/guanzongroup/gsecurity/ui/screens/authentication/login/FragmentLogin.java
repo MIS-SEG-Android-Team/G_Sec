@@ -1,9 +1,11 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentLoginBinding;
 import org.rmj.guanzongroup.gsecurity.pojo.login.LoginCredentials;
+import org.rmj.guanzongroup.gsecurity.ui.activity.MainActivity;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
@@ -41,36 +47,38 @@ public class FragmentLogin extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMLogin.class);
         binding = FragmentLoginBinding.inflate(getLayoutInflater());
 
-        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_authentication);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
-        binding.forgotPasswordButton.setOnClickListener(view -> navController.navigate(R.id.fragmentForgotPassword));
+        binding.forgotPasswordButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentLogin_to_fragmentForgotPassword));
 
-        binding.signupButton.setOnClickListener(view -> navController.navigate(R.id.fragmentSignUp));
+        binding.signupButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentLogin_to_fragmentSignUp));
 
         binding.loginButton.setOnClickListener(view1 -> {
-//            DialogResult.viewResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Login in successfully").showDialog();
-//            LoginCredentials loginCredentials = new LoginCredentials(
-//                    Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
-//                    Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()
-//            );
-//
-//            mViewModel.login(loginCredentials, new LoginCallback() {
-//                @Override
-//                public void onLogin(String title, String message) {
-//
-//                }
-//
-//                @Override
-//                public void onSuccess(String message) {
-//                    navController.navigate(R.id.action_fragmentLogin_to_fragmentAdminDashboard);
-//                }
-//
-//                @Override
-//                public void onFailed(String message) {
-//
-//                }
-//            });
+            DialogLoad dialogLoad = DialogLoad.getInstance(requireActivity());
+            mViewModel.login(
+                    new LoginCredentials(
+                            Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
+                            Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()),
+                    new LoginCallback() {
+                        @Override
+                        public void onLogin(String title, String message) {
+                            dialogLoad.show();
+                        }
+
+                        @Override
+                        public void onSuccess(String message) {
+                            dialogLoad.dismiss();
+                            startActivity(new Intent(requireActivity(), MainActivity.class));
+                            requireActivity().finish();
+                        }
+
+                        @Override
+                        public void onFailed(String message) {
+                            dialogLoad.dismiss();
+                            DialogResult.viewResult(requireContext(), DialogResult.RESULT.FAILED, message).showDialog();
+                        }
+            });
         });
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {

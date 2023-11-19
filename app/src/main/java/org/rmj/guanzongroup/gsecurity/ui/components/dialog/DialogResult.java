@@ -50,8 +50,39 @@ public class DialogResult {
         }
         return instance;
     }
+    public static DialogResult viewResult(Context context, RESULT result, String message, onDialogButtonClickListener listener) {
+        DialogResultBinding binding = DialogResultBinding.inflate(LayoutInflater.from(context));
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(binding.getRoot());
+        alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
+
+        if(result == RESULT.SUCCESS)
+            binding.imageResult.setImageResource(R.drawable.ic_square_check);
+        else
+            binding.imageResult.setImageResource(R.drawable.ic_square_x);
+
+        binding.message.setText(message);
+
+        binding.closeButton.setOnClickListener(view -> {
+            listener.onClick();
+            alertDialog.dismiss();
+        });
+
+        if(instance == null){
+            instance = new DialogResult();
+        }
+        return instance;
+    }
 
     public void showDialog(){
         alertDialog.show();
+    }
+
+    public interface onDialogButtonClickListener{
+        void onClick();
     }
 }

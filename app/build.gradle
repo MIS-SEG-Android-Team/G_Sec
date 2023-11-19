@@ -32,15 +32,17 @@ android {
             resValue "string", "app_name", "GSecure"
             buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
             buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
+            buildConfigField "String", "Build_Version", "\"11-18-2023\""
         }
 
 //       Change the base URL value to any test/local server for Dev
 //       This way the endpoint of the API this app will connect will be on Development side/Testing
         dev {
             dimension "environment"
-            resValue "string", "app_name", "GSecure Alpha"
+            resValue "string", "app_name", "GSecure Dev"
             buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
             buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
+            buildConfigField "String", "Build_Version", "\"11-18-2023\""
         }
     }
 
@@ -79,5 +81,5 @@ dependencies {
 
 //    Firebase Dependencies
     implementation 'com.google.firebase:firebase-firestore:24.9.1'
-    implementation 'com.google.firebase:firebase-auth:22.2.0'
+    implementation 'com.google.firebase:firebase-auth:22.3.0'
 }

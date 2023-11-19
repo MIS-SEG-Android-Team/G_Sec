@@ -13,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentPlacesBinding;
 
 public class FragmentPlaces extends Fragment {
 
     private VMPlaces mViewModel;
+
+    private FragmentPlacesBinding binding;
 
     public static FragmentPlaces newInstance() {
         return new FragmentPlaces();
@@ -25,14 +28,9 @@ public class FragmentPlaces extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_places, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMPlaces.class);
-        // TODO: Use the ViewModel
-    }
+        binding = FragmentPlacesBinding.inflate(getLayoutInflater());
 
+        return binding.getRoot();
+    }
 }

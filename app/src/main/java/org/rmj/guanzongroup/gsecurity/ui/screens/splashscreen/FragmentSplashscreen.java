@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSplashscreenBinding;
+import org.rmj.guanzongroup.gsecurity.ui.activity.MainActivity;
 
 import java.util.Objects;
 
@@ -44,17 +46,12 @@ public class FragmentSplashscreen extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMSplashscreen.class);
         binding = FragmentSplashscreenBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_authentication);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         firebaseAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-
-        if(currentUser == null)
-            navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
-        else
-            navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentAdminDashboard);
 
         mViewModel.startApp(new OnLoadApplicationCallback() {
             @Override
@@ -64,6 +61,12 @@ public class FragmentSplashscreen extends Fragment {
 
             @Override
             public void onFinished(String args) {
+                if(currentUser == null) {
+                    navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
+                } else {
+                    startActivity(new Intent(requireActivity(), MainActivity.class));
+                    requireActivity().finish();
+                }
             }
 
             @Override

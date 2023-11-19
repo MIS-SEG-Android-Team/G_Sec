@@ -21,7 +21,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/horizontal_padding_default">
+        android:padding="@dimen/horizontal_padding_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/imageView"
@@ -42,10 +44,10 @@
             android:id="@+id/labelApplicationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding_24"
             android:text="@string/app_name"
             android:textSize="@dimen/app_name"
             app:fontFamily="@font/roboto_medium"
-            android:layout_marginTop="@dimen/view_padding_24"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -54,10 +56,10 @@
             android:id="@+id/labelSplashScreenFooter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_padding_4"
             android:text="@string/label_guanzon_group"
             android:textSize="@dimen/screen_footer"
             app:fontFamily="@font/roboto_regular"
-            android:layout_margin="@dimen/view_padding_4"
             app:layout_constraintBottom_toTopOf="@+id/labelVersionInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

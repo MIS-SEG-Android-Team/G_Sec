@@ -32,13 +32,7 @@ public class FragmentAddPlace extends Fragment {
         binding = FragmentAddPlaceBinding.inflate(getLayoutInflater());
 
 
+
         return binding.getRoot();
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // TODO: Use the ViewModel
-    }
-
 }
