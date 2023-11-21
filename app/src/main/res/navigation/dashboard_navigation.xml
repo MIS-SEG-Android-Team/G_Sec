@@ -19,6 +19,12 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
 
+        <action
+            android:id="@+id/action_fragmentAdminDashboard_to_fragmentAddWarehouse"
+            app:destination="@id/fragmentAddWarehouse"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+
     </fragment>
 
     <fragment
@@ -26,5 +32,11 @@
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.nfc.FragmentAddPlace"
         android:label="fragment_add_place"
         tools:layout="@layout/fragment_add_place" />
+
+    <fragment
+        android:id="@+id/fragmentAddWarehouse"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.warehouse.FragmentAddWarehouse"
+        android:label="fragment_add_warehouse"
+        tools:layout="@layout/fragment_add_warehouse" />
 
 </navigation>

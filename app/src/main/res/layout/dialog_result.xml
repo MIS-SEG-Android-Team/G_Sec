@@ -10,17 +10,12 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/dialog_card_corner_radius"
-        app:cardElevation="@dimen/dialog_card_elevation"
-        app:cardMaxElevation="@dimen/dialog_card_elevation"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true">
+        style="@style/CardViewDialog">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
             android:padding="@dimen/horizontal_padding_default">
 
             <ImageView

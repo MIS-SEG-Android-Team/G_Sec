@@ -13,12 +13,14 @@ import java.util.Objects;
 
 public class DialogLoad {
 
-    private AlertDialog alertDialog;
+    private final AlertDialog alertDialog;
+
+    private final DialogLoadBinding binding;
 
     private static DialogLoad instance;
 
     private DialogLoad(Context context){
-        DialogLoadBinding binding = DialogLoadBinding.inflate(LayoutInflater.from(context));
+        binding = DialogLoadBinding.inflate(LayoutInflater.from(context));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(binding.getRoot());
@@ -36,7 +38,8 @@ public class DialogLoad {
         return instance;
     }
 
-    public void show(){
+    public void show(String message){
+        binding.dialogMessage.setText(message);
         alertDialog.show();
     }
 

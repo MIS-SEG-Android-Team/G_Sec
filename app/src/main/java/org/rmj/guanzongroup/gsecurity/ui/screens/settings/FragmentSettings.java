@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.settings;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,9 @@ import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSettingsBinding;
+import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.util.Objects;
 
@@ -36,6 +40,7 @@ public class FragmentSettings extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMSettings.class);
         binding = FragmentSettingsBinding.inflate(getLayoutInflater());
+        DialogLoad dialogLoad = DialogLoad.getInstance(requireActivity());
 
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
@@ -44,6 +49,31 @@ public class FragmentSettings extends Fragment {
             navController.navigate(R.id.action_fragmentAdminDashboard_to_fragmentAddPlace);
         });
 
+        binding.warehouseButton.setOnClickListener(view -> {
+            navController.navigate(R.id.action_fragmentAdminDashboard_to_fragmentAddWarehouse);
+        });
+
+        binding.logoutButton.setOnClickListener(view -> {
+            mViewModel.logoutUser(new SettingsCallback.LogoutUserCallback() {
+                @Override
+                public void onLoad(String message) {
+                    dialogLoad.show(message);
+                }
+
+                @Override
+                public void onSuccess() {
+                    dialogLoad.dismiss();
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finish();
+                }
+
+                @Override
+                public void onFailed(String message) {
+                    dialogLoad.dismiss();
+                    DialogResult.viewResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
+                }
+            });
+        });
         return binding.getRoot();
     }
 }

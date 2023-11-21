@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Messages.PLEASE_WAIT;
 import static org.rmj.guanzongroup.gsecurity.constants.Messages.getMessage;
 
 import android.app.Application;
@@ -20,7 +21,7 @@ public class VMLogin extends AndroidViewModel {
 
     public void login(LoginCredentials loginCredentials, LoginCallback callback){
 
-        callback.onLogin("Authenticating", "Please wait...");
+        callback.onLogin(PLEASE_WAIT);
 
         LoginCredentials.Validator validator = new LoginCredentials.Validator();
 

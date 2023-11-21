@@ -50,27 +50,27 @@ public class FragmentSignUp extends Fragment {
 
         binding.registerButton.setOnClickListener(view -> {
             DialogLoad dialogLoad = DialogLoad.getInstance(requireActivity());
-            dialogLoad.show();
-            firebaseAuth.createUserWithEmailAndPassword(
-                    String.valueOf(binding.tieEmail.getText()),
-                    String.valueOf(binding.tiePassword.getText())
-            ).addOnCompleteListener(task -> {
-                dialogLoad.dismiss();
-                if(!task.isSuccessful()){
-                    DialogResult.viewResult(requireActivity(), DialogResult.RESULT.FAILED, "Account registration failed!").showDialog();
-                    return;
+            mViewModel.signup(null, new SignUpCallback() {
+                @Override
+                public void onLoad(String message) {
+                    dialogLoad.show(message);
                 }
 
-                DialogResult.viewResult(
-                        requireActivity(),
-                        DialogResult.RESULT.FAILED,
-                        "Account registration failed!",
-                        new DialogResult.onDialogButtonClickListener() {
-                            @Override
-                            public void onClick() {
-                                navController.popBackStack();
-                            }
-                        }).showDialog();
+                @Override
+                public void onSuccess() {
+                    dialogLoad.dismiss();
+                    navController.popBackStack();
+                }
+
+                @Override
+                public void onFailed(String message) {
+                    dialogLoad.dismiss();
+                    DialogResult.viewResult(
+                            requireActivity(),
+                            DialogResult.RESULT.FAILED,
+                            message)
+                            .showDialog();
+                }
             });
         });
 

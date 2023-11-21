@@ -17,14 +17,18 @@
     <string name="title_nfc_sites">NFC Sites</string>
     <string name="title_visit_area">Visit Area</string>
     <string name="title_personnel_settings">Personnel Settings</string>
+    <string name="title_patrol_itinerary">Patrol Itinerary</string>
+    <string name="title_add_warehouse">Add Warehouse</string>
 
     <!--    Sub Title-->
     <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring</string>
     <string name="sub_title_personnel_list">List of active personnel</string>
-    <string name="sub_title_recent_activities">Recently visited areas by different personnel</string>
+    <string name="sub_title_recent_activities">Recent Patrol Locations for Different Personnel</string>
     <string name="sub_title_visit_area">Request a personnel to visit an area</string>
     <string name="sub_title_nfc_sites">Locations of NFC tags</string>
     <string name="sub_title_settings">GSecure settings</string>
+    <string name="sub_title_patrol_itinerary">Duty Patrol Plan</string>
+    <string name="sub_title_add_warehouse">Register New Warehouse Location</string>
 
     <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>
@@ -42,6 +46,12 @@
     <string name="label_first_name">First Name</string>
     <string name="label_middle_name">Middle Name</string>
     <string name="label_please_wait">Please wait…</string>
+    <string name="label_warehouse_name">Warehouse Name</string>
+    <string name="label_branch">Branch</string>
+    <string name="label_category">Category</string>
+    <string name="label_category_description">Category Description</string>
+    <string name="label_nfc_description">NFC Description</string>
+    <string name="label_warehouse">Warehouse</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>
@@ -56,6 +66,8 @@
     <string name="button_warehouse">Warehouse</string>
     <string name="button_add_personnel">Add Personnel</string>
     <string name="button_create_schedule">Create Schedule</string>
+    <string name="button_save">Save</string>
+    <string name="button_add_warehouse">Add Warehouse</string>
 
     <!--    Sentences-->
 

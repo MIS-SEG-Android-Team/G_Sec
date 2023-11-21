@@ -123,7 +123,8 @@
     <!-- TEXT INPUT -->
 
     <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:layout_margin">2dp</item>
+        <item name="android:layout_marginTop">@dimen/view_padding_4</item>
+        <item name="android:layout_margin">@dimen/view_padding_4</item>
         <item name="boxCornerRadiusBottomEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
@@ -244,5 +245,13 @@
         <item name="android:src">@drawable/img_header_background_light</item>
         <item name="android:scaleType">centerCrop</item>
         <item name="android:adjustViewBounds">true</item>
+    </style>
+
+    <style name="CardViewDialog">
+        <item name="cardCornerRadius">@dimen/dialog_card_corner_radius</item>
+        <item name="cardElevation">@dimen/dialog_card_elevation</item>
+        <item name="cardMaxElevation">@dimen/dialog_card_elevation</item>
+        <item name="cardPreventCornerOverlap">true</item>
+        <item name="cardUseCompatPadding">true</item>
     </style>
 </resources>

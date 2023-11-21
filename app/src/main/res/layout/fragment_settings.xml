@@ -27,12 +27,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <LinearLayout
+    <ScrollView
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/view_padding_36"
-        android:orientation="vertical"
+        android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/logoutButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -40,110 +40,137 @@
         app:layout_constraintTop_toBottomOf="@+id/subTitle"
         app:layout_constraintVertical_bias="0.0">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/accountLabel"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@string/label_account"
-            android:textSize="@dimen/screen_sub_header1"/>
+            android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/changePasswordButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="@string/label_change_password"
-            android:textSize="@dimen/screen_body"
-            app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="end" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/accountLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_account"
+                android:textSize="@dimen/screen_sub_header1"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/changePinButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="@string/label_change_pin"
-            android:textSize="@dimen/screen_body"
-            app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="end" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/changePasswordButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="@string/label_change_password"
+                android:textSize="@dimen/screen_body"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/personnelLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_padding_16"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@string/title_personnel_settings"
-            android:textSize="@dimen/screen_sub_header1" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/changePinButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="@string/label_change_pin"
+                android:textSize="@dimen/screen_body"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addPersonnelButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="@string/button_add_personnel"
-            android:textSize="@dimen/screen_body"
-            app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="end" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/personnelLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_padding_16"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/title_personnel_settings"
+                android:textSize="@dimen/screen_sub_header1" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/createScheduleButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="@string/button_create_schedule"
-            android:textSize="@dimen/screen_body"
-            app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="end" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addPersonnelButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="@string/button_add_personnel"
+                android:textSize="@dimen/screen_body"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/nfcLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_padding_16"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@string/label_nfc_settings"
-            android:textSize="@dimen/screen_sub_header1" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/createScheduleButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="@string/button_create_schedule"
+                android:textSize="@dimen/screen_body"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/nfcCategoryButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="@string/button_nfc_categories"
-            android:textSize="@dimen/screen_body"
-            app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="end" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/nfcLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_padding_16"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_nfc_settings"
+                android:textSize="@dimen/screen_sub_header1" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addNfcTagButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="@string/title_add_nfc"
-            android:textSize="@dimen/screen_body"
-            app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="end" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/nfcCategoryButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="@string/button_nfc_categories"
+                android:textSize="@dimen/screen_body"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/nfcPlacesButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="@string/button_nfc_places"
-            android:textSize="@dimen/screen_body"
-            app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="end" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addNfcTagButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="@string/title_add_nfc"
+                android:textSize="@dimen/screen_body"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end" />
 
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/nfcPlacesButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="@string/button_nfc_places"
+                android:textSize="@dimen/screen_body"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/warehouseLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_padding_16"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_warehouse"
+                android:textSize="@dimen/screen_sub_header1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/warehouseButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:text="@string/button_add_warehouse"
+                android:textSize="@dimen/screen_body"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="end" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/logoutButton"

@@ -2,8 +2,8 @@ package org.rmj.guanzongroup.gsecurity.pojo.login;
 
 public class LoginCredentials {
 
-    private String email = "";
-    private String password = "";
+    private final String email;
+    private final String password;
 
     public LoginCredentials(String email, String password) {
         this.email = email;
@@ -22,12 +22,12 @@ public class LoginCredentials {
 
         private String message = "";
 
-        public boolean isDataValid(LoginCredentials loginCredentials){
-            if(loginCredentials.getEmail().trim().isEmpty()){
+        public boolean isDataValid(LoginCredentials credentials){
+            if(credentials.getEmail().trim().isEmpty()){
                 message = "Please enter your email.";
                 return false;
 
-            } else if(loginCredentials.getPassword().isEmpty()){
+            } else if(credentials.getPassword().isEmpty()){
                 message = "Please enter your password.";
                 return false;
             }

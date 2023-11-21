@@ -15,6 +15,8 @@ public class Messages {
      */
     public static final String UNEXPECTED_ERROR_OCCURRED = "An unexpected error occurred";
 
+    public static final String PLEASE_WAIT = "Please wait...";
+
     /**
      * Firebase authentication error messages base on error codes
      * This messages are rephrase for more user friendly approach...

@@ -3,11 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/dialog_card_corner_radius"
-    app:cardElevation="@dimen/dialog_card_elevation"
-    app:cardMaxElevation="@dimen/dialog_card_elevation"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
+    style="@style/CardViewDialog">
 
     <LinearLayout
         android:layout_width="match_parent"

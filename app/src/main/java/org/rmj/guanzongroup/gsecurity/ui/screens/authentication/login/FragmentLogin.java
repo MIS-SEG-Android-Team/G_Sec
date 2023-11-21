@@ -46,6 +46,7 @@ public class FragmentLogin extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMLogin.class);
         binding = FragmentLoginBinding.inflate(getLayoutInflater());
+        DialogLoad dialogLoad = DialogLoad.getInstance(requireActivity());
 
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_authentication);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
@@ -55,15 +56,14 @@ public class FragmentLogin extends Fragment {
         binding.signupButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentLogin_to_fragmentSignUp));
 
         binding.loginButton.setOnClickListener(view1 -> {
-            DialogLoad dialogLoad = DialogLoad.getInstance(requireActivity());
             mViewModel.login(
                     new LoginCredentials(
                             Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
                             Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()),
                     new LoginCallback() {
                         @Override
-                        public void onLogin(String title, String message) {
-                            dialogLoad.show();
+                        public void onLogin(String message) {
+                            dialogLoad.show(message);
                         }
 
                         @Override
@@ -76,7 +76,7 @@ public class FragmentLogin extends Fragment {
                         @Override
                         public void onFailed(String message) {
                             dialogLoad.dismiss();
-                            DialogResult.viewResult(requireContext(), DialogResult.RESULT.FAILED, message).showDialog();
+                            DialogResult.viewResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
                         }
             });
         });
