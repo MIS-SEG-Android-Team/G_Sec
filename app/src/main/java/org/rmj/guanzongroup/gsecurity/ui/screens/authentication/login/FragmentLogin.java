@@ -46,7 +46,7 @@ public class FragmentLogin extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMLogin.class);
         binding = FragmentLoginBinding.inflate(getLayoutInflater());
-        DialogLoad dialogLoad = DialogLoad.getInstance(requireActivity());
+        DialogLoad dialogLoad = new DialogLoad(requireActivity());
 
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_authentication);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
@@ -76,7 +76,7 @@ public class FragmentLogin extends Fragment {
                         @Override
                         public void onFailed(String message) {
                             dialogLoad.dismiss();
-                            DialogResult.viewResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
+                            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
                         }
             });
         });

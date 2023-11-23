@@ -13,13 +13,13 @@
             android:id="@+id/btn_timesched"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="5dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="4dp"
             app:cornerRadius="10dp"
-            app:icon="@drawable/baseline_warehouse_24"
-            app:iconSize="30dp"
-            app:layout_constraintWidth_percent=".150"
-            app:layout_constraintHeight_percent="1.100"/>
+            app:icon="@drawable/ic_location_pin"
+            app:layout_constraintHeight_percent="1.100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".150" />
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/PrimaryHeaderStyle"

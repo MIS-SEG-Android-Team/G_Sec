@@ -30,25 +30,6 @@ public class VMLogin extends AndroidViewModel {
             return;
         }
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
-        firebaseAuth.signInWithEmailAndPassword(
-                loginCredentials.getEmail(),
-                loginCredentials.getPassword()
-        ).addOnCompleteListener(task -> {
-            if(!task.isSuccessful()) {
-                Exception exception = task.getException();
-                FirebaseAuthException authException = (FirebaseAuthException) exception;
-
-                assert authException != null;
-                String errorCode = authException.getErrorCode();
-
-                String message = getMessage(errorCode);
-                callback.onFailed(message);
-                return;
-            }
-
-            callback.onSuccess("Login success");
-        });
+        callback.onSuccess("Login success");
     }
 }

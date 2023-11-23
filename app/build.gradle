@@ -29,7 +29,6 @@ android {
     productFlavors {
         production {
             dimension "environment"
-            resValue "string", "app_name", "GSecure"
             buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
             buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""
@@ -39,7 +38,6 @@ android {
 //       This way the endpoint of the API this app will connect will be on Development side/Testing
         dev {
             dimension "environment"
-            resValue "string", "app_name", "GSecure Dev"
             buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
             buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""

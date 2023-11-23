@@ -17,9 +17,7 @@ public class DialogLoad {
 
     private final DialogLoadBinding binding;
 
-    private static DialogLoad instance;
-
-    private DialogLoad(Context context){
+    public DialogLoad(Context context){
         binding = DialogLoadBinding.inflate(LayoutInflater.from(context));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -28,14 +26,6 @@ public class DialogLoad {
         alertDialog.setCancelable(false);
         Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-    }
-
-    public static DialogLoad getInstance(Context context) {
-        if(instance == null){
-            instance = new DialogLoad(context);
-        }
-
-        return instance;
     }
 
     public void show(String message){

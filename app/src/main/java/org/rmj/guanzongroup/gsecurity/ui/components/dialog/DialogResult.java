@@ -20,37 +20,7 @@ public class DialogResult {
         FAILED
     }
 
-    private static DialogResult instance;
-
-    private DialogResult(){
-
-    }
-
-    public static DialogResult viewResult(Context context, RESULT result, String message) {
-        DialogResultBinding binding = DialogResultBinding.inflate(LayoutInflater.from(context));
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setView(binding.getRoot());
-        alertDialog = builder.create();
-        alertDialog.setCancelable(false);
-        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-
-        if(result == RESULT.SUCCESS)
-            binding.imageResult.setImageResource(R.drawable.ic_square_check);
-        else
-            binding.imageResult.setImageResource(R.drawable.ic_square_x);
-
-        binding.message.setText(message);
-
-        binding.closeButton.setOnClickListener(view -> alertDialog.dismiss());
-
-        if(instance == null){
-            instance = new DialogResult();
-        }
-        return instance;
-    }
-    public static DialogResult viewResult(Context context, RESULT result, String message, onDialogButtonClickListener listener) {
+    public DialogResult(Context context, RESULT result, String message){
         DialogResultBinding binding = DialogResultBinding.inflate(LayoutInflater.from(context));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -68,14 +38,9 @@ public class DialogResult {
         binding.message.setText(message);
 
         binding.closeButton.setOnClickListener(view -> {
-            listener.onClick();
+//            listener.onClick(alertDialog);
             alertDialog.dismiss();
         });
-
-        if(instance == null){
-            instance = new DialogResult();
-        }
-        return instance;
     }
 
     public void showDialog(){
@@ -83,6 +48,6 @@ public class DialogResult {
     }
 
     public interface onDialogButtonClickListener{
-        void onClick();
+        void onClick(AlertDialog dialog);
     }
 }

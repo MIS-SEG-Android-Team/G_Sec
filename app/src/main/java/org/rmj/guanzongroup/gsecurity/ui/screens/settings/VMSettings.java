@@ -17,15 +17,6 @@ public class VMSettings extends AndroidViewModel {
     }
 
     public void logoutUser(SettingsCallback.LogoutUserCallback callback){
-        callback.onLoad(PLEASE_WAIT);
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.signOut();
-        firebaseAuth.addAuthStateListener(firebaseAuth1 -> {
-            if(firebaseAuth1.getCurrentUser() == null){
-                callback.onSuccess();
-            } else {
-                callback.onFailed(UNEXPECTED_ERROR_OCCURRED);
-            }
-        });
+
     }
 }

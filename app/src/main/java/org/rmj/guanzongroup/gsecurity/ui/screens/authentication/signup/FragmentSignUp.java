@@ -49,7 +49,7 @@ public class FragmentSignUp extends Fragment {
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         binding.registerButton.setOnClickListener(view -> {
-            DialogLoad dialogLoad = DialogLoad.getInstance(requireActivity());
+            DialogLoad dialogLoad = new DialogLoad(requireActivity());
             mViewModel.signup(null, new SignUpCallback() {
                 @Override
                 public void onLoad(String message) {
@@ -65,11 +65,7 @@ public class FragmentSignUp extends Fragment {
                 @Override
                 public void onFailed(String message) {
                     dialogLoad.dismiss();
-                    DialogResult.viewResult(
-                            requireActivity(),
-                            DialogResult.RESULT.FAILED,
-                            message)
-                            .showDialog();
+                    new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
                 }
             });
         });
