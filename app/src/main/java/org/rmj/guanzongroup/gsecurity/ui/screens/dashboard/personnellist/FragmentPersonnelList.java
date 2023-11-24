@@ -1,6 +1,5 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnel;
+package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnellist;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -14,13 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPersonnelListBinding;
-import org.rmj.guanzongroup.gsecurity.mockdata.PersonnelItem;
-import org.rmj.guanzongroup.gsecurity.pojo.user.Personnel;
-import org.rmj.guanzongroup.gsecurity.ui.components.adapters.AdapterActivePersonnel;
-
-import java.util.List;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.AdapterActivePersonnel;
 
 public class FragmentPersonnelList extends Fragment {
 

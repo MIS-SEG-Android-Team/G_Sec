@@ -17,7 +17,7 @@
     <string name="title_nfc_sites">NFC Sites</string>
     <string name="title_visit_area">Visit Area</string>
     <string name="title_personnel_settings">Personnel Settings</string>
-    <string name="title_patrol_itinerary">Patrol Itinerary</string>
+    <string name="title_patrol_route">Patrol Itinerary</string>
     <string name="title_add_warehouse">Add Warehouse</string>
 
     <!--    Sub Title-->
@@ -27,7 +27,7 @@
     <string name="sub_title_visit_area">Request a personnel to visit an area</string>
     <string name="sub_title_nfc_sites">Locations of NFC tags</string>
     <string name="sub_title_settings">GSecure settings</string>
-    <string name="sub_title_patrol_itinerary">Duty Patrol Plan</string>
+    <string name="sub_title_patrol_route">Duty Patrol Plan</string>
     <string name="sub_title_add_warehouse">Register New Warehouse Location</string>
 
     <!--    List of Labels-->
@@ -53,6 +53,7 @@
     <string name="label_nfc_description">NFC Description</string>
     <string name="label_warehouse">Warehouse</string>
     <string name="label_last_visited">Last visited: </string>
+    <string name="label_tap_the_nfc">Tap the NFC</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>
@@ -83,6 +84,8 @@
     <string name="list_item_personnel_active_name">Paragas, Daniel</string>
     <string name="list_item_personnel_active_site">Warehouse Anolid</string>
     <string name="list_item_personnel_active_last_visit">Warehouse 2 Back Door</string>
+    <string name="list_item_patrol_requested">Patrol Requested</string>
+    <string name="list_item_patrol_route">Patrol Route</string>
 
     <!--    Content Description-->
     <string name="close_button">Close</string>

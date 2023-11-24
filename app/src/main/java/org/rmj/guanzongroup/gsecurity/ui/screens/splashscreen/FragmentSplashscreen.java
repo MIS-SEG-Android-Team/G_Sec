@@ -16,13 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSplashscreenBinding;
-import org.rmj.guanzongroup.gsecurity.ui.activity.MainActivity;
+import org.rmj.guanzongroup.gsecurity.ui.activity.AdminActivity;
 
 import java.util.Objects;
 
@@ -64,7 +63,7 @@ public class FragmentSplashscreen extends Fragment {
                 if(currentUser == null) {
                     navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
                 } else {
-                    startActivity(new Intent(requireActivity(), MainActivity.class));
+                    startActivity(new Intent(requireActivity(), AdminActivity.class));
                     requireActivity().finish();
                 }
             }

@@ -8,17 +8,16 @@ import android.view.LayoutInflater;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.DialogLoadBinding;
+import org.rmj.guanzongroup.gsecurity.databinding.DialogNfcBinding;
 
 import java.util.Objects;
 
 public class DialogNFC {
 
-    private final AlertDialog alertDialog;
+    private static AlertDialog alertDialog;
 
-    private static DialogNFC instance;
-
-    private DialogNFC(Context context){
-        DialogLoadBinding binding = DialogLoadBinding.inflate(LayoutInflater.from(context));
+    public DialogNFC(Context context){
+        DialogNfcBinding binding = DialogNfcBinding.inflate(LayoutInflater.from(context));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(binding.getRoot());
@@ -26,5 +25,13 @@ public class DialogNFC {
         alertDialog.setCancelable(false);
         Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
+    }
+
+    public void show(){
+        alertDialog.show();
+    }
+
+    public void dismiss(){
+        alertDialog.dismiss();
     }
 }

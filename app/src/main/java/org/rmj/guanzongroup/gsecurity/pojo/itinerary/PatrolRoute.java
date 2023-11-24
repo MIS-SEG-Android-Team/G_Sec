@@ -1,13 +1,15 @@
 package org.rmj.guanzongroup.gsecurity.pojo.itinerary;
 
-public class Itinerary {
+public class PatrolRoute {
 
+    private String NfcID;
     private String Description;
     private String Category;
     private String Warehouse;
+    private String patrolType;
     private boolean visited = false;
 
-    public Itinerary() {
+    public PatrolRoute() {
 
     }
 
@@ -41,5 +43,21 @@ public class Itinerary {
 
     public void setVisited(boolean visited) {
         this.visited = visited;
+    }
+
+    public String getPatrolType() {
+        return patrolType;
+    }
+
+    public void setPatrolType(String patrolType) {
+        this.patrolType = patrolType;
+    }
+
+    public String getNfcID() {
+        return NfcID;
+    }
+
+    public void setNfcID(String nfcID) {
+        NfcID = nfcID;
     }
 }

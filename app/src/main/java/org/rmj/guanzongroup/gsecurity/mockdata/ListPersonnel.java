@@ -8,7 +8,13 @@ import org.rmj.guanzongroup.gsecurity.pojo.user.Personnel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonnelItem {
+
+/**
+ * Everything inside this class is mock data for demonstration purposes only...
+ * Delete mockdata package after integrating Back-End APIs and retrieving actual
+ * data needed for full operation...
+ */
+public class ListPersonnel {
 
     public static LiveData<List<Personnel>> getPersonnelList(){
         MutableLiveData<List<Personnel>> personnelList = new MutableLiveData<>();

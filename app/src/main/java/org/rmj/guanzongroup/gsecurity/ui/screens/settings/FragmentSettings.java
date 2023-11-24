@@ -42,15 +42,15 @@ public class FragmentSettings extends Fragment {
         binding = FragmentSettingsBinding.inflate(getLayoutInflater());
         DialogLoad dialogLoad = new DialogLoad(requireActivity());
 
-        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         binding.addNfcTagButton.setOnClickListener(view -> {
-            navController.navigate(R.id.action_fragmentAdminDashboard_to_fragmentAddPlace);
+            navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPlace);
         });
 
         binding.warehouseButton.setOnClickListener(view -> {
-            navController.navigate(R.id.action_fragmentAdminDashboard_to_fragmentAddWarehouse);
+            navController.navigate(R.id.action_fragmentSettings_to_fragmentAddWarehouse);
         });
 
         binding.logoutButton.setOnClickListener(view -> {

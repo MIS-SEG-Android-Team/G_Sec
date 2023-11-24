@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnel;
+package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnellist;
 
 import android.app.Application;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.guanzongroup.gsecurity.mockdata.PersonnelItem;
+import org.rmj.guanzongroup.gsecurity.mockdata.ListPersonnel;
 import org.rmj.guanzongroup.gsecurity.pojo.user.Personnel;
 
 import java.util.List;
@@ -18,6 +18,6 @@ public class VMPersonnelList extends AndroidViewModel {
     }
 
     public LiveData<List<Personnel>> getPersonnelList(){
-        return PersonnelItem.getPersonnelList();
+        return ListPersonnel.getPersonnelList();
     }
 }

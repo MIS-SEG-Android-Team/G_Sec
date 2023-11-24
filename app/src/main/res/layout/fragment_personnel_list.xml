@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.screens.dashboard.personnel.FragmentPersonnelList"
+    tools:context=".ui.screens.dashboard.personnellist.FragmentPersonnelList"
     android:padding="@dimen/horizontal_padding_default">
 
     <com.google.android.material.textview.MaterialTextView

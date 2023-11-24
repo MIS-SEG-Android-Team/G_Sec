@@ -1,7 +1,6 @@
-package org.rmj.guanzongroup.gsecurity.ui.components.adapters;
+package org.rmj.guanzongroup.gsecurity.ui.components.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;

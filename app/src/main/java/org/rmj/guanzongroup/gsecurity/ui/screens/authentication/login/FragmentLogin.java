@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
@@ -17,14 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.Firebase;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentLoginBinding;
 import org.rmj.guanzongroup.gsecurity.pojo.login.LoginCredentials;
-import org.rmj.guanzongroup.gsecurity.ui.activity.MainActivity;
+import org.rmj.guanzongroup.gsecurity.ui.activity.AdminActivity;
+import org.rmj.guanzongroup.gsecurity.ui.activity.PersonnelActivity;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
@@ -67,11 +63,19 @@ public class FragmentLogin extends Fragment {
                         }
 
                         @Override
-                        public void onSuccess(String message) {
+                        public void onAdminSuccessLogin(String message) {
                             dialogLoad.dismiss();
-                            startActivity(new Intent(requireActivity(), MainActivity.class));
+                            startActivity(new Intent(requireActivity(), AdminActivity.class));
                             requireActivity().finish();
                         }
+
+                        @Override
+                        public void onPersonnelSuccessLogin(String message) {
+                            dialogLoad.dismiss();
+                            startActivity(new Intent(requireActivity(), PersonnelActivity.class));
+                            requireActivity().finish();
+                        }
+
 
                         @Override
                         public void onFailed(String message) {

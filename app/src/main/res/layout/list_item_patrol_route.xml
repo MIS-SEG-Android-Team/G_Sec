@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_personnel"
+        android:src="@drawable/ic_location_check"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -22,21 +22,22 @@
         app:layout_constraintWidth_percent=".1" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/personnelFullName"
+        android:id="@+id/nfcSiteDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/view_padding_8"
         android:maxLines="1"
-        android:text="@string/list_item_personnel_active_name"
+        android:text="@string/list_item_personnel_active_last_visit"
         android:textColor="?attr/colorPrimary"
         android:textSize="@dimen/screen_sub_header1"
         app:fontFamily="@font/roboto_medium"
+        app:layout_constraintEnd_toStartOf="@+id/patrolStatus"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/personnelIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/personnelAssignedDuty"
+        android:id="@+id/siteWarehouse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/view_padding_8"
@@ -46,26 +47,15 @@
         app:fontFamily="@font/roboto_regular"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/personnelIcon"
-        app:layout_constraintTop_toBottomOf="@+id/personnelFullName" />
+        app:layout_constraintTop_toBottomOf="@+id/nfcSiteDescription" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/personnelLastVisitLabel"
+        android:id="@+id/patrolStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_last_visited"
-        android:layout_marginStart="@dimen/view_padding_8"
-        android:layout_marginTop="@dimen/view_padding_8"
-        app:layout_constraintStart_toEndOf="@+id/personnelIcon"
-        app:layout_constraintTop_toBottomOf="@+id/personnelAssignedDuty" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/personnelLastVisit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/list_item_personnel_active_site"
-        android:layout_marginStart="@dimen/view_padding_8"
-        app:layout_constraintBottom_toBottomOf="@+id/personnelLastVisitLabel"
-        app:layout_constraintStart_toEndOf="@+id/personnelLastVisitLabel"
-        app:layout_constraintTop_toTopOf="@+id/personnelLastVisitLabel" />
+        android:text="@string/list_item_patrol_requested"
+        app:layout_constraintBottom_toTopOf="@+id/siteWarehouse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nfcSiteDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
