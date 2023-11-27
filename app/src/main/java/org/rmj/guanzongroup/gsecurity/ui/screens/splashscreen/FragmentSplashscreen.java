@@ -62,10 +62,10 @@ public class FragmentSplashscreen extends Fragment {
             @Override
             public void onFinished(String args) {
 //                if(currentUser == null) {
-//                    navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
+                    navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
 //                } else {
-                    startActivity(new Intent(requireActivity(), PersonnelActivity.class));
-                    requireActivity().finish();
+//                    startActivity(new Intent(requireActivity(), PersonnelActivity.class));
+//                    requireActivity().finish();
 //                }
             }
 

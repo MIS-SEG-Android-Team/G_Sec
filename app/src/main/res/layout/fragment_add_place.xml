@@ -32,4 +32,17 @@
         app:layout_constraintTop_toTopOf="@+id/materialTextView"
         android:contentDescription="@string/close_button" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/view_padding_4"
+        android:layout_marginVertical="@dimen/view_padding_16"
+        android:text="@string/button_save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintWidth_percent=".7" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

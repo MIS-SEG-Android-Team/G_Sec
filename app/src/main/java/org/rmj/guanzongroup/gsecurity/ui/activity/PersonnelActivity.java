@@ -284,25 +284,4 @@ public class PersonnelActivity extends AppCompatActivity implements NfcAdapter.R
             }
         }
     }
-
-//    private void enableNfcForegroundDispatch() {
-//        if (!nfcAdapter.isEnabled()) {
-//            Toast.makeText(this, "Please enable NFC in your settings", Toast.LENGTH_SHORT).show();
-//            finish();
-//            return;
-//        }
-//
-//        if (nfcAdapter != null) {
-//
-//            nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[] {intentFilter}, null);
-
-//            nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
-//        }
-//    }
-
-//    private void disableNfcForegroundDispatch() {
-//        if (nfcAdapter != null) {
-//            nfcAdapter.disableForegroundDispatch(this);
-//        }
-//    }
 }

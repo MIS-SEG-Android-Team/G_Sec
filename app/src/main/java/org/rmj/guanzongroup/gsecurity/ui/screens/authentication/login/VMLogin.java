@@ -30,6 +30,6 @@ public class VMLogin extends AndroidViewModel {
             return;
         }
 
-        callback.onPersonnelSuccessLogin("Login success");
+        callback.onAdminSuccessLogin("Login success");
     }
 }

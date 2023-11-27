@@ -53,7 +53,8 @@
     <string name="label_nfc_description">NFC Description</string>
     <string name="label_warehouse">Warehouse</string>
     <string name="label_last_visited">Last visited: </string>
-    <string name="label_tap_the_nfc">Tap the NFC</string>
+    <string name="label_tap_the_nfc">Tap the NFC.</string>
+    <string name="label_specific_place">Specific Place</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>
