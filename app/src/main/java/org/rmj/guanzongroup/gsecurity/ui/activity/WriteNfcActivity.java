@@ -43,12 +43,14 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
         binding = ActivityWriteNfcBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        record1 = getIntent().getStringExtra(NFC_PAYLOAD);
+        if(getIntent().hasExtra(NFC_PAYLOAD))
+            record1 = getIntent().getStringExtra(NFC_PAYLOAD);
+
         initNfcAdapter();
 
         binding.closeButton.setOnClickListener(view -> {
-            setResult(RESULT_CANCELED);
             finish();
+            setResult(RESULT_CANCELED);
         });
     }
 
@@ -110,7 +112,7 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
             return;
         }
 
-        Log.d("WriteNfcActivity", record1);
+//        Log.d("WriteNfcActivity", record1);
 
         // Create a Ndef Record
         NdefRecord mRecord = NdefRecord.createTextRecord("en", record1);
@@ -140,6 +142,7 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
                         notification);
                 r.play();
                 Log.d("WriteNfcActivity", "Notification tone played.");
+
             } catch (Exception e) {
                 // Some error playing sound
             }
@@ -167,16 +170,15 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
             try {
                 mNdef.close();
                 Log.d("WriteNfcActivity", "Ndef is closed.");
-
             } catch (IOException e) {
                 // if there is an I/O failure, or the operation is cancelled
                 e.printStackTrace();
             }
         }
 
-        setResult(RESULT_OK);
         finish();
-        Log.d("WriteNfcActivity", "Writing nfc finished.");
         Log.d("WriteNfcActivity", "Finish activity.");
+        setResult(RESULT_OK);
+        Log.d("WriteNfcActivity", "Writing nfc finished.");
     }
 }

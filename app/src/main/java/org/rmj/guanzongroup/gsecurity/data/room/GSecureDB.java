@@ -11,10 +11,26 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import org.rmj.guanzongroup.gsecurity.data.room.dao.DAppUserMaster;
 import org.rmj.guanzongroup.gsecurity.data.room.entities.EAppUserMaster;
+import org.rmj.guanzongroup.gsecurity.data.room.entities.EBuildingVisitRequest;
+import org.rmj.guanzongroup.gsecurity.data.room.entities.EBuildingVisitSchedule;
+import org.rmj.guanzongroup.gsecurity.data.room.entities.ECategory;
+import org.rmj.guanzongroup.gsecurity.data.room.entities.EDailyActivePersonnel;
+import org.rmj.guanzongroup.gsecurity.data.room.entities.ENFCDevice;
+import org.rmj.guanzongroup.gsecurity.data.room.entities.EPatrolRoute;
+import org.rmj.guanzongroup.gsecurity.data.room.entities.EPersonnelPosition;
+import org.rmj.guanzongroup.gsecurity.data.room.entities.EWarehouse;
 
 @Database(
         entities = {
-                EAppUserMaster.class
+                EAppUserMaster.class,
+                EBuildingVisitRequest.class,
+                EBuildingVisitSchedule.class,
+                ECategory.class,
+                EDailyActivePersonnel.class,
+                ENFCDevice.class,
+                EPatrolRoute.class,
+                EPersonnelPosition.class,
+                EWarehouse.class
         },
         version = 1,
         exportSchema = false

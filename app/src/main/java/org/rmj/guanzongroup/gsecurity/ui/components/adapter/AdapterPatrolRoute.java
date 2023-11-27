@@ -35,8 +35,8 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                             LayoutInflater.from(
                                     parent.getContext()
                             )
-                    )
-                );
+                )
+        );
     }
 
     @Override

@@ -46,7 +46,7 @@ public class FragmentSettings extends Fragment {
         navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         binding.addNfcTagButton.setOnClickListener(view -> {
-            navController.navigate(R.id.fragmentAddPlace);
+            navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPlace);
         });
 
         binding.warehouseButton.setOnClickListener(view -> {

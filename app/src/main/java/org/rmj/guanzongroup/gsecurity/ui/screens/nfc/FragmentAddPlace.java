@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.nfc;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.NFC_PAYLOAD;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -30,9 +32,11 @@ public class FragmentAddPlace extends Fragment {
 
     private FragmentAddPlaceBinding binding;
 
-    private final ActivityResultLauncher<Intent> nfcWritterIntent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),  result -> {
+    private final ActivityResultLauncher<Intent> nfcWriterIntent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),  result -> {
         if(result.getResultCode() == RESULT_OK) {
             new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New place has been printed to NFC tag.").showDialog();
+        } else if(result.getResultCode() == RESULT_CANCELED) {
+            Toast.makeText(requireActivity(), "Writing NFC payload cancelled", Toast.LENGTH_SHORT).show();
         } else {
             new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Failed to print new place on NFC tag.").showDialog();
         }
@@ -50,12 +54,12 @@ public class FragmentAddPlace extends Fragment {
 
         dialogMessage = new DialogMessage(requireActivity());
 
-        binding.closeButton.setOnClickListener(view -> {});
+        binding.saveButton.setOnClickListener(view -> {});
 
         binding.saveButton.setOnClickListener(view-> {
             Intent intent = new Intent(requireActivity(), WriteNfcActivity.class);
             intent.putExtra(NFC_PAYLOAD, "Warehouse 1 Anolid");
-            nfcWritterIntent.launch(intent);
+            nfcWriterIntent.launch(intent);
         });
 
         return binding.getRoot();

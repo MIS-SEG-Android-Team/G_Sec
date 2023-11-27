@@ -30,26 +30,25 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.nfc.action.NDEF_DISCOVERED" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
 
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+<!--                <data android:mimeType="text/plain" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.nfc.action.TAG_DISCOVERED" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
 
-                <data android:mimeType="text/plain" />
-            </intent-filter>
+<!--                <data android:mimeType="text/plain" />-->
+<!--            </intent-filter>-->
 
             <meta-data
                 android:name="android.nfc.action.NDEF_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
         </activity>
-
         <activity
             android:name=".ui.activity.PersonnelActivity"
             android:exported="true" />
@@ -57,23 +56,17 @@
             android:name=".ui.activity.AdminActivity"
             android:exported="true"
             android:screenOrientation="userPortrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".ui.activity.AuthenticationActivity"
             android:exported="true"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
-
-
-        </activity>
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
     </application>
 
 </manifest>

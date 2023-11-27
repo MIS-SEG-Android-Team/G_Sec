@@ -84,11 +84,24 @@
     <string name="dialog_message">Message</string>
     <string name="list_item_personnel_active_name">Paragas, Daniel</string>
     <string name="list_item_personnel_active_site">Warehouse Anolid</string>
+    <string name="list_item_personnel_recent_time_visit">2:25 PM</string>
     <string name="list_item_personnel_active_last_visit">Warehouse 2 Back Door</string>
     <string name="list_item_patrol_requested">Patrol Requested</string>
     <string name="list_item_patrol_route">Patrol Route</string>
 
     <!--    Content Description-->
     <string name="close_button">Close</string>
+    <string name="title_activity_bot_nav">BotNavActivity</string>
+    <string name="title_activity_nav_drawer">NavDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 
 </resources>

@@ -1,22 +1,28 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.recentactivities;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.gsecurity.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentRecentActivitiesBinding;
+import org.rmj.guanzongroup.gsecurity.pojo.activity.RecentActivity;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.AdapterRecentActivity;
+
+import java.util.List;
 
 public class FragmentRecentActivities extends Fragment {
 
     private VMRecentActivities mViewModel;
+
+    private FragmentRecentActivitiesBinding binding;
 
     public static FragmentRecentActivities newInstance() {
         return new FragmentRecentActivities();
@@ -25,14 +31,22 @@ public class FragmentRecentActivities extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_recent_activities, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMRecentActivities.class);
-        // TODO: Use the ViewModel
-    }
 
+        binding = FragmentRecentActivitiesBinding.inflate(getLayoutInflater());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        mViewModel.getRecentActivity().observe(getViewLifecycleOwner(), recentActivities -> {
+            if(recentActivities == null){
+                return;
+            }
+
+            binding.recentActivityList.setLayoutManager(linearLayoutManager);
+            binding.recentActivityList.setAdapter(new AdapterRecentActivity(recentActivities));
+        });
+
+        return binding.getRoot();
+    }
 }

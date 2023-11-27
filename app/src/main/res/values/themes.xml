@@ -10,6 +10,7 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryLight</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariantLight</item>
@@ -37,8 +38,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar"/>
-    <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight"/>
+    <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
+
+    <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
 
     <style name="TextInputStyle.Edittext">
         <item name="iconStartPadding">10dp</item>
@@ -165,8 +167,8 @@
         <item name="android:fontFamily">@font/roboto_light</item>
         <item name="android:textSize">12sp</item>
     </style>
-    <style name="spinnerTheme" parent="@android:style/Widget.TextView.SpinnerItem">
-    </style>
+
+    <style name="spinnerTheme" parent="@android:style/Widget.TextView.SpinnerItem"></style>
 
     <style name="CustomDropDownTilStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="android:layout_width">match_parent</item>
@@ -189,6 +191,7 @@
         <item name="android:spinnerMode">dialog</item>
         <item name="android:spinnersShown">true</item>
     </style>
+
     <style name="AutoCompleteTextStyle" parent="Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
         <item name="android:spinnerMode">dialog</item>
     </style>
@@ -203,7 +206,8 @@
         <item name="enforceTextAppearance">true</item>
         <item name="android:background">?attr/colorSurface</item>
         <item name="tabIconTint">@color/mtrl_tabs_icon_color_selector</item>
-        <item name="tabIndicatorAnimationDuration">@integer/mtrl_tab_indicator_anim_duration_ms</item>
+        <item name="tabIndicatorAnimationDuration">@integer/mtrl_tab_indicator_anim_duration_ms
+        </item>
         <item name="tabIndicatorColor">?attr/colorPrimary</item>
         <item name="tabTextAppearance">?attr/textAppearanceButton</item>
         <item name="tabTextColor">@color/mtrl_tabs_icon_color_selector</item>
@@ -254,4 +258,13 @@
         <item name="cardPreventCornerOverlap">true</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
+
+    <style name="GhostRiderMaterialTheme.NoActionBar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="GhostRiderMaterialTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="GhostRiderMaterialTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

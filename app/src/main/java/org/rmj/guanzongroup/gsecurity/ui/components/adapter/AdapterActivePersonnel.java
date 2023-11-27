@@ -14,9 +14,11 @@ import java.util.List;
 public class AdapterActivePersonnel extends RecyclerView.Adapter<AdapterActivePersonnel.ActivePersonelViewHolder> {
 
     private final List<Personnel> personnelList;
+    private final ActivePersonnelClickListener listener;
 
-    public AdapterActivePersonnel(List<Personnel> personnelList) {
+    public AdapterActivePersonnel(List<Personnel> personnelList, ActivePersonnelClickListener listener) {
         this.personnelList = personnelList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,6 +39,8 @@ public class AdapterActivePersonnel extends RecyclerView.Adapter<AdapterActivePe
         holder.binding.personnelFullName.setText(personnel.getPersonnelName());
         holder.binding.personnelAssignedDuty.setText(personnel.getWareHouseDuty());
         holder.binding.personnelLastVisit.setText(personnel.getLastVisited());
+
+        holder.binding.getRoot().setOnClickListener(view -> listener.onClick(personnel.getPersonnelID()));
     }
 
     @Override

@@ -7,37 +7,16 @@
     tools:context=".ui.screens.settings.FragmentSettings"
     android:padding="@dimen/horizontal_padding_default">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/title"
-        style="@style/ScreenTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/title_settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/subTitle"
-        style="@style/ScreenSubTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/sub_title_settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
-
     <ScrollView
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/view_padding_36"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
@@ -46,12 +25,27 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title"
+                style="@style/ScreenTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title_settings"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/subTitle"
+                style="@style/ScreenSubTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sub_title_settings" />
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/accountLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="@dimen/view_padding_36"
                 android:text="@string/label_account"
-                android:textSize="@dimen/screen_sub_header1"/>
+                android:textSize="@dimen/screen_sub_header1" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/changePasswordButton"
@@ -168,20 +162,21 @@
                 app:icon="@drawable/ic_chevron_right"
                 app:iconGravity="end" />
 
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logoutButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/view_padding_36"
+                android:text="@string/button_logout"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="@dimen/screen_body"
+                app:cornerRadius="@dimen/view_padding_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="16dp" />
         </LinearLayout>
 
     </ScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logoutButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_logout"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="@dimen/screen_body"
-        app:cornerRadius="@dimen/view_padding_16"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

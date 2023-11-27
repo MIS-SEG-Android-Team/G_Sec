@@ -9,13 +9,31 @@
         android:id="@+id/fragmentPersonnelList"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnellist.FragmentPersonnelList"
         android:label="fragment_personnel_list"
-        tools:layout="@layout/fragment_personnel_list" />
+        tools:layout="@layout/fragment_personnel_list" >
+        <action
+            android:id="@+id/action_fragmentPersonnelList_to_fragmentRecentActivities"
+            app:destination="@id/fragmentRecentActivities"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+
+        <action
+            android:id="@+id/action_fragmentPersonnelList_to_fragmentVisitArea"
+            app:destination="@id/fragmentVisitArea"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragmentRecentActivities"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.recentactivities.FragmentRecentActivities"
         android:label="fragment_recent_activities"
-        tools:layout="@layout/fragment_recent_activities" />
+        tools:layout="@layout/fragment_recent_activities" >
+        <action
+            android:id="@+id/action_fragmentRecentActivities_to_fragmentVisitArea"
+            app:destination="@id/fragmentVisitArea"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragmentVisitArea"
