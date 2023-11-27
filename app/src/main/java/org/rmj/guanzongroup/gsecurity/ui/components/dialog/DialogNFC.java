@@ -25,6 +25,8 @@ public class DialogNFC {
         alertDialog.setCancelable(false);
         Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
+
+        binding.closeButton.setOnClickListener(view -> alertDialog.dismiss());
     }
 
     public void show(){

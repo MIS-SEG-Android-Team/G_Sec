@@ -65,14 +65,14 @@ public class FragmentLogin extends Fragment {
                         @Override
                         public void onAdminSuccessLogin(String message) {
                             dialogLoad.dismiss();
-                            startActivity(new Intent(requireActivity(), AdminActivity.class));
+                            requireActivity().startActivity(new Intent(requireActivity(), AdminActivity.class));
                             requireActivity().finish();
                         }
 
                         @Override
                         public void onPersonnelSuccessLogin(String message) {
                             dialogLoad.dismiss();
-                            startActivity(new Intent(requireActivity(), PersonnelActivity.class));
+                            requireActivity().startActivity(new Intent(requireActivity(), PersonnelActivity.class));
                             requireActivity().finish();
                         }
 

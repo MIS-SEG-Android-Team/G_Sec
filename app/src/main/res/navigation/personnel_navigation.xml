@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/personnel_navigation"
-    app:startDestination="@id/fragmentItineraries">
+    app:startDestination="@id/fragmentPatrolRoute">
 
     <fragment
-        android:id="@+id/fragmentItineraries"
+        android:id="@+id/fragmentPatrolRoute"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute.FragmentPatrolRoute"
         android:label="fragment_itineraries"
         tools:layout="@layout/fragment_patrol_route" />
@@ -16,6 +16,12 @@
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.notifications.FragmentNotifications"
         android:label="fragment_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/fragmentSettings"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.FragmentSettings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 
 
 </navigation>

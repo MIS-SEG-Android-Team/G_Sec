@@ -24,7 +24,6 @@ public class AdminActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setContentView(binding.getRoot());
 
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_admin);
         BottomNavigationView navView = binding.bottomNavBar;
 

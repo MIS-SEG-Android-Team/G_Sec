@@ -32,6 +32,7 @@ android {
             buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
             buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""
+            buildConfigField "String", "NFC_SECURITY_KEY", "\"17BMOaV8\""
         }
 
 //       Change the base URL value to any test/local server for Dev
@@ -41,6 +42,7 @@ android {
             buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
             buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""
+            buildConfigField "String", "NFC_SECURITY_KEY", "\"17BMOaV8\""
         }
     }
 

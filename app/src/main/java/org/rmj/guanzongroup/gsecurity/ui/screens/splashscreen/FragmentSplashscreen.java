@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSplashscreenBinding;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AdminActivity;
+import org.rmj.guanzongroup.gsecurity.ui.activity.PersonnelActivity;
 
 import java.util.Objects;
 
@@ -60,12 +61,12 @@ public class FragmentSplashscreen extends Fragment {
 
             @Override
             public void onFinished(String args) {
-                if(currentUser == null) {
-                    navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
-                } else {
-                    startActivity(new Intent(requireActivity(), AdminActivity.class));
+//                if(currentUser == null) {
+//                    navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
+//                } else {
+                    startActivity(new Intent(requireActivity(), PersonnelActivity.class));
                     requireActivity().finish();
-                }
+//                }
             }
 
             @Override

@@ -21,7 +21,7 @@ public class VMSplashscreen extends AndroidViewModel {
         loTask.setOnLoadApplicationListener(new OnLoadApplicationListener() {
             @Override
             public Object DoInBackground() {
-                for (int x = 0; x < 5; x++){
+                for (int x = 0; x < 2; x++){
                     loTask.publishProgress(x);
                     try {
                         Thread.sleep(1000);
