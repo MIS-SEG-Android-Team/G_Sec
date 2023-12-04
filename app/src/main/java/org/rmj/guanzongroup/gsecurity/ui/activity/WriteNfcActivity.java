@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.activity;
 
-import static org.rmj.guanzongroup.gsecurity.constants.Constants.NFC_PAYLOAD;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_PAYLOAD;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -43,12 +43,12 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
         binding = ActivityWriteNfcBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if(getIntent().hasExtra(NFC_PAYLOAD))
-            record1 = getIntent().getStringExtra(NFC_PAYLOAD);
+        if(getIntent().hasExtra(WRITE_NFC_PAYLOAD))
+            record1 = getIntent().getStringExtra(WRITE_NFC_PAYLOAD);
 
         initNfcAdapter();
 
-        binding.closeButton.setOnClickListener(view -> {
+        binding.cancelButton.setOnClickListener(view -> {
             finish();
             setResult(RESULT_CANCELED);
         });
@@ -82,26 +82,31 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
     @Override
     protected void onResume() {
         super.onResume();
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[]{intentFilter}, techListsArray);
-        Bundle options = new Bundle();
-        options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 250);
-        nfcAdapter.enableReaderMode(this,
-                this,
-                NfcAdapter.FLAG_READER_NFC_A |
-                        NfcAdapter.FLAG_READER_NFC_B |
-                        NfcAdapter.FLAG_READER_NFC_F |
-                        NfcAdapter.FLAG_READER_NFC_V |
-                        NfcAdapter.FLAG_READER_NFC_BARCODE |
-                        NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
-                options);
+        if(nfcAdapter != null) {
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[]{intentFilter}, techListsArray);
+            Bundle options = new Bundle();
+            options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 250);
+            nfcAdapter.enableReaderMode(this,
+                    this,
+                    NfcAdapter.FLAG_READER_NFC_A |
+                            NfcAdapter.FLAG_READER_NFC_B |
+                            NfcAdapter.FLAG_READER_NFC_F |
+                            NfcAdapter.FLAG_READER_NFC_V |
+                            NfcAdapter.FLAG_READER_NFC_BARCODE |
+                            NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
+                    options);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(nfcAdapter!= null)
+        if(nfcAdapter!= null) {
             nfcAdapter.disableReaderMode(this);
+            nfcAdapter.disableForegroundDispatch(this);
+        }
     }
+
 
     @Override
     public void onTagDiscovered(Tag tag) {

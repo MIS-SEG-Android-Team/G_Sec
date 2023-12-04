@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.notifications;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,11 @@ import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentNotificationsBinding;
+import org.rmj.guanzongroup.gsecurity.pojo.notification.Notification;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.AdapterNotification;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.NotificationClickListener;
+
+import java.util.List;
 
 public class FragmentNotifications extends Fragment {
 
@@ -31,6 +39,26 @@ public class FragmentNotifications extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMNotifications.class);
 
         binding = FragmentNotificationsBinding.inflate(getLayoutInflater());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+
+        binding.notificationList.setLayoutManager(linearLayoutManager);
+        mViewModel.getNotifications().observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
+            @Override
+            public void onChanged(List<Notification> notifications) {
+                if(notifications == null){
+                    return;
+                }
+
+                binding.notificationList.setAdapter(new AdapterNotification(notifications, new NotificationClickListener() {
+                    @Override
+                    public void onclick(Notification notification) {
+
+                    }
+                }));
+            }
+        });
 
         return binding.getRoot();
     }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.ListItemPatrolRouteBinding;
 import org.rmj.guanzongroup.gsecurity.pojo.itinerary.PatrolRoute;
 
@@ -19,7 +20,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     private final PatrolRouteClickListener mListener;
 
     public interface PatrolRouteClickListener{
-        void onClick(String nfcID);
+        void onClick(String nfcID, String placeName);
     }
 
     public AdapterPatrolRoute(List<PatrolRoute> patrolRouteList, PatrolRouteClickListener listener) {
@@ -34,7 +35,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                 ListItemPatrolRouteBinding.inflate(
                             LayoutInflater.from(
                                     parent.getContext()
-                            )
+                            ), parent, false
                 )
         );
     }
@@ -46,12 +47,20 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
         holder.binding.siteWarehouse.setText(patrolRoute.getWarehouse());
         holder.binding.patrolStatus.setText(patrolRoute.getPatrolType());
 
+        if(patrolRoute.isVisited())
+            holder.binding.patrolRouteIcon.setImageResource(R.drawable.ic_location_check);
+        else
+            holder.binding.patrolRouteIcon.setImageResource(R.drawable.ic_location_next);
+
         holder.binding.getRoot().setOnClickListener(view -> {
             if(position == NO_POSITION) {
                 return;
             }
 
-            mListener.onClick(patrolRoute.getNfcID());
+            mListener.onClick(
+                    patrolRoute.getNfcID(),
+                    patrolRoute.getDescription()
+            );
         });
     }
 

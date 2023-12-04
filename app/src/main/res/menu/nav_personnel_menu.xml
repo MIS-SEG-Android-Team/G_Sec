@@ -8,8 +8,4 @@
     <item android:id="@+id/fragmentNotifications"
         android:title="@string/title_notifications"
         android:icon="@drawable/ic_notification"/>
-
-    <item android:id="@+id/fragmentSettings"
-        android:title="@string/title_settings"
-        android:icon="@drawable/ic_settings"/>
 </menu>

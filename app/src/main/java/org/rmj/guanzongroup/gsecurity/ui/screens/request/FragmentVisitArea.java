@@ -13,10 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentVisitAreaBinding;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 public class FragmentVisitArea extends Fragment {
 
     private VMVisitArea mViewModel;
+
+    private FragmentVisitAreaBinding binding;
 
     public static FragmentVisitArea newInstance() {
         return new FragmentVisitArea();
@@ -25,14 +29,17 @@ public class FragmentVisitArea extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_visit_area, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMVisitArea.class);
-        // TODO: Use the ViewModel
-    }
 
+        binding = FragmentVisitAreaBinding.inflate(getLayoutInflater());
+
+        binding.sendRequestButton.setOnClickListener(view-> {
+            binding.tiePersonnel.setText("");
+            binding.tiePlace.setText("");
+            binding.tieRemarks.setText("");
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Site visitation request has been sent!").showDialog();
+        });
+
+        return binding.getRoot();
+    }
 }

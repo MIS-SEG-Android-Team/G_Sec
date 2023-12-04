@@ -11,7 +11,7 @@ import java.util.Random;
 
 /**
  * Everything inside this class is mock data for demonstration purposes only...
- * Delete mockdata package after integrating Back-End APIs and retrieving actual
+ * Delete mock data package after integrating Back-End APIs and retrieving actual
  * data needed for full operation...
  */
 public class ListPatrolRoute {
@@ -24,10 +24,11 @@ public class ListPatrolRoute {
 
         for (int i = 1; i <= 15; i++) {
             PatrolRoute patrolRoute = new PatrolRoute();
-            patrolRoute.setDescription("Visit " + getRandomPlace());
+            patrolRoute.setDescription(getRandomPlace());
             patrolRoute.setCategory(getRandomCategory());
             patrolRoute.setWarehouse("Warehouse " + getRandomWarehouse());
             patrolRoute.setVisited(random.nextBoolean());
+            patrolRoute.setPatrolType("Patrol");
 
             list.add(patrolRoute);
         }
@@ -37,19 +38,19 @@ public class ListPatrolRoute {
     }
 
     private static String getRandomPlace() {
-        String[] places = {"Paris", "New York", "Tokyo", "London", "Sydney"};
+        String[] places = {"Warehouse Back Door", "Stock Room Entrance", "Warehouse Hallway", "Warehouse Mechanic Bay", "Warehouse Front Desk"};
         Random random = new Random();
         return places[random.nextInt(places.length)];
     }
 
     private static String getRandomCategory() {
-        String[] categories = {"Sightseeing", "Business", "Adventure", "Cultural", "Relaxation"};
+        String[] categories = {"Security Patrol", "Facilitator Check"};
         Random random = new Random();
         return categories[random.nextInt(categories.length)];
     }
 
     private static String getRandomWarehouse() {
-        String[] warehouses = {"A", "B", "C", "D", "E"};
+        String[] warehouses = {"1", "2", "3", "4", "5"};
         Random random = new Random();
         return warehouses[random.nextInt(warehouses.length)];
     }

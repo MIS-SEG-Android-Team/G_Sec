@@ -6,6 +6,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -35,11 +37,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.data.repository.nfc.MifareUltralightTagTester;
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityPersonnelBinding;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces;
 
 import java.io.IOException;
 
-public class PersonnelActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
+public class PersonnelActivity extends AppCompatActivity {
     private static final String TAG = PersonnelActivity.class.getSimpleName();
 
     private ActivityPersonnelBinding binding;
@@ -86,30 +89,33 @@ public class PersonnelActivity extends AppCompatActivity implements NfcAdapter.R
         NavigationUI.setupWithNavController(navView, navController);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[]{intentFilter}, techListsArray);
-//        enableNfcForegroundDispatch();
-        Bundle options = new Bundle();
-        options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 250);
-        nfcAdapter.enableReaderMode(this,
-                this,
-                NfcAdapter.FLAG_READER_NFC_A |
-                        NfcAdapter.FLAG_READER_NFC_B |
-                        NfcAdapter.FLAG_READER_NFC_F |
-                        NfcAdapter.FLAG_READER_NFC_V |
-                        NfcAdapter.FLAG_READER_NFC_BARCODE |
-                        NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
-                options);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(nfcAdapter!= null) {
+//            nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[]{intentFilter}, techListsArray);
+//            Bundle options = new Bundle();
+//            options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 250);
+//            nfcAdapter.enableReaderMode(this,
+//                    this,
+//                    NfcAdapter.FLAG_READER_NFC_A |
+//                            NfcAdapter.FLAG_READER_NFC_B |
+//                            NfcAdapter.FLAG_READER_NFC_F |
+//                            NfcAdapter.FLAG_READER_NFC_V |
+//                            NfcAdapter.FLAG_READER_NFC_BARCODE |
+//                            NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
+//                    options);
+//        }
+//    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(nfcAdapter!= null)
-            nfcAdapter.disableReaderMode(this);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if(nfcAdapter!= null) {
+//            nfcAdapter.disableReaderMode(this);
+//            nfcAdapter.disableForegroundDispatch(this);
+//        }
+//    }
 
 
 
@@ -119,6 +125,18 @@ public class PersonnelActivity extends AppCompatActivity implements NfcAdapter.R
 
         if(itemID == R.id.actionChangePassword) {
 
+        } else if(itemID == R.id.actionChangePIN) {
+
+        } else {
+            DialogMessage dialogMessage = new DialogMessage(this);
+            dialogMessage.initDialog("Logout", "Proceed to logout?");
+            dialogMessage.setNegativeButton("No", Dialog::dismiss);
+            dialogMessage.setPositiveButton("Yes", dialog -> {
+                dialog.dismiss();
+                finish();
+                startActivity(new Intent(this, AuthenticationActivity.class));
+            });
+            dialogMessage.show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -131,12 +149,13 @@ public class PersonnelActivity extends AppCompatActivity implements NfcAdapter.R
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        String actionIntent = intent.getAction();
-        String actionNDEF = NfcAdapter.ACTION_NDEF_DISCOVERED;
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//
+//        String actionIntent = intent.getAction();
+//        String actionNDEF = NfcAdapter.ACTION_NDEF_DISCOVERED;
+//    }
 //        if (NfcAdapter.ACTION_TECH_DISCOVERED.equalsIgnoreCase(intent.getAction())) {
 //            Parcelable[] rawMessages =
 //                    intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
@@ -158,15 +177,15 @@ public class PersonnelActivity extends AppCompatActivity implements NfcAdapter.R
 //            throw new RuntimeException(e);
 //        }
 //        }
-    }
+//    }
 
-    private NdefMessage createNdefMessage(String message) {
-        NdefRecord ndefRecord = NdefRecord.createTextRecord("en", message);
-        return new NdefMessage(ndefRecord);
-    }
-
-    private void writeDataToNFCTag(NdefMessage ndefMessage, Intent intent) throws IOException, FormatException {
-        Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+//    private NdefMessage createNdefMessage(String message) {
+//        NdefRecord ndefRecord = NdefRecord.createTextRecord("en", message);
+//        return new NdefMessage(ndefRecord);
+//    }
+//
+//    private void writeDataToNFCTag(NdefMessage ndefMessage, Intent intent) throws IOException, FormatException {
+//        Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
 //        NdefFormatable formatable = NdefFormatable.get(detectedTag);
 //        if(formatable != null) {
@@ -202,86 +221,86 @@ public class PersonnelActivity extends AppCompatActivity implements NfcAdapter.R
 //        }
 
         // This portion of code here is use to write data on NFC TAG...
-        if (detectedTag != null) {
-            Ndef ndef = Ndef.get(detectedTag);
-            if (ndef != null) {
-                try {
-                    ndef.connect();
-                    ndef.writeNdefMessage(ndefMessage);
-                    Toast.makeText(this, "NFC Tag written successfully!", Toast.LENGTH_SHORT).show();
-                } catch (IOException | FormatException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        ndef.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                Toast.makeText(this, "NFC Tag does not support NDEF", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//        if (detectedTag != null) {
+//            Ndef ndef = Ndef.get(detectedTag);
+//            if (ndef != null) {
+//                try {
+//                    ndef.connect();
+//                    ndef.writeNdefMessage(ndefMessage);
+//                    Toast.makeText(this, "NFC Tag written successfully!", Toast.LENGTH_SHORT).show();
+//                } catch (IOException | FormatException e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    try {
+//                        ndef.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            } else {
+//                Toast.makeText(this, "NFC Tag does not support NDEF", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
-    @Override
-    public void onTagDiscovered(Tag tag) {
-        Ndef mNdef = Ndef.get(tag);
-
-        // Check that it is an Ndef capable card
-        if (mNdef == null) {
-            return;
-        }
-
-        // Create a Ndef Record
-        NdefRecord mRecord = NdefRecord.createTextRecord("en","English String");
-
-        // Add to a NdefMessage
-        NdefMessage mMsg = new NdefMessage(mRecord);
-
-        // Catch errors
-        try {
-            mNdef.connect();
-            mNdef.writeNdefMessage(mMsg);
-
-            // Success if got to here
-            runOnUiThread(() -> {
-                Toast.makeText(getApplicationContext(),
-                        "Write to NFC Success",
-                        Toast.LENGTH_SHORT).show();
-            });
-
-            // Make a Sound
-            try {
-                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(),
-                        notification);
-                r.play();
-            } catch (Exception e) {
-                // Some error playing sound
-            }
-
-        } catch (FormatException e) {
-            // if the NDEF Message to write is malformed
-        } catch (TagLostException e) {
-            // Tag went out of range before operations were complete
-        } catch (IOException e){
-            // if there is an I/O failure, or the operation is cancelled
-        } catch (SecurityException e){
-            // The SecurityException is only for Android 12L and above
-            // The Tag object might have gone stale by the time
-            // the code gets to process it, with a new one been
-            // delivered (for the same or different Tag)
-            // The SecurityException is thrown if you are working on
-            // a stale Tag
-        } finally {
-            // Be nice and try and close the tag to
-            // Disable I/O operations to the tag from this TagTechnology object, and release resources.
-            try {
-                mNdef.close();
-            } catch (IOException e) {
-                // if there is an I/O failure, or the operation is cancelled
-            }
-        }
-    }
+//    @Override
+//    public void onTagDiscovered(Tag tag) {
+//        Ndef mNdef = Ndef.get(tag);
+//
+//        // Check that it is an Ndef capable card
+//        if (mNdef == null) {
+//            return;
+//        }
+//
+//        // Create a Ndef Record
+//        NdefRecord mRecord = NdefRecord.createTextRecord("en","English String");
+//
+//        // Add to a NdefMessage
+//        NdefMessage mMsg = new NdefMessage(mRecord);
+//
+//        // Catch errors
+//        try {
+//            mNdef.connect();
+//            mNdef.writeNdefMessage(mMsg);
+//
+//            // Success if got to here
+//            runOnUiThread(() -> {
+//                Toast.makeText(getApplicationContext(),
+//                        "Write to NFC Success",
+//                        Toast.LENGTH_SHORT).show();
+//            });
+//
+//            // Make a Sound
+//            try {
+//                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(),
+//                        notification);
+//                r.play();
+//            } catch (Exception e) {
+//                // Some error playing sound
+//            }
+//
+//        } catch (FormatException e) {
+//            // if the NDEF Message to write is malformed
+//        } catch (TagLostException e) {
+//            // Tag went out of range before operations were complete
+//        } catch (IOException e){
+//            // if there is an I/O failure, or the operation is cancelled
+//        } catch (SecurityException e){
+//            // The SecurityException is only for Android 12L and above
+//            // The Tag object might have gone stale by the time
+//            // the code gets to process it, with a new one been
+//            // delivered (for the same or different Tag)
+//            // The SecurityException is thrown if you are working on
+//            // a stale Tag
+//        } finally {
+//            // Be nice and try and close the tag to
+//            // Disable I/O operations to the tag from this TagTechnology object, and release resources.
+//            try {
+//                mNdef.close();
+//            } catch (IOException e) {
+//                // if there is an I/O failure, or the operation is cancelled
+//            }
+//        }
+//    }
 }

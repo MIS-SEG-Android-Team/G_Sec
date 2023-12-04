@@ -28,7 +28,7 @@ public class AdapterActivePersonnel extends RecyclerView.Adapter<AdapterActivePe
                     ListItemPersonnelActiveBinding.inflate(
                         LayoutInflater.from(
                                 parent.getContext()
-                        )
+                        ), parent, false
                     )
                 );
     }

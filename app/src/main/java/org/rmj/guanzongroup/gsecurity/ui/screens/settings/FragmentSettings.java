@@ -54,24 +54,8 @@ public class FragmentSettings extends Fragment {
         });
 
         binding.logoutButton.setOnClickListener(view -> {
-            mViewModel.logoutUser(new SettingsCallback.LogoutUserCallback() {
-                @Override
-                public void onLoad(String message) {
-                    dialogLoad.show(message);
-                }
-
-                @Override
-                public void onSuccess() {
-                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
-                    requireActivity().finish();
-                }
-
-                @Override
-                public void onFailed(String message) {
-                    dialogLoad.dismiss();
-                    new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
-                }
-            });
+            requireActivity().finish();
+            requireActivity().startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
         });
 
         return binding.getRoot();

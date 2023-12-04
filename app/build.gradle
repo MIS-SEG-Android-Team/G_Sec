@@ -82,4 +82,7 @@ dependencies {
 //    Firebase Dependencies
     implementation 'com.google.firebase:firebase-firestore:24.9.1'
     implementation 'com.google.firebase:firebase-auth:22.3.0'
+
+//    Qr-Code Scanner Library
+    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
 }

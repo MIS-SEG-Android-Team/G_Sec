@@ -29,6 +29,7 @@
     <string name="sub_title_settings">GSecure settings</string>
     <string name="sub_title_patrol_route">Duty Patrol Plan</string>
     <string name="sub_title_add_warehouse">Register New Warehouse Location</string>
+    <string name="sub_title_notification">Important Notice</string>
 
     <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>
@@ -53,8 +54,12 @@
     <string name="label_nfc_description">NFC Description</string>
     <string name="label_warehouse">Warehouse</string>
     <string name="label_last_visited">Last visited: </string>
-    <string name="label_tap_the_nfc">Tap the NFC.</string>
+    <string name="label_tap_the_nfc">Tap the NFC until device plays a sound.</string>
     <string name="label_specific_place">Specific Place</string>
+    <string name="label_remarks">Remarks</string>
+    <string name="label_visit_request">Visit Request</string>
+    <string name="label_personnel">Personnel</string>
+    <string name="label_place">Place</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>
@@ -71,6 +76,9 @@
     <string name="button_create_schedule">Create Schedule</string>
     <string name="button_save">Save</string>
     <string name="button_add_warehouse">Add Warehouse</string>
+    <string name="button_qr_code">Qr-Code</string>
+    <string name="button_nfc">NFC</string>
+    <string name="button_send_request">Send Request</string>
 
     <!--    Sentences-->
 

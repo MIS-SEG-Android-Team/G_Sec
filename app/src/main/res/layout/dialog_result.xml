@@ -8,7 +8,7 @@
     android:paddingHorizontal="@dimen/view_padding_36">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/CardViewDialog">
 
@@ -25,7 +25,7 @@
                 android:src="@drawable/ic_square_check"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_marginTop="@dimen/view_padding_24"
+                android:layout_marginTop="@dimen/view_padding_8"
                 app:layout_constraintWidth_percent=".65"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,13 +33,14 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/message"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/view_padding_16"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/dialog_message"
                 android:textSize="@dimen/screen_sub_header1"
                 android:gravity="center"
+                app:layout_constraintWidth_percent=".83"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageResult" />
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/view_padding_4"
                 android:text="@string/button_okay"
-                android:layout_marginVertical="@dimen/view_padding_16"
+                android:layout_marginTop="@dimen/view_padding_16"
                 app:layout_constraintWidth_percent=".7"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

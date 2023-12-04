@@ -30,6 +30,17 @@ public class VMLogin extends AndroidViewModel {
             return;
         }
 
-        callback.onAdminSuccessLogin("Login success");
+        if(loginCredentials.getEmail().equalsIgnoreCase("admin") &&
+            loginCredentials.getPassword().equalsIgnoreCase("admin")) {
+
+            callback.onAdminSuccessLogin("Login success");
+        } else if(loginCredentials.getEmail().equalsIgnoreCase("user") &&
+                loginCredentials.getPassword().equalsIgnoreCase("user")) {
+
+            callback.onPersonnelSuccessLogin("Login success");
+        } else {
+
+            callback.onFailed("Invalid email or password.");
+        }
     }
 }

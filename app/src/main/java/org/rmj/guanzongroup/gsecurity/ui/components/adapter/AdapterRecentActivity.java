@@ -27,7 +27,7 @@ public class AdapterRecentActivity extends RecyclerView.Adapter<AdapterRecentAct
                 ListItemRecentActivityBinding.inflate(
                         LayoutInflater.from(
                                 parent.getContext()
-                        )
+                        ), parent, false
                 )
         );
     }

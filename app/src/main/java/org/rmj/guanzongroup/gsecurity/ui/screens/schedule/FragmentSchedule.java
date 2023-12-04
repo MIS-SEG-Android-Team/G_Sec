@@ -25,6 +25,8 @@ public class FragmentSchedule extends Fragment {
         return new FragmentSchedule();
     }
 
+    
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
