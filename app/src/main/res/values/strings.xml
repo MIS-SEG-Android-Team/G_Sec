@@ -60,6 +60,8 @@
     <string name="label_visit_request">Visit Request</string>
     <string name="label_personnel">Personnel</string>
     <string name="label_place">Place</string>
+    <string name="label_admin">Admin</string>
+    <string name="label_officer">Officer</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>
@@ -79,6 +81,17 @@
     <string name="button_qr_code">Qr-Code</string>
     <string name="button_nfc">NFC</string>
     <string name="button_send_request">Send Request</string>
+    <string name="button_one">1</string>
+    <string name="button_two">2</string>
+    <string name="button_three">3</string>
+    <string name="button_four">4</string>
+    <string name="button_five">5</string>
+    <string name="button_six">6</string>
+    <string name="button_seven">7</string>
+    <string name="button_eight">8</string>
+    <string name="button_nine">9</string>
+    <string name="button_zero">0</string>
+    <string name="button_clear">Clear</string>
 
     <!--    Sentences-->
 

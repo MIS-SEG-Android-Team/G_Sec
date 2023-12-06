@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
+
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentLoginBinding;
 import org.rmj.guanzongroup.gsecurity.pojo.login.LoginCredentials;
@@ -49,7 +51,28 @@ public class FragmentLogin extends Fragment {
 
         binding.forgotPasswordButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentLogin_to_fragmentForgotPassword));
 
-        binding.signupButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentLogin_to_fragmentSignUp));
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getText().toString().equalsIgnoreCase("Admin")) {
+                    binding.adminAuthentication.setVisibility(View.VISIBLE);
+                    binding.officerAuthentication.setVisibility(View.GONE);
+                } else {
+                    binding.adminAuthentication.setVisibility(View.GONE);
+                    binding.officerAuthentication.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         binding.loginButton.setOnClickListener(view1 -> {
             mViewModel.login(

@@ -49,25 +49,6 @@ public class FragmentSignUp extends Fragment {
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         binding.registerButton.setOnClickListener(view -> {
-//            DialogLoad dialogLoad = new DialogLoad(requireActivity());
-//            mViewModel.signup(, new SignUpCallback() {
-//                @Override
-//                public void onLoad(String message) {
-//                    dialogLoad.show(message);
-//                }
-//
-//                @Override
-//                public void onSuccess() {
-//                    dialogLoad.dismiss();
-//                    navController.popBackStack();
-//                }
-//
-//                @Override
-//                public void onFailed(String message) {
-//                    dialogLoad.dismiss();
-//                    new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
-//                }
-//            });
             
         });
 
