@@ -13,6 +13,9 @@ import androidx.navigation.ui.NavigationUI;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityAuthenticationBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AuthenticationActivity extends AppCompatActivity {
 
     @Override

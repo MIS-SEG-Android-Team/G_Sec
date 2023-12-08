@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -29,20 +31,23 @@ import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 public class FragmentLogin extends Fragment {
 
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
     }
 
-    private VMLogin mViewModel;
+    @Inject
+    VMLogin mViewModel;
 
     private FragmentLoginBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMLogin.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMLogin.class);
         binding = FragmentLoginBinding.inflate(getLayoutInflater());
         DialogLoad dialogLoad = new DialogLoad(requireActivity());
 
@@ -74,39 +79,53 @@ public class FragmentLogin extends Fragment {
             }
         });
 
-        binding.loginButton.setOnClickListener(view1 -> {
-            mViewModel.login(
-                    new LoginCredentials(
-                            Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
-                            Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()),
-                    new LoginCallback() {
-                        @Override
-                        public void onLogin(String message) {
-                            dialogLoad.show(message);
-                        }
+        mViewModel.getHasLogin().observe(getViewLifecycleOwner(), loggedIn -> {
 
-                        @Override
-                        public void onAdminSuccessLogin(String message) {
-                            dialogLoad.dismiss();
-                            requireActivity().startActivity(new Intent(requireActivity(), AdminActivity.class));
-                            requireActivity().finish();
-                        }
-
-                        @Override
-                        public void onPersonnelSuccessLogin(String message) {
-                            dialogLoad.dismiss();
-                            requireActivity().startActivity(new Intent(requireActivity(), PersonnelActivity.class));
-                            requireActivity().finish();
-                        }
-
-
-                        @Override
-                        public void onFailed(String message) {
-                            dialogLoad.dismiss();
-                            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
-                        }
-            });
         });
+
+        mViewModel.isLoading().observe(getViewLifecycleOwner(), loading -> {
+
+        });
+
+        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
+            Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+        });
+
+        binding.loginButton.setOnClickListener(view1 -> {
+            mViewModel.loginPersonnel();
+        });
+            // TODO: This area of code has been temporarily disable and might be deleted later on...
+//            mViewModel.login(
+//                    new LoginCredentials(
+//                            Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
+//                            Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()),
+//                    new LoginCallback() {
+//                        @Override
+//                        public void onLogin(String message) {
+//                            dialogLoad.show(message);
+//                        }
+//
+//                        @Override
+//                        public void onAdminSuccessLogin(String message) {
+//                            dialogLoad.dismiss();
+//                            requireActivity().startActivity(new Intent(requireActivity(), AdminActivity.class));
+//                            requireActivity().finish();
+//                        }
+//
+//                        @Override
+//                        public void onPersonnelSuccessLogin(String message) {
+//                            dialogLoad.dismiss();
+//                            requireActivity().startActivity(new Intent(requireActivity(), PersonnelActivity.class));
+//                            requireActivity().finish();
+//                        }
+//
+//
+//                        @Override
+//                        public void onFailed(String message) {
+//                            dialogLoad.dismiss();
+//                            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, message).showDialog();
+//                        }
+//            });
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override

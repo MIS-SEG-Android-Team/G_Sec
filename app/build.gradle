@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.google.dagger.hilt.android'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -33,6 +36,8 @@ android {
             buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""
             buildConfigField "String", "NFC_SECURITY_KEY", "\"17BMOaV8\""
+            buildConfigField "String", "CLIENT_ID", "GGC_BM001"
+            buildConfigField "String", "CHAR_REQUEST", "UTF-8"
         }
 
 //       Change the base URL value to any test/local server for Dev
@@ -43,6 +48,8 @@ android {
             buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""
             buildConfigField "String", "NFC_SECURITY_KEY", "\"17BMOaV8\""
+            buildConfigField "String", "CLIENT_ID", "\"GGC_BM001\""
+            buildConfigField "String", "CHAR_REQUEST", "\"UTF-8\""
         }
     }
 
@@ -56,8 +63,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = 1.8
     }
 }
 
@@ -69,15 +79,15 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
-    implementation 'androidx.navigation:navigation-fragment:2.7.5'
-    implementation 'androidx.navigation:navigation-ui:2.7.5'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.5'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 //    Room Database
-    implementation 'androidx.room:room-runtime:2.6.0'
-    implementation 'androidx.sqlite:sqlite:2.4.0'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.sqlite:sqlite-ktx:2.4.0'
 
 //    Firebase Dependencies
     implementation 'com.google.firebase:firebase-firestore:24.9.1'
@@ -85,4 +95,30 @@ dependencies {
 
 //    Qr-Code Scanner Library
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+
+//     Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.4.1"
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
+
+//    Timber Logging
+    implementation("com.jakewharton.timber:timber:4.7.1")
+
+//    Hilt Dependency Injection
+    implementation "com.google.dagger:hilt-android:2.48.1"
+    kapt "com.google.dagger:hilt-compiler:2.48.1"
+
+//    RxJava
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
+    // LiveData
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
 }
