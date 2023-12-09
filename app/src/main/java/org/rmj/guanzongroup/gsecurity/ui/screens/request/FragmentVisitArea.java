@@ -1,18 +1,15 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.request;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.gsecurity.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentVisitAreaBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 

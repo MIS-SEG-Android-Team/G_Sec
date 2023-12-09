@@ -1,7 +1,8 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.service;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.BaseResponse;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.base.LoginBaseResponse;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface ApiService {
     Observable<BaseResponse> signIn(String value);
 
     @POST("/security/mlogin.php")
-    Observable<BaseResponse> loginAdmin(
+    Observable<LoginBaseResponse> loginAdmin(
             @Body LoginParams params
     );
 

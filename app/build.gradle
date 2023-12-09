@@ -33,7 +33,7 @@ android {
         production {
             dimension "environment"
             buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
-            buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
+            buildConfigField "String", "PRODUCT_ID", "\"gRider\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""
             buildConfigField "String", "NFC_SECURITY_KEY", "\"17BMOaV8\""
             buildConfigField "String", "CLIENT_ID", "GGC_BM001"
@@ -45,7 +45,7 @@ android {
         dev {
             dimension "environment"
             buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
-            buildConfigField "String", "PRODUCT_ID", "\"GSecure\""
+            buildConfigField "String", "PRODUCT_ID", "\"gRider\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""
             buildConfigField "String", "NFC_SECURITY_KEY", "\"17BMOaV8\""
             buildConfigField "String", "CLIENT_ID", "\"GGC_BM001\""

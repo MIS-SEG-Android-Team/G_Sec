@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.nfc;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_PAYLOAD;
 
 import android.content.Intent;

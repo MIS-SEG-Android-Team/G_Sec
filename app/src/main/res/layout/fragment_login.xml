@@ -54,7 +54,7 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelApplicationName"
-        app:layout_constraintVertical_bias="0.01">
+        app:layout_constraintVertical_bias="0.1">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -81,6 +81,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="@dimen/horizontal_padding_default"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +98,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25">
+            app:layout_constraintVertical_bias="0.05">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tieEmail"
@@ -158,28 +159,33 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--    This area of code for UI is intent for Officers which will prompt
+        them to authenticate via MPIN given by the security admin...-->
     <LinearLayout
         android:id="@+id/officerAuthentication"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="@dimen/view_padding_24"
+        android:paddingVertical="@dimen/view_padding_24"
+        android:paddingHorizontal="@dimen/view_padding_36"
         app:layout_constraintBottom_toTopOf="@+id/labelSplashScreenFooter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialCardView">
 
         <EditText
-            android:id="@+id/pin1"
+            android:id="@+id/tiePIN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:inputType="numberPassword"
-            android:letterSpacing="1.9"
+            android:letterSpacing="1.6"
             android:layout_marginHorizontal="@dimen/view_padding_24"
-            android:text="123456"
+            android:maxLength="6"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:enabled="false"
             android:textSize="@dimen/screen_sub_header1" />
 
         <LinearLayout
@@ -196,6 +202,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button1"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -204,6 +211,7 @@
                     android:text="@string/button_one" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button2"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -212,6 +220,7 @@
                     android:text="@string/button_two" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button3"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -229,6 +238,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button4"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -237,6 +247,7 @@
                     android:text="@string/button_four" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button5"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -245,6 +256,7 @@
                     android:text="@string/button_five" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button6"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -262,6 +274,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button7"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -270,6 +283,7 @@
                     android:text="@string/button_seven" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button8"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -278,6 +292,7 @@
                     android:text="@string/button_eight" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button9"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -304,6 +319,7 @@
                     android:text="@string/button_seven" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button0"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -312,13 +328,14 @@
                     android:text="@string/button_zero" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/clearButton"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="invisible"
                     android:layout_margin="@dimen/view_padding_4"
-                    android:text="@string/button_clear" />
+                    android:layout_weight="1"
+                    android:text="@string/button_clear"
+                    android:visibility="invisible" />
 
             </LinearLayout>
         </LinearLayout>

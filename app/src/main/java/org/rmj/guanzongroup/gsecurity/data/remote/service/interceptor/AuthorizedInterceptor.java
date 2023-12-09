@@ -2,12 +2,21 @@ package org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor;
 
 import androidx.annotation.NonNull;
 
+import org.rmj.guanzongroup.gsecurity.data.remote.util.SECUtil;
+import org.rmj.guanzongroup.gsecurity.data.remote.util.SQLUtil;
+
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Calendar;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@Singleton
 public class AuthorizedInterceptor implements Interceptor {
 
     /**
@@ -42,59 +51,19 @@ public class AuthorizedInterceptor implements Interceptor {
 //        return (HashMap) headers;
 //    }
 
-    private String firebaseToken = "";
-    private String deviceID = "";
     private String userID = "";
     private String logNo = "";
-    private String apiKey = "";
-    private String apiHash = "";
-
-    public String getFirebaseToken() {
-        return firebaseToken;
-    }
-
-    public void setFirebaseToken(String firebaseToken) {
-        this.firebaseToken = firebaseToken;
-    }
-
-    public String getDeviceID() {
-        return deviceID;
-    }
-
-    public void setDeviceID(String deviceID) {
-        this.deviceID = deviceID;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
 
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    public String getLogNo() {
-        return logNo;
     }
 
     public void setLogNo(String logNo) {
         this.logNo = logNo;
     }
 
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
-
-    public String getApiHash() {
-        return apiHash;
-    }
-
-    public void setApiHash(String apiHash) {
-        this.apiHash = apiHash;
+    @Inject
+    public AuthorizedInterceptor() {
     }
 
     @NonNull
@@ -103,12 +72,8 @@ public class AuthorizedInterceptor implements Interceptor {
         Request request = chain.request();
 
         request = request.newBuilder()
-                .addHeader("g-api-imei", deviceID)
-                .addHeader("g-api-key", apiKey)
-                .addHeader("g-api-hash", apiHash)
                 .addHeader("g-api-user", userID)
                 .addHeader("g-api-log", logNo)
-                .addHeader("g-api-mobile", "09260375777")
                 .build();
 
         return chain.proceed(request);

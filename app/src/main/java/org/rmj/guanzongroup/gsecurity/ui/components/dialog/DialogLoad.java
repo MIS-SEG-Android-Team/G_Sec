@@ -11,6 +11,9 @@ import org.rmj.guanzongroup.gsecurity.databinding.DialogLoadBinding;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 public class DialogLoad {
 
     private final AlertDialog alertDialog;

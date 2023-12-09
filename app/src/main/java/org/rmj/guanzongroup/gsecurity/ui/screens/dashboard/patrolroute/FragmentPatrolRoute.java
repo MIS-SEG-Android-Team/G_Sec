@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
-
 import static org.rmj.guanzongroup.gsecurity.data.file.ImageFileCreator.CreateImageUri;
 
 import android.content.Intent;

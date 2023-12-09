@@ -1,28 +1,21 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.signup;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSignUpBinding;
-import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
-import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.util.Objects;
 

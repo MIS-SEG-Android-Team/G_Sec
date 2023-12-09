@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +27,12 @@ import org.rmj.guanzongroup.gsecurity.ui.activity.PersonnelActivity;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 public class FragmentSplashscreen extends Fragment {
 
-    private VMSplashscreen mViewModel;
+    @Inject
+    VMSplashscreen mViewModel;
 
     private FragmentSplashscreenBinding binding;
 
@@ -43,7 +47,7 @@ public class FragmentSplashscreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMSplashscreen.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMSplashscreen.class);
         binding = FragmentSplashscreenBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_authentication);
@@ -52,6 +56,13 @@ public class FragmentSplashscreen extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        mViewModel.setDeviceID(
+                Settings.Secure.getString(requireActivity().getContentResolver(),
+                        Settings.Secure.ANDROID_ID)
+        );
+
+        mViewModel.setFirebaseToken();
 
         mViewModel.startApp(new OnLoadApplicationCallback() {
             @Override

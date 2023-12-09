@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.data.remote.response;
+package org.rmj.guanzongroup.gsecurity.data.remote.response.base;
 
 public class BaseResponse {
 
