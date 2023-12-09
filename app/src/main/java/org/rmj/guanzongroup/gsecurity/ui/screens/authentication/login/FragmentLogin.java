@@ -97,7 +97,7 @@ public class FragmentLogin extends Fragment {
 
         // Observe the value of adminHasLoggedIn -> Boolean, upon changing its value from false to true,
         // if true this means admin user has successfully login an account...
-        mViewModel.getHasLogin().observe(getViewLifecycleOwner(), adminHasLoggedIn -> {
+        mViewModel.adminHasLoggedIn().observe(getViewLifecycleOwner(), adminHasLoggedIn -> {
             if(adminHasLoggedIn) {
                 Intent intent = new Intent(requireActivity(), AdminActivity.class);
                 requireActivity().startActivity(intent);
@@ -182,8 +182,8 @@ public class FragmentLogin extends Fragment {
         binding.tiePIN.addTextChangedListener(new TextChangeCallback(binding.tiePIN));
 
         binding.loginButton.setOnClickListener(view -> mViewModel.loginAdmin(
-                binding.tieEmail.getText().toString().trim(),
-                binding.tieEmail.getText().toString().trim()
+                Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
+                Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()
         ));
 
         binding.button1.setOnClickListener(new NumPadCallback());

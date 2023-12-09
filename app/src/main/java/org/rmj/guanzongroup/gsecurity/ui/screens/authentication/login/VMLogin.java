@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.config.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.authentication.LoginRepository;
-import org.rmj.guanzongroup.gsecurity.pojo.login.LoginCredentials;
 
 import java.util.Objects;
 
@@ -26,7 +26,7 @@ public class VMLogin extends ViewModel {
     private final DataStore dataStore;
 
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
-    private final MutableLiveData<Boolean> hasLogin = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> adminHasLogin = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
 
@@ -53,8 +53,8 @@ public class VMLogin extends ViewModel {
         return isLoading;
     }
 
-    public MutableLiveData<Boolean> getHasLogin() {
-        return hasLogin;
+    public MutableLiveData<Boolean> adminHasLoggedIn() {
+        return adminHasLogin;
     }
 
     public MutableLiveData<String> getErrorMessage() {
@@ -91,8 +91,9 @@ public class VMLogin extends ViewModel {
 
         // Display loading dialog on UI...
         isLoading.setValue(true);
-
-        repository.loginPersonnel(mpin.getValue())
+        PINParams param = new PINParams();
+        param.setMpin(mpin.getValue());
+        repository.loginPersonnel(param)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -179,6 +180,7 @@ public class VMLogin extends ViewModel {
                             dataStore.setClientId(baseResponse.getcSlfieLog());
                             dataStore.setClientId(baseResponse.getcAllowUpd());
                             isLoading.setValue(false);
+                            adminHasLogin.setValue(true);
                         },
 
                         // Exception handling...

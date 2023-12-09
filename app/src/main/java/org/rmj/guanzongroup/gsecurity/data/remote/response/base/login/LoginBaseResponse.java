@@ -3,9 +3,11 @@ package org.rmj.guanzongroup.gsecurity.data.remote.response.base.login;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.ErrorResponse;
 
 public class LoginBaseResponse {
-//    {"result":"error","error":{"code":40012,"message":"Invalid AUTH KEY detected"}}
+
+    // Status
     private String result;
 
+    // Data
     private String sClientID;
     private String sBranchCD;
     private String sBranchNm;
@@ -22,6 +24,7 @@ public class LoginBaseResponse {
     private String cSlfieLog;
     private String cAllowUpd;
 
+    // If result = error, get the error to get the message...
     private ErrorResponse error;
 
     public LoginBaseResponse() {

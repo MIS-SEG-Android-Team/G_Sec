@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.service;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.login.LoginBaseResponse;
 
@@ -25,7 +26,7 @@ public interface ApiService {
     void createAccount(String value);
 
     @POST("/gsecure/auth/login_mpin.php")
-    Observable<LoginBaseResponse> loginPersonnel(@Body String mpin);
+    Observable<LoginBaseResponse> loginPersonnel(@Body PINParams mpin);
 
     @POST("/security/mlogin.php")
     Observable<LoginBaseResponse> loginAdmin(

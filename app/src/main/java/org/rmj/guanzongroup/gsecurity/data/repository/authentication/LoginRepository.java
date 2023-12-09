@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.data.repository.authentication;
 import io.reactivex.rxjava3.core.Observable;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.login.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
@@ -32,7 +33,7 @@ public class LoginRepository {
     }
 
 
-    public Observable<LoginBaseResponse> loginPersonnel(String mpin) {
+    public Observable<LoginBaseResponse> loginPersonnel(PINParams mpin) {
         return apiService.loginPersonnel(mpin);
     }
 }
