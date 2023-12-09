@@ -172,4 +172,9 @@ public class DataStore {
         editor.putString(ALLOWED_UPDATE, value);
         editor.commit();
     }
+
+    public void clearDataStore() {
+        editor.clear();
+        editor.commit();
+    }
 }

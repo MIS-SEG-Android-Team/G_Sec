@@ -25,6 +25,9 @@ import org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces;
 
 import java.io.IOException;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 
     private ActivityReadNfcBinding binding;

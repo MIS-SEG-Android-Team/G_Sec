@@ -62,6 +62,8 @@
     <string name="label_place">Place</string>
     <string name="label_admin">Admin</string>
     <string name="label_officer">Officer</string>
+    <string name="label_position">Position</string>
+    <string name="label_description">Description</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>

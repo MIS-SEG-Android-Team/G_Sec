@@ -137,6 +137,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
+            style="@style/MaterialButtonAccent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/view_padding_4"

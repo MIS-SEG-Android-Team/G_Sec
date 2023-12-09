@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.screens.authentication.signup.FragmentSignUp">
+    tools:context=".ui.screens.settings.addpersonnel.FragmentAddPersonnel">
 
     <ImageView
         android:id="@+id/imageHeaderBackground"
@@ -12,7 +13,7 @@
         android:layout_height="0dp"
         style="@style/LoginHeaderBackground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintHeight_percent=".25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.2" />
@@ -26,19 +27,19 @@
         android:src="@drawable/ic_app_icon"
         app:layout_constraintBottom_toBottomOf="@+id/imageHeaderBackground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".15"
+        app:layout_constraintHeight_percent=".12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.35"
-        app:layout_constraintWidth_percent=".35" />
+        app:layout_constraintWidth_percent=".25" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/labelApplicationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/view_padding_8"
-        android:text="@string/app_name"
-        android:textSize="@dimen/app_name"
+        android:text="@string/button_add_personnel"
+        android:textSize="@dimen/screen_title"
         app:fontFamily="@font/roboto_medium"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -47,7 +48,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/labelSplashScreenFooter"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageHeaderBackground">
@@ -55,19 +56,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/view_padding_16"
+            android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/labelLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:paddingTop="@dimen/view_padding_24"
-                android:paddingBottom="@dimen/view_padding_16"
-                android:text="@string/label_sign_up"
-                android:textSize="@dimen/screen_header" />
+            android:layout_marginHorizontal="@dimen/view_padding_16">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilLastName"
@@ -127,18 +118,22 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilEmail"
-                style="@style/TextInputStyle"
+                android:id="@+id/tilPosition"
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/label_email">
+                android:hint="@string/label_position"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilWarehouseName">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tieEmail"
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/tiePosition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/DropdownStyleTheme"
                     android:fontFamily="@font/roboto"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="textEmailAddress"
                     android:maxLength="50"
                     android:nextFocusForward="@id/tiePassword" />
@@ -146,32 +141,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilPassword"
+                android:id="@+id/tilDescription"
                 style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/label_password">
+                android:hint="@string/label_description">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tiePassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:maxLength="50" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilConfirmPassword"
-                style="@style/TextInputStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/label_password">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tieConfirmPassword"
+                    android:id="@+id/tieDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
@@ -182,12 +159,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/registerButton"
+                android:id="@+id/savePersonnelButton"
+                style="@style/MaterialButtonAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/view_padding_4"
-                android:layout_marginTop="@dimen/view_padding_16"
-                android:text="@string/button_register" />
+                android:layout_marginTop="@dimen/view_padding_36"
+                android:text="@string/button_save"/>
 
         </LinearLayout>
 

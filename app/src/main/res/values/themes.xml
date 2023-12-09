@@ -73,7 +73,7 @@
         <item name="android:layout_margin">5dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="fontFamily">@font/roboto_regular</item>
-        <item name="android:radius">45dp</item>
+        <item name="android:radius">90dp</item>
         <item name="iconGravity">textStart</item>
     </style>
 
@@ -206,8 +206,7 @@
         <item name="enforceTextAppearance">true</item>
         <item name="android:background">?attr/colorSurface</item>
         <item name="tabIconTint">@color/mtrl_tabs_icon_color_selector</item>
-        <item name="tabIndicatorAnimationDuration">@integer/mtrl_tab_indicator_anim_duration_ms
-        </item>
+        <item name="tabIndicatorAnimationDuration">@integer/mtrl_tab_indicator_anim_duration_ms</item>
         <item name="tabIndicatorColor">?attr/colorPrimary</item>
         <item name="tabTextAppearance">?attr/textAppearanceButton</item>
         <item name="tabTextColor">@color/mtrl_tabs_icon_color_selector</item>

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.data.remote.response.base.login;
+package org.rmj.guanzongroup.gsecurity.data.remote.response.authentication;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.ErrorResponse;
 

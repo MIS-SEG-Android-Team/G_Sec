@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSettingsBinding;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 
 import java.util.Objects;
 
@@ -42,17 +44,22 @@ public class FragmentSettings extends Fragment {
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
 
-        binding.addNfcTagButton.setOnClickListener(view -> {
-            navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPlace);
-        });
+        binding.addPersonnelButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPersonnel));
 
-        binding.warehouseButton.setOnClickListener(view -> {
-            navController.navigate(R.id.action_fragmentSettings_to_fragmentAddWarehouse);
-        });
+        binding.addNfcTagButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPlace));
+
+        binding.warehouseButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddWarehouse));
 
         binding.logoutButton.setOnClickListener(view -> {
-            requireActivity().finish();
-            requireActivity().startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+            DialogMessage dialogMessage = new DialogMessage(requireActivity());
+            dialogMessage.initDialog("Logout", "Logout account?");
+            dialogMessage.setNegativeButton("NO", Dialog::dismiss);
+            dialogMessage.setPositiveButton("Yes", dialog -> {
+                dialog.dismiss();
+                requireActivity().finish();
+                requireActivity().startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+            });
+            dialogMessage.show();
         });
 
         return binding.getRoot();

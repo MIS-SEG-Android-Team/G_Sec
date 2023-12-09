@@ -35,6 +35,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.entities.EWarehouse;
         version = 1,
         exportSchema = false
 )
+
 public abstract class GSecureDB extends RoomDatabase {
     private static final String TAG = GSecureDB.class.getSimpleName();
 

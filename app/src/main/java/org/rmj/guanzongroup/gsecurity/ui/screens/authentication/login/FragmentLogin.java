@@ -43,7 +43,6 @@ public class FragmentLogin extends Fragment {
     VMLogin mViewModel;
 
     private DialogResult dialogResult;
-
     private DialogLoad dialogLoad;
 
     private final StringBuilder stringBuilder = new StringBuilder();
@@ -115,7 +114,7 @@ public class FragmentLogin extends Fragment {
             }
         });
 
-        //
+        // Triggers the opening and closing the loadingDialog...
         mViewModel.isLoading().observe(getViewLifecycleOwner(), loading -> {
             if (loading) {
                 dialogLoad.show("Authenticating...");
@@ -126,6 +125,10 @@ public class FragmentLogin extends Fragment {
 
         mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
             if (errorMessage == null) {
+                return;
+            }
+
+            if (errorMessage.isEmpty()) {
                 return;
             }
 

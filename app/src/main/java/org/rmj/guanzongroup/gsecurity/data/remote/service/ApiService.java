@@ -2,8 +2,10 @@ package org.rmj.guanzongroup.gsecurity.data.remote.service;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.base.login.LoginBaseResponse;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.personnel.PersonnelModel;
 
 import java.util.List;
 
@@ -22,11 +24,13 @@ public interface ApiService {
      * =============================================================================================
      */
 
-    @POST("")
+    @POST("/security/signup.php")
     void createAccount(String value);
 
     @POST("/gsecure/auth/login_mpin.php")
-    Observable<LoginBaseResponse> loginPersonnel(@Body PINParams mpin);
+    Observable<LoginBaseResponse> loginPersonnel(
+            @Body PINParams mpin
+    );
 
     @POST("/security/mlogin.php")
     Observable<LoginBaseResponse> loginAdmin(
@@ -50,10 +54,12 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_personnel.php")
-    void addPersonne(String value);
+    Observable<BaseResponse> addPersonnel(
+            @Body PersonnelParam value
+    );
 
     @GET("/gsecure/personnel/add_position.php")
-    List<String> getPersonnels();
+    Observable<List<PersonnelModel>> getPersonnels();
 
     // endregion
 
@@ -69,7 +75,9 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_position.php")
-    void addPosition(String value);
+    void addPosition(
+            @Body String value
+    );
 
     @GET("/gsecure/personnel/get_position.php")
     List<String> getPositions();
@@ -88,7 +96,10 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/add_warehouse.php")
-    void addWarehouse(String warehouse);
+    void addWarehouse(
+            @Body String warehouse
+    );
+
     @GET("/gsecure/places/get_warehouse.php")
     List<String> getWarehouses();
 
@@ -106,7 +117,9 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/add_category.php")
-    void addCategory(String value);
+    void addCategory(
+            @Body String value
+    );
 
     @GET("/gsecure/places/get_category.php")
     List<String> getCategories();
@@ -125,7 +138,9 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/nfc_add_tag.php")
-    void addNFCTag(String value);
+    void addNFCTag(
+            @Body String value
+    );
 
     @GET("")
     List<String> getNFCTags();

@@ -42,6 +42,9 @@ import org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces;
 
 import java.io.IOException;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class PersonnelActivity extends AppCompatActivity {
     private static final String TAG = PersonnelActivity.class.getSimpleName();
 

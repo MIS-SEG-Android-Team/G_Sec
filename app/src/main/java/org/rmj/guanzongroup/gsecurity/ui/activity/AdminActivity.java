@@ -18,6 +18,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityAdminBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AdminActivity extends AppCompatActivity {
 
     @Override

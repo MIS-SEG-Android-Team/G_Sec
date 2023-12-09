@@ -65,6 +65,12 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"  />
 
+        <action
+            android:id="@+id/action_fragmentSettings_to_fragmentAddPersonnel"
+            app:destination="@id/fragmentAddPersonnel"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+
     </fragment>
 
     <fragment
@@ -78,5 +84,10 @@
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.warehouse.FragmentAddWarehouse"
         android:label="fragment_add_warehouse"
         tools:layout="@layout/fragment_add_warehouse" />
+    <fragment
+        android:id="@+id/fragmentAddPersonnel"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.addpersonnel.FragmentAddPersonnel"
+        android:label="fragment_add_personnel"
+        tools:layout="@layout/fragment_add_personnel" />
 
 </navigation>

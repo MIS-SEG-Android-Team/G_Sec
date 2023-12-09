@@ -1,15 +1,9 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.config.AppConfig;
+import org.rmj.guanzongroup.gsecurity.config.TokenDeviceID;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.BaseHeaderInterceptor;
-import org.rmj.guanzongroup.gsecurity.task.OnDoBackgroundTaskListener;
 import org.rmj.guanzongroup.gsecurity.task.OnLoadApplicationListener;
 import org.rmj.guanzongroup.gsecurity.task.TaskExecutor;
 
@@ -20,11 +14,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class VMSplashscreen extends ViewModel {
 
-    private AppConfig appConfig;
+    private TokenDeviceID appConfig;
     private BaseHeaderInterceptor baseHeaderInterceptor;
 
     @Inject
-    public VMSplashscreen(AppConfig appConfig, BaseHeaderInterceptor baseHeaderInterceptor) {
+    public VMSplashscreen(TokenDeviceID appConfig, BaseHeaderInterceptor baseHeaderInterceptor) {
         this.appConfig = appConfig;
         this.baseHeaderInterceptor = baseHeaderInterceptor;
     }

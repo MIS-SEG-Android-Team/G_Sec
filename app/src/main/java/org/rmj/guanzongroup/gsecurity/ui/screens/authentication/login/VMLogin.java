@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel;
 import org.rmj.guanzongroup.gsecurity.config.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
-import org.rmj.guanzongroup.gsecurity.data.repository.authentication.LoginRepository;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
+import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.AuthorizedInterceptor;
+import org.rmj.guanzongroup.gsecurity.data.repository.authentication.AuthenticationRepository;
 
 import java.util.Objects;
 
@@ -22,7 +24,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 @HiltViewModel
 public class VMLogin extends ViewModel {
 
-    private final LoginRepository repository;
+    private final AuthenticationRepository repository;
+    private final AuthorizedInterceptor authorizedInterceptor;
     private final DataStore dataStore;
 
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
@@ -41,10 +44,12 @@ public class VMLogin extends ViewModel {
 
     @Inject
     public VMLogin(
-            LoginRepository repository,
+            AuthenticationRepository repository,
+            AuthorizedInterceptor authorizedInterceptor,
             DataStore dataStore
     ) {
         this.repository = repository;
+        this.authorizedInterceptor = authorizedInterceptor;
         this.dataStore = dataStore;
 
     }
@@ -108,22 +113,12 @@ public class VMLogin extends ViewModel {
                                 return;
                             }
 
+                            // initialize the authorization keys after user login...
+                            initAuthorizationKeys(baseResponse);
+
                             // saving of user information to DataStore/SharePreferences...
-                            dataStore.setClientId(baseResponse.getsClientID());
-                            dataStore.setClientId(baseResponse.getsBranchCD());
-                            dataStore.setClientId(baseResponse.getsBranchNm());
-                            dataStore.setClientId(baseResponse.getsLogNoxxx());
-                            dataStore.setClientId(baseResponse.getsUserIDxx());
-                            dataStore.setClientId(baseResponse.getsEmailAdd());
-                            dataStore.setClientId(baseResponse.getsUserName());
-                            dataStore.setClientId(baseResponse.getnUserLevl());
-                            dataStore.setClientId(baseResponse.getsDeptIDxx());
-                            dataStore.setClientId(baseResponse.getsPositnID());
-                            dataStore.setClientId(baseResponse.getsEmpLevID());
-                            dataStore.setClientId(baseResponse.getsEmployID());
-                            dataStore.setClientId(baseResponse.getcMainOffc());
-                            dataStore.setClientId(baseResponse.getcSlfieLog());
-                            dataStore.setClientId(baseResponse.getcAllowUpd());
+                            initDataStore(baseResponse);
+
                             isLoading.setValue(false);
                             hasOfficerLogin.setValue(true);
                         },
@@ -163,22 +158,12 @@ public class VMLogin extends ViewModel {
                                 return;
                             }
 
+                            // initialize the authorization keys after user login...
+                            initAuthorizationKeys(baseResponse);
+
                             // saving of user information to DataStore/SharePreferences...
-                            dataStore.setClientId(baseResponse.getsClientID());
-                            dataStore.setClientId(baseResponse.getsBranchCD());
-                            dataStore.setClientId(baseResponse.getsBranchNm());
-                            dataStore.setClientId(baseResponse.getsLogNoxxx());
-                            dataStore.setClientId(baseResponse.getsUserIDxx());
-                            dataStore.setClientId(baseResponse.getsEmailAdd());
-                            dataStore.setClientId(baseResponse.getsUserName());
-                            dataStore.setClientId(baseResponse.getnUserLevl());
-                            dataStore.setClientId(baseResponse.getsDeptIDxx());
-                            dataStore.setClientId(baseResponse.getsPositnID());
-                            dataStore.setClientId(baseResponse.getsEmpLevID());
-                            dataStore.setClientId(baseResponse.getsEmployID());
-                            dataStore.setClientId(baseResponse.getcMainOffc());
-                            dataStore.setClientId(baseResponse.getcSlfieLog());
-                            dataStore.setClientId(baseResponse.getcAllowUpd());
+                            initDataStore(baseResponse);
+
                             isLoading.setValue(false);
                             adminHasLogin.setValue(true);
                         },
@@ -189,5 +174,28 @@ public class VMLogin extends ViewModel {
                             isLoading.setValue(false);
                         }
                 );
+    }
+
+    private void initDataStore(LoginBaseResponse baseResponse) {
+        dataStore.setClientId(baseResponse.getsClientID());
+        dataStore.setClientId(baseResponse.getsBranchCD());
+        dataStore.setClientId(baseResponse.getsBranchNm());
+        dataStore.setClientId(baseResponse.getsLogNoxxx());
+        dataStore.setClientId(baseResponse.getsUserIDxx());
+        dataStore.setClientId(baseResponse.getsEmailAdd());
+        dataStore.setClientId(baseResponse.getsUserName());
+        dataStore.setClientId(baseResponse.getnUserLevl());
+        dataStore.setClientId(baseResponse.getsDeptIDxx());
+        dataStore.setClientId(baseResponse.getsPositnID());
+        dataStore.setClientId(baseResponse.getsEmpLevID());
+        dataStore.setClientId(baseResponse.getsEmployID());
+        dataStore.setClientId(baseResponse.getcMainOffc());
+        dataStore.setClientId(baseResponse.getcSlfieLog());
+        dataStore.setClientId(baseResponse.getcAllowUpd());
+    }
+
+    private void initAuthorizationKeys(LoginBaseResponse baseResponse) {
+        authorizedInterceptor.setUserID(baseResponse.getsUserIDxx());
+        authorizedInterceptor.setLogNo(baseResponse.getsLogNoxxx());
     }
 }
