@@ -25,7 +25,7 @@ public interface ApiService {
      */
 
     @POST("/security/signup.php")
-    void createAccount(String value);
+    Observable<BaseResponse<Void>> createAccount(String value);
 
     @POST("/gsecure/auth/login_mpin.php")
     Observable<LoginBaseResponse> loginPersonnel(
@@ -54,12 +54,12 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_personnel.php")
-    Observable<BaseResponse> addPersonnel(
+    Observable<BaseResponse<Void>> addPersonnel(
             @Body PersonnelParam value
     );
 
     @GET("/gsecure/personnel/add_position.php")
-    Observable<List<PersonnelModel>> getPersonnels();
+    Observable<BaseResponse<List<PersonnelModel>>> getPersonnels();
 
     // endregion
 
@@ -75,7 +75,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_position.php")
-    void addPosition(
+    Observable<BaseResponse<Void>> addPosition(
             @Body String value
     );
 
@@ -96,7 +96,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/add_warehouse.php")
-    void addWarehouse(
+    Observable<BaseResponse<Void>> addWarehouse(
             @Body String warehouse
     );
 
@@ -117,7 +117,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/add_category.php")
-    void addCategory(
+    Observable<BaseResponse<Void>> addCategory(
             @Body String value
     );
 
@@ -138,7 +138,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/nfc_add_tag.php")
-    void addNFCTag(
+    Observable<BaseResponse<Void>> addNFCTag(
             @Body String value
     );
 

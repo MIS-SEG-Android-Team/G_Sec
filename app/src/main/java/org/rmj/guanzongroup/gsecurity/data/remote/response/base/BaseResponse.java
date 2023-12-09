@@ -1,36 +1,33 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.response.base;
 
-public class BaseResponse {
+public class BaseResponse<T> {
 
-    private String status;
-    private String message;
-    private String status_code;
+    // Receives the result from JSON...
+    private String result;
+
+    // If result = error, get the error to get the message...
+    private ErrorResponse error;
+
+    // Generic data type to handle response from API which consist of JSON with key 'data'
+    private T data;
 
     public BaseResponse() {
 
     }
 
-    public String getStatus() {
-        return status;
+    public String getResult() {
+        return result;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setResult(String result) {
+        this.result = result;
     }
 
-    public String getMessage() {
-        return message;
+    public ErrorResponse getError() {
+        return error;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getStatus_code() {
-        return status_code;
-    }
-
-    public void setStatus_code(String status_code) {
-        this.status_code = status_code;
+    public T getData() {
+        return data;
     }
 }

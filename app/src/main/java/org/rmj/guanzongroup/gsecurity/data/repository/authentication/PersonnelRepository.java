@@ -22,11 +22,11 @@ public class PersonnelRepository {
         this.apiService = apiService;
     }
 
-    public Observable<List<PersonnelModel>> getPersonnels() {
+    public Observable<BaseResponse<List<PersonnelModel>>> getPersonnels() {
         return apiService.getPersonnels();
     }
 
-    public Observable<BaseResponse> addPersonnel(PersonnelParam params) {
+    public Observable<BaseResponse<Void>> addPersonnel(PersonnelParam params) {
         return apiService.addPersonnel(params);
     }
 

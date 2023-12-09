@@ -107,6 +107,10 @@ public class VMAddPersonnel extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void addPersonnel() {
+
+        // Display loading dialog on UI...
+        isLoading.setValue(true);
+
         PersonnelParam param = new PersonnelParam();
         param.setsLastName(lastName.getValue());
         param.setsFrstName(frstName.getValue());
@@ -120,9 +124,24 @@ public class VMAddPersonnel extends ViewModel {
                 .subscribe(
                         baseResponse -> {
 
-                        },
-                        throwable -> {
+                            // API Response validation
+                            // Any API response with HTTP Error Code 200 is handled in this area...
+                            if (baseResponse.getResult().equalsIgnoreCase("error")) {
 
+                                isLoading.setValue(false);
+                                errorMessage.setValue(baseResponse.getError().getMessage());
+                                return;
+                            }
+
+                            isLoading.setValue(false);
+                            isPersonnelAdded.setValue(true);
+
+                        },
+
+                        // Exception handling...
+                        throwable -> {
+                            errorMessage.setValue(throwable.getMessage());
+                            isLoading.setValue(false);
                         }
                 );
     }

@@ -49,6 +49,8 @@ public class FragmentAddPersonnel extends Fragment {
         mViewModel.isLoading().observe(getViewLifecycleOwner(), isLoading -> {
             if (isLoading) {
                 dialogLoad.show("Saving new personnel info...");
+            } else {
+                dialogLoad.dismiss();
             }
         });
 
