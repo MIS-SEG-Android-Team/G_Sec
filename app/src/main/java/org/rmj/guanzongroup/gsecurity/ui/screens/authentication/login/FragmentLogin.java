@@ -1,32 +1,28 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.guanzongroup.gsecurity.R;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentLoginBinding;
-import org.rmj.guanzongroup.gsecurity.pojo.login.LoginCredentials;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AdminActivity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.PersonnelActivity;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
@@ -50,7 +46,7 @@ public class FragmentLogin extends Fragment {
 
     private DialogLoad dialogLoad;
 
-    private StringBuilder stringBuilder = new StringBuilder();
+    private final StringBuilder stringBuilder = new StringBuilder();
 
     private FragmentLoginBinding binding;
 
@@ -75,6 +71,16 @@ public class FragmentLogin extends Fragment {
                 } else {
                     binding.adminAuthentication.setVisibility(View.GONE);
                     binding.officerAuthentication.setVisibility(View.VISIBLE);
+
+                    // Dismiss android soft keyboard if its active...
+                    InputMethodManager inputMethodManager = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    if(inputMethodManager.isAcceptingText()) {
+
+                        inputMethodManager.hideSoftInputFromWindow(
+                                binding.getRoot().getWindowToken(), 0
+                        );
+                    }
                 }
             }
 
@@ -99,6 +105,8 @@ public class FragmentLogin extends Fragment {
             }
         });
 
+        // Observe the value of adminHasLoggedIn -> Boolean, upon changing its value from false to true,
+        // if true this means an officer has successfully login an account...
         mViewModel.hasOfficerLogin().observe(requireActivity(), officerHasLoggedIn -> {
             if(officerHasLoggedIn) {
                 Intent intent = new Intent(requireActivity(), PersonnelActivity.class);
@@ -107,6 +115,7 @@ public class FragmentLogin extends Fragment {
             }
         });
 
+        //
         mViewModel.isLoading().observe(getViewLifecycleOwner(), loading -> {
             if (loading) {
                 dialogLoad.show("Authenticating...");
@@ -120,6 +129,9 @@ public class FragmentLogin extends Fragment {
                 return;
             }
 
+            // Clear the PIN Edittext each time the user fails to authenticate...
+            stringBuilder.delete(0, stringBuilder.length());
+            binding.tiePIN.setText(stringBuilder.toString());
             dialogResult = new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage);
             dialogResult.showDialog();
         });
@@ -192,6 +204,8 @@ public class FragmentLogin extends Fragment {
             binding.tiePIN.setText(stringBuilder.toString());
         });
 
+        // This area of code will disable the back button to return on SplashScreen,
+        // and instead will prompt an confirmation message to exit the app.
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {

@@ -1,4 +1,6 @@
-package org.rmj.guanzongroup.gsecurity.data.remote.response.base;
+package org.rmj.guanzongroup.gsecurity.data.remote.response.base.login;
+
+import org.rmj.guanzongroup.gsecurity.data.remote.response.base.ErrorResponse;
 
 public class LoginBaseResponse {
 //    {"result":"error","error":{"code":40012,"message":"Invalid AUTH KEY detected"}}

@@ -92,11 +92,7 @@ public class VMLogin extends ViewModel {
         // Display loading dialog on UI...
         isLoading.setValue(true);
 
-        // TODO: Temporarily implementation of MPIN for testing, Remove later...
-        LoginParams params = new LoginParams();
-        params.setUsername("mikegarcia8748@gmail.com");
-        params.setPassword("123456");
-        repository.loginAdmin(params)
+        repository.loginPersonnel(mpin.getValue())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
