@@ -24,7 +24,7 @@ public class QrCodeScannerActivity extends AppCompatActivity implements ZXingSca
     private ActivityQrCodeScannerBinding binding;
 
     private final ActivityResultLauncher<String> intentCameraPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
-        if(result.booleanValue()) {
+        if(result) {
             binding.scanner.setResultHandler(this);
             binding.scanner.startCamera();
         }

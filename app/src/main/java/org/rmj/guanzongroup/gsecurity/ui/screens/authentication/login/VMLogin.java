@@ -178,20 +178,20 @@ public class VMLogin extends ViewModel {
 
     private void initDataStore(LoginBaseResponse baseResponse) {
         dataStore.setClientId(baseResponse.getsClientID());
-        dataStore.setClientId(baseResponse.getsBranchCD());
-        dataStore.setClientId(baseResponse.getsBranchNm());
-        dataStore.setClientId(baseResponse.getsLogNoxxx());
-        dataStore.setClientId(baseResponse.getsUserIDxx());
-        dataStore.setClientId(baseResponse.getsEmailAdd());
-        dataStore.setClientId(baseResponse.getsUserName());
-        dataStore.setClientId(baseResponse.getnUserLevl());
-        dataStore.setClientId(baseResponse.getsDeptIDxx());
-        dataStore.setClientId(baseResponse.getsPositnID());
-        dataStore.setClientId(baseResponse.getsEmpLevID());
-        dataStore.setClientId(baseResponse.getsEmployID());
-        dataStore.setClientId(baseResponse.getcMainOffc());
-        dataStore.setClientId(baseResponse.getcSlfieLog());
-        dataStore.setClientId(baseResponse.getcAllowUpd());
+        dataStore.setBranchCode(baseResponse.getsBranchCD());
+        dataStore.setBranchName(baseResponse.getsBranchNm());
+        dataStore.setLogNumber(baseResponse.getsLogNoxxx());
+        dataStore.setUserId(baseResponse.getsUserIDxx());
+        dataStore.setEmailAdd(baseResponse.getsEmailAdd());
+        dataStore.setUserName(baseResponse.getsUserName());
+        dataStore.setUserLevel(baseResponse.getnUserLevl());
+        dataStore.setDepartmentId(baseResponse.getsDeptIDxx());
+        dataStore.setPositionId(baseResponse.getsPositnID());
+        dataStore.setEmployeeLevel(baseResponse.getsEmpLevID());
+        dataStore.setEmployeeId(baseResponse.getsEmployID());
+        dataStore.setMainOffice(baseResponse.getcMainOffc());
+        dataStore.setSelfieLogAllowed(baseResponse.getcSlfieLog());
+        dataStore.setAllowedUpdate(baseResponse.getcAllowUpd());
     }
 
     private void initAuthorizationKeys(LoginBaseResponse baseResponse) {

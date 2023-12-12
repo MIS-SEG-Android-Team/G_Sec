@@ -5,18 +5,17 @@ import io.reactivex.rxjava3.core.Observable;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 
 import javax.inject.Inject;
 
 public class AuthenticationRepository {
 
-    private ApiService apiService;
+    private final ApiService apiService;
 
     @Inject
-    public AuthenticationRepository(
-            ApiService apiService
-    ) {
+    public AuthenticationRepository(ApiService apiService) {
         this.apiService = apiService;
     }
 
@@ -31,10 +30,11 @@ public class AuthenticationRepository {
         return apiService.loginAdmin(loginParams);
     }
 
-
     public Observable<LoginBaseResponse> loginPersonnel(PINParams mpin) {
         return apiService.loginPersonnel(mpin);
     }
 
-
+    public Observable<BaseResponse<Void>> logoutUser() {
+        return apiService.logout();
+    }
 }

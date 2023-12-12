@@ -90,7 +90,7 @@ dependencies {
     implementation 'androidx.sqlite:sqlite-ktx:2.4.0'
 
 //    Firebase Dependencies
-    implementation 'com.google.firebase:firebase-firestore:24.9.1'
+    implementation 'com.google.firebase:firebase-firestore:24.10.0'
     implementation 'com.google.firebase:firebase-auth:22.3.0'
 
 //    Qr-Code Scanner Library

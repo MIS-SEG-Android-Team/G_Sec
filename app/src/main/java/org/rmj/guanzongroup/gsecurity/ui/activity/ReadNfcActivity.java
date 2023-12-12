@@ -26,6 +26,7 @@ import org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces;
 import java.io.IOException;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import timber.log.Timber;
 
 @AndroidEntryPoint
 public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
@@ -46,7 +47,7 @@ public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.Rea
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         if(nfcAdapter == null){
-            Log.d(FragmentPlaces.class.getSimpleName(), "NFC is not supported on this device");
+            Timber.tag(FragmentPlaces.class.getSimpleName()).d("NFC is not supported on this device");
         }
 
         pendingIntent = PendingIntent.getActivity(

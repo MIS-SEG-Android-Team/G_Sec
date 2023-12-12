@@ -19,7 +19,6 @@ import android.nfc.TagLostException;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
-import android.util.Log;
 
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityWriteNfcBinding;
 import org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces;
@@ -27,6 +26,7 @@ import org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces;
 import java.io.IOException;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import timber.log.Timber;
 
 @AndroidEntryPoint
 public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
@@ -62,7 +62,7 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
 
         // Validate if device has NFC Tag
         if(nfcAdapter == null){
-            Log.d(FragmentPlaces.class.getSimpleName(), "NFC is not supported on this device");
+            Timber.tag(FragmentPlaces.class.getSimpleName()).d("NFC is not supported on this device");
         }
 
         // Initialization of actions upon tapping the NFC Tag on the device...
@@ -132,7 +132,7 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
         try {
             mNdef.connect();
             mNdef.writeNdefMessage(mMsg);
-            Log.d("WriteNfcActivity", "Nfc record has been written");
+            Timber.tag("WriteNfcActivity").d("Nfc record has been written");
 
             // Success if got to here
             runOnUiThread(() -> {
@@ -149,7 +149,7 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
                 Ringtone r = RingtoneManager.getRingtone(getApplicationContext(),
                         notification);
                 r.play();
-                Log.d("WriteNfcActivity", "Notification tone played.");
+                Timber.tag("WriteNfcActivity").d("Notification tone played.");
 
             } catch (Exception e) {
                 // Some error playing sound
@@ -177,7 +177,7 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
             // Disable I/O operations to the tag from this TagTechnology object, and release resources.
             try {
                 mNdef.close();
-                Log.d("WriteNfcActivity", "Ndef is closed.");
+                Timber.tag("WriteNfcActivity").d("Ndef is closed.");
             } catch (IOException e) {
                 // if there is an I/O failure, or the operation is cancelled
                 e.printStackTrace();
@@ -185,8 +185,8 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
         }
 
         finish();
-        Log.d("WriteNfcActivity", "Finish activity.");
+        Timber.tag("WriteNfcActivity").d("Finish activity.");
         setResult(RESULT_OK);
-        Log.d("WriteNfcActivity", "Writing nfc finished.");
+        Timber.tag("WriteNfcActivity").d("Writing nfc finished.");
     }
 }

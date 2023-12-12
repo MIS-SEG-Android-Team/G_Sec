@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
-import org.rmj.guanzongroup.gsecurity.data.repository.authentication.PersonnelRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.personel.PersonnelRepository;
 
 import java.util.Objects;
 

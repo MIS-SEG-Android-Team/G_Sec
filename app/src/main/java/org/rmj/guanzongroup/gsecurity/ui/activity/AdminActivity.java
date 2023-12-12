@@ -18,6 +18,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityAdminBinding;
 
+import java.util.Objects;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -29,17 +31,9 @@ public class AdminActivity extends AppCompatActivity {
 
         ActivityAdminBinding binding = ActivityAdminBinding.inflate(getLayoutInflater());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         setContentView(binding.getRoot());
 
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.fragmentPersonnelList,
-//                R.id.fragmentRecentActivities,
-//                R.id.fragmentVisitArea,
-//                R.id.fragmentNotifications,
-//                R.id.fragmentSettings,
-//                R.id.fragmentAddPlace)
-//                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_admin);
         BottomNavigationView navView = binding.bottomNavBar;
 

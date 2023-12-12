@@ -28,17 +28,13 @@ public interface ApiService {
     Observable<BaseResponse<Void>> createAccount(String value);
 
     @POST("/gsecure/auth/login_mpin.php")
-    Observable<LoginBaseResponse> loginPersonnel(
-            @Body PINParams mpin
-    );
+    Observable<LoginBaseResponse> loginPersonnel(@Body PINParams mpin);
 
     @POST("/security/mlogin.php")
-    Observable<LoginBaseResponse> loginAdmin(
-            @Body LoginParams params
-    );
+    Observable<LoginBaseResponse> loginAdmin(@Body LoginParams params);
 
     @POST("/gsecure/auth/logout.php")
-    Observable<LoginBaseResponse> logout();
+    Observable<BaseResponse<Void>> logout();
 
     // endregion
 
@@ -54,9 +50,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_personnel.php")
-    Observable<BaseResponse<Void>> addPersonnel(
-            @Body PersonnelParam value
-    );
+    Observable<BaseResponse<Void>> addPersonnel(@Body PersonnelParam value);
 
     @GET("/gsecure/personnel/add_position.php")
     Observable<BaseResponse<List<PersonnelModel>>> getPersonnels();
@@ -75,9 +69,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_position.php")
-    Observable<BaseResponse<Void>> addPosition(
-            @Body String value
-    );
+    Observable<BaseResponse<Void>> addPosition(@Body String value);
 
     @GET("/gsecure/personnel/get_position.php")
     List<String> getPositions();
@@ -96,9 +88,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/add_warehouse.php")
-    Observable<BaseResponse<Void>> addWarehouse(
-            @Body String warehouse
-    );
+    Observable<BaseResponse<Void>> addWarehouse(@Body String warehouse);
 
     @GET("/gsecure/places/get_warehouse.php")
     List<String> getWarehouses();
@@ -117,9 +107,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/add_category.php")
-    Observable<BaseResponse<Void>> addCategory(
-            @Body String value
-    );
+    Observable<BaseResponse<Void>> addCategory(@Body String value);
 
     @GET("/gsecure/places/get_category.php")
     List<String> getCategories();
@@ -138,9 +126,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/nfc_add_tag.php")
-    Observable<BaseResponse<Void>> addNFCTag(
-            @Body String value
-    );
+    Observable<BaseResponse<Void>> addNFCTag(@Body String value);
 
     @GET("")
     List<String> getNFCTags();
