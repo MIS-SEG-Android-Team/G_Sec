@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.data.repository.authentication;
 
 import io.reactivex.rxjava3.core.Observable;
 
+import org.rmj.guanzongroup.gsecurity.config.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
@@ -13,10 +14,15 @@ import javax.inject.Inject;
 public class AuthenticationRepository {
 
     private final ApiService apiService;
+    private final DataStore dataStore;
 
     @Inject
-    public AuthenticationRepository(ApiService apiService) {
+    public AuthenticationRepository(
+            ApiService apiService,
+            DataStore dataStore
+    ) {
         this.apiService = apiService;
+        this.dataStore = dataStore;
     }
 
     /**
@@ -36,5 +42,9 @@ public class AuthenticationRepository {
 
     public Observable<BaseResponse<Void>> logoutUser() {
         return apiService.logout();
+    }
+
+    public Boolean hasUserSession() {
+        return !dataStore.getLogNumber().isEmpty();
     }
 }

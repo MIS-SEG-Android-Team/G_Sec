@@ -54,10 +54,15 @@ public class FragmentAddPersonnel extends Fragment {
             }
         });
 
-//        mViewModel.hasCompleteInfo().observe(getViewLifecycleOwner(), hasCompleteInfo -> binding.savePersonnelButton.setEnabled(hasCompleteInfo));
+        mViewModel.hasCompleteInfo().observe(getViewLifecycleOwner(), hasCompleteInfo -> binding.savePersonnelButton.setEnabled(hasCompleteInfo));
 
         mViewModel.isPersonnelAdded().observe(getViewLifecycleOwner(), isPersonnelAdded -> {
             if (isPersonnelAdded) {
+                binding.tieLastName.setText("");
+                binding.tieFirstName.setText("");
+                binding.tieMiddleName.setText("");
+                binding.tiePosition.setText("");
+                binding.tieDescription.setText("");
                 dialogResult = new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.");
                 dialogResult.showDialog();
             }

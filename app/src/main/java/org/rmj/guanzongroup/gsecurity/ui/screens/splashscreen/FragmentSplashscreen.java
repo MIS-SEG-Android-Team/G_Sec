@@ -29,6 +29,8 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class FragmentSplashscreen extends Fragment {
 
     @Inject
@@ -55,8 +57,6 @@ public class FragmentSplashscreen extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-
         mViewModel.setDeviceID(
                 Settings.Secure.getString(requireActivity().getContentResolver(),
                         Settings.Secure.ANDROID_ID)
@@ -67,17 +67,17 @@ public class FragmentSplashscreen extends Fragment {
         mViewModel.startApp(new OnLoadApplicationCallback() {
             @Override
             public void onProgress(int progress) {
-                Log.d("Splashscreen", "Loading application..." + progress);
+                Timber.tag("Splashscreen").d("Loading application...%s", progress);
             }
 
             @Override
             public void onFinished(String args) {
-//                if(currentUser == null) {
+                if(mViewModel.hasUserSession()) {
                     navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
-//                } else {
-//                    startActivity(new Intent(requireActivity(), PersonnelActivity.class));
-//                    requireActivity().finish();
-//                }
+                } else {
+                    startActivity(new Intent(requireActivity(), PersonnelActivity.class));
+                    requireActivity().finish();
+                }
             }
 
             @Override
