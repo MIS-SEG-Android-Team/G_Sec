@@ -5,25 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.nfc.FormatException;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityReadNfcBinding;
-import org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces;
-
-import java.io.IOException;
+import org.rmj.guanzongroup.gsecurity.ui.screens.settings.places.FragmentPlaces;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import timber.log.Timber;

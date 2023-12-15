@@ -15,11 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentNotificationsBinding;
 import org.rmj.guanzongroup.gsecurity.pojo.notification.Notification;
-import org.rmj.guanzongroup.gsecurity.ui.components.adapter.AdapterNotification;
-import org.rmj.guanzongroup.gsecurity.ui.components.adapter.NotificationClickListener;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.notification.AdapterNotification;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.notification.NotificationClickListener;
 
 import java.util.List;
 

@@ -1,13 +1,9 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen;
 
 import androidx.lifecycle.ViewModel;
-
-import org.rmj.guanzongroup.gsecurity.config.DataStore;
 import org.rmj.guanzongroup.gsecurity.config.TokenDeviceID;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.BaseHeaderInterceptor;
 import org.rmj.guanzongroup.gsecurity.data.repository.authentication.AuthenticationRepository;
-import org.rmj.guanzongroup.gsecurity.task.OnLoadApplicationListener;
-import org.rmj.guanzongroup.gsecurity.task.TaskExecutor;
 
 import javax.inject.Inject;
 
@@ -45,38 +41,5 @@ public class VMSplashscreen extends ViewModel {
         return authenticationRepository.hasUserSession();
     }
 
-    public void startApp(OnLoadApplicationCallback callback){
-        TaskExecutor loTask = new TaskExecutor();
-        loTask.setOnLoadApplicationListener(new OnLoadApplicationListener() {
-            @Override
-            public Object DoInBackground() {
-                for (int x = 0; x < 2; x++){
-                    loTask.publishProgress(x);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                return true;
-            }
 
-            @Override
-            public void OnProgress(int progress) {
-                callback.onProgress(progress);
-            }
-
-            @Override
-            public void OnPostExecute(Object object) {
-                boolean success = (boolean) object;
-                if(!success){
-                    callback.onFailed("Loading application failed...");
-                    return;
-                }
-
-                callback.onFinished("Starting application...");
-            }
-        });
-        loTask.Execute();
-    }
 }

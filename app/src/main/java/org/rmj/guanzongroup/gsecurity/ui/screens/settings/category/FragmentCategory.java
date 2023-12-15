@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.category;
+package org.rmj.guanzongroup.gsecurity.ui.screens.settings.category;
 
 import androidx.lifecycle.ViewModelProvider;
 

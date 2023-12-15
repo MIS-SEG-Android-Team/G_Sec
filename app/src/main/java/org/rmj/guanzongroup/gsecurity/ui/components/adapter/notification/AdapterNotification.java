@@ -1,10 +1,9 @@
-package org.rmj.guanzongroup.gsecurity.ui.components.adapter;
+package org.rmj.guanzongroup.gsecurity.ui.components.adapter.notification;
 
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.NOTIFICATION_ALARM;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.NOTIFICATION_VISIT;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;

@@ -88,7 +88,7 @@ public class FragmentAddPersonnel extends Fragment {
 
     private class TextChangeCallback implements TextWatcher {
 
-        private View view;
+        private final View view;
 
         public TextChangeCallback(View view) {
             this.view = view;

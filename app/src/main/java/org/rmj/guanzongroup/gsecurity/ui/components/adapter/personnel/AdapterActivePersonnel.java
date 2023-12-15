@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.components.adapter;
+package org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

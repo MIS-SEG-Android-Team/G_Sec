@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
 import static org.rmj.guanzongroup.gsecurity.data.file.ImageFileCreator.CreateImageUri;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,16 +23,23 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPatrolRouteBinding;
+import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.QrCodeScannerActivity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.ReadNfcActivity;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.AdapterPatrolRoute;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogTagOption;
 
+import javax.inject.Inject;
+
 public class FragmentPatrolRoute extends Fragment {
 
-    private VMItineraries mViewModel;
+    @Inject
+    VMItineraries mViewModel;
 
+    private DialogLoad dialogLoad;
     private FragmentPatrolRouteBinding binding;
 
     private String visitedPlace;
@@ -86,9 +94,9 @@ public class FragmentPatrolRoute extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMItineraries.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMItineraries.class);
         binding = FragmentPatrolRouteBinding.inflate(getLayoutInflater());
-
+        dialogLoad = new DialogLoad(requireActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(VERTICAL);
 
@@ -136,6 +144,48 @@ public class FragmentPatrolRoute extends Fragment {
             }).show();
         });
 
+        setupObservables();
+
+        binding.logoutButton.setOnClickListener(view -> {
+            DialogMessage dialogMessage = new DialogMessage(requireActivity());
+            dialogMessage.initDialog("Logout", "Logout account?");
+            dialogMessage.setNegativeButton("NO", Dialog::dismiss);
+            dialogMessage.setPositiveButton("Yes", dialog -> {
+                dialog.dismiss();
+                mViewModel.logoutUser();
+            });
+            dialogMessage.show();
+        });
+
         return binding.getRoot();
+    }
+
+    private void setupObservables() {
+        // region Observables
+        mViewModel.isLoggingOut().observe(getViewLifecycleOwner(), isLoggingOut -> {
+            if (isLoggingOut) {
+                dialogLoad.show("Signing out...");
+            } else {
+                dialogLoad.dismiss();
+            }
+        });
+        mViewModel.hasLogout().observe(getViewLifecycleOwner(), hasLogOut -> {
+            if (hasLogOut) {
+                requireActivity().finish();
+                requireActivity().startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+            }
+        });
+        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
+            if (errorMessage == null) {
+                return;
+            }
+
+
+            if (errorMessage.isEmpty()) {
+                return;
+            }
+
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage).showDialog();
+        });
     }
 }

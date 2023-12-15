@@ -21,7 +21,7 @@ import android.nfc.tech.NfcF;
 import android.os.Bundle;
 
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityWriteNfcBinding;
-import org.rmj.guanzongroup.gsecurity.ui.screens.places.FragmentPlaces;
+import org.rmj.guanzongroup.gsecurity.ui.screens.settings.places.FragmentPlaces;
 
 import java.io.IOException;
 

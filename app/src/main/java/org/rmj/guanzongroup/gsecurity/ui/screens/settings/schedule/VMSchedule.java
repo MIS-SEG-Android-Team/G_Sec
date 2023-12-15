@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.schedule;
+package org.rmj.guanzongroup.gsecurity.ui.screens.settings.schedule;
 
 import android.app.Application;
 

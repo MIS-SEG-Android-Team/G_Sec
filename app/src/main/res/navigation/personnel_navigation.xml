@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/fragmentSettings"
-        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.FragmentSettings"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.admin.FragmentAdminSettings"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_admin_settings" />
 
 
 </navigation>

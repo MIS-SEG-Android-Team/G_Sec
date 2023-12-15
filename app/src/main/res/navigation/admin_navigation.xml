@@ -49,9 +49,9 @@
 
     <fragment
         android:id="@+id/fragmentSettings"
-        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.FragmentSettings"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.admin.FragmentAdminSettings"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings">
+        tools:layout="@layout/fragment_admin_settings">
 
         <action
             android:id="@+id/action_fragmentSettings_to_fragmentAddPlace"
@@ -75,7 +75,7 @@
 
     <fragment
         android:id="@+id/fragmentAddPlace"
-        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.nfc.FragmentAddPlace"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.nfc.FragmentAddPlace"
         android:label="fragment_add_place"
         tools:layout="@layout/fragment_add_place" />
 

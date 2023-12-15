@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.schedule;
+package org.rmj.guanzongroup.gsecurity.ui.screens.settings.position;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,26 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
-import org.rmj.guanzongroup.gsecurity.databinding.FragmentScheduleBinding;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentPositionBinding;
 
-public class FragmentSchedule extends Fragment {
+import javax.inject.Inject;
 
-    private VMSchedule mViewModel;
+public class FragmentPosition extends Fragment {
 
-    private FragmentScheduleBinding binding;
+    @Inject
+    VMPosition mViewModel;
 
-    public static FragmentSchedule newInstance() {
-        return new FragmentSchedule();
+    private FragmentPositionBinding binding;
+
+    public static FragmentPosition newInstance() {
+        return new FragmentPosition();
     }
-
-    
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMSchedule.class);
-        binding = FragmentScheduleBinding.inflate(getLayoutInflater());
-
+        mViewModel = new ViewModelProvider(this).get(VMPosition.class);
+        binding = FragmentPositionBinding.inflate(getLayoutInflater());
 
         return binding.getRoot();
     }

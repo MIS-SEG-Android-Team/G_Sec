@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.nfc;
+package org.rmj.guanzongroup.gsecurity.ui.screens.settings.nfc;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;

@@ -5,9 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.nfc.FragmentAddPlace"
-    android:paddingTop="?attr/actionBarSize"
-    android:paddingHorizontal="@dimen/horizontal_padding_default">
+    tools:context=".ui.screens.settings.nfc.FragmentAddPlace"
+    android:padding="@dimen/horizontal_padding_default">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"

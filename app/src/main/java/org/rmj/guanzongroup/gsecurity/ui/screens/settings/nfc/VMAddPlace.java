@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.nfc;
+package org.rmj.guanzongroup.gsecurity.ui.screens.settings.nfc;
 
 import androidx.lifecycle.ViewModel;
 

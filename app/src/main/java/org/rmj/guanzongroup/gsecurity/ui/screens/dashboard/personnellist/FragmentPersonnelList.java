@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPersonnelListBinding;
-import org.rmj.guanzongroup.gsecurity.ui.components.adapter.AdapterActivePersonnel;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel.AdapterActivePersonnel;
 
 import java.util.Objects;
 

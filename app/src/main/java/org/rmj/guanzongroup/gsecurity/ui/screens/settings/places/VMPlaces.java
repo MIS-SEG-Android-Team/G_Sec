@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.places;
+package org.rmj.guanzongroup.gsecurity.ui.screens.settings.places;
 
 import androidx.lifecycle.ViewModel;
 
