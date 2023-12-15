@@ -81,7 +81,7 @@
 
     <fragment
         android:id="@+id/fragmentAddWarehouse"
-        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.warehouse.FragmentAddWarehouse"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.warehouse.FragmentAddWarehouse"
         android:label="fragment_add_warehouse"
         tools:layout="@layout/fragment_add_warehouse" />
     <fragment

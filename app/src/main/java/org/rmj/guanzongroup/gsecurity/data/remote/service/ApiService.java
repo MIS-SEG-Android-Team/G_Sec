@@ -1,11 +1,19 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.service;
 
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddCategoryParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.CategoryModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.personnel.PersonnelModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.BranchModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.WarehouseModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 
 import java.util.List;
 
@@ -88,10 +96,19 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/add_warehouse.php")
-    Observable<BaseResponse<Void>> addWarehouse(@Body String warehouse);
+    Observable<BaseResponse<Void>> addWarehouse(@Body AddWarehouseParams params);
 
     @GET("/gsecure/places/get_warehouse.php")
-    List<String> getWarehouses();
+    Observable<BaseResponse<List<WarehouseModel>>> getWarehouses();
+
+    @GET("/gsecure/places/get_warehouse.php")
+    Observable<BaseResponse<List<WarehouseModel>>> getUpdatedWarehouses(@Body GetWarehouseParams params);
+
+    @GET("/integsys/param/download_branch.php")
+    Observable<BaseResponse<List<BranchModel>>> getBranches();
+
+    @GET("/integsys/param/download_branch.php")
+    Observable<BaseResponse<List<BranchModel>>> getUpdatedBranches(@Body GetBranchParams params);
 
     // endregion
 
@@ -107,10 +124,13 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/add_category.php")
-    Observable<BaseResponse<Void>> addCategory(@Body String value);
+    Observable<BaseResponse<Void>> addCategory(@Body AddCategoryParams params);
 
     @GET("/gsecure/places/get_category.php")
-    List<String> getCategories();
+    Observable<BaseResponse<List<CategoryModel>>> getCategories();
+
+    @GET("/gsecure/places/get_category.php")
+    Observable<BaseResponse<List<CategoryModel>>> getUpdateCategories(@Body GetCategoryParams params);
 
     // endregion
 

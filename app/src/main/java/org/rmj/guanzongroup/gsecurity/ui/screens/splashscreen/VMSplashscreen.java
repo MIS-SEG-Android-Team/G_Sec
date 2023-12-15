@@ -41,5 +41,7 @@ public class VMSplashscreen extends ViewModel {
         return authenticationRepository.hasUserSession();
     }
 
+    public void initializeData() {
 
+    }
 }

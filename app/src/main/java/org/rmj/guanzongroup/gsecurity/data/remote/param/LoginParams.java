@@ -1,5 +1,11 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.param;
 
+//
+//  Parameter structure upon ApiService...
+//  {
+//    "user": "sampleEmail.domaim.com",
+//    "pswd": "password"
+//  }
 public class LoginParams {
 
 
@@ -9,13 +15,6 @@ public class LoginParams {
     // User password must be the input for this area variable
     private String pswd;
 
-    /**
-     * Parameter structure upon ApiService...
-     * {
-     *   "user": "sampleEmail.domaim.com",
-     *   "pswd": "password"
-     * }
-     */
     public LoginParams() {
     }
 

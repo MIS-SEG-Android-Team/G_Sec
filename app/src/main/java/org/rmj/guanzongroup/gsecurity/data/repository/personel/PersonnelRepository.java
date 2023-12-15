@@ -2,7 +2,7 @@ package org.rmj.guanzongroup.gsecurity.data.repository.personel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.personnel.PersonnelModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 
 import java.util.List;

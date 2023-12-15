@@ -15,9 +15,12 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentCategoryBinding;
 
+import javax.inject.Inject;
+
 public class FragmentCategory extends Fragment {
 
-    private VMCategory mViewModel;
+    @Inject
+    VMCategory mViewModel;
 
     private FragmentCategoryBinding binding;
 
@@ -28,8 +31,9 @@ public class FragmentCategory extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMCategory.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMCategory.class);
+        binding = FragmentCategoryBinding.inflate(getLayoutInflater());
 
-        return inflater.inflate(R.layout.fragment_category, container, false);
+        return binding.getRoot();
     }
 }

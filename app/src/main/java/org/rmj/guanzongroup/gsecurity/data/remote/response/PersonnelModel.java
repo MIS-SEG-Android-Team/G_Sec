@@ -1,5 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.data.remote.response.personnel;
-import java.util.List;
+package org.rmj.guanzongroup.gsecurity.data.remote.response;
 
 public class PersonnelModel {
     private String sFrstName;

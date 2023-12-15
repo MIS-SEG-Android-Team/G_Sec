@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.warehouse;
+package org.rmj.guanzongroup.gsecurity.ui.screens.settings.warehouse;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentAddWarehouseBinding;
 
 public class FragmentAddWarehouse extends Fragment {

@@ -157,18 +157,19 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/savePersonnelButton"
-                style="@style/MaterialButtonAccent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/view_padding_4"
-                android:layout_marginTop="@dimen/view_padding_36"
-                android:text="@string/button_save"/>
-
         </LinearLayout>
 
     </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/savePersonnelButton"
+        style="@style/MaterialButtonAccent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/view_padding_4"
+        android:text="@string/button_save"
+        app:layout_constraintBottom_toTopOf="@+id/labelSplashScreenFooter"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!--        This area contains the footer of the UI-->
     <com.google.android.material.textview.MaterialTextView
