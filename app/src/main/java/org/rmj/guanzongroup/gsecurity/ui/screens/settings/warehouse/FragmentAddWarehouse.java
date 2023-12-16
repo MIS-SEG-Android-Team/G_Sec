@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentAddWarehouseBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.branch.AdapterBranch;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import javax.inject.Inject;
 
@@ -34,6 +37,40 @@ public class FragmentAddWarehouse extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAddWarehouse.class);
         binding = FragmentAddWarehouseBinding.inflate(getLayoutInflater());
+        DialogLoad dialogLoad = new DialogLoad(requireActivity());
+        DialogMessage dialogMessage = new DialogMessage(requireActivity());
+
+        // Observables
+        mViewModel.savingWarehouse().observe(getViewLifecycleOwner(), isSavingWarehouse -> {
+            if(isSavingWarehouse) {
+                dialogLoad.show("Adding new warehouse info...");
+            } else {
+                dialogLoad.dismiss();
+            }
+        });
+
+        mViewModel.successfullySave().observe(getViewLifecycleOwner(), successfullySave -> {
+            if(successfullySave) {
+                dialogMessage.initDialog("Warehouse", "Warehouse added! Would you like to add another?");
+                dialogMessage.setPositiveButton("Yes", dialog -> {
+                    binding.tieSearchBranch.setText("");
+                    binding.tieWarehouseName.setText("");
+                    binding.tieBranchName.setText("");
+                });
+                dialogMessage.setNegativeButton("No", dialog -> { });
+                dialogMessage.show();
+            }
+        });
+
+        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
+            if(errorMessage == null) {
+                return;
+            }
+            if(errorMessage.isEmpty()) {
+                return;
+            }
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage).showDialog();
+        });
 
         mViewModel.getBranchList().observe(getViewLifecycleOwner(), branchList -> {
 
@@ -77,6 +114,7 @@ public class FragmentAddWarehouse extends Fragment {
         });
 
         mViewModel.getbranchName().observe(getViewLifecycleOwner(), branchName -> binding.tieBranchName.setText(branchName));
+        mViewModel.hasCompleteInfo().observe(getViewLifecycleOwner(), hasCompleteInfo -> binding.saveButton.setEnabled(hasCompleteInfo));
 
         binding.tieWarehouseName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,7 +135,7 @@ public class FragmentAddWarehouse extends Fragment {
             }
         });
 
-        mViewModel.hasCompleteInfo().observe(getViewLifecycleOwner(), hasCompleteInfo -> binding.saveButton.setEnabled(hasCompleteInfo));
+        binding.saveButton.setOnClickListener(view -> mViewModel.saveWarehouse());
 
         return binding.getRoot();
     }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.BranchRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.WarehouseRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchDao;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 
@@ -24,15 +25,24 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class VMAddWarehouse extends ViewModel {
 
     private final BranchRepository branchRepository;
+    private final WarehouseRepository warehouseRepository;
 
     private final MutableLiveData<Boolean> hasCompleteInfo = new MutableLiveData<>(false);
     private final MutableLiveData<String> branchName = new MutableLiveData<>("");
     private final MutableLiveData<String> branchCode = new MutableLiveData<>("");
     private final MutableLiveData<String> warehouseName = new MutableLiveData<>("");
 
+    private final MutableLiveData<Boolean> savingWarehouse = new MutableLiveData<>(false);
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
+    private final MutableLiveData<Boolean> successfullySave = new MutableLiveData<>(false);
+
     @Inject
-    public VMAddWarehouse(BranchRepository branchRepository) {
+    public VMAddWarehouse(
+            BranchRepository branchRepository,
+            WarehouseRepository warehouseRepository
+    ) {
         this.branchRepository = branchRepository;
+        this.warehouseRepository = warehouseRepository;
         initializeBranches();
     }
 
@@ -48,13 +58,25 @@ public class VMAddWarehouse extends ViewModel {
     }
     public void setBranchCode(String value) {
         branchCode.setValue(value);
+        hasCompleteInfo.setValue(!value.trim().isEmpty() && !warehouseName.getValue().trim().isEmpty());
     }
     public void setWarehouseName(String value) {
         warehouseName.setValue(value);
+        hasCompleteInfo.setValue(!value.trim().isEmpty() && !branchCode.getValue().trim().isEmpty());
     }
 
     public LiveData<List<BranchDao.BranchNameCode>> getBranchList() {
         return branchRepository.getBranchListForSelection();
+    }
+
+    public LiveData<Boolean> savingWarehouse() {
+        return savingWarehouse;
+    }
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
+    public LiveData<Boolean> successfullySave() {
+        return successfullySave;
     }
 
     @SuppressLint("CheckResult")
@@ -73,18 +95,36 @@ public class VMAddWarehouse extends ViewModel {
                         baseResponse -> {
                             List<BranchEntity> branchList = baseResponse.getDetail();
                             branchRepository.saveBranchList(branchList);
-                        },
-                        throwable -> {
-
                         }
                 );
     }
 
+    @SuppressLint("CheckResult")
     public void saveWarehouse() {
+        savingWarehouse.setValue(true);
         AddWarehouseParams params = new AddWarehouseParams();
         params.setSBranchCd(branchCode.getValue());
         params.setCRecdStat("1");
         params.setSWHouseNm(warehouseName.getValue());
 
+        warehouseRepository.addWarehouse(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        baseResponse -> {
+
+                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
+                                savingWarehouse.setValue(false);
+                                errorMessage.setValue(baseResponse.getError().getMessage());
+                                return;
+                            }
+
+                            successfullySave.setValue(true);
+                        },
+                        throwable -> {
+                            savingWarehouse.setValue(false);
+                            errorMessage.setValue(throwable.getMessage());
+                        }
+                );
     }
 }

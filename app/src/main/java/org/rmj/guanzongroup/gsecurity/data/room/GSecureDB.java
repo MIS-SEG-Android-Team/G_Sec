@@ -7,6 +7,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchDao;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.dao.DAppUserMaster;
 import org.rmj.guanzongroup.gsecurity.data.room.entities.EAppUserMaster;
+import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseDao;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
 @Database(
@@ -26,7 +27,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
         exportSchema = false)
 public abstract class GSecureDB extends RoomDatabase {
 
-    public abstract DAppUserMaster dAppUserMaster();
     public abstract BranchDao branchDao();
+    public abstract WarehouseDao warehouseDao();
 
 }
