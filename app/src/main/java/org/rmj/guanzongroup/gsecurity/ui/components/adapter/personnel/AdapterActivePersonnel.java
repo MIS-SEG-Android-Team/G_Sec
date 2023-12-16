@@ -40,7 +40,7 @@ public class AdapterActivePersonnel extends RecyclerView.Adapter<AdapterActivePe
         holder.binding.personnelAssignedDuty.setText(personnel.getWareHouseDuty());
         holder.binding.personnelLastVisit.setText(personnel.getLastVisited());
 
-        holder.binding.getRoot().setOnClickListener(view -> listener.onClick(personnel.getPersonnelID()));
+        holder.binding.getRoot().setOnClickListener(view -> listener.onClickPersonnel(personnel.getPersonnelID()));
     }
 
     @Override

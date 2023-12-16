@@ -11,13 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentAddWarehouseBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.branch.AdapterBranch;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -37,6 +42,8 @@ public class FragmentAddWarehouse extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAddWarehouse.class);
         binding = FragmentAddWarehouseBinding.inflate(getLayoutInflater());
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
+        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         DialogLoad dialogLoad = new DialogLoad(requireActivity());
         DialogMessage dialogMessage = new DialogMessage(requireActivity());
 
@@ -57,7 +64,9 @@ public class FragmentAddWarehouse extends Fragment {
                     binding.tieWarehouseName.setText("");
                     binding.tieBranchName.setText("");
                 });
-                dialogMessage.setNegativeButton("No", dialog -> { });
+                dialogMessage.setNegativeButton("No", dialog -> {
+                    navController.popBackStack();
+                });
                 dialogMessage.show();
             }
         });

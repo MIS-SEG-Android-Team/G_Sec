@@ -18,10 +18,10 @@ public class WarehouseEntity {
     protected String sBranchNm;
     @ColumnInfo(name = "sBranchCd")
     protected String sBranchCd;
-    @ColumnInfo(name = "dTimeStmp")
-    protected String dTimeStmp;
     @ColumnInfo(name = "cRecdStat")
     protected String cRecdStat;
+    @ColumnInfo(name = "dTimeStmp")
+    protected String dTimeStmp;
 
     public WarehouseEntity() {
     }

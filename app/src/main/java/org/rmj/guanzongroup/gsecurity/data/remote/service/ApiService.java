@@ -2,9 +2,11 @@ package org.rmj.guanzongroup.gsecurity.data.remote.service;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
@@ -17,6 +19,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginB
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.branch.BranchResponse;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
 
 import java.util.List;
 
@@ -80,10 +83,10 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_position.php")
-    Observable<BaseResponse<Void>> addPosition(@Body String value);
+    Observable<BaseResponse<Void>> addPosition(@Body AddPositionParams value);
 
     @GET("/gsecure/personnel/get_position.php")
-    List<String> getPositions();
+    Observable<BaseResponse<List<PositionEntity>>> getPositions(@Body GetPositionParams params);
 
     // endregion
 
@@ -104,7 +107,7 @@ public interface ApiService {
     @GET("/gsecure/places/get_warehouse.php")
     Observable<BaseResponse<List<WarehouseModel>>> getWarehouses();
 
-    @GET("/gsecure/places/get_warehouse.php")
+    @POST("/gsecure/places/get_warehouse.php")
     Observable<BaseResponse<List<WarehouseModel>>> getUpdatedWarehouses(@Body GetWarehouseParams params);
 
     @POST("/integsys/param/download_branch.php")

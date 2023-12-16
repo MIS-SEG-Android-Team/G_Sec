@@ -112,9 +112,9 @@ public class VMAddWarehouse extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         baseResponse -> {
-
+                            savingWarehouse.setValue(false);
                             if(baseResponse.getResult().equalsIgnoreCase("error")) {
-                                savingWarehouse.setValue(false);
+
                                 errorMessage.setValue(baseResponse.getError().getMessage());
                                 return;
                             }

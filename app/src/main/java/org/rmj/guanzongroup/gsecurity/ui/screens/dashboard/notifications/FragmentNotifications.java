@@ -52,7 +52,7 @@ public class FragmentNotifications extends Fragment {
 
                 binding.notificationList.setAdapter(new AdapterNotification(notifications, new AdapterNotificationCallback() {
                     @Override
-                    public void onclick(Notification notification) {
+                    public void onclickNotification(Notification notification) {
 
                     }
                 }));

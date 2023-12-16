@@ -45,8 +45,10 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/view_padding_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,9 +57,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:layout_marginHorizontal="@dimen/view_padding_16">
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilLastName"
@@ -74,7 +75,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName"
                     android:maxLength="20"
-                    android:nextFocusForward="@id/tiePassword" />
+                    android:nextFocusForward="@id/tieFirstName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,7 +94,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName"
                     android:maxLength="20"
-                    android:nextFocusForward="@id/tiePassword" />
+                    android:nextFocusForward="@id/tieMiddleName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,30 +113,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName"
                     android:maxLength="20"
-                    android:nextFocusForward="@id/tiePassword" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilPosition"
-                style="@style/CustomDropDownTilStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/label_position"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilWarehouseName">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/tiePosition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/DropdownStyleTheme"
-                    android:fontFamily="@font/roboto"
-                    android:imeOptions="actionDone"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="50"
-                    android:nextFocusForward="@id/tiePassword" />
+                    android:nextFocusForward="@id/tieDescription" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,8 +130,31 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:imeOptions="actionDone"
-                    android:inputType="textPassword"
+                    android:inputType="textLongMessage"
                     android:maxLength="50" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPosition"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_position"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilWarehouseName">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/tiePosition"
+                    style="@style/DropdownStyleTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:imeOptions="actionDone"
+                    android:inputType="textAutoComplete"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/tiePassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -164,12 +165,13 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/savePersonnelButton"
         style="@style/MaterialButtonAccent"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/view_padding_4"
         android:text="@string/button_save"
         app:layout_constraintBottom_toTopOf="@+id/labelSplashScreenFooter"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+        app:layout_constraintStart_toStartOf="@+id/scrollView2" />
 
     <!--        This area contains the footer of the UI-->
     <com.google.android.material.textview.MaterialTextView
