@@ -93,6 +93,10 @@ public class VMAddWarehouse extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         baseResponse -> {
+                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
+                                return;
+                            }
+
                             List<BranchEntity> branchList = baseResponse.getDetail();
                             branchRepository.saveBranchList(branchList);
                         }

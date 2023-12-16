@@ -20,6 +20,8 @@
     <string name="title_patrol_route">Patrol Route</string>
     <string name="title_add_warehouse">Add Warehouse</string>
     <string name="title_position">Position/Roles</string>
+    <string name="title_create_schedule">Create Schedule</string>
+    <string name="title_warehouse_selection">Warehouse Selection</string>
 
     <!--    Sub Title-->
     <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring</string>
@@ -32,6 +34,8 @@
     <string name="sub_title_add_warehouse">Register New Warehouse Location</string>
     <string name="sub_title_notification">Important Notice</string>
     <string name="sub_title_position">Personnel Roles</string>
+    <string name="sub_title_create_schedule">Plan Your Patrol Route</string>
+    <string name="sub_title_warehouse_selection">Choose Your Patrol Base</string>
 
     <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>

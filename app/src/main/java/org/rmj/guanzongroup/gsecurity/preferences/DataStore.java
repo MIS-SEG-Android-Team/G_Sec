@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.config;
+package org.rmj.guanzongroup.gsecurity.preferences;
 
 
 import android.app.Application;

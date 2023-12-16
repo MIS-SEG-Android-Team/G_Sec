@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.screens.settings.schedule.FragmentSchedule"
+    tools:context=".ui.screens.settings.createpatrol.FragmentSchedule"
     android:padding="@dimen/horizontal_padding_default">
 
     <com.google.android.material.textview.MaterialTextView
@@ -24,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/view_padding_8"
-        android:text="@string/sub_title_personnel_list"
+        android:text="@string/sub_title_create_schedule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -107,7 +107,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveButton"

@@ -76,6 +76,9 @@
             app:destination="@id/fragmentPosition"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_fragmentSettings_to_fragmentWarehouseSelection"
+            app:destination="@id/fragmentWarehouseSelection" />
 
     </fragment>
 
@@ -102,5 +105,47 @@
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.position.FragmentPosition"
         android:label="fragment_position"
         tools:layout="@layout/fragment_position" />
+
+    <fragment
+        android:id="@+id/fragmentWarehouseSelection"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.warehouse.FragmentWarehouseSelection"
+        android:label="fragment_position"
+        tools:layout="@layout/fragment_warehouse_selection" >
+        <action
+            android:id="@+id/action_fragmentWarehouseSelection_to_fragmentRouteSelection"
+            app:destination="@id/fragmentRouteSelection"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"  />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentRouteSelection"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.route.FragmentRouteSelection"
+        android:label="fragment_position"
+        tools:layout="@layout/fragment_route_selection" >
+        <action
+            android:id="@+id/action_fragmentRouteSelection_to_fragmentPatrolSchedule"
+            app:destination="@id/fragmentPatrolSchedule"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"  />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentPatrolSchedule"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.schedule.FragmentPatrolSchedule"
+        android:label="fragment_position"
+        tools:layout="@layout/fragment_patrol_schedule" >
+        <action
+            android:id="@+id/action_fragmentPatrolSchedule_to_fragmentPersonnelSelection"
+            app:destination="@id/fragmentPersonnelSelection"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"  />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentPersonnelSelection"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.personnel.FragmentPersonnelSelection"
+        android:label="fragment_position"
+        tools:layout="@layout/fragment_personnel_selection" />
 
 </navigation>

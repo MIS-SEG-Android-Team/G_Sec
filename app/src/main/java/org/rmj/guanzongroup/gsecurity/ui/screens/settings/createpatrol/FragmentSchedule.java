@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.ui.screens.settings.schedule;
+package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol;
 
 import androidx.lifecycle.ViewModelProvider;
 
