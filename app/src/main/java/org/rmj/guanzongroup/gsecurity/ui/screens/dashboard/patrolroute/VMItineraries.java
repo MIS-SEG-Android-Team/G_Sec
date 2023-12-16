@@ -1,15 +1,12 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.data.repository.authentication.AuthenticationRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 import org.rmj.guanzongroup.gsecurity.mockdata.ListPatrolRoute;
 import org.rmj.guanzongroup.gsecurity.pojo.itinerary.PatrolRoute;
 

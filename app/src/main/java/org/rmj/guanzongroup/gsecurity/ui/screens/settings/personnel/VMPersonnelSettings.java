@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.data.repository.authentication.AuthenticationRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 
 import javax.inject.Inject;
 

@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import org.rmj.guanzongroup.gsecurity.data.repository.nfc.NFCDevice;
+import org.rmj.guanzongroup.gsecurity.nfc.NFCDevice;
 import org.rmj.guanzongroup.gsecurity.data.room.entities.ENFCDevice;
 
 import java.util.List;

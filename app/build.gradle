@@ -3,7 +3,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.dagger.hilt.android'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -63,8 +63,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = 1.8
@@ -74,7 +74,7 @@ android {
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
@@ -86,8 +86,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 //    Room Database
-    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.room:room-runtime:2.5.2'
     implementation 'androidx.sqlite:sqlite-ktx:2.4.0'
+    ksp 'androidx.room:room-compiler:2.5.2'
 
 //    Firebase Dependencies
     implementation 'com.google.firebase:firebase-firestore:24.10.0'
@@ -107,18 +108,17 @@ dependencies {
     implementation("com.jakewharton.timber:timber:4.7.1")
 
 //    Hilt Dependency Injection
-    implementation "com.google.dagger:hilt-android:2.48.1"
-    kapt "com.google.dagger:hilt-compiler:2.48.1"
+    implementation "com.google.dagger:hilt-android:2.48"
+    ksp "com.google.dagger:hilt-compiler:2.48"
 
 //    RxJava
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
 
-    // LiveData
+//    LiveData
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
-}
+    ksp("androidx.lifecycle:lifecycle-common:2.6.2")
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes true
+//    KSP
+    implementation 'com.google.devtools.ksp:symbol-processing-api:1.9.21-1.0.15'
 }

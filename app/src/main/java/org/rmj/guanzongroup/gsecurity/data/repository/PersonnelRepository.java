@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.data.repository.personel;
+package org.rmj.guanzongroup.gsecurity.data.repository;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;

@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class FragmentSplashscreen extends Fragment {
         return new FragmentSplashscreen();
     }
 
+    @SuppressLint("HardwareIds")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class FragmentSplashscreen extends Fragment {
 
         mViewModel.setFirebaseToken();
 
+        navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
         return binding.getRoot();
     }
 }

@@ -1,117 +1,120 @@
 package org.rmj.guanzongroup.gsecurity.data.room.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
+import java.lang.String;
 
 @Entity(tableName = "App_User_Master")
 public class EAppUserMaster {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "sUserIDxx", defaultValue = "")
-    private String UserIDxx;
-    @ColumnInfo(name = "sUserName", defaultValue = "")
-    private String UserName;
-    @ColumnInfo(name = "sEmailAdd", defaultValue = "")
-    private String EmailAdd;
-    @ColumnInfo(name = "sPINCodex", defaultValue = "")
-    private String PINCodex;
-    @ColumnInfo(name = "sPosition", defaultValue = "")
-    private String Position;
-    @ColumnInfo(name = "nUserLevl", defaultValue = "")
-    private String UserLevl;
-    @ColumnInfo(name = "dCreatedx", defaultValue = "")
-    private Date Createdx;
-    @ColumnInfo(name = "dModified", defaultValue = "CURRENT_TIMESTAMP")
-    private Date Modified;
-    @ColumnInfo(name = "sModified", defaultValue = "")
-    private String Modifier;
-    @ColumnInfo(name = "dTimeStmp", defaultValue = "CURRENT_TIMESTAMP")
-    private Date TimeStmp;
+    @PrimaryKey()
+    @NonNull
+    @ColumnInfo(name = "sUserIDxx")
+    protected String sUserIDxx;
+    @ColumnInfo(name = "sUserName")
+    protected String sUserName;
+    @ColumnInfo(name = "sEmailAdd")
+    protected String sEmailAdd;
+    @ColumnInfo(name = "sPINCodex")
+    protected String sPINCodex;
+    @ColumnInfo(name = "sPosition")
+    protected String sPosition;
+    @ColumnInfo(name = "nUserLevl")
+    protected String nUserLevl;
+    @ColumnInfo(name = "dCreatedx")
+    protected String dCreatedx;
+    @ColumnInfo(name = "dModified")
+    protected String dModified;
+    @ColumnInfo(name = "sModified")
+    protected String sModified;
+    @ColumnInfo(name = "dTimeStmp")
+    protected String dTimeStmp;
 
     public EAppUserMaster() {
 
     }
 
-    public String getUserIDxx() {
-        return UserIDxx;
+    @NonNull
+    public String getsUserIDxx() {
+        return sUserIDxx;
     }
 
-    public void setUserIDxx(String userIDxx) {
-        UserIDxx = userIDxx;
+    public void setsUserIDxx(@NonNull String sUserIDxx) {
+        this.sUserIDxx = sUserIDxx;
     }
 
-    public String getUserName() {
-        return UserName;
+    public String getsUserName() {
+        return sUserName;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setsUserName(String sUserName) {
+        this.sUserName = sUserName;
     }
 
-    public String getEmailAdd() {
-        return EmailAdd;
+    public String getsEmailAdd() {
+        return sEmailAdd;
     }
 
-    public void setEmailAdd(String emailAdd) {
-        EmailAdd = emailAdd;
+    public void setsEmailAdd(String sEmailAdd) {
+        this.sEmailAdd = sEmailAdd;
     }
 
-    public String getPINCodex() {
-        return PINCodex;
+    public String getsPINCodex() {
+        return sPINCodex;
     }
 
-    public void setPINCodex(String PINCodex) {
-        this.PINCodex = PINCodex;
+    public void setsPINCodex(String sPINCodex) {
+        this.sPINCodex = sPINCodex;
     }
 
-    public String getPosition() {
-        return Position;
+    public String getsPosition() {
+        return sPosition;
     }
 
-    public void setPosition(String position) {
-        Position = position;
+    public void setsPosition(String sPosition) {
+        this.sPosition = sPosition;
     }
 
-    public String getUserLevl() {
-        return UserLevl;
+    public String getnUserLevl() {
+        return nUserLevl;
     }
 
-    public void setUserLevl(String userLevl) {
-        UserLevl = userLevl;
+    public void setnUserLevl(String nUserLevl) {
+        this.nUserLevl = nUserLevl;
     }
 
-    public Date getCreatedx() {
-        return Createdx;
+    public String getdCreatedx() {
+        return dCreatedx;
     }
 
-    public void setCreatedx(Date createdx) {
-        Createdx = createdx;
+    public void setdCreatedx(String dCreatedx) {
+        this.dCreatedx = dCreatedx;
     }
 
-    public Date getModified() {
-        return Modified;
+    public String getdModified() {
+        return dModified;
     }
 
-    public void setModified(Date modified) {
-        Modified = modified;
+    public void setdModified(String dModified) {
+        this.dModified = dModified;
     }
 
-    public String getModifier() {
-        return Modifier;
+    public String getsModified() {
+        return sModified;
     }
 
-    public void setModifier(String modifier) {
-        Modifier = modifier;
+    public void setsModified(String sModified) {
+        this.sModified = sModified;
     }
 
-    public Date getTimeStmp() {
-        return TimeStmp;
+    public String getdTimeStmp() {
+        return dTimeStmp;
     }
 
-    public void setTimeStmp(Date timeStmp) {
-        TimeStmp = timeStmp;
+    public void setdTimeStmp(String dTimeStmp) {
+        this.dTimeStmp = dTimeStmp;
     }
 }

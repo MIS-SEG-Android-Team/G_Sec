@@ -1,19 +1,22 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.service;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddCategoryParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.AddPatrolScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.CategoryModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.WarehouseModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.BranchModel;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.WarehouseModel;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.branch.BranchResponse;
+import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 
 import java.util.List;
 
@@ -104,11 +107,8 @@ public interface ApiService {
     @GET("/gsecure/places/get_warehouse.php")
     Observable<BaseResponse<List<WarehouseModel>>> getUpdatedWarehouses(@Body GetWarehouseParams params);
 
-    @GET("/integsys/param/download_branch.php")
-    Observable<BaseResponse<List<BranchModel>>> getBranches();
-
-    @GET("/integsys/param/download_branch.php")
-    Observable<BaseResponse<List<BranchModel>>> getUpdatedBranches(@Body GetBranchParams params);
+    @POST("/integsys/param/download_branch.php")
+    Observable<BranchResponse<List<BranchEntity>>> getBranches(@Body GetBranchParams params);
 
     // endregion
 
@@ -146,11 +146,15 @@ public interface ApiService {
      */
 
     @POST("/gsecure/places/nfc_add_tag.php")
-    Observable<BaseResponse<Void>> addNFCTag(@Body String value);
+    Observable<BaseResponse<Void>> addNFCTag(@Body AddNfcTagParams params);
 
     @GET("")
     List<String> getNFCTags();
 
     // endregion
 
+    // region Scheduler
+
+    @POST("patrol/create_schedule")
+    Observable<BaseResponse<Void>> addNewSchedule(@Body AddPatrolScheduleParams params);
 }

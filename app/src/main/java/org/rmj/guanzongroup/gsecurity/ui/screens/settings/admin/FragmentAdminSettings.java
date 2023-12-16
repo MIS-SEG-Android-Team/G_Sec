@@ -41,7 +41,7 @@ public class FragmentAdminSettings extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMAdminSettings.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMAdminSettings.class);
         binding = FragmentAdminSettingsBinding.inflate(getLayoutInflater());
         DialogLoad dialogLoad = new DialogLoad(requireActivity());
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);

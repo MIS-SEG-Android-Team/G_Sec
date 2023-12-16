@@ -42,8 +42,6 @@ public class BaseHeaderInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
 
-        String currentDate = Calendar.getInstance().getTime().toString();
-
         String apiKey = SQLUtil.dateFormat(Calendar.getInstance().getTime(), "yyyyMMddHHmmss");
         String apiHash = SECUtil.md5Hex(deviceID + apiKey);
 

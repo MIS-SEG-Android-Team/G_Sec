@@ -1,28 +1,48 @@
-package org.rmj.guanzongroup.gsecurity.data.remote.response;
+package org.rmj.guanzongroup.gsecurity.data.room.branch;
 
-public class BranchModel {
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    private String sBranchCd;
-    private String sBranchNm;
-    private String sDescript;
-    private String sAddressx;
-    private String sTownIDxx;
-    private String sAreaCode;
-    private String cDivision;
-    private String cPromoDiv;
-    private String cRecdStat;
-    private String dTimeStmp;
-    private String dLstUpdte;
+@Entity(tableName = "Branch")
+public class BranchEntity {
 
-    public BranchModel() {
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "sBranchCd")
+    protected String sBranchCd;
+    @ColumnInfo(name = "sBranchNm")
+    protected String sBranchNm;
+    @ColumnInfo(name = "sDescript")
+    protected String sDescript;
+    @ColumnInfo(name = "sAddressx")
+    protected String sAddressx;
+    @ColumnInfo(name = "sTownIDxx")
+    protected String sTownIDxx;
+    @ColumnInfo(name = "sAreaCode")
+    protected String sAreaCode;
+    @ColumnInfo(name = "cDivision")
+    protected String cDivision;
+    @ColumnInfo(name = "cPromoDiv")
+    protected String cPromoDiv;
+    @ColumnInfo(name = "cRecdStat")
+    protected String cRecdStat;
+    @ColumnInfo(name = "dTimeStmp")
+    protected String dTimeStmp;
+    @ColumnInfo(name = "dLstUpdte")
+    protected String dLstUpdte;
+
+    public BranchEntity() {
 
     }
 
+    @NonNull
     public String getsBranchCd() {
         return sBranchCd;
     }
 
-    public void setsBranchCd(String sBranchCd) {
+    public void setsBranchCd(@NonNull String sBranchCd) {
         this.sBranchCd = sBranchCd;
     }
 

@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.response.authentication;
 
-import org.rmj.guanzongroup.gsecurity.data.remote.response.base.ErrorResponse;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.error.ErrorResponse;
 
 public class LoginBaseResponse {
 

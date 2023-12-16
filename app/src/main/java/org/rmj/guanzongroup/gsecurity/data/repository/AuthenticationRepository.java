@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.data.repository.authentication;
+package org.rmj.guanzongroup.gsecurity.data.repository;
 
 import io.reactivex.rxjava3.core.Observable;
 

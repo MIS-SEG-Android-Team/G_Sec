@@ -11,7 +11,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.AuthorizedInterceptor;
-import org.rmj.guanzongroup.gsecurity.data.repository.authentication.AuthenticationRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 
 import java.util.Objects;
 

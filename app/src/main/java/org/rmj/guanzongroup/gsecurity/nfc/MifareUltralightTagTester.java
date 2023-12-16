@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.data.repository.nfc;
+package org.rmj.guanzongroup.gsecurity.nfc;
 
 import android.nfc.Tag;
 import android.nfc.tech.MifareUltralight;

@@ -48,7 +48,9 @@
     <string name="label_middle_name">Middle Name</string>
     <string name="label_please_wait">Please wait…</string>
     <string name="label_warehouse_name">Warehouse Name</string>
+    <string name="label_search_branch">Search Branch</string>
     <string name="label_branch">Branch</string>
+    <string name="label_selected_branch">Selected Branch</string>
     <string name="label_category">Category</string>
     <string name="label_category_description">Category Description</string>
     <string name="label_nfc_description">NFC Description</string>

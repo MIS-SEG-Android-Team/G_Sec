@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentNotificationsBinding;
 import org.rmj.guanzongroup.gsecurity.pojo.notification.Notification;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.notification.AdapterNotification;
-import org.rmj.guanzongroup.gsecurity.ui.components.adapter.notification.NotificationClickListener;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.notification.AdapterNotificationCallback;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class FragmentNotifications extends Fragment {
                     return;
                 }
 
-                binding.notificationList.setAdapter(new AdapterNotification(notifications, new NotificationClickListener() {
+                binding.notificationList.setAdapter(new AdapterNotification(notifications, new AdapterNotificationCallback() {
                     @Override
                     public void onclick(Notification notification) {
 

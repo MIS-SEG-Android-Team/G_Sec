@@ -30,43 +30,81 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/view_padding_16"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle"
-        app:layout_constraintVertical_bias="0.15">
+        app:layout_constraintTop_toBottomOf="@+id/subTitle">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilBranch"
-            style="@style/CustomDropDownTilStyle"
+            android:id="@+id/tilSearchBranch"
+            style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_branch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilWarehouseName">
+            android:layout_marginTop="@dimen/view_padding_16"
+            android:hint="@string/label_search_branch">
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/tieBranch"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tieSearchBranch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/DropdownStyleTheme"
                 android:fontFamily="@font/roboto"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLength="50"
                 android:nextFocusForward="@id/tiePassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/branchList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/view_padding_8"
+            android:padding="@dimen/view_padding_8"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        tools:layout_editor_absoluteX="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiBranchName"
+            style="@style/TextInputStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_selected_branch">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tieBranchName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLength="50"
+                android:nextFocusForward="@id/tiePassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/view_padding_4" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilWarehouseName"
             style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_padding_16"
             android:hint="@string/label_warehouse_name">
 
             <com.google.android.material.textfield.TextInputEditText

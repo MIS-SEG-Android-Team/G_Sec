@@ -14,9 +14,9 @@ import java.util.List;
 public class AdapterActivePersonnel extends RecyclerView.Adapter<AdapterActivePersonnel.ActivePersonelViewHolder> {
 
     private final List<Personnel> personnelList;
-    private final ActivePersonnelClickListener listener;
+    private final AdapterActivePersonnelCallback listener;
 
-    public AdapterActivePersonnel(List<Personnel> personnelList, ActivePersonnelClickListener listener) {
+    public AdapterActivePersonnel(List<Personnel> personnelList, AdapterActivePersonnelCallback listener) {
         this.personnelList = personnelList;
         this.listener = listener;
     }

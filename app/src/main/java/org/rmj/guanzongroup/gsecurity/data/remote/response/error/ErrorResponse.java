@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.data.remote.response.base;
+package org.rmj.guanzongroup.gsecurity.data.remote.response.error;
 
 public class ErrorResponse {
 
