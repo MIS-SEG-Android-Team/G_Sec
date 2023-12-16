@@ -60,5 +60,8 @@ public class AdminActivity extends AppCompatActivity {
                 }
             }
         });
+        navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
+            getViewModelStore().clear();
+        });
     }
 }

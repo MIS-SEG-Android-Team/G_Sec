@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
@@ -31,11 +33,23 @@ public class PositionRepository {
         return apiService.addPosition(params);
     }
 
-    public Observable<BaseResponse<List<PositionEntity>>> getPositions(GetPositionParams params) {
+    public Observable<BaseResponse<List<PositionEntity>>> getUpdatedPositions(GetPositionParams params) {
         return apiService.getPositions(params);
+    }
+
+    public Observable<BaseResponse<List<PositionEntity>>> getPositions() {
+        return apiService.getPositions();
     }
 
     public void savePositions(List<PositionEntity> value)  {
         positionDao.savePositions(value);
+    }
+
+    public LiveData<List<PositionEntity>> getPositionFromLocal() {
+        return positionDao.getPositions();
+    }
+
+    public String getPositionLatestTimeStamp() {
+        return positionDao.getPositionLatestTimeStamp();
     }
 }

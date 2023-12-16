@@ -28,15 +28,24 @@
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/branchList"
+        android:id="@+id/positionsList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="@dimen/view_padding_8"
         android:layout_marginTop="@dimen/view_padding_16"
         android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/refreshButton"
+        app:layout_constraintTop_toBottomOf="@+id/subTitle"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/refreshButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_refresh_list"
         app:layout_constraintBottom_toTopOf="@+id/tilPosition"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilPosition"

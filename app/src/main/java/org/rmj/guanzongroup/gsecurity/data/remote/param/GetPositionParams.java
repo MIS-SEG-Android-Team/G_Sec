@@ -1,8 +1,8 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.param;
 
 public class GetPositionParams {
-    private String dTimeStmp;
+    private String timestamp;
 
-    public String getDTimeStmp() { return dTimeStmp; }
-    public void setDTimeStmp(String value) { this.dTimeStmp = value; }
+    public String getTimestamp() { return timestamp; }
+    public void setTimestamp(String value) { this.timestamp = value; }
 }

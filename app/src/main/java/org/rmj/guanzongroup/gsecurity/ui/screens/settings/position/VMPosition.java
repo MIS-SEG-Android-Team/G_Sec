@@ -7,7 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.PositionRepository;
+import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -20,6 +24,8 @@ public class VMPosition extends ViewModel {
 
     private final PositionRepository repository;
 
+    private final MutableLiveData<Boolean> finishImporting = new MutableLiveData<>(false);
+
     private final MutableLiveData<Boolean> hasCompleteInfo = new MutableLiveData<>(false);
     private final MutableLiveData<String> position = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> savingPosition = new MutableLiveData<>(false);
@@ -31,6 +37,11 @@ public class VMPosition extends ViewModel {
             PositionRepository repository
     ) {
         this.repository = repository;
+        importPositions();
+    }
+
+    public LiveData<Boolean> finishImporting() {
+        return finishImporting;
     }
 
     public LiveData<Boolean> hasCompleteInfo() {
@@ -52,6 +63,10 @@ public class VMPosition extends ViewModel {
     public void setPosition(String value) {
         position.setValue(value);
         hasCompleteInfo.setValue(!value.trim().isEmpty());
+    }
+
+    public LiveData<List<PositionEntity>> getPositions() {
+        return repository.getPositionFromLocal();
     }
 
     @SuppressLint("CheckResult")
@@ -77,6 +92,80 @@ public class VMPosition extends ViewModel {
                         throwable -> {
                             savingPosition.setValue(false);
                             errorMessage.setValue(throwable.getMessage());
+                        }
+                );
+    }
+
+    private void importPositions() {
+        String timeStamp = repository.getPositionLatestTimeStamp();
+        if(timeStamp == null || timeStamp.isEmpty()) {
+            importRoles();
+        } else {
+            importUpdatedRoles(timeStamp);
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private void importUpdatedRoles(String timeStamp) {
+        finishImporting.setValue(false);
+
+        GetPositionParams params = new GetPositionParams();
+        params.setTimestamp(timeStamp);
+        repository.getUpdatedPositions(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+
+                        // All 200 HttpCode will be handled here whether success, failed or error....
+                        baseResponse -> {
+
+                            // Check if the API response is error...
+                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
+                                return;
+                            }
+
+                            List<PositionEntity> positionEntityList = baseResponse.getData();
+                            repository.savePositions(positionEntityList);
+
+                            finishImporting.setValue(true);
+                        },
+
+                        // All non 200 HttpCode will be handled here.
+                        // HttpCode response that's not 200 is considered error...
+                        // Exceptions handler...
+                        throwable -> {
+                            finishImporting.setValue(true);
+                        }
+                );
+    }
+
+    @SuppressLint("CheckResult")
+    private void importRoles() {
+        finishImporting.setValue(false);
+        repository.getPositions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+
+                        // All 200 HttpCode will be handled here whether success, failed or error....
+                        baseResponse -> {
+
+                            // Check if the API response is error...
+                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
+                                return;
+                            }
+
+                            List<PositionEntity> positionEntityList = baseResponse.getData();
+                            repository.savePositions(positionEntityList);
+
+                            finishImporting.setValue(true);
+                        },
+
+                        // All non 200 HttpCode will be handled here.
+                        // HttpCode response that's not 200 is considered error...
+                        // Exceptions handler...
+                        throwable -> {
+                            finishImporting.setValue(true);
                         }
                 );
     }

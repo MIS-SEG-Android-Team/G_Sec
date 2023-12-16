@@ -86,6 +86,9 @@ public interface ApiService {
     Observable<BaseResponse<Void>> addPosition(@Body AddPositionParams value);
 
     @GET("/gsecure/personnel/get_position.php")
+    Observable<BaseResponse<List<PositionEntity>>> getPositions();
+
+    @POST("/gsecure/personnel/get_position.php")
     Observable<BaseResponse<List<PositionEntity>>> getPositions(@Body GetPositionParams params);
 
     // endregion

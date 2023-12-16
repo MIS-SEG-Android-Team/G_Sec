@@ -108,6 +108,7 @@ dependencies {
     implementation("com.jakewharton.timber:timber:4.7.1")
 
 //    Hilt Dependency Injection
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.1.0'
     implementation "com.google.dagger:hilt-android:2.48"
     ksp "com.google.dagger:hilt-compiler:2.48"
 
