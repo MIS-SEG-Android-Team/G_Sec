@@ -13,10 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentPatrolScheduleBinding;
+
+import javax.inject.Inject;
 
 public class FragmentPatrolSchedule extends Fragment {
 
-    private VMSchedule mViewModel;
+    @Inject
+    VMSchedule mViewModel;
+
+    private FragmentPatrolScheduleBinding binding;
 
     public static FragmentPatrolSchedule newInstance() {
         return new FragmentPatrolSchedule();
@@ -25,14 +31,10 @@ public class FragmentPatrolSchedule extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
-    }
+        binding = FragmentPatrolScheduleBinding.inflate(getLayoutInflater());
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMSchedule.class);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMSchedule.class);
-        // TODO: Use the ViewModel
-    }
 
+        return binding.getRoot();
+    }
 }

@@ -10,14 +10,14 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.AddPatrolScheduleParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.CategoryModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.branch.BranchResponse;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
@@ -64,7 +64,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_personnel.php")
-    Observable<BaseResponse<Void>> addPersonnel(@Body PersonnelParam value);
+    Observable<BaseResponse<Void>> addPersonnel(@Body AddPersonnelParam value);
 
     @GET("/gsecure/personnel/add_position.php")
     Observable<BaseResponse<List<PersonnelModel>>> getPersonnels();
@@ -85,9 +85,6 @@ public interface ApiService {
     @POST("/gsecure/personnel/add_position.php")
     Observable<BaseResponse<Void>> addPosition(@Body AddPositionParams value);
 
-    @GET("/gsecure/personnel/get_position.php")
-    Observable<BaseResponse<List<PositionEntity>>> getPositions();
-
     @POST("/gsecure/personnel/get_position.php")
     Observable<BaseResponse<List<PositionEntity>>> getPositions(@Body GetPositionParams params);
 
@@ -106,9 +103,6 @@ public interface ApiService {
 
     @POST("/gsecure/place/add_warehouse.php")
     Observable<BaseResponse<Void>> addWarehouse(@Body AddWarehouseParams params);
-
-    @GET("/gsecure/place/get_warehouse.php")
-    Observable<BaseResponse<List<WarehouseEntity>>> getWarehouses();
 
     @POST("/gsecure/place/get_warehouse.php")
     Observable<BaseResponse<List<WarehouseEntity>>> getWarehouses(@Body GetWarehouseParams params);
@@ -133,10 +127,8 @@ public interface ApiService {
     Observable<BaseResponse<Void>> addCategory(@Body AddCategoryParams params);
 
     @GET("/gsecure/place/get_category.php")
-    Observable<BaseResponse<List<CategoryModel>>> getCategories();
+    Observable<BaseResponse<List<CategoryEntity>>> getCategories(@Body GetCategoryParams params);
 
-    @GET("/gsecure/place/get_category.php")
-    Observable<BaseResponse<List<CategoryModel>>> getUpdateCategories(@Body GetCategoryParams params);
 
     // endregion
 

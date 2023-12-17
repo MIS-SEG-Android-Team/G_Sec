@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
-import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
 
 import java.util.Objects;
@@ -111,7 +111,7 @@ public class VMAddPersonnel extends ViewModel {
         // Display loading dialog on UI...
         isLoading.setValue(true);
 
-        PersonnelParam param = new PersonnelParam();
+        AddPersonnelParam param = new AddPersonnelParam();
         param.setsLastName(lastName.getValue());
         param.setsFrstName(frstName.getValue());
         param.setsMiddName(middName.getValue());

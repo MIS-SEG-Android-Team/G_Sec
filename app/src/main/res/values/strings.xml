@@ -35,7 +35,7 @@
     <string name="sub_title_notification">Important Notice</string>
     <string name="sub_title_position">Personnel Roles</string>
     <string name="sub_title_create_schedule">Plan Your Patrol Route</string>
-    <string name="sub_title_warehouse_selection">Choose Your Patrol Base</string>
+    <string name="sub_title_warehouse_selection">Choose Patrol Base</string>
 
     <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>
@@ -73,6 +73,7 @@
     <string name="label_position">Position</string>
     <string name="label_description">Description</string>
     <string name="label_loading_warehouse">Loading warehouse…</string>
+    <string name="label_no_warehouse_record_found">Couldn\'t find any warehouse records in your account. Check if you\'ve added any, or create one now!</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>

@@ -4,7 +4,7 @@ package org.rmj.guanzongroup.gsecurity.data.remote.param;
  * PersonnelParam => use as parameter to
  * forward the information of new added personnel...
  */
-public class PersonnelParam {
+public class AddPersonnelParam {
 
     private String sLastName;
     private String sFrstName;
@@ -24,7 +24,7 @@ public class PersonnelParam {
      *   "nUserLvel": "0"
      * }
      */
-    public PersonnelParam() {
+    public AddPersonnelParam() {
     }
 
     public String getsLastName() {

@@ -11,23 +11,33 @@ public class PositionEntity {
     @NonNull
     @ColumnInfo(name = "sPositnID")
     protected String sPositnID;
-    @ColumnInfo(name = "sPostnNme")
-    protected String sPostnNme;
-    @ColumnInfo(name = "dModified")
-    protected String dModified;
-    @ColumnInfo(name = "dCreatedx")
-    protected String dCreatedx;
+    @ColumnInfo(name = "sPositnNm")
+    protected String sPositnNm;
+    @ColumnInfo(name = "cRecdStat")
+    protected String cRecdStat;
+    @ColumnInfo(name = "dTimeStmp")
+    protected String dTimeStmp;
 
     @NonNull
     public String getsPositnID() { return sPositnID; }
     public void setsPositnID(@NonNull String sPositnID) { this.sPositnID = sPositnID; }
 
-    public String getDCreatedx() { return dCreatedx; }
-    public void setDCreatedx(String value) { this.dCreatedx = value; }
+    public String getcRecdStat() {
+        return cRecdStat;
+    }
 
-    public String getDModified() { return dModified; }
-    public void setDModified(String value) { this.dModified = value; }
+    public void setcRecdStat(String cRecdStat) {
+        this.cRecdStat = cRecdStat;
+    }
 
-    public String getSPostnNme() { return sPostnNme; }
-    public void setSPostnNme(String value) { this.sPostnNme = value; }
+    public String getSPositnNm() { return sPositnNm; }
+    public void setSPositnNm(String value) { this.sPositnNm = value; }
+
+    public String getdTimeStmp() {
+        return dTimeStmp;
+    }
+
+    public void setdTimeStmp(String dTimeStmp) {
+        this.dTimeStmp = dTimeStmp;
+    }
 }

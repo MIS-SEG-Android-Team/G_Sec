@@ -9,6 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import org.rmj.guanzongroup.gsecurity.data.room.GSecureDB;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchDao;
+import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryDao;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionDao;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseDao;
 
@@ -49,9 +50,16 @@ public class DatabaseModule {
     public static WarehouseDao provideWarehouseDao(GSecureDB gSecureDB) {
         return gSecureDB.warehouseDao();
     }
+
     @Provides
     @Singleton
     public static PositionDao providePositionDao(GSecureDB gSecureDB) {
         return gSecureDB.positionDao();
+    }
+
+    @Provides
+    @Singleton
+    public static CategoryDao provideCategoryDao(GSecureDB gSecureDB) {
+        return gSecureDB.categoryDao();
     }
 }

@@ -56,13 +56,12 @@ public class FragmentWarehouseSelection extends Fragment {
         });
 
         mViewModel.getWarehouseList().observe(getViewLifecycleOwner(), warehouseList -> {
-            if (warehouseList == null) {
+            if (warehouseList == null || warehouseList.size() == 0) {
+                binding.noRecordMessage.setVisibility(View.VISIBLE);
                 return;
             }
 
-            if (warehouseList.size() == 0) {
-                return;
-            }
+            binding.noRecordMessage.setVisibility(View.GONE);
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

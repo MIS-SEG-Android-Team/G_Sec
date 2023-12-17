@@ -86,9 +86,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 //    Room Database
-    implementation 'androidx.room:room-runtime:2.5.2'
+    implementation 'androidx.room:room-runtime:2.6.1'
     implementation 'androidx.sqlite:sqlite-ktx:2.4.0'
-    ksp 'androidx.room:room-compiler:2.5.2'
+    ksp 'androidx.room:room-compiler:2.6.1'
+
+//    RxJava3 support for Room
+    implementation "androidx.room:room-rxjava3:2.6.1"
 
 //    Firebase Dependencies
     implementation 'com.google.firebase:firebase-firestore:24.10.0'
@@ -109,8 +112,8 @@ dependencies {
 
 //    Hilt Dependency Injection
     implementation 'androidx.hilt:hilt-navigation-fragment:1.1.0'
-    implementation "com.google.dagger:hilt-android:2.48"
-    ksp "com.google.dagger:hilt-compiler:2.48"
+    implementation "com.google.dagger:hilt-android:2.48.1"
+    ksp "com.google.dagger:hilt-compiler:2.48.1"
 
 //    RxJava
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'

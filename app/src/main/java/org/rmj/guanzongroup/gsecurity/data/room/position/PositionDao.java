@@ -16,6 +16,6 @@ public interface PositionDao {
     @Query("SELECT * FROM Position")
     LiveData<List<PositionEntity>> getPositions();
 
-    @Query("SELECT dModified FROM Position ORDER BY dModified DESC LIMIT 1")
+    @Query("SELECT dTimeStmp FROM Position ORDER BY dTimeStmp DESC LIMIT 1")
     String getPositionLatestTimeStamp();
 }

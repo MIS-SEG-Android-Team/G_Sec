@@ -5,7 +5,8 @@ import androidx.room.RoomDatabase;
 
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchDao;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
-import org.rmj.guanzongroup.gsecurity.data.room.entities.EAppUserMaster;
+import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryDao;
+import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionDao;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseDao;
@@ -13,7 +14,6 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
 @Database(
         entities = {
-                EAppUserMaster.class,
 //                EBuildingVisitRequest.class,
 //                EBuildingVisitSchedule.class,
 //                ECategory.class,
@@ -21,6 +21,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 //                ENFCDevice.class,
 //                EPatrolRoute.class,
 //                EPersonnelPosition.class,
+                CategoryEntity.class,
                 PositionEntity.class,
                 WarehouseEntity.class,
                 BranchEntity.class
@@ -32,5 +33,6 @@ public abstract class GSecureDB extends RoomDatabase {
     public abstract BranchDao branchDao();
     public abstract WarehouseDao warehouseDao();
     public abstract PositionDao positionDao();
+    public abstract CategoryDao categoryDao();
 
 }

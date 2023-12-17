@@ -56,7 +56,7 @@ public class VMWarehouseSelection extends ViewModel {
     private void importWarehouse() {
         String timeStamp = warehouseRepository.getLatestTimeStamp();
         if(timeStamp == null || timeStamp.isEmpty()) {
-            getWarehouses();
+            getWarehouses("");
         } else {
             getWarehouses(timeStamp);
         }
@@ -64,25 +64,25 @@ public class VMWarehouseSelection extends ViewModel {
 
     @SuppressLint("CheckResult")
     private void getWarehouses() {
-        importingWarehouse.setValue(true);
-        warehouseRepository.getWarehouse()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        baseResponse -> {
-                            importingWarehouse.setValue(false);
-
-                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
-                                return;
-                            }
-
-                            List<WarehouseEntity> warehouseEntityList = baseResponse.getData();
-                            warehouseRepository.saveWarehouses(warehouseEntityList);
-                        },
-                        throwable -> {
-                            importingWarehouse.setValue(false);
-                        }
-                );
+//        importingWarehouse.setValue(true);
+//        warehouseRepository.getWarehouse()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        baseResponse -> {
+//                            importingWarehouse.setValue(false);
+//
+//                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
+//                                return;
+//                            }
+//
+//                            List<WarehouseEntity> warehouseEntityList = baseResponse.getData();
+//                            warehouseRepository.saveWarehouses(warehouseEntityList);
+//                        },
+//                        throwable -> {
+//                            importingWarehouse.setValue(false);
+//                        }
+//                );
     }
 
     @SuppressLint("CheckResult")

@@ -37,7 +37,7 @@ public class AdapterPosition extends RecyclerView.Adapter<AdapterPosition.Positi
     @Override
     public void onBindViewHolder(@NonNull PositionViewHolder holder, int position) {
         PositionEntity role = positionList.get(position);
-        holder.binding.positionNameLabel.setText(role.getSPostnNme());
+        holder.binding.positionNameLabel.setText(role.getSPositnNm());
     }
 
     @Override

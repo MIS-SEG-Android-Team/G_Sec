@@ -33,12 +33,8 @@ public class PositionRepository {
         return apiService.addPosition(params);
     }
 
-    public Observable<BaseResponse<List<PositionEntity>>> getUpdatedPositions(GetPositionParams params) {
+    public Observable<BaseResponse<List<PositionEntity>>> getPositions(GetPositionParams params) {
         return apiService.getPositions(params);
-    }
-
-    public Observable<BaseResponse<List<PositionEntity>>> getPositions() {
-        return apiService.getPositions();
     }
 
     public void savePositions(List<PositionEntity> value)  {

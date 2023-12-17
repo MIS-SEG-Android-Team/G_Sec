@@ -85,21 +85,32 @@ public class VMAddWarehouse extends ViewModel {
         params.setDescript("All");
         params.setBsearch(true);
         String timeStamp = branchRepository.getLatestTimeStamp();
+
         if(timeStamp != null) {
             params.setTimestamp(timeStamp);
         }
+
         branchRepository.getBranches(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
+
+                        // All 200 HttpCode will be handled here whether success, failed or error....
                         baseResponse -> {
+
+                            // Check if the API response is error...
                             if(baseResponse.getResult().equalsIgnoreCase("error")) {
                                 return;
                             }
 
                             List<BranchEntity> branchList = baseResponse.getDetail();
                             branchRepository.saveBranchList(branchList);
-                        }
+                        },
+
+                        // All non 200 HttpCode will be handled here.
+                        // HttpCode response that's not 200 is considered error...
+                        // Exceptions handler...
+                        throwable -> { }
                 );
     }
 

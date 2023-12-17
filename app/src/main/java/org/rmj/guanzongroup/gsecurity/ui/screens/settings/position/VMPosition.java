@@ -96,53 +96,18 @@ public class VMPosition extends ViewModel {
                 );
     }
 
-    private void importPositions() {
-        String timeStamp = repository.getPositionLatestTimeStamp();
-        if(timeStamp == null || timeStamp.isEmpty()) {
-            importRoles();
-        } else {
-            importUpdatedRoles(timeStamp);
-        }
-    }
-
     @SuppressLint("CheckResult")
-    private void importUpdatedRoles(String timeStamp) {
+    private void importPositions() {
         finishImporting.setValue(false);
 
         GetPositionParams params = new GetPositionParams();
-        params.setTimestamp(timeStamp);
-        repository.getUpdatedPositions(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+        String timeStamp = repository.getPositionLatestTimeStamp();
 
-                        // All 200 HttpCode will be handled here whether success, failed or error....
-                        baseResponse -> {
+        if (timeStamp != null) {
+            params.setDTimeStmp(timeStamp);
+        }
 
-                            // Check if the API response is error...
-                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
-                                return;
-                            }
-
-                            List<PositionEntity> positionEntityList = baseResponse.getData();
-                            repository.savePositions(positionEntityList);
-
-                            finishImporting.setValue(true);
-                        },
-
-                        // All non 200 HttpCode will be handled here.
-                        // HttpCode response that's not 200 is considered error...
-                        // Exceptions handler...
-                        throwable -> {
-                            finishImporting.setValue(true);
-                        }
-                );
-    }
-
-    @SuppressLint("CheckResult")
-    private void importRoles() {
-        finishImporting.setValue(false);
-        repository.getPositions()
+        repository.getPositions(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
