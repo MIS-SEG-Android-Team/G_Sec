@@ -2,7 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen;
 
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.preferences.TokenDeviceID;
+import org.rmj.guanzongroup.gsecurity.data.preferences.TokenDeviceID;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.BaseHeaderInterceptor;
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 

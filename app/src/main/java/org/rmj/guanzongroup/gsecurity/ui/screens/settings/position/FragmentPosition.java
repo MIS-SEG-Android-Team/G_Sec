@@ -75,7 +75,6 @@ public class FragmentPosition extends Fragment {
                 dialogMessage.setPositiveButton("Close", dialog -> {
                     dialog.dismiss();
                     binding.tiePosition.setText("");
-//                    requireActivity().getViewModelStore().clear();
                     navController.popBackStack();
                 });
                 dialogMessage.show();

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.gsecurity.data.file;
+package org.rmj.guanzongroup.gsecurity.utils;
 
 import android.content.Context;
 import android.content.Intent;

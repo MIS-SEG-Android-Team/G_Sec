@@ -14,12 +14,12 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.PersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.AddPatrolScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.CategoryModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.WarehouseModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.branch.BranchResponse;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
 import java.util.List;
 
@@ -104,14 +104,14 @@ public interface ApiService {
      * =============================================================================================
      */
 
-    @POST("/gsecure/places/add_warehouse.php")
+    @POST("/gsecure/place/add_warehouse.php")
     Observable<BaseResponse<Void>> addWarehouse(@Body AddWarehouseParams params);
 
-    @GET("/gsecure/places/get_warehouse.php")
-    Observable<BaseResponse<List<WarehouseModel>>> getWarehouses();
+    @GET("/gsecure/place/get_warehouse.php")
+    Observable<BaseResponse<List<WarehouseEntity>>> getWarehouses();
 
-    @POST("/gsecure/places/get_warehouse.php")
-    Observable<BaseResponse<List<WarehouseModel>>> getUpdatedWarehouses(@Body GetWarehouseParams params);
+    @POST("/gsecure/place/get_warehouse.php")
+    Observable<BaseResponse<List<WarehouseEntity>>> getWarehouses(@Body GetWarehouseParams params);
 
     @POST("/integsys/param/download_branch.php")
     Observable<BranchResponse<List<BranchEntity>>> getBranches(@Body GetBranchParams params);
@@ -129,13 +129,13 @@ public interface ApiService {
      * =============================================================================================
      */
 
-    @POST("/gsecure/places/add_category.php")
+    @POST("/gsecure/place/add_category.php")
     Observable<BaseResponse<Void>> addCategory(@Body AddCategoryParams params);
 
-    @GET("/gsecure/places/get_category.php")
+    @GET("/gsecure/place/get_category.php")
     Observable<BaseResponse<List<CategoryModel>>> getCategories();
 
-    @GET("/gsecure/places/get_category.php")
+    @GET("/gsecure/place/get_category.php")
     Observable<BaseResponse<List<CategoryModel>>> getUpdateCategories(@Body GetCategoryParams params);
 
     // endregion
@@ -147,11 +147,11 @@ public interface ApiService {
 
     /**
      * =============================================================================================
-     * NFC Tags or Places
+     * NFC Tags or Place
      * =============================================================================================
      */
 
-    @POST("/gsecure/places/nfc_add_tag.php")
+    @POST("/gsecure/place/nfc_add_tag.php")
     Observable<BaseResponse<Void>> addNFCTag(@Body AddNfcTagParams params);
 
     @GET("")

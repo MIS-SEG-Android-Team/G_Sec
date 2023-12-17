@@ -3,6 +3,8 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -163,8 +166,11 @@ public class FragmentLogin extends Fragment {
                 binding.button9.setEnabled(false);
                 binding.button0.setEnabled(false);
 
-
-                mViewModel.loginPersonnel();
+                if (isDeviceConnected()) {
+                    mViewModel.loginPersonnel();
+                } else {
+                    Toast.makeText(requireActivity(), "No internet connection", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 binding.button1.setEnabled(true);
                 binding.button2.setEnabled(true);
@@ -184,10 +190,17 @@ public class FragmentLogin extends Fragment {
         binding.tiePassword.addTextChangedListener(new TextChangeCallback(binding.tiePassword));
         binding.tiePIN.addTextChangedListener(new TextChangeCallback(binding.tiePIN));
 
-        binding.loginButton.setOnClickListener(view -> mViewModel.loginAdmin(
-                Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
-                Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()
-        ));
+        binding.loginButton.setOnClickListener(view -> {
+            if (isDeviceConnected()) {
+                mViewModel.loginAdmin(
+                        Objects.requireNonNull(binding.tieEmail.getText()).toString().trim(),
+                        Objects.requireNonNull(binding.tiePassword.getText()).toString().trim()
+                );
+            } else {
+                Toast.makeText(requireActivity(), "No internet connection", Toast.LENGTH_SHORT).show();
+            }
+
+        });
 
         binding.button1.setOnClickListener(new NumPadCallback());
         binding.button2.setOnClickListener(new NumPadCallback());
@@ -293,5 +306,11 @@ public class FragmentLogin extends Fragment {
         public void afterTextChanged(Editable s) {
 
         }
+    }
+
+    private boolean isDeviceConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnectedOrConnecting());
     }
 }

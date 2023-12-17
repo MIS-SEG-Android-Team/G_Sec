@@ -72,6 +72,7 @@
     <string name="label_officer">Officer</string>
     <string name="label_position">Position</string>
     <string name="label_description">Description</string>
+    <string name="label_loading_warehouse">Loading warehouse…</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>

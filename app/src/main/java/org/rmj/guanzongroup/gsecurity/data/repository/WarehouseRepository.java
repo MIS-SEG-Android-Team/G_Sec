@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
@@ -31,7 +33,23 @@ public class WarehouseRepository {
         return apiService.addWarehouse(params);
     }
 
-//    public Observable<BaseResponse<List<WarehouseEntity>>> getWarehouse(GetWarehouseParams params) {
-//        return apiService.getWarehouses();
-//    }
+    public Observable<BaseResponse<List<WarehouseEntity>>> getWarehouse() {
+        return apiService.getWarehouses();
+    }
+
+    public Observable<BaseResponse<List<WarehouseEntity>>> getWarehouse(GetWarehouseParams params) {
+        return apiService.getWarehouses(params);
+    }
+
+    public String getLatestTimeStamp() {
+        return warehouseDao.getLatestTimeStamp();
+    }
+
+    public void saveWarehouses(List<WarehouseEntity> value) {
+        warehouseDao.save(value);
+    }
+
+    public LiveData<List<WarehouseEntity>> getWarehouseList() {
+        return warehouseDao.getWarehouses();
+    }
 }

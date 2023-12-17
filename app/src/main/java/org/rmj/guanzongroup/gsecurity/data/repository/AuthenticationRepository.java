@@ -2,7 +2,7 @@ package org.rmj.guanzongroup.gsecurity.data.repository;
 
 import io.reactivex.rxjava3.core.Observable;
 
-import org.rmj.guanzongroup.gsecurity.preferences.DataStore;
+import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;

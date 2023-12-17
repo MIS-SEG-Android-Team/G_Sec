@@ -58,13 +58,9 @@ public class FragmentAddWarehouse extends Fragment {
 
         mViewModel.successfullySave().observe(getViewLifecycleOwner(), successfullySave -> {
             if(successfullySave) {
-                dialogMessage.initDialog("Warehouse", "Warehouse added! Would you like to add another?");
-                dialogMessage.setPositiveButton("Yes", dialog -> {
-                    binding.tieSearchBranch.setText("");
-                    binding.tieWarehouseName.setText("");
-                    binding.tieBranchName.setText("");
-                });
-                dialogMessage.setNegativeButton("No", dialog -> {
+                dialogMessage.initDialog("Warehouse", "Warehouse added!");
+                dialogMessage.setPositiveButton("Close", dialog -> {
+                    dialog.dismiss();
                     navController.popBackStack();
                 });
                 dialogMessage.show();

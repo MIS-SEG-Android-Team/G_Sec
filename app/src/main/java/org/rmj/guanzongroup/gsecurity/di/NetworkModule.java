@@ -96,5 +96,4 @@ public class NetworkModule {
     public static BaseHeaderInterceptor provideBaseHeaderInterceptor() {
         return new BaseHeaderInterceptor();
     }
-
 }

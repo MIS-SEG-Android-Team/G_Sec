@@ -58,17 +58,6 @@ public class BaseHeaderInterceptor implements Interceptor {
                 .addHeader("g-api-token", firebaseToken)
                 .build();
 
-        String keyDeviceID = request.headers().get("g-api-imei");
-        String keyApiKey = request.headers().get("g-api-key");
-        String keyApiHash = SECUtil.md5Hex(keyDeviceID + keyApiKey);
-
-        Timber.tag("BaseHeaderInterceptor").d("Device ID: %s", keyDeviceID);
-        Timber.tag("BaseHeaderInterceptor").d("API Key: %s", keyApiKey);
-        Timber.tag("BaseHeaderInterceptor").d("Hash Key: %s", keyApiHash);
-        Timber.tag("BaseHeaderInterceptor").d("Hash Key: %s", BuildConfig.PRODUCT_ID);
-        Timber.tag("BaseHeaderInterceptor").d("Hash Key: %s", BuildConfig.CLIENT_ID);
-        Timber.tag("BaseHeaderInterceptor").d("Hash Key: %s", BuildConfig.CHAR_REQUEST);
-
         return chain.proceed(request);
     }
 }
