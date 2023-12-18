@@ -159,6 +159,6 @@
         android:id="@+id/fragmentNfcCategory"
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.category.FragmentCategory"
         android:label="fragment_category"
-        tools:layout="@layout/fragment_category " />
+        tools:layout="@layout/fragment_category" />
 
 </navigation>

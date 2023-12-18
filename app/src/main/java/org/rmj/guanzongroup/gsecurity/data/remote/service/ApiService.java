@@ -126,7 +126,7 @@ public interface ApiService {
     @POST("/gsecure/place/add_category.php")
     Observable<BaseResponse<Void>> addCategory(@Body AddCategoryParams params);
 
-    @GET("/gsecure/place/get_category.php")
+    @POST("/gsecure/place/get_category.php")
     Observable<BaseResponse<List<CategoryEntity>>> getCategories(@Body GetCategoryParams params);
 
 

@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor;
 
 import androidx.annotation.NonNull;
 
+import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.util.SECUtil;
 import org.rmj.guanzongroup.gsecurity.data.remote.util.SQLUtil;
 
@@ -19,19 +20,13 @@ import okhttp3.Response;
 @Singleton
 public class AuthorizedInterceptor implements Interceptor {
 
-    private String userID = "";
-    private String logNo = "";
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public void setLogNo(String logNo) {
-        this.logNo = logNo;
-    }
+    private final String userID;
+    private final String logNo;
 
     @Inject
-    public AuthorizedInterceptor() {
+    public AuthorizedInterceptor(DataStore dataStore) {
+        userID = dataStore.getUserId();
+        logNo = dataStore.getLogNumber();
     }
 
     @NonNull

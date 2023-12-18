@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.di;
 import android.app.Application;
 
 import org.rmj.guanzongroup.gsecurity.BuildConfig;
+import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.AuthorizedInterceptor;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.BaseHeaderInterceptor;
@@ -46,8 +47,8 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    public static AuthorizedInterceptor provideAuthorizedInterceptor() {
-        return new AuthorizedInterceptor();
+    public static AuthorizedInterceptor provideAuthorizedInterceptor(DataStore dataStore) {
+        return new AuthorizedInterceptor(dataStore);
     }
 
     @Singleton
@@ -72,17 +73,13 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    public static ApiService provideAPIService(
-            Retrofit retrofit
-    ) {
+    public static ApiService provideAPIService(Retrofit retrofit) {
         return retrofit.create(ApiService.class);
     }
 
     @Singleton
     @Provides
-    public static Retrofit provideRetrofit(
-            OkHttpClient okHttpClient
-    ) {
+    public static Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .client(okHttpClient)

@@ -13,28 +13,36 @@ import dagger.hilt.android.lifecycle.HiltViewModel;
 @HiltViewModel
 public class VMSplashscreen extends ViewModel {
 
-    private final TokenDeviceID appConfig;
+    private final TokenDeviceID tokenDeviceID;
     private final BaseHeaderInterceptor baseHeaderInterceptor;
     private final AuthenticationRepository authenticationRepository;
 
     @Inject
     public VMSplashscreen(
-            TokenDeviceID appConfig,
+            TokenDeviceID tokenDeviceID,
             BaseHeaderInterceptor baseHeaderInterceptor,
             AuthenticationRepository authenticationRepository
     ) {
-        this.appConfig = appConfig;
+        this.tokenDeviceID = tokenDeviceID;
         this.baseHeaderInterceptor = baseHeaderInterceptor;
         this.authenticationRepository = authenticationRepository;
     }
 
     public void setDeviceID(String deviceID) {
-        appConfig.setDeviceID(deviceID);
-        baseHeaderInterceptor.setDeviceID(appConfig.getDeviceID());
+        tokenDeviceID.setDeviceID(deviceID);
+        baseHeaderInterceptor.setDeviceID(tokenDeviceID.getDeviceID());
     }
 
     public void setFirebaseToken() {
-        appConfig.setFirebaseToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
-        baseHeaderInterceptor.setFirebaseToken(appConfig.getFirebaseToken());
+        tokenDeviceID.setFirebaseToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
+        baseHeaderInterceptor.setFirebaseToken(tokenDeviceID.getFirebaseToken());
+    }
+
+    public Boolean hasSession() {
+        return authenticationRepository.hasUserSession();
+    }
+
+    public Boolean isAdmin() {
+        return authenticationRepository.isAdmin();
     }
 }

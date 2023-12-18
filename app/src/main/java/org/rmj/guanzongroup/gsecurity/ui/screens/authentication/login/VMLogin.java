@@ -25,7 +25,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class VMLogin extends ViewModel {
 
     private final AuthenticationRepository repository;
-    private final AuthorizedInterceptor authorizedInterceptor;
     private final DataStore dataStore;
 
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
@@ -45,11 +44,9 @@ public class VMLogin extends ViewModel {
     @Inject
     public VMLogin(
             AuthenticationRepository repository,
-            AuthorizedInterceptor authorizedInterceptor,
             DataStore dataStore
     ) {
         this.repository = repository;
-        this.authorizedInterceptor = authorizedInterceptor;
         this.dataStore = dataStore;
 
     }
@@ -113,9 +110,6 @@ public class VMLogin extends ViewModel {
                                 return;
                             }
 
-                            // initialize the authorization keys after user login...
-                            initAuthorizationKeys(baseResponse);
-
                             // saving of user information to DataStore/SharePreferences...
                             initDataStore(baseResponse);
 
@@ -158,9 +152,6 @@ public class VMLogin extends ViewModel {
                                 return;
                             }
 
-                            // initialize the authorization keys after user login...
-                            initAuthorizationKeys(baseResponse);
-
                             // saving of user information to DataStore/SharePreferences...
                             initDataStore(baseResponse);
 
@@ -192,10 +183,5 @@ public class VMLogin extends ViewModel {
         dataStore.setMainOffice(baseResponse.getcMainOffc());
         dataStore.setSelfieLogAllowed(baseResponse.getcSlfieLog());
         dataStore.setAllowedUpdate(baseResponse.getcAllowUpd());
-    }
-
-    private void initAuthorizationKeys(LoginBaseResponse baseResponse) {
-        authorizedInterceptor.setUserID(baseResponse.getsUserIDxx());
-        authorizedInterceptor.setLogNo(baseResponse.getsLogNoxxx());
     }
 }

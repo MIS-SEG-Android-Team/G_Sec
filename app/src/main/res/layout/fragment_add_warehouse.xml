@@ -52,9 +52,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
+                android:inputType="textCapSentences"
                 android:maxLength="50"
-                android:nextFocusForward="@id/tiePassword" />
+                android:nextFocusForward="@id/tieWarehouseName" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/addCategory"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
         tools:layout_editor_absoluteX="16dp">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -88,9 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLength="50"
+                android:enabled="false"
                 android:nextFocusForward="@id/tiePassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -112,8 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
                 android:maxLength="50"
                 android:nextFocusForward="@id/tiePassword" />
 

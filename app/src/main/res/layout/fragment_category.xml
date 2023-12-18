@@ -28,80 +28,102 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/positionsList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="@dimen/view_padding_8"
-        android:layout_marginTop="@dimen/view_padding_16"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle"/>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/subTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/refreshButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_refresh_list"
-            app:layout_constraintBottom_toTopOf="@+id/tilPosition"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilCategory"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label_category">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categoryList"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginTop="@dimen/view_padding_16"
+                android:padding="@dimen/view_padding_8"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subTitle" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tieCategory"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/refreshButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/button_refresh_list" />
+
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLength="50"
-                android:nextFocusForward="@id/tiePassword" />
+                android:text="@string/label_add_category"
+                android:textSize="@dimen/screen_sub_header2"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginVertical="@dimen/view_padding_8"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilDescription"
-            style="@style/TextInputStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label_category_description">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tieDescription"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCategory"
+                style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLength="50"
-                android:nextFocusForward="@id/tiePassword" />
+                android:hint="@string/label_category">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tieCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/tieDescription" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addCategory"
-            style="@style/MaterialButtonAccent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_add_category" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDescription"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_category_description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tieDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:fontFamily="@font/roboto"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences"
+                    android:maxLength="128"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addCategory"
+                style="@style/MaterialButtonAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_add_category" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_padding_36"
+                android:layout_marginBottom="@dimen/view_padding_36"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

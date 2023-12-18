@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/label_position"
-        app:layout_constraintBottom_toTopOf="@+id/addCategory"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
         tools:layout_editor_absoluteX="16dp">
 
         <com.google.android.material.textfield.TextInputEditText

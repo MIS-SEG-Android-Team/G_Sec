@@ -78,6 +78,7 @@
     <string name="label_loading_warehouse">Loading warehouse…</string>
     <string name="label_select_checkpoints">Select Checkpoints Here</string>
     <string name="label_added_checkpoints">Added Checkpoints</string>
+    <string name="label_add_category">Add Category</string>
     <string name="label_no_warehouse_record_found">Couldn\'t find any warehouse records in your account. Check if you\'ve added any, or create one now!</string>
 
     <!--    Buttons-->

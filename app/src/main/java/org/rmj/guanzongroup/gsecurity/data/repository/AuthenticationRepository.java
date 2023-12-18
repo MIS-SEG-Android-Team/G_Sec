@@ -47,4 +47,8 @@ public class AuthenticationRepository {
     public Boolean hasUserSession() {
         return !dataStore.getLogNumber().isEmpty();
     }
+
+    public Boolean isAdmin() {
+        return !dataStore.getClientId().isEmpty();
+    }
 }

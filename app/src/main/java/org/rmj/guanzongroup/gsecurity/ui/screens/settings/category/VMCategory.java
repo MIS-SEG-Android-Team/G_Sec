@@ -12,6 +12,7 @@ import org.rmj.guanzongroup.gsecurity.data.repository.CategoryRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -42,12 +43,18 @@ public class VMCategory extends ViewModel {
         return importingCategories;
     }
 
+    public LiveData<Boolean> savingCategory() {
+        return savingCategory;
+    }
+
     public void setCategory(String value) {
         category.setValue(value);
+        hasCompleteInfo.setValue(!value.trim().isEmpty() && !Objects.requireNonNull(description.getValue()).trim().isEmpty());
     }
 
     public void setDescription(String value) {
         description.setValue(value);
+        hasCompleteInfo.setValue(!value.trim().isEmpty() && !Objects.requireNonNull(category.getValue()).trim().isEmpty());
     }
 
     public LiveData<Boolean> hasCompleteInfo() {
@@ -56,6 +63,14 @@ public class VMCategory extends ViewModel {
 
     public LiveData<List<CategoryEntity>> getCategories() {
         return categoryRepository.getCategories();
+    }
+
+    public LiveData<Boolean> categorySave() {
+        return categorySave;
+    }
+
+    public void resetAddCategory() {
+        categorySave.setValue(false);
     }
 
     @SuppressLint("CheckResult")
@@ -76,6 +91,9 @@ public class VMCategory extends ViewModel {
                                 errorMessage.setValue(baseResponse.getError().getMessage());
                                 return;
                             }
+
+                            categorySave.setValue(true);
+                            savingCategory.setValue(false);
                         },
 
                         throwable -> {

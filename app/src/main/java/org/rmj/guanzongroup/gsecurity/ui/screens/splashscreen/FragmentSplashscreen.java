@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSplashscreenBinding;
+import org.rmj.guanzongroup.gsecurity.ui.activity.AdminActivity;
+import org.rmj.guanzongroup.gsecurity.ui.activity.PersonnelActivity;
 
 import java.util.Objects;
 
@@ -58,7 +61,17 @@ public class FragmentSplashscreen extends Fragment {
 
         mViewModel.setFirebaseToken();
 
-        navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
+        if (!mViewModel.hasSession()) {
+            navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
+        } else if(mViewModel.isAdmin()) {
+            Intent intent = new Intent(requireActivity(), AdminActivity.class);
+            requireActivity().startActivity(intent);
+            requireActivity().finish();
+        } else {
+            Intent intent = new Intent(requireActivity(), PersonnelActivity.class);
+            requireActivity().startActivity(intent);
+            requireActivity().finish();
+        }
         return binding.getRoot();
     }
 }
