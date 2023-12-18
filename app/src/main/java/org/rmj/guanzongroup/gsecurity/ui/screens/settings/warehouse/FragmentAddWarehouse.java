@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.warehouse;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -74,7 +75,7 @@ public class FragmentAddWarehouse extends Fragment {
             if(errorMessage.isEmpty()) {
                 return;
             }
-            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage).showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });
 
         mViewModel.getBranchList().observe(getViewLifecycleOwner(), branchList -> {

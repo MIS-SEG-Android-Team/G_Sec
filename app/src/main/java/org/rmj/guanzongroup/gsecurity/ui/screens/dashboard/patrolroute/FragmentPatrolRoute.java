@@ -46,7 +46,7 @@ public class FragmentPatrolRoute extends Fragment {
 
     private final ActivityResultLauncher<Intent> intentFrontCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
        if(result.getResultCode() == RESULT_OK) {
-           new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace).showDialog();
+           new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
        } else if(result.getResultCode() == RESULT_CANCELED) {
            Toast.makeText(requireActivity(), "Selfie tagging cancelled.", Toast.LENGTH_SHORT).show();
        } else {
@@ -75,7 +75,7 @@ public class FragmentPatrolRoute extends Fragment {
     private final ActivityResultLauncher<Intent> intentNFCReader = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result-> {
         if(result.getResultCode() == RESULT_OK) {
             // TODO: Process the JSON Data to intent Selfie Camera...
-            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace).showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
         } else if(result.getResultCode() == RESULT_CANCELED) {
             Toast.makeText(
                             requireActivity(),
@@ -185,7 +185,7 @@ public class FragmentPatrolRoute extends Fragment {
                 return;
             }
 
-            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage).showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });
     }
 }

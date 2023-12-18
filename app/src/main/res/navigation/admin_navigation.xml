@@ -78,7 +78,14 @@
             app:exitAnim="@anim/nav_default_exit_anim" />
         <action
             android:id="@+id/action_fragmentSettings_to_fragmentWarehouseSelection"
-            app:destination="@id/fragmentWarehouseSelection" />
+            app:destination="@id/fragmentWarehouseSelection"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"  />
+        <action
+            android:id="@+id/action_fragmentSettings_to_fragmentNfcCategory"
+            app:destination="@id/fragmentNfcCategory"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
 
     </fragment>
 
@@ -147,5 +154,11 @@
         android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.personnel.FragmentPersonnelSelection"
         android:label="fragment_position"
         tools:layout="@layout/fragment_personnel_selection" />
+
+    <fragment
+        android:id="@+id/fragmentNfcCategory"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.category.FragmentCategory"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category " />
 
 </navigation>

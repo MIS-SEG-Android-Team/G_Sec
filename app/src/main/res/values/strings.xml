@@ -22,6 +22,7 @@
     <string name="title_position">Position/Roles</string>
     <string name="title_create_schedule">Create Schedule</string>
     <string name="title_warehouse_selection">Warehouse Selection</string>
+    <string name="title_patrol_checkpoints">Patrol Checkpoints</string>
 
     <!--    Sub Title-->
     <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring</string>
@@ -34,8 +35,9 @@
     <string name="sub_title_add_warehouse">Register New Warehouse Location</string>
     <string name="sub_title_notification">Important Notice</string>
     <string name="sub_title_position">Personnel Roles</string>
-    <string name="sub_title_create_schedule">Plan Your Patrol Route</string>
+    <string name="sub_title_create_schedule">Plan Patrol Route</string>
     <string name="sub_title_warehouse_selection">Choose Patrol Base</string>
+    <string name="sub_title_plot_patrol_stops">Plot Your Patrol Stops</string>
 
     <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>
@@ -60,6 +62,7 @@
     <string name="label_category">Category</string>
     <string name="label_category_description">Category Description</string>
     <string name="label_nfc_description">NFC Description</string>
+    <string name="label_search_nfc">Search NFC</string>
     <string name="label_warehouse">Warehouse</string>
     <string name="label_last_visited">Last visited: </string>
     <string name="label_tap_the_nfc">Tap the NFC until device plays a sound.</string>
@@ -73,6 +76,8 @@
     <string name="label_position">Position</string>
     <string name="label_description">Description</string>
     <string name="label_loading_warehouse">Loading warehouse…</string>
+    <string name="label_select_checkpoints">Select Checkpoints Here</string>
+    <string name="label_added_checkpoints">Added Checkpoints</string>
     <string name="label_no_warehouse_record_found">Couldn\'t find any warehouse records in your account. Check if you\'ve added any, or create one now!</string>
 
     <!--    Buttons-->
@@ -88,6 +93,7 @@
     <string name="button_warehouse">Warehouse</string>
     <string name="button_add_personnel">Add Personnel</string>
     <string name="button_add_position">Add Position</string>
+    <string name="button_add_category">Add Category</string>
     <string name="button_create_schedule">Create Schedule</string>
     <string name="button_save">Save</string>
     <string name="button_add_warehouse">Add Warehouse</string>
@@ -106,6 +112,7 @@
     <string name="button_zero">0</string>
     <string name="button_clear">Clear</string>
     <string name="button_refresh_list">Refresh List</string>
+    <string name="button_continue">Continue</string>
 
     <!--    Sentences-->
 

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.data.room.category;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Upsert;
@@ -14,4 +15,7 @@ public interface CategoryDao {
 
     @Query("SELECT dTimeStmp FROM Category ORDER BY dTimeStmp DESC LIMIT 1")
     String getLatestTimeStamp();
+
+    @Query("SELECT * FROM Category")
+    LiveData<List<CategoryEntity>> getCategories();
 }

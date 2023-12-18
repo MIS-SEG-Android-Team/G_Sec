@@ -11,6 +11,7 @@
         android:id="@+id/nfcDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Front Desk"
         android:textSize="@dimen/screen_sub_header1"
         android:fontFamily="@font/roboto_medium"/>
     

@@ -45,7 +45,6 @@ public class FragmentLogin extends Fragment {
     @Inject
     VMLogin mViewModel;
 
-    private DialogResult dialogResult;
     private DialogLoad dialogLoad;
 
     private final StringBuilder stringBuilder = new StringBuilder();
@@ -138,8 +137,7 @@ public class FragmentLogin extends Fragment {
             // Clear the PIN Edittext each time the user fails to authenticate...
             stringBuilder.delete(0, stringBuilder.length());
             binding.tiePIN.setText(stringBuilder.toString());
-            dialogResult = new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage);
-            dialogResult.showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });
 
         mViewModel.hasCredentials().observe(requireActivity(), hasCredentials -> binding.loginButton.setEnabled(hasCredentials));

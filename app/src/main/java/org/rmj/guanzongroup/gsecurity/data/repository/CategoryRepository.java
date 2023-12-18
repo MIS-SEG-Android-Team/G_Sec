@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
@@ -14,7 +16,6 @@ import javax.inject.Inject;
 import io.reactivex.rxjava3.core.Observable;
 
 public class CategoryRepository {
-
 
     private final ApiService apiService;
     private final CategoryDao categoryDao;
@@ -32,7 +33,19 @@ public class CategoryRepository {
         return apiService.addCategory(params);
     }
 
+    public String getLatestTimeStamp() {
+        return categoryDao.getLatestTimeStamp();
+    }
+
     public Observable<BaseResponse<List<CategoryEntity>>> getCategories(GetCategoryParams params) {
         return apiService.getCategories(params);
+    }
+
+    public void saveCategories(List<CategoryEntity> value) {
+        categoryDao.saveCategories(value);
+    }
+
+    public LiveData<List<CategoryEntity>> getCategories() {
+        return categoryDao.getCategories();
     }
 }

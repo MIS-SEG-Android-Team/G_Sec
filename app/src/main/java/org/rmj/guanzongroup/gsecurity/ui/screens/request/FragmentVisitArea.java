@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.request;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class FragmentVisitArea extends Fragment {
             binding.tiePersonnel.setText("");
             binding.tiePlace.setText("");
             binding.tieRemarks.setText("");
-            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Site visitation request has been sent!").showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Site visitation request has been sent!", Dialog::dismiss).showDialog();
         });
 
         return binding.getRoot();

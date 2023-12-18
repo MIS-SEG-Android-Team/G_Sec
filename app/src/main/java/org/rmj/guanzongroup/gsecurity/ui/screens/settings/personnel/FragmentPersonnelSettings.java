@@ -75,7 +75,7 @@ public class FragmentPersonnelSettings extends Fragment {
                 return;
             }
 
-            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage).showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });
         // endregion
 

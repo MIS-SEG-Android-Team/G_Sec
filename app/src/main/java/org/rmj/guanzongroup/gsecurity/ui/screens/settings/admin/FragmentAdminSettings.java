@@ -73,7 +73,7 @@ public class FragmentAdminSettings extends Fragment {
                return;
             }
 
-            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage).showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });
         // endregion
 
@@ -81,6 +81,7 @@ public class FragmentAdminSettings extends Fragment {
         binding.addPosition.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentPosition));
         binding.addPersonnelButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPersonnel));
         binding.createScheduleButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentWarehouseSelection));
+        binding.nfcCategoryButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPlace));
         binding.addNfcTagButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPlace));
         binding.warehouseButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddWarehouse));
         // endregion

@@ -6,11 +6,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
-import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.WarehouseRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
-import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
 
 import java.util.List;
 
@@ -24,25 +23,27 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class VMWarehouseSelection extends ViewModel {
 
     private final WarehouseRepository warehouseRepository;
-    private final PersonnelRepository personnelRepository;
-    private final PatrolSchedulerCache schedulerCache;
+    private final PatrolSchedulerCache patrolScheduleCache;
 
     private final MutableLiveData<Boolean> importingWarehouse = new MutableLiveData<>(false);
 
     @Inject
     public VMWarehouseSelection(
             WarehouseRepository warehouseRepository,
-            PersonnelRepository personnelRepository,
             PatrolSchedulerCache schedulerCache
     ) {
         this.warehouseRepository = warehouseRepository;
-        this.personnelRepository = personnelRepository;
-        this.schedulerCache = schedulerCache;
+        this.patrolScheduleCache = schedulerCache;
         importWarehouse();
     }
 
+    /**
+     * This temporarily saves the information of warehouse to cache/preferences in order to handle
+     * saveState.
+     * @param value id/unique key of selected warehouse for creating patrol schedule...
+     */
     public void setWarehouse(String value) {
-        schedulerCache.setWarehouseID(value);
+        patrolScheduleCache.setWarehouseID(value);
     }
 
     public LiveData<Boolean> importingWarehouse() {
@@ -53,43 +54,17 @@ public class VMWarehouseSelection extends ViewModel {
         return warehouseRepository.getWarehouseList();
     }
 
+    @SuppressLint("CheckResult")
     private void importWarehouse() {
-        String timeStamp = warehouseRepository.getLatestTimeStamp();
-        if(timeStamp == null || timeStamp.isEmpty()) {
-            getWarehouses("");
-        } else {
-            getWarehouses(timeStamp);
-        }
-    }
-
-    @SuppressLint("CheckResult")
-    private void getWarehouses() {
-//        importingWarehouse.setValue(true);
-//        warehouseRepository.getWarehouse()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        baseResponse -> {
-//                            importingWarehouse.setValue(false);
-//
-//                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
-//                                return;
-//                            }
-//
-//                            List<WarehouseEntity> warehouseEntityList = baseResponse.getData();
-//                            warehouseRepository.saveWarehouses(warehouseEntityList);
-//                        },
-//                        throwable -> {
-//                            importingWarehouse.setValue(false);
-//                        }
-//                );
-    }
-
-    @SuppressLint("CheckResult")
-    private void getWarehouses(String timeStamp) {
         importingWarehouse.setValue(true);
+
         GetWarehouseParams params = new GetWarehouseParams();
-        params.setDTimeStmp(timeStamp);
+        String timeStamp = warehouseRepository.getLatestTimeStamp();
+
+        if(timeStamp != null) {
+            params.setDTimeStmp(timeStamp);
+        }
+
         warehouseRepository.getWarehouse(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

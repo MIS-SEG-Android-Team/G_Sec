@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.settings.addpersonnel;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,6 @@ public class FragmentAddPersonnel extends Fragment {
     @Inject
     VMAddPersonnel mViewModel;
 
-    private DialogResult dialogResult;
     private DialogLoad dialogLoad;
 
     private FragmentAddPersonnelBinding binding;
@@ -63,8 +63,7 @@ public class FragmentAddPersonnel extends Fragment {
                 binding.tieMiddleName.setText("");
                 binding.tiePosition.setText("");
                 binding.tieDescription.setText("");
-                dialogResult = new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.");
-                dialogResult.showDialog();
+                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.", Dialog::dismiss);
             }
         });
 
@@ -77,8 +76,7 @@ public class FragmentAddPersonnel extends Fragment {
                 return;
             }
 
-            dialogResult = new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage);
-            dialogResult.showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss);
         });
 
         binding.savePersonnelButton.setOnClickListener( view -> mViewModel.addPersonnel());

@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_PAYLOAD;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,11 +34,11 @@ public class FragmentAddPlace extends Fragment {
 
     private final ActivityResultLauncher<Intent> nfcWriterIntent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),  result -> {
         if(result.getResultCode() == RESULT_OK) {
-            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New place has been printed to NFC tag.").showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New place has been printed to NFC tag.", Dialog::dismiss).showDialog();
         } else if(result.getResultCode() == RESULT_CANCELED) {
             Toast.makeText(requireActivity(), "Writing NFC payload cancelled", Toast.LENGTH_SHORT).show();
         } else {
-            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Failed to print new place on NFC tag.").showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Failed to print new place on NFC tag.", Dialog::dismiss).showDialog();
         }
     });
 

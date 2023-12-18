@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.settings.position;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -71,13 +72,15 @@ public class FragmentPosition extends Fragment {
 
         mViewModel.successfullySave().observe(getViewLifecycleOwner(), successfullySave -> {
             if (successfullySave) {
-                dialogMessage.initDialog("Position", "Position saved!");
-                dialogMessage.setPositiveButton("Close", dialog -> {
-                    dialog.dismiss();
-                    binding.tiePosition.setText("");
-                    navController.popBackStack();
-                });
-                dialogMessage.show();
+                new DialogResult(
+                        requireActivity(),
+                        DialogResult.RESULT.SUCCESS,
+                        "Position saved!",
+                        dialog -> {
+                            dialog.dismiss();
+                            binding.tiePosition.setText("");
+                            navController.popBackStack();
+                        }).showDialog();
             }
         });
 
@@ -89,7 +92,7 @@ public class FragmentPosition extends Fragment {
                 return;
             }
 
-            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage).showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });
 
         binding.tiePosition.addTextChangedListener(new TextWatcher() {

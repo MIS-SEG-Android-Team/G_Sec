@@ -11,9 +11,6 @@ import org.rmj.guanzongroup.gsecurity.databinding.DialogResultBinding;
 
 import java.util.Objects;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 public class DialogResult {
 
     private static AlertDialog alertDialog;
@@ -23,7 +20,12 @@ public class DialogResult {
         FAILED
     }
 
-    public DialogResult(Context context, RESULT result, String message){
+    public DialogResult(
+            Context context,
+            RESULT result,
+            String message,
+            onDialogButtonClickCallback callback
+    ){
         DialogResultBinding binding = DialogResultBinding.inflate(LayoutInflater.from(context));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -41,8 +43,7 @@ public class DialogResult {
         binding.message.setText(message);
 
         binding.closeButton.setOnClickListener(view -> {
-//            listener.onClick(alertDialog);
-            alertDialog.dismiss();
+            callback.onClick(alertDialog);
         });
     }
 
@@ -50,7 +51,7 @@ public class DialogResult {
         alertDialog.show();
     }
 
-    public interface onDialogButtonClickListener{
+    public interface onDialogButtonClickCallback {
         void onClick(AlertDialog dialog);
     }
 }
