@@ -14,10 +14,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentAddPersonnelBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -63,7 +67,7 @@ public class FragmentAddPersonnel extends Fragment {
                 binding.tieMiddleName.setText("");
                 binding.tiePosition.setText("");
                 binding.tieDescription.setText("");
-                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.", Dialog::dismiss);
+                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.", Dialog::dismiss).showDialog();
             }
         });
 
@@ -76,7 +80,24 @@ public class FragmentAddPersonnel extends Fragment {
                 return;
             }
 
-            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss);
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
+        });
+
+        mViewModel.getPositions().observe(getViewLifecycleOwner(), positions -> {
+            ArrayList<String> list = new ArrayList<>();
+            for (int x = 0; x < positions.size(); x++) {
+                list.add(positions.get(x).getSPositnNm());
+            }
+            binding.tiePosition.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, list.toArray()));
+            binding.tiePosition.setOnItemClickListener((parent, view, position, id) -> {
+                for (int x = 0; x < positions.size(); x++) {
+                    if (binding.tiePosition.getText().toString().equalsIgnoreCase(positions.get(position).getSPositnNm())) {
+                        mViewModel.setPosition(positions.get(position).getsPositnID());
+                        break;
+                    }
+                }
+            });
+
         });
 
         binding.savePersonnelButton.setOnClickListener( view -> mViewModel.addPersonnel());

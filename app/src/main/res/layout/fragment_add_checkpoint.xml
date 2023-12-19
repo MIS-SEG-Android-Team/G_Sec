@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.settings.nfc.FragmentAddPlace"
+    tools:context=".ui.screens.settings.nfc.FragmentAddCheckpoint"
     android:padding="@dimen/horizontal_padding_default">
 
     <com.google.android.material.textview.MaterialTextView

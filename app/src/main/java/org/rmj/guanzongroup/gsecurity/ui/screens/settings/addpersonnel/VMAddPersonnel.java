@@ -2,13 +2,17 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.settings.addpersonnel;
 
 import android.annotation.SuppressLint;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.PositionRepository;
+import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -20,7 +24,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 @HiltViewModel
 public class VMAddPersonnel extends ViewModel {
 
-    private final PersonnelRepository repository;
+    private final PersonnelRepository personnelRepository;
+    private final PositionRepository positionRepository;
 
     // Text field handlers
     // Personnel last name
@@ -44,49 +49,52 @@ public class VMAddPersonnel extends ViewModel {
 
     @Inject
     public VMAddPersonnel(
-            PersonnelRepository personnelRepository
+            PersonnelRepository personnelRepository,
+            PositionRepository positionRepository
     ) {
-        this.repository = personnelRepository;
+        this.personnelRepository = personnelRepository;
+        this.positionRepository = positionRepository;
+        checkPositions();
     }
 
     public void setLastName(String value) {
+        lastName.setValue(value);
         hasCompleteInfo.setValue(
                 !value.trim().isEmpty() &&
                 !Objects.requireNonNull(frstName.getValue()).trim().isEmpty() &&
                 !Objects.requireNonNull(descript.getValue()).trim().isEmpty() &&
                 !Objects.requireNonNull(position.getValue()).isEmpty()
         );
-        lastName.setValue(value);
     }
     public void setFirstName(String value) {
+        frstName.setValue(value);
         hasCompleteInfo.setValue(
                 !value.trim().isEmpty() &&
                         !Objects.requireNonNull(lastName.getValue()).trim().isEmpty() &&
                         !Objects.requireNonNull(descript.getValue()).trim().isEmpty() &&
                         !Objects.requireNonNull(position.getValue()).isEmpty()
         );
-        frstName.setValue(value);
     }
     public void setMiddleName(String value) {
         middName.setValue(value);
     }
     public void setPosition(String value) {
+        position.setValue(value);
         hasCompleteInfo.setValue(
                 !value.trim().isEmpty() &&
                         !Objects.requireNonNull(frstName.getValue()).trim().isEmpty() &&
                         !Objects.requireNonNull(descript.getValue()).trim().isEmpty() &&
                         !Objects.requireNonNull(lastName.getValue()).isEmpty()
         );
-        position.setValue(value);
     }
     public void setPositionDescription(String value) {
+        descript.setValue(value);
         hasCompleteInfo.setValue(
                 !value.trim().isEmpty() &&
                         !Objects.requireNonNull(frstName.getValue()).trim().isEmpty() &&
                         !Objects.requireNonNull(lastName.getValue()).trim().isEmpty() &&
                         !Objects.requireNonNull(position.getValue()).isEmpty()
         );
-        descript.setValue(value);
     }
     public void setUserLevel(String value) {
         userLevl.setValue(value);
@@ -105,6 +113,38 @@ public class VMAddPersonnel extends ViewModel {
         return errorMessage;
     }
 
+    public LiveData<List<PositionEntity>> getPositions() {
+        return positionRepository.getPositionFromCache();
+    }
+
+    @SuppressLint("CheckResult")
+    private void checkPositions() {
+        GetPositionParams params = new GetPositionParams();
+        String timeStamp = positionRepository.getLatestTimeStamp();
+        if (timeStamp != null) {
+            params.setDTimeStmp(timeStamp);
+        }
+        positionRepository.getPositions(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+
+                        baseResponse -> {
+
+                            if (baseResponse.getResult().equalsIgnoreCase("error")) {
+
+                                return;
+                            }
+
+                            List<PositionEntity> positionEntityList = baseResponse.getData();
+                            positionRepository.savePositions(positionEntityList);
+                        },
+                        throwable -> {
+
+                        }
+                );
+    }
+
     @SuppressLint("CheckResult")
     public void addPersonnel() {
 
@@ -118,7 +158,7 @@ public class VMAddPersonnel extends ViewModel {
         param.setsPositnID(position.getValue());
         param.setsPositnDs(descript.getValue());
         param.setnUserLvel(userLevl.getValue());
-        repository.addPersonnel(param)
+        personnelRepository.addPersonnel(param)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

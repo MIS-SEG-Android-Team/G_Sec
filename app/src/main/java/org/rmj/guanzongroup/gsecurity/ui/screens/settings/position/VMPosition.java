@@ -66,7 +66,7 @@ public class VMPosition extends ViewModel {
     }
 
     public LiveData<List<PositionEntity>> getPositions() {
-        return repository.getPositionFromLocal();
+        return repository.getPositionFromCache();
     }
 
     @SuppressLint("CheckResult")
@@ -101,7 +101,7 @@ public class VMPosition extends ViewModel {
         finishImporting.setValue(false);
 
         GetPositionParams params = new GetPositionParams();
-        String timeStamp = repository.getPositionLatestTimeStamp();
+        String timeStamp = repository.getLatestTimeStamp();
 
         if (timeStamp != null) {
             params.setDTimeStmp(timeStamp);

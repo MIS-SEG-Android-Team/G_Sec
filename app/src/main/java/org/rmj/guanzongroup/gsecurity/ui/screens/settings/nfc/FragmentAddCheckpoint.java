@@ -19,18 +19,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import org.rmj.guanzongroup.gsecurity.databinding.FragmentAddPlaceBinding;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentAddCheckpointBinding;
 import org.rmj.guanzongroup.gsecurity.ui.activity.WriteNfcActivity;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
-public class FragmentAddPlace extends Fragment {
+public class FragmentAddCheckpoint extends Fragment {
 
     private VMAddPlace mViewModel;
 
     private DialogMessage dialogMessage;
 
-    private FragmentAddPlaceBinding binding;
+    private FragmentAddCheckpointBinding binding;
 
     private final ActivityResultLauncher<Intent> nfcWriterIntent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),  result -> {
         if(result.getResultCode() == RESULT_OK) {
@@ -42,15 +42,15 @@ public class FragmentAddPlace extends Fragment {
         }
     });
 
-    public static FragmentAddPlace newInstance() {
-        return new FragmentAddPlace();
+    public static FragmentAddCheckpoint newInstance() {
+        return new FragmentAddCheckpoint();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMAddPlace.class);
-        binding = FragmentAddPlaceBinding.inflate(getLayoutInflater());
+        binding = FragmentAddCheckpointBinding.inflate(getLayoutInflater());
 
         dialogMessage = new DialogMessage(requireActivity());
 

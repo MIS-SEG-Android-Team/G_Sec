@@ -91,9 +91,9 @@
 
     <fragment
         android:id="@+id/fragmentAddPlace"
-        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.nfc.FragmentAddPlace"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.settings.nfc.FragmentAddCheckpoint"
         android:label="fragment_add_place"
-        tools:layout="@layout/fragment_add_place" />
+        tools:layout="@layout/fragment_add_checkpoint" />
 
     <fragment
         android:id="@+id/fragmentAddWarehouse"

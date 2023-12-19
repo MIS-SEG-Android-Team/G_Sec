@@ -41,11 +41,11 @@ public class PositionRepository {
         positionDao.savePositions(value);
     }
 
-    public LiveData<List<PositionEntity>> getPositionFromLocal() {
+    public LiveData<List<PositionEntity>> getPositionFromCache() {
         return positionDao.getPositions();
     }
 
-    public String getPositionLatestTimeStamp() {
+    public String getLatestTimeStamp() {
         return positionDao.getPositionLatestTimeStamp();
     }
 }
