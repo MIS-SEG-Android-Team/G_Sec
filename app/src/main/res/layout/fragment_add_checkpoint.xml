@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/view_padding_8"
-        android:text="@string/title_add_nfc"
+        android:text="@string/button_add_checkpoint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,14 +42,31 @@
         app:layout_constraintVertical_bias="0.15">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilWarehouse"
+            style="@style/CustomDropDownTilStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_warehouse">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/tieWarehouse"
+                style="@style/DropdownStyleTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:maxLength="50"
+                android:nextFocusForward="@id/tiePassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilCategory"
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_category"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilWarehouseName">
+            android:hint="@string/label_category">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/tieCategory"
@@ -65,30 +82,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilBranch"
-            style="@style/CustomDropDownTilStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/label_branch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tilWarehouseName">
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/tieBranch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/DropdownStyleTheme"
-                android:fontFamily="@font/roboto"
-                android:imeOptions="actionDone"
-                android:inputType="textEmailAddress"
-                android:maxLength="50"
-                android:nextFocusForward="@id/tiePassword" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilWarehouseName"
+            android:id="@+id/tilDescription"
             style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,7 +90,7 @@
             android:hint="@string/label_nfc_description">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tieWarehouseName"
+                android:id="@+id/tieDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"

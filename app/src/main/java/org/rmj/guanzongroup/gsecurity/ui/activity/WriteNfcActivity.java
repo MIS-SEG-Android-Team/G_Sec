@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.activity;
 
-import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_PAYLOAD;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_DATA_WAREHOUSE_ID;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -46,8 +46,8 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
         binding = ActivityWriteNfcBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if(getIntent().hasExtra(WRITE_NFC_PAYLOAD))
-            record1 = getIntent().getStringExtra(WRITE_NFC_PAYLOAD);
+        if(getIntent().hasExtra(WRITE_NFC_DATA_WAREHOUSE_ID))
+            record1 = getIntent().getStringExtra(WRITE_NFC_DATA_WAREHOUSE_ID);
 
         initNfcAdapter();
 
@@ -123,6 +123,8 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
 //        Log.d("WriteNfcActivity", record1);
 
         // Create a Ndef Record
+        NdefRecord mRecord = NdefRecord.createTextRecord("en", record1);
+        NdefRecord mRecord = NdefRecord.createTextRecord("en", record1);
         NdefRecord mRecord = NdefRecord.createTextRecord("en", record1);
 
         // Add to a NdefMessage

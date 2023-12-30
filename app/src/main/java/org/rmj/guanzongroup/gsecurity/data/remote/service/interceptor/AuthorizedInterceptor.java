@@ -20,19 +20,20 @@ import okhttp3.Response;
 @Singleton
 public class AuthorizedInterceptor implements Interceptor {
 
-    private final String userID;
-    private final String logNo;
+    private final DataStore dataStore;
 
     @Inject
     public AuthorizedInterceptor(DataStore dataStore) {
-        userID = dataStore.getUserId();
-        logNo = dataStore.getLogNumber();
+        this.dataStore = dataStore;
     }
 
     @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
+
+        String userID = dataStore.getUserId();
+        String logNo = dataStore.getLogNumber();
 
         request = request.newBuilder()
                 .addHeader("g-api-user", userID)

@@ -84,7 +84,7 @@
     <!--    Buttons-->
     <string name="button_okay">Okay</string>
     <string name="button_cancel">Cancel</string>
-    <string name="button_nfc_places">NFC Places</string>
+    <string name="button_nfc_checkpoints">NFC Checkpoints</string>
     <string name="button_add_tag">Print NFC Tag</string>
     <string name="button_overwrite">Overwrite</string>
     <string name="button_close">Close</string>
@@ -114,6 +114,7 @@
     <string name="button_clear">Clear</string>
     <string name="button_refresh_list">Refresh List</string>
     <string name="button_continue">Continue</string>
+    <string name="button_add_checkpoint">Add Checkpoint</string>
 
     <!--    Sentences-->
 
