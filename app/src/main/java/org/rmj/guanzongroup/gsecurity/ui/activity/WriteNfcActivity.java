@@ -1,8 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.activity;
 
-import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_DATA_WAREHOUSE_ID;
-
-import androidx.appcompat.app.AppCompatActivity;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_DATA_PAYLOAD;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -19,11 +17,17 @@ import android.nfc.TagLostException;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityWriteNfcBinding;
 import org.rmj.guanzongroup.gsecurity.ui.screens.settings.places.FragmentPlaces;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import timber.log.Timber;
@@ -31,23 +35,23 @@ import timber.log.Timber;
 @AndroidEntryPoint
 public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
 
-    private ActivityWriteNfcBinding binding;
-
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
     private IntentFilter intentFilter;
     private String[][] techListsArray;
+
+    private Tag nfcTag;
 
     private String record1 = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityWriteNfcBinding.inflate(getLayoutInflater());
+        org.rmj.guanzongroup.gsecurity.databinding.ActivityWriteNfcBinding binding = ActivityWriteNfcBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if(getIntent().hasExtra(WRITE_NFC_DATA_WAREHOUSE_ID))
-            record1 = getIntent().getStringExtra(WRITE_NFC_DATA_WAREHOUSE_ID);
+        if(getIntent().hasExtra(WRITE_NFC_DATA_PAYLOAD))
+            record1 = getIntent().getStringExtra(WRITE_NFC_DATA_PAYLOAD);
 
         initNfcAdapter();
 
@@ -110,7 +114,6 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
         }
     }
 
-
     @Override
     public void onTagDiscovered(Tag tag) {
         Ndef mNdef = Ndef.get(tag);
@@ -120,29 +123,26 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
             return;
         }
 
-//        Log.d("WriteNfcActivity", record1);
-
-        // Create a Ndef Record
-        NdefRecord mRecord = NdefRecord.createTextRecord("en", record1);
-        NdefRecord mRecord = NdefRecord.createTextRecord("en", record1);
-        NdefRecord mRecord = NdefRecord.createTextRecord("en", record1);
-
-        // Add to a NdefMessage
-        NdefMessage mMsg = new NdefMessage(mRecord);
+        Timber.tag("WriteNfcActivity").d("NFC Tag ID: %s", Arrays.toString(tag.getId()));
 
         // Catch errors
         try {
+
+            // Create a Ndef Record
+            NdefRecord mRecord = createRecord(record1);
+            Timber.tag("WriteNfcActivity").d("Nfc record to print: %s", record1);
+
+            // Add to a NdefMessage
+            NdefMessage mMsg = new NdefMessage(mRecord);
+
             mNdef.connect();
             mNdef.writeNdefMessage(mMsg);
             Timber.tag("WriteNfcActivity").d("Nfc record has been written");
 
             // Success if got to here
             runOnUiThread(() -> {
-//                Toast.makeText(getApplicationContext(),
-//                        "NFC Write Successful",
-//                        Toast.LENGTH_SHORT).show();
-//                setResult(RESULT_OK);
-//                finish();
+                setResult(RESULT_OK);
+                finish();
             });
 
             // Make a Sound
@@ -185,10 +185,36 @@ public class WriteNfcActivity extends AppCompatActivity implements NfcAdapter.Re
                 e.printStackTrace();
             }
         }
-
-        finish();
-        Timber.tag("WriteNfcActivity").d("Finish activity.");
-        setResult(RESULT_OK);
-        Timber.tag("WriteNfcActivity").d("Writing nfc finished.");
     }
+
+    private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
+        String lang = "en";
+        byte[] textBytes = text.getBytes();
+        byte[] langBytes = lang.getBytes(StandardCharsets.US_ASCII);
+        int langLength = langBytes.length;
+        int textLength = textBytes.length;
+        byte[] payload = new byte[1 + langLength + textLength];
+
+        // set status byte (see NDEF spec for actual bits)
+        payload[0] = (byte) langLength;
+
+        // copy langbytes and textbytes into payload
+        System.arraycopy(langBytes, 0, payload, 1, langLength);
+        System.arraycopy(textBytes, 0, payload, 1 + langLength, textLength);
+        return new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], payload);
+    }
+
+    private void write(String text, Tag tag) throws IOException, FormatException {
+        NdefRecord[] records = new NdefRecord[]{createRecord(text)};
+        NdefMessage message = new NdefMessage(records);
+        // Get an instance of Ndef for the tag.
+        Ndef ndef = Ndef.get(tag);
+        // Enable I/O
+        ndef.connect();
+        // Write the message
+        ndef.writeNdefMessage(message);
+        // Close the connection
+        ndef.close();
+    }
+
 }

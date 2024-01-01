@@ -63,6 +63,9 @@ public class FragmentLogin extends Fragment {
 
         binding.forgotPasswordButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentLogin_to_fragmentForgotPassword));
 
+        mViewModel.getDefaultAuthenticationMethod().observe(getViewLifecycleOwner(),
+                defaultAuthenticationMethod -> Objects.requireNonNull(binding.tabLayout.getTabAt(defaultAuthenticationMethod)).select());
+
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -83,6 +86,8 @@ public class FragmentLogin extends Fragment {
                         );
                     }
                 }
+
+                mViewModel.setAuthenticationMethod(tab.getPosition());
             }
 
             @Override

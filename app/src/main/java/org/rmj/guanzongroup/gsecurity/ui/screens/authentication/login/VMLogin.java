@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.guanzongroup.gsecurity.data.preferences.AuthenticationCache;
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
-import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.AuthorizedInterceptor;
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 
 import java.util.Objects;
@@ -26,6 +26,7 @@ public class VMLogin extends ViewModel {
 
     private final AuthenticationRepository repository;
     private final DataStore dataStore;
+    private final AuthenticationCache authenticationCache;
 
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> adminHasLogin = new MutableLiveData<>(false);
@@ -41,14 +42,29 @@ public class VMLogin extends ViewModel {
     private final MutableLiveData<String> mpin = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> hasOfficerLogin = new MutableLiveData<>(false);
 
+    private final MutableLiveData<Integer> authenticationMethod = new MutableLiveData<>(0);
+
     @Inject
     public VMLogin(
             AuthenticationRepository repository,
-            DataStore dataStore
+            DataStore dataStore,
+            AuthenticationCache authenticationCache
     ) {
         this.repository = repository;
         this.dataStore = dataStore;
+        this.authenticationCache = authenticationCache;
 
+        // Initialize the default authentication method...
+        authenticationMethod.setValue(authenticationCache.getDefaultAuthentication());
+    }
+
+    public void setAuthenticationMethod(int method) {
+        authenticationMethod.setValue(method);
+        authenticationCache.setDefaultAuthentication(method);
+    }
+
+    public LiveData<Integer> getDefaultAuthenticationMethod() {
+        return authenticationMethod;
     }
 
     public LiveData<Boolean> isLoading() {

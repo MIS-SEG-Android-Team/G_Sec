@@ -2,9 +2,10 @@ package org.rmj.guanzongroup.gsecurity.constants;
 
 public class Constants {
 
-    public static final String WRITE_NFC_DATA_WAREHOUSE_ID = "nfc_data_warehouse_id";
-    public static final String WRITE_NFC_DATA_CATEGORY_ID = "nfc_data_category_id";
-    public static final String WRITE_NFC_DATA_DESCRIPTION = "nfc_data_description";
+    public static final String WRITE_NFC_DATA_PAYLOAD = "nfc_data_payload";
+    public static final String WRITE_NFC_DATA_WAREHOUSE_ID = "warehouse";
+    public static final String WRITE_NFC_DATA_CATEGORY_ID = "category";
+    public static final String WRITE_NFC_DATA_DESCRIPTION = "description";
 
     public static final String QR_CODE_DATA = "intent_qr_code_extra";
 

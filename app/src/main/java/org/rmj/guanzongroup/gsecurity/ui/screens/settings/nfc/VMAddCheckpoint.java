@@ -123,12 +123,34 @@ public class VMAddCheckpoint extends ViewModel {
         return checkpointAdded;
     }
 
+    @SuppressLint("CheckResult")
     public void addCheckpoint() {
+        addingCheckpoint.setValue(true);
         AddNfcTagParams params = new AddNfcTagParams();
         params.setSWHouseID(warehouse.getValue());
         params.setSCatIDxxx(category.getValue());
         params.setSDescript(description.getValue());
         params.setCRecdStat("1");
+        checkpointRepository.addNFCTag(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        baseResponse -> {
+
+                            if (baseResponse.getResult().equalsIgnoreCase("error")) {
+                                errorMessage.setValue(baseResponse.getError().getMessage());
+                                addingCheckpoint.setValue(false);
+                                return;
+                            }
+
+                            addingCheckpoint.setValue(false);
+                            checkpointAdded.setValue(true);
+                        },
+                        throwable -> {
+                            addingCheckpoint.setValue(false);
+                            errorMessage.setValue(throwable.getMessage());
+                        }
+                );
     }
 
 
@@ -141,8 +163,8 @@ public class VMAddCheckpoint extends ViewModel {
         }
 
         categoryRepository.getCategories(params)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(
                         baseResponse -> {
 
@@ -170,8 +192,8 @@ public class VMAddCheckpoint extends ViewModel {
         }
 
         warehouseRepository.getWarehouse(params)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(
                         baseResponse -> {
 
