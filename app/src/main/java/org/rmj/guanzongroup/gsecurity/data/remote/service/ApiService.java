@@ -6,6 +6,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
@@ -18,6 +19,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.branch.BranchResponse;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
@@ -146,8 +148,8 @@ public interface ApiService {
     @POST("/gsecure/place/nfc_add_tag.php")
     Observable<BaseResponse<Void>> addNFCTag(@Body AddNfcTagParams params);
 
-    @GET("")
-    List<String> getNFCTags();
+    @GET("/gsecure/place/get_nfc_tags")
+    Observable<BaseResponse<List<NFCDeviceEntity>>> getNFCTags(@Body GetNFCTagsParams params);
 
     // endregion
 
