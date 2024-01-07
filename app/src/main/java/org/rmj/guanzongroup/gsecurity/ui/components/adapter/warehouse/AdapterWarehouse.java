@@ -41,6 +41,8 @@ public class AdapterWarehouse extends RecyclerView.Adapter<AdapterWarehouse.Ware
         WarehouseEntity warehouse = warehouseList.get(position);
         holder.binding.warehouseNameLabel.setText(warehouse.getSWHouseNm());
         holder.binding.branchNameLabel.setText(warehouse.getsBranchNm());
+
+        holder.itemView.setOnClickListener(view -> callback.onClickWarehouse(warehouse.getSWHouseID(), warehouse.getSWHouseNm()));
     }
 
     @Override

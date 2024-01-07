@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,10 +16,10 @@ import java.util.List;
 
 public class AdapterCheckpointSelection extends RecyclerView.Adapter<AdapterCheckpointSelection.CheckpointViewHolder> {
 
-    private final List<SelectedCheckpoints> checkpoints;
+    private final List<NFCDeviceEntity> checkpoints;
     private final AdapterCheckpointSelectionCallback callback;
 
-    public AdapterCheckpointSelection(List<SelectedCheckpoints> checkpoints, AdapterCheckpointSelectionCallback callback) {
+    public AdapterCheckpointSelection(List<NFCDeviceEntity> checkpoints, AdapterCheckpointSelectionCallback callback) {
         this.checkpoints = checkpoints;
         this.callback = callback;
     }
@@ -37,10 +38,12 @@ public class AdapterCheckpointSelection extends RecyclerView.Adapter<AdapterChec
 
     @Override
     public void onBindViewHolder(@NonNull CheckpointViewHolder holder, int position) {
-        SelectedCheckpoints checkpoint = checkpoints.get(position);
+        NFCDeviceEntity checkpoint = checkpoints.get(position);
         holder.binding.nfcDescription.setText(checkpoint.getsDescript());
         holder.binding.nfcPayload.setText(checkpoint.getsPayloadx());
-        holder.binding.checkpointAdded.setChecked(checkpoint.isAdded());
+        holder.binding.checkpointAdded.setChecked(checkpoint.getcSelected().equals("1"));
+
+        holder.binding.checkpointAdded.setOnCheckedChangeListener((buttonView, isChecked) -> callback.onSelectCheckpoint(position, checkpoint.getsNFCIDxxx()));
     }
 
     @Override

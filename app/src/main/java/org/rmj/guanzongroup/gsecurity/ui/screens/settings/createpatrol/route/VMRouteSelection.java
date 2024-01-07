@@ -45,8 +45,16 @@ public class VMRouteSelection extends ViewModel {
         return isLoadingCheckpoints;
     }
 
-    public LiveData<List<NFCDeviceEntity>> getCheckpoints() {
+    public LiveData<List<NFCDeviceEntity>> getNfcDeviceEntities() {
         return checkpointRepository.getNfcTags(patrolSchedulerCache.getWarehouse());
+    }
+
+    public void initializeSelectedCheckpoints(List<NFCDeviceEntity> value) {
+        checkpoints.setValue(value);
+    }
+
+    public LiveData<List<NFCDeviceEntity>> getCheckpoints() {
+        return checkpoints;
     }
 
     @SuppressLint("CheckResult")
@@ -80,6 +88,18 @@ public class VMRouteSelection extends ViewModel {
     }
 
     private void initSelectedCheckpoints() {
+
+    }
+
+    public void addSelectedCheckpoint() {
+
+    }
+
+    public void removeCheckpoint(String id) {
+
+    }
+
+    public void selectAllCheckPoint() {
 
     }
 }

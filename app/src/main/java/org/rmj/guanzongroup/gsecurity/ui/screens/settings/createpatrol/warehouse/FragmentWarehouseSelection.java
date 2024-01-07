@@ -73,6 +73,7 @@ public class FragmentWarehouseSelection extends Fragment {
                         dialogMessage.setPositiveButton("Create", dialog -> {
                             mViewModel.setWarehouse(warehouseID);
                             navController.navigate(R.id.action_fragmentWarehouseSelection_to_fragmentRouteSelection);
+                            dialog.dismiss();
                         });
                         dialogMessage.setNegativeButton("Cancel", Dialog::dismiss);
                         dialogMessage.show();

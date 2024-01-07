@@ -14,8 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentRouteSelectionBinding;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint.AdapterCheckpointSelection;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint.AdapterCheckpointSelectionCallback;
 
 public class FragmentRouteSelection extends Fragment {
 
@@ -41,6 +42,8 @@ public class FragmentRouteSelection extends Fragment {
             }
         });
 
+        mViewModel.getNfcDeviceEntities().observe(getViewLifecycleOwner(), nfcDeviceEntities -> mViewModel.initializeSelectedCheckpoints(nfcDeviceEntities));
+
         mViewModel.getCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
             if (checkpoints == null) {
                 return;
@@ -53,6 +56,21 @@ public class FragmentRouteSelection extends Fragment {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
             linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
+            AdapterCheckpointSelection adapterCheckpointSelection = new AdapterCheckpointSelection(
+                    checkpoints, new AdapterCheckpointSelectionCallback() {
+                @Override
+                public void onClickCheckpoint(String nfcID, String description) {
+
+                }
+
+                @Override
+                public void onSelectCheckpoint(int position, String nfcID) {
+                    mViewModel.addSelectedCheckpoint();
+                }
+            });
+
+            binding.patrolCheckpoints.setLayoutManager(linearLayoutManager);
+            binding.patrolCheckpoints.setAdapter(adapterCheckpointSelection);
         });
 
         return binding.getRoot();

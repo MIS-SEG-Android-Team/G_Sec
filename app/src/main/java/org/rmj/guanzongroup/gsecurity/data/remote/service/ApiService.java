@@ -68,7 +68,7 @@ public interface ApiService {
     @POST("/gsecure/personnel/add_personnel.php")
     Observable<BaseResponse<Void>> addPersonnel(@Body AddPersonnelParam value);
 
-    @GET("/gsecure/personnel/add_position.php")
+    @POST("/gsecure/personnel/add_position.php")
     Observable<BaseResponse<List<PersonnelModel>>> getPersonnels();
 
     // endregion
@@ -148,7 +148,7 @@ public interface ApiService {
     @POST("/gsecure/place/nfc_add_tag.php")
     Observable<BaseResponse<Void>> addNFCTag(@Body AddNfcTagParams params);
 
-    @GET("/gsecure/place/get_nfc_tags")
+    @POST("/gsecure/place/get_nfc_tags")
     Observable<BaseResponse<List<NFCDeviceEntity>>> getNFCTags(@Body GetNFCTagsParams params);
 
     // endregion

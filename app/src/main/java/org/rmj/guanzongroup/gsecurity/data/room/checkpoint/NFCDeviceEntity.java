@@ -22,6 +22,8 @@ public class NFCDeviceEntity {
     protected String sPayloadx;
     @ColumnInfo(name = "sWHouseID")
     protected String sWHouseID;
+    @ColumnInfo(name = "cSelected")
+    protected String cSelected;
     @ColumnInfo(name = "cRecdStat")
     protected String cRecdStat;
     @ColumnInfo(name = "dModified")
@@ -105,5 +107,13 @@ public class NFCDeviceEntity {
 
     public void setdTimeStmp(String dTimeStmp) {
         this.dTimeStmp = dTimeStmp;
+    }
+
+    public String getcSelected() {
+        return cSelected;
+    }
+
+    public void setcSelected(String cSelected) {
+        this.cSelected = cSelected;
     }
 }
