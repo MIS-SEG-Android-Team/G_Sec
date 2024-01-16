@@ -7,16 +7,24 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.notification.SendVisitationRequestParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolPersonnel;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolRoute;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolSchedule;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.AddPatrolScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.placevisited.PostPlaceVisitedParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.branch.BranchResponse;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.recentactivity.RecentActivityModel;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
@@ -27,7 +35,6 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -68,7 +75,7 @@ public interface ApiService {
     @POST("/gsecure/personnel/add_personnel.php")
     Observable<BaseResponse<Void>> addPersonnel(@Body AddPersonnelParam value);
 
-    @POST("/gsecure/personnel/add_position.php")
+    @POST("/gsecure/personnel/get_personnels.php")
     Observable<BaseResponse<List<PersonnelModel>>> getPersonnels();
 
     // endregion
@@ -148,13 +155,44 @@ public interface ApiService {
     @POST("/gsecure/place/nfc_add_tag.php")
     Observable<BaseResponse<Void>> addNFCTag(@Body AddNfcTagParams params);
 
-    @POST("/gsecure/place/get_nfc_tags")
+    @POST("/gsecure/place/get_nfc_tags.php")
     Observable<BaseResponse<List<NFCDeviceEntity>>> getNFCTags(@Body GetNFCTagsParams params);
 
     // endregion
 
     // region Scheduler
 
-    @POST("patrol/create_schedule")
+    @POST("patrol/create_schedule.php")
     Observable<BaseResponse<Void>> addNewSchedule(@Body AddPatrolScheduleParams params);
+
+    @POST("patrol/update_patrol_schedule.php")
+    Observable<BaseResponse<Void>> updateSchedule(@Body UpdatePatrolSchedule params);
+
+    @POST("patrol/update_patrol_route.php")
+    Observable<BaseResponse<Void>> updatePatrolRoute(@Body UpdatePatrolRoute params);
+
+    @POST("patrol/update_patrol_personnel.php")
+    Observable<BaseResponse<Void>> updatePatrolPersonnel(@Body UpdatePatrolPersonnel params);
+
+    // endregion
+
+    // region Patrol
+
+    @POST("patrol/get_patrol_route.php")
+    Observable<BaseResponse<List<PatrolRouteModel>>> getPatrolRoute(@Body GetPatrolRouteParams params);
+
+    @POST("patrol/get_recent_activity.php")
+    Observable<BaseResponse<List<RecentActivityModel>>> getRecentActivity(@Body GetPatrolRouteParams params);
+
+    @POST("patrol/post_place_visited.php")
+    Observable<BaseResponse<Void>> postPlaceVisited(@Body PostPlaceVisitedParams params);
+
+    // endregion
+
+    // region Notification
+
+    @POST("patrol/post_place_visited.php")
+    Observable<BaseResponse<Void>>  sendVisitationRequest(@Body SendVisitationRequestParams params);
+
+    // endregion
 }

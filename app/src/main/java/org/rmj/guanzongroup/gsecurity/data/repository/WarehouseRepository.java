@@ -33,10 +33,6 @@ public class WarehouseRepository {
         return apiService.addWarehouse(params);
     }
 
-//    public Observable<BaseResponse<List<WarehouseEntity>>> getWarehouse() {
-//        return apiService.getWarehouses();
-//    }
-
     public Observable<BaseResponse<List<WarehouseEntity>>> getWarehouse(GetWarehouseParams params) {
         return apiService.getWarehouses(params);
     }

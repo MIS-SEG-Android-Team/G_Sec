@@ -21,9 +21,12 @@ import org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel.AdapterAct
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 public class FragmentPersonnelList extends Fragment {
 
-    private VMPersonnelList mViewModel;
+    @Inject
+    VMPersonnelList mViewModel;
 
     private FragmentPersonnelListBinding binding;
 
@@ -36,7 +39,7 @@ public class FragmentPersonnelList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMPersonnelList.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMPersonnelList.class);
         binding = FragmentPersonnelListBinding.inflate(getLayoutInflater());
 
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
