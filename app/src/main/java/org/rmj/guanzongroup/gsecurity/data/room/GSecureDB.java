@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.data.room;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchDao;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
@@ -11,6 +12,8 @@ import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceDao;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionDao;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.schedule.CreatedScheduleDao;
+import org.rmj.guanzongroup.gsecurity.data.room.schedule.ScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseDao;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
@@ -22,6 +25,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 //                EDailyActivePersonnel.class,
 //                EPatrolRoute.class,
 //                EPersonnelPosition.class,
+                ScheduleEntity.class,
                 NFCDeviceEntity.class,
                 CategoryEntity.class,
                 PositionEntity.class,
@@ -30,6 +34,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
         },
         version = 1,
         exportSchema = false)
+@TypeConverters({Converters.class})
 public abstract class GSecureDB extends RoomDatabase {
 
     public abstract BranchDao branchDao();
@@ -37,5 +42,6 @@ public abstract class GSecureDB extends RoomDatabase {
     public abstract PositionDao positionDao();
     public abstract CategoryDao categoryDao();
     public abstract NFCDeviceDao nfcDeviceDao();
+    public abstract CreatedScheduleDao createdScheduleDao();
 
 }

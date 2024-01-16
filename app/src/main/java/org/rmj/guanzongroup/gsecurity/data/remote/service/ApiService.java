@@ -12,7 +12,6 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.AddPatrolScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
@@ -21,13 +20,13 @@ import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.schedule.ScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -148,13 +147,13 @@ public interface ApiService {
     @POST("/gsecure/place/nfc_add_tag.php")
     Observable<BaseResponse<Void>> addNFCTag(@Body AddNfcTagParams params);
 
-    @POST("/gsecure/place/get_nfc_tags")
+    @POST("/gsecure/place/get_nfc_tags.php")
     Observable<BaseResponse<List<NFCDeviceEntity>>> getNFCTags(@Body GetNFCTagsParams params);
 
     // endregion
 
     // region Scheduler
 
-    @POST("patrol/create_schedule")
-    Observable<BaseResponse<Void>> addNewSchedule(@Body AddPatrolScheduleParams params);
+    @POST("patrol/create_schedule.php")
+    Observable<BaseResponse<Void>> addNewSchedule(@Body ScheduleEntity params);
 }

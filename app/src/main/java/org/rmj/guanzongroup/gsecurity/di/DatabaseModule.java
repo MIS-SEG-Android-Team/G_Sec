@@ -7,11 +7,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import org.rmj.guanzongroup.gsecurity.data.room.Converters;
 import org.rmj.guanzongroup.gsecurity.data.room.GSecureDB;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchDao;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryDao;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceDao;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionDao;
+import org.rmj.guanzongroup.gsecurity.data.room.schedule.CreatedScheduleDao;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseDao;
 
 import javax.inject.Singleton;
@@ -29,6 +31,7 @@ public class DatabaseModule {
     @Singleton
     public static GSecureDB provideGSecureDB(Application application) {
         return Room.databaseBuilder(application, GSecureDB.class, "GSec_DBF.db")
+                .addTypeConverter(Converters)
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .addCallback(new RoomDatabase.Callback() {
@@ -68,5 +71,11 @@ public class DatabaseModule {
     @Singleton
     public static NFCDeviceDao provideNFCDeviceDao(GSecureDB gSecureDB) {
         return gSecureDB.nfcDeviceDao();
+    }
+
+    @Provides
+    @Singleton
+    public static CreatedScheduleDao provideCreatedScheduleEntity(GSecureDB gSecureDB) {
+        return gSecureDB.createdScheduleDao();
     }
 }
