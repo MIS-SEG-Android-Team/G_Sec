@@ -14,9 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentRouteSelectionBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint.AdapterCheckpointSelection;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint.AdapterCheckpointSelectionCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentRouteSelection extends Fragment {
 
@@ -42,7 +46,31 @@ public class FragmentRouteSelection extends Fragment {
             }
         });
 
-        mViewModel.getNfcDeviceEntities().observe(getViewLifecycleOwner(), nfcDeviceEntities -> mViewModel.initializeSelectedCheckpoints(nfcDeviceEntities));
+        mViewModel.getCreatedSchedule().observe(getViewLifecycleOwner(), schedule -> mViewModel.initializeCreatedSchedule(schedule));
+
+        mViewModel.getNfcDeviceEntities().observe(getViewLifecycleOwner(), nfcDeviceEntities -> {
+            if (nfcDeviceEntities == null) {
+                return;
+            }
+
+            if (nfcDeviceEntities.size() == 0) {
+                return;
+            }
+
+            List<Checkpoint> checkpoints = new ArrayList<>();
+            for (int x = 0; x < nfcDeviceEntities.size(); x++) {
+                NFCDeviceEntity nfcDevice = nfcDeviceEntities.get(x);
+                checkpoints.add(
+                        new Checkpoint(
+                                nfcDevice.getSNFCIDxxx(),
+                                nfcDevice.getSDescript(),
+                                nfcDevice.getSCatIDxxx(),
+                                nfcDevice.getSWHouseID()
+                        )
+                );
+            }
+            mViewModel.initializeSelectedCheckpoints(checkpoints);
+        });
 
         mViewModel.getCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
             if (checkpoints == null) {
@@ -64,13 +92,17 @@ public class FragmentRouteSelection extends Fragment {
                 }
 
                 @Override
-                public void onSelectCheckpoint(int position, String nfcID) {
-                    mViewModel.addSelectedCheckpoint();
+                public void onSelectCheckpoint(int position, boolean isSelected) {
+                    mViewModel.setSelectedCheckpoint(position, isSelected);
                 }
             });
 
             binding.patrolCheckpoints.setLayoutManager(linearLayoutManager);
             binding.patrolCheckpoints.setAdapter(adapterCheckpointSelection);
+        });
+
+        binding.continueButton.setOnClickListener(view -> {
+            mViewModel.saveRouteSelection();
         });
 
         return binding.getRoot();

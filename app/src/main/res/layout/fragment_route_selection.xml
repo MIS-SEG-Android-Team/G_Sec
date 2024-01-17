@@ -40,8 +40,18 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/patrolCheckpoints"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginTop="@dimen/view_padding_16"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/continueButton"
+            style="@style/MaterialButtonAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/view_padding_4"
+            android:layout_marginTop="@dimen/view_padding_16"
+            android:text="@string/button_continue" />
 
     </LinearLayout>
 

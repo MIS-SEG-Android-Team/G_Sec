@@ -3,7 +3,7 @@ package org.rmj.guanzongroup.gsecurity.data.repository;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolPersonnel;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolRoute;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolSchedule;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.AddPatrolScheduleParams;
+import androidx.lifecycle.LiveData;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 
@@ -17,12 +17,9 @@ public class ScheduleRepository {
     private final ApiService apiService;
 
     @Inject
-    public ScheduleRepository(ApiService apiService) {
+    public ScheduleRepository(
+            ApiService apiService) {
         this.apiService = apiService;
-    }
-
-    public Observable<BaseResponse<Void>> addNewSchedule(AddPatrolScheduleParams params) {
-        return apiService.addNewSchedule(params);
     }
 
     public Observable<BaseResponse<Void>> updateSchedule(@Body UpdatePatrolSchedule params) {
@@ -34,4 +31,5 @@ public class ScheduleRepository {
     public Observable<BaseResponse<Void>> updatePatrolPersonnel(@Body UpdatePatrolPersonnel params) {
         return apiService.updatePatrolPersonnel(params);
     }
+
 }

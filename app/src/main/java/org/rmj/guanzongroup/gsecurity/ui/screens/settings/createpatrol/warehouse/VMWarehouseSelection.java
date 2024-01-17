@@ -6,12 +6,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
+import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.WarehouseRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -22,18 +23,22 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 @HiltViewModel
 public class VMWarehouseSelection extends ViewModel {
 
+    private final ScheduleRepository scheduleRepository;
     private final WarehouseRepository warehouseRepository;
-    private final PatrolSchedulerCache patrolScheduleCache;
 
     private final MutableLiveData<Boolean> importingWarehouse = new MutableLiveData<>(false);
 
+    private final MutableLiveData<ScheduleEntity> schedule = new MutableLiveData<>(new ScheduleEntity());
+
     @Inject
     public VMWarehouseSelection(
-            WarehouseRepository warehouseRepository,
-            PatrolSchedulerCache schedulerCache
-    ) {
+            ScheduleRepository scheduleRepository,
+            WarehouseRepository warehouseRepository) {
+        this.scheduleRepository = scheduleRepository;
         this.warehouseRepository = warehouseRepository;
-        this.patrolScheduleCache = schedulerCache;
+
+        // Clear any remaining cache first before starting to create new schedule...
+        scheduleRepository.clearCache();
         importWarehouse();
     }
 
@@ -43,7 +48,8 @@ public class VMWarehouseSelection extends ViewModel {
      * @param value id/unique key of selected warehouse for creating patrol schedule...
      */
     public void setWarehouse(String value) {
-        patrolScheduleCache.setWarehouseID(value);
+        Objects.requireNonNull(schedule.getValue()).setSWHouseID(value);
+        scheduleRepository.createNew(schedule.getValue());
     }
 
     public LiveData<Boolean> importingWarehouse() {

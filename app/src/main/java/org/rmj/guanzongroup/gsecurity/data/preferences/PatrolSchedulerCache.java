@@ -4,6 +4,15 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import org.rmj.guanzongroup.gsecurity.data.room.schedule.ScheduleRoute;
+import org.rmj.guanzongroup.gsecurity.data.room.schedule.ScheduleTime;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -31,13 +40,15 @@ public class PatrolSchedulerCache {
         editor.commit();
     }
 
-    public void setNFCSites(String value) {
-        editor.putString(SITES, value);
+    public void setPatrolRoute(List<ScheduleRoute> value) {
+        String routes = new Gson().toJson(value);
+        editor.putString(SITES, routes);
         editor.commit();
     }
 
-    public void setSchedules(String value) {
-        editor.putString(SCHEDULES, value);
+    public void setSchedules(List<ScheduleTime> value) {
+        String schedules = new Gson().toJson(value);
+        editor.putString(SCHEDULES, schedules);
         editor.commit();
     }
 
@@ -45,12 +56,26 @@ public class PatrolSchedulerCache {
         return preferences.getString(WAREHOUSE, "");
     }
 
-    public String getSites() {
-        return preferences.getString(SITES, "");
+    public List<ScheduleRoute> getPatrolRoute() {
+        String routes = preferences.getString(SITES, "");
+        if (routes.isEmpty()) {
+            return null;
+        }
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<ScheduleRoute>>(){}.getType();
+        return gson.fromJson(routes, type);
     }
 
-    public String getSchedules() {
-        return preferences.getString(SCHEDULES, "");
+    public String getPatrolSchedules() {
+        String routes = preferences.getString(SCHEDULES, "");
+        if (routes.isEmpty()) {
+            return null;
+        }
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<ScheduleRoute>>(){}.getType();
+        return gson.fromJson(routes, type);
     }
 
     public void clearPatrolSchedulerCache() {

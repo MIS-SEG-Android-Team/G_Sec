@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import org.rmj.guanzongroup.gsecurity.data.room.Converters;
 import org.rmj.guanzongroup.gsecurity.data.room.GSecureDB;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchDao;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryDao;
@@ -29,6 +30,7 @@ public class DatabaseModule {
     @Singleton
     public static GSecureDB provideGSecureDB(Application application) {
         return Room.databaseBuilder(application, GSecureDB.class, "GSec_DBF.db")
+                .addTypeConverter(Converters.class)
                 .fallbackToDestructiveMigration()
                 .allowMainThreadQueries()
                 .addCallback(new RoomDatabase.Callback() {

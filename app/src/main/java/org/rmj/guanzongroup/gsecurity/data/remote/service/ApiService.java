@@ -17,7 +17,6 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.notification.SendVisitat
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolPersonnel;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolRoute;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolSchedule;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.AddPatrolScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.placevisited.PostPlaceVisitedParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
@@ -163,7 +162,7 @@ public interface ApiService {
     // region Scheduler
 
     @POST("patrol/create_schedule.php")
-    Observable<BaseResponse<Void>> addNewSchedule(@Body AddPatrolScheduleParams params);
+    Observable<BaseResponse<Void>> addNewSchedule(@Body ScheduleEntity params);
 
     @POST("patrol/update_patrol_schedule.php")
     Observable<BaseResponse<Void>> updateSchedule(@Body UpdatePatrolSchedule params);
