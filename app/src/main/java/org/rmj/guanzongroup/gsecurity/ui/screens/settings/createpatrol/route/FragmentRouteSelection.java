@@ -46,8 +46,6 @@ public class FragmentRouteSelection extends Fragment {
             }
         });
 
-        mViewModel.getCreatedSchedule().observe(getViewLifecycleOwner(), schedule -> mViewModel.initializeCreatedSchedule(schedule));
-
         mViewModel.getNfcDeviceEntities().observe(getViewLifecycleOwner(), nfcDeviceEntities -> {
             if (nfcDeviceEntities == null) {
                 return;

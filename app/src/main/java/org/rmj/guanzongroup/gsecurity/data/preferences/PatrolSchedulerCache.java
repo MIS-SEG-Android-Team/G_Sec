@@ -7,11 +7,9 @@ import android.content.SharedPreferences;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
-import org.rmj.guanzongroup.gsecurity.data.room.schedule.ScheduleRoute;
-import org.rmj.guanzongroup.gsecurity.data.room.schedule.ScheduleTime;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,9 +23,7 @@ public class PatrolSchedulerCache {
 
     private static final String PREFERENCES_NAME = "PatrolSchedulerCache";
 
-    private static final String WAREHOUSE = "warehouse_id";
-    private static final String SITES = "nfc_sites";
-    private static final String SCHEDULES = "patrol_schedules";
+    private static final String PATROL_SCHEDULE = "patrol_schedule";
 
     @Inject
     public PatrolSchedulerCache(Application application) {
@@ -35,50 +31,24 @@ public class PatrolSchedulerCache {
         this.editor = preferences.edit();
     }
 
-    public void setWarehouseID(String value) {
-        editor.putString(WAREHOUSE, value);
-        editor.commit();
-    }
-
-    public void setPatrolRoute(List<ScheduleRoute> value) {
+    public void setPatrolSchedule(CreateUpdateScheduleParams value) {
         String routes = new Gson().toJson(value);
-        editor.putString(SITES, routes);
+        editor.putString(PATROL_SCHEDULE, routes);
         editor.commit();
     }
 
-    public void setSchedules(List<ScheduleTime> value) {
-        String schedules = new Gson().toJson(value);
-        editor.putString(SCHEDULES, schedules);
-        editor.commit();
-    }
-
-    public String getWarehouse() {
-        return preferences.getString(WAREHOUSE, "");
-    }
-
-    public List<ScheduleRoute> getPatrolRoute() {
-        String routes = preferences.getString(SITES, "");
+    public CreateUpdateScheduleParams getPatrolSchedule() {
+        String routes = preferences.getString(PATROL_SCHEDULE, "");
         if (routes.isEmpty()) {
             return null;
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<List<ScheduleRoute>>(){}.getType();
+        Type type = new TypeToken<CreateUpdateScheduleParams>(){}.getType();
         return gson.fromJson(routes, type);
     }
 
-    public String getPatrolSchedules() {
-        String routes = preferences.getString(SCHEDULES, "");
-        if (routes.isEmpty()) {
-            return null;
-        }
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<ScheduleRoute>>(){}.getType();
-        return gson.fromJson(routes, type);
-    }
-
-    public void clearPatrolSchedulerCache() {
+    public void clearCache() {
         editor.clear();
         editor.commit();
     }

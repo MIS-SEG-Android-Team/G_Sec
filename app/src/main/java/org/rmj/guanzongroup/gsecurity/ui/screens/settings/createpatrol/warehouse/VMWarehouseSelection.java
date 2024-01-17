@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.WarehouseRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
@@ -28,7 +29,7 @@ public class VMWarehouseSelection extends ViewModel {
 
     private final MutableLiveData<Boolean> importingWarehouse = new MutableLiveData<>(false);
 
-    private final MutableLiveData<ScheduleEntity> schedule = new MutableLiveData<>(new ScheduleEntity());
+    private final MutableLiveData<CreateUpdateScheduleParams> schedule = new MutableLiveData<>(new CreateUpdateScheduleParams());
 
     @Inject
     public VMWarehouseSelection(
@@ -49,7 +50,7 @@ public class VMWarehouseSelection extends ViewModel {
      */
     public void setWarehouse(String value) {
         Objects.requireNonNull(schedule.getValue()).setSWHouseID(value);
-        scheduleRepository.createNew(schedule.getValue());
+        scheduleRepository.createNewPatrolScheduleToCache(schedule.getValue());
     }
 
     public LiveData<Boolean> importingWarehouse() {

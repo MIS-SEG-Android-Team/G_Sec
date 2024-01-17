@@ -31,7 +31,6 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
         },
         version = 1,
         exportSchema = false)
-@TypeConverters({Converters.class})
 public abstract class GSecureDB extends RoomDatabase {
 
     public abstract BranchDao branchDao();

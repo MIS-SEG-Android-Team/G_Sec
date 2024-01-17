@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.data.remote.service;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
@@ -12,11 +13,9 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.notification.SendVisitationRequestParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolPersonnel;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolRoute;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolSchedule;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.notification.SendVisitationRequestParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.placevisited.PostPlaceVisitedParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
@@ -162,13 +161,13 @@ public interface ApiService {
     // region Scheduler
 
     @POST("patrol/create_schedule.php")
-    Observable<BaseResponse<Void>> addNewSchedule(@Body ScheduleEntity params);
+    Observable<BaseResponse<Void>> addNewSchedule(@Body CreateUpdateScheduleParams params);
 
     @POST("patrol/update_patrol_schedule.php")
-    Observable<BaseResponse<Void>> updateSchedule(@Body UpdatePatrolSchedule params);
+    Observable<BaseResponse<Void>> updateSchedule(@Body CreateUpdateScheduleParams params);
 
     @POST("patrol/update_patrol_route.php")
-    Observable<BaseResponse<Void>> updatePatrolRoute(@Body UpdatePatrolRoute params);
+    Observable<BaseResponse<Void>> updatePatrolRoute(@Body CreateUpdateScheduleParams params);
 
     @POST("patrol/update_patrol_personnel.php")
     Observable<BaseResponse<Void>> updatePatrolPersonnel(@Body UpdatePatrolPersonnel params);

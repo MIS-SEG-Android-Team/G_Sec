@@ -6,12 +6,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.SRoutexxx;
 import org.rmj.guanzongroup.gsecurity.data.repository.CheckpointRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
-import org.rmj.guanzongroup.gsecurity.data.room.schedule.ScheduleRoute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,26 +27,23 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class VMRouteSelection extends ViewModel {
 
     private final CheckpointRepository checkpointRepository;
-    private final PatrolSchedulerCache patrolSchedulerCache;
     private final ScheduleRepository scheduleRepository;
 
     private final MutableLiveData<Boolean> isLoadingCheckpoints = new MutableLiveData<>(false);
 
     private final MutableLiveData<List<Checkpoint>> checkpoints = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<List<ScheduleRoute>> patrolRoute = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<CreateUpdateScheduleParams> patrolRoute = new MutableLiveData<>(new CreateUpdateScheduleParams());
 
     @Inject
     public VMRouteSelection(
             CheckpointRepository checkpointRepository,
-            PatrolSchedulerCache patrolSchedulerCache,
             ScheduleRepository scheduleRepository
     ) {
         this.checkpointRepository = checkpointRepository;
-        this.patrolSchedulerCache = patrolSchedulerCache;
         this.scheduleRepository = scheduleRepository;
 
+        patrolRoute.setValue(scheduleRepository.getPatrolScheduleFromCache());
         getNfcTags();
-        patrolRoute.setValue(patrolSchedulerCache.getPatrolRoute());
     }
 
     public LiveData<Boolean> isLoadingCheckpoints() {
@@ -57,7 +54,7 @@ public class VMRouteSelection extends ViewModel {
     public void getNfcTags() {
 
         GetNFCTagsParams params = new GetNFCTagsParams();
-        params.setSWhouseID(patrolSchedulerCache.getWarehouse());
+        params.setSWhouseID(Objects.requireNonNull(patrolRoute.getValue()).getSWHouseID());
         String timeStamp = checkpointRepository.getLatestTimeStamp();
         if (timeStamp != null) {
             params.setDTimeStmp(timeStamp);
@@ -82,21 +79,8 @@ public class VMRouteSelection extends ViewModel {
                 );
     }
 
-    public LiveData<ScheduleEntity> getCreatedSchedule() {
-        return scheduleRepository.getCreatedSchedule();
-    }
-
-    public void initializeCreatedSchedule() {
-        List<ScheduleRoute> patrolRoutes = patrolSchedulerCache.getPatrolRoute();
-        if (patrolRoutes != null) {
-            return;
-        }
-
-        patrolRoute.setValue(patrolRoutes);
-    }
-
     public LiveData<List<NFCDeviceEntity>> getNfcDeviceEntities() {
-        return checkpointRepository.getNfcTags(patrolSchedulerCache.getWarehouse());
+        return checkpointRepository.getNfcTags(Objects.requireNonNull(patrolRoute.getValue()).getSWHouseID());
     }
 
     public void initializeSelectedCheckpoints(List<Checkpoint> value) {
@@ -108,7 +92,9 @@ public class VMRouteSelection extends ViewModel {
     }
 
     public void setSelectedCheckpoint(int position, boolean hasSelected) {
-        Objects.requireNonNull(checkpoints.getValue()).get(position).hasSelected(hasSelected);
+        List<Checkpoint> list = checkpoints.getValue();
+        list.get(position).hasSelected(hasSelected);
+        checkpoints.setValue(list);
     }
 
     public void saveRouteSelection() {
@@ -122,18 +108,18 @@ public class VMRouteSelection extends ViewModel {
             }
         }
 
-        List<ScheduleRoute> routes = new ArrayList<>();
+        List<SRoutexxx> routes = new ArrayList<>();
 
         for (int x = 0; x < selectedCheckpoints.size(); x++) {
             Checkpoint checkpoint = selectedCheckpoints.get(x);
-            ScheduleRoute route = new ScheduleRoute();
-            route.setsNFCIDxxx(checkpoint.getsNFCIDxxx());
-            route.setnPatrolNo(String.valueOf(x));
+            SRoutexxx route = new SRoutexxx();
+            route.setSNFCIDxxx(checkpoint.getsNFCIDxxx());
+            route.setNPatrolNo(String.valueOf(x));
             routes.add(route);
         }
 
         Objects.requireNonNull(patrolRoute.getValue()).setSRoutexxx(routes);
 
-        scheduleRepository.updateSchedule(patrolRoute.getValue());
+        scheduleRepository.updatePatrolScheduleToCache(patrolRoute.getValue());
     }
 }

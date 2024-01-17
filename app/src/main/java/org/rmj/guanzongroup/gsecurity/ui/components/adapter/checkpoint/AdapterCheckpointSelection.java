@@ -41,7 +41,7 @@ public class AdapterCheckpointSelection extends RecyclerView.Adapter<AdapterChec
         Checkpoint checkpoint = checkpoints.get(position);
         holder.binding.nfcDescription.setText(checkpoint.getsDescript());
         holder.binding.checkpointAdded.setChecked(checkpoint.isSelected());
-        holder.binding.checkpointAdded.setOnCheckedChangeListener((buttonView, isChecked) -> callback.onSelectCheckpoint(position, checkpoint.isSelected()));
+        holder.binding.checkpointAdded.setOnCheckedChangeListener((buttonView, isChecked) -> callback.onSelectCheckpoint(position, isChecked));
     }
 
     @Override
