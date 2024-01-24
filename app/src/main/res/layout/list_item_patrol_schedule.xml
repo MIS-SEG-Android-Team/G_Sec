@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/view_padding_8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/view_padding_8">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/patrolNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/label_patrol_number_place_holder"
+            android:textSize="@dimen/screen_header" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/view_padding_8"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/scheduleTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/screen_header"
+            android:text="@string/label_patrol_time_place_holder" />
+
+        <ImageButton
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:src="@drawable/ic_edit"
+            app:tint="?attr/colorControlNormal" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:src="@drawable/ic_delete"
+            app:tint="?attr/colorControlNormal"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/view_padding_8"/>
+</LinearLayout>

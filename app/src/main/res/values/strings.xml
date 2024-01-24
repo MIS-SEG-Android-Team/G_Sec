@@ -80,6 +80,12 @@
     <string name="label_added_checkpoints">Added Checkpoints</string>
     <string name="label_add_category">Add Category</string>
     <string name="label_no_warehouse_record_found">Couldn\'t find any warehouse records in your account. Check if you\'ve added any, or create one now!</string>
+    <string name="label_add_schedule">Add Schedule</string>
+    <string name="label_patrol_number_place_holder">Patrol 1</string>
+    <string name="label_patrol_time_place_holder">10:00 PM</string>
+    <string name="label_patrol_checkpoints">Patrol Checkpoints</string>
+    <string name="label_patrol_schedules">Patrol Schedules</string>
+    <string name="label_assigned_personnel">Assigned Personnel</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>
@@ -115,6 +121,7 @@
     <string name="button_refresh_list">Refresh List</string>
     <string name="button_continue">Continue</string>
     <string name="button_add_checkpoint">Add Checkpoint</string>
+    <string name="button_save_schedule">Save Schedule</string>
 
     <!--    Sentences-->
 
@@ -148,4 +155,5 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <string name="content_descript_add_button">Add Schedule</string>
 </resources>

@@ -84,6 +84,22 @@ public class VMRouteSelection extends ViewModel {
     }
 
     public void initializeSelectedCheckpoints(List<Checkpoint> value) {
+        if (patrolRoute.getValue() != null) {
+            CreateUpdateScheduleParams params = patrolRoute.getValue();
+            List<SRoutexxx> routes = params.getSRoutexxx();
+            if (routes != null) {
+                if (value != null) {
+                    for (int x = 0; x < routes.size(); x++) {
+                        for (int i = 0; i < value.size(); i++) {
+                            if (routes.get(x).getSNFCIDxxx().equalsIgnoreCase(value.get(i).getsNFCIDxxx())) {
+                                value.get(i).hasSelected(true);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         checkpoints.setValue(value);
     }
 
@@ -113,6 +129,7 @@ public class VMRouteSelection extends ViewModel {
         for (int x = 0; x < selectedCheckpoints.size(); x++) {
             Checkpoint checkpoint = selectedCheckpoints.get(x);
             SRoutexxx route = new SRoutexxx();
+            route.setSCheckpnt(checkpoint.getsDescript());
             route.setSNFCIDxxx(checkpoint.getsNFCIDxxx());
             route.setNPatrolNo(String.valueOf(x));
             routes.add(route);

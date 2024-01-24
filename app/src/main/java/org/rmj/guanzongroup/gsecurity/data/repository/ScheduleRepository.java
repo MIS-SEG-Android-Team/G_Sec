@@ -23,6 +23,11 @@ public class ScheduleRepository {
         this.patrolSchedulerCache = patrolSchedulerCache;
     }
 
+    public Observable<BaseResponse<Void>> addNewSchedule(CreateUpdateScheduleParams params) {
+        return apiService.addNewSchedule(params);
+    }
+
+
     public Observable<BaseResponse<Void>> updateSchedule(CreateUpdateScheduleParams params) {
         return apiService.updateSchedule(params);
     }

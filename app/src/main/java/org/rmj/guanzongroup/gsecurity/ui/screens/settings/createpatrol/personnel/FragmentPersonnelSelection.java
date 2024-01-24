@@ -1,22 +1,36 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.personnel;
 
-import androidx.lifecycle.ViewModelProvider;
-
+import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentPersonnelSelectionBinding;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel.AdapterPersonnel;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel.AdapterPersonnelCallback;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
+
+import java.util.Objects;
+
+import javax.inject.Inject;
 
 public class FragmentPersonnelSelection extends Fragment {
 
-    private VMPersonnelSelection mViewModel;
+    @Inject
+    VMPersonnelSelection mViewModel;
+
+    private FragmentPersonnelSelectionBinding binding;
 
     public static FragmentPersonnelSelection newInstance() {
         return new FragmentPersonnelSelection();
@@ -25,14 +39,47 @@ public class FragmentPersonnelSelection extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_personnel_selection, container, false);
-    }
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMPersonnelSelection.class);
+        binding = FragmentPersonnelSelectionBinding.inflate(getLayoutInflater());
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMPersonnelSelection.class);
-        // TODO: Use the ViewModel
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
+        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+
+        DialogMessage dialogMessage = new DialogMessage(requireActivity());
+
+        mViewModel.isLoadingPersonnel().observe(getViewLifecycleOwner(), isLoadingPersonnel -> {
+            if (isLoadingPersonnel) {
+                binding.loadingPersonnel.setVisibility(View.VISIBLE);
+                binding.personnelList.setVisibility(View.GONE);
+            } else {
+                binding.loadingPersonnel.setVisibility(View.GONE);
+                binding.personnelList.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mViewModel.getPersonnelList().observe(getViewLifecycleOwner(), personnel -> {
+            if (personnel == null) {
+                return;
+            }
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
+            layoutManager.setOrientation(RecyclerView.VERTICAL);
+            AdapterPersonnel adapter = new AdapterPersonnel(personnel, (name, id) -> {
+                dialogMessage.initDialog("Assign Schedule", "Would you like to assign this schedule to " + name + "?");
+                dialogMessage.setPositiveButton("Assign", dialog -> {
+                    dialog.dismiss();
+                    mViewModel.setPersonnel(name, id);
+                    navController.navigate(R.id.action_fragmentPersonnelSelection_to_fragmentScheduleReview);
+                });
+                dialogMessage.setNegativeButton("Cancel", Dialog::dismiss);
+                dialogMessage.show();
+            });
+            binding.personnelList.setLayoutManager(layoutManager);
+            binding.personnelList.setAdapter(adapter);
+
+        });
+
+        return binding.getRoot();
     }
 
 }

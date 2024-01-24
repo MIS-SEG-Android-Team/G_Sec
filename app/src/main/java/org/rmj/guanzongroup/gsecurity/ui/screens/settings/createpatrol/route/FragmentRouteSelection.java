@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentRouteSelectionBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint.AdapterCheckpointSelection;
@@ -21,10 +24,14 @@ import org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint.AdapterCh
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import javax.inject.Inject;
 
 public class FragmentRouteSelection extends Fragment {
 
-    private VMRouteSelection mViewModel;
+    @Inject
+    VMRouteSelection mViewModel;
 
     private FragmentRouteSelectionBinding binding;
 
@@ -35,8 +42,11 @@ public class FragmentRouteSelection extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentRouteSelectionBinding.inflate(getLayoutInflater());
         mViewModel = new ViewModelProvider(requireActivity()).get(VMRouteSelection.class);
+        binding = FragmentRouteSelectionBinding.inflate(getLayoutInflater());
+
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
+        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         mViewModel.isLoadingCheckpoints().observe(getViewLifecycleOwner(), isLoadingCheckpoints -> {
             if (isLoadingCheckpoints) {
@@ -101,6 +111,7 @@ public class FragmentRouteSelection extends Fragment {
 
         binding.continueButton.setOnClickListener(view -> {
             mViewModel.saveRouteSelection();
+            navController.navigate(R.id.action_fragmentRouteSelection_to_fragmentPatrolSchedule);
         });
 
         return binding.getRoot();

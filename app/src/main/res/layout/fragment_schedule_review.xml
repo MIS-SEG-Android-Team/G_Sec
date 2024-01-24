@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/horizontal_padding_default"
+    tools:context=".ui.screens.settings.createpatrol.review.FragmentScheduleReview">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        style="@style/ScreenTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title_warehouse_selection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/subTitle"
+        style="@style/ScreenSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sub_title_warehouse_selection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        android:layout_marginTop="@dimen/view_padding_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subTitle"
+        tools:layout_editor_absoluteX="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_warehouse"
+                android:textSize="@dimen/screen_sub_header1"
+                android:fontFamily="@font/roboto_medium" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/warehouse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/screen_sub_header2"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="@dimen/view_padding_4"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_padding_8"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_patrol_checkpoints"
+                android:textSize="@dimen/screen_sub_header1" />
+
+            <ListView
+                android:id="@+id/patrolCheckpoints"
+                android:layout_width="match_parent"
+                android:nestedScrollingEnabled="true"
+                android:layout_height="350dp"
+                android:layout_marginTop="@dimen/view_padding_4" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_padding_8"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_patrol_schedules"
+                android:textSize="@dimen/screen_sub_header1" />
+
+            <ListView
+                android:id="@+id/patrolSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:nestedScrollingEnabled="true"
+                android:layout_marginTop="@dimen/view_padding_4"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_assigned_personnel"
+                android:textSize="@dimen/screen_sub_header1"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="@dimen/view_padding_8"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/assignedPersonnel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/screen_sub_header2"
+                android:fontFamily="@font/roboto_regular"
+                android:layout_marginTop="@dimen/view_padding_4"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/view_padding_4"
+                android:layout_marginVertical="@dimen/view_padding_16"
+                android:text="@string/button_save_schedule" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

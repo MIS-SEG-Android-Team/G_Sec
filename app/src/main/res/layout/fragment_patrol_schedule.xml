@@ -29,95 +29,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
-
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/view_padding_24"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/addCategory"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="16dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/label_select_checkpoints"
-                android:textSize="@dimen/screen_sub_header2" />
-
-            <androidx.legacy.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/view_padding_8" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilWarehouseName"
-                style="@style/TextInputStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/label_search_nfc">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tieWarehouseName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="50"
-                    android:nextFocusForward="@id/tiePassword" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/nfcLocations"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:padding="@dimen/view_padding_8"
-                android:scrollbars="none" />
-
-            <androidx.legacy.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/view_padding_16" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/label_select_checkpoints"
-                android:textSize="@dimen/screen_sub_header2" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/patrolCheckpoints"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginTop="@dimen/view_padding_8"
-                android:padding="@dimen/view_padding_8"
-                android:scrollbars="none" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/view_padding_4"
-        android:layout_marginVertical="@dimen/view_padding_16"
-        android:text="@string/button_send_request"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.9"
-        app:layout_constraintWidth_percent=".7" />
+        app:layout_constraintTop_toBottomOf="@+id/subTitle"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.legacy.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/view_padding_16" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/patrolSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/view_padding_8"
+            android:padding="@dimen/view_padding_8"
+            android:scrollbars="none" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonAddSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_add_schedule"
+            app:iconGravity="textStart"
+            app:icon="@drawable/ic_add_circular"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/view_padding_4"
+            android:layout_marginVertical="@dimen/view_padding_16"
+            android:text="@string/button_continue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.9"
+            app:layout_constraintWidth_percent=".7" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

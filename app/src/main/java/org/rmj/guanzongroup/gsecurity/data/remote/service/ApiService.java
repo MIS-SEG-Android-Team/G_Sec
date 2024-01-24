@@ -9,6 +9,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPersonnelParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
@@ -74,7 +75,7 @@ public interface ApiService {
     Observable<BaseResponse<Void>> addPersonnel(@Body AddPersonnelParam value);
 
     @POST("/gsecure/personnel/get_personnels.php")
-    Observable<BaseResponse<List<PersonnelModel>>> getPersonnels();
+    Observable<BaseResponse<List<PersonnelModel>>> getPersonnels(@Body GetPersonnelParams value);
 
     // endregion
 
@@ -160,36 +161,36 @@ public interface ApiService {
 
     // region Scheduler
 
-    @POST("patrol/create_schedule.php")
+    @POST("/gsecure/patrol/create_schedule.php")
     Observable<BaseResponse<Void>> addNewSchedule(@Body CreateUpdateScheduleParams params);
 
-    @POST("patrol/update_patrol_schedule.php")
+    @POST("/gsecure/patrol/update_patrol_schedule.php")
     Observable<BaseResponse<Void>> updateSchedule(@Body CreateUpdateScheduleParams params);
 
-    @POST("patrol/update_patrol_route.php")
+    @POST("/gsecure/patrol/update_patrol_route.php")
     Observable<BaseResponse<Void>> updatePatrolRoute(@Body CreateUpdateScheduleParams params);
 
-    @POST("patrol/update_patrol_personnel.php")
+    @POST("/gsecure/patrol/update_patrol_personnel.php")
     Observable<BaseResponse<Void>> updatePatrolPersonnel(@Body UpdatePatrolPersonnel params);
 
     // endregion
 
     // region Patrol
 
-    @POST("patrol/get_patrol_route.php")
+    @POST("/gsecure/patrol/get_patrol_route.php")
     Observable<BaseResponse<List<PatrolRouteModel>>> getPatrolRoute(@Body GetPatrolRouteParams params);
 
-    @POST("patrol/get_recent_activity.php")
+    @POST("/gsecure/patrol/get_recent_activity.php")
     Observable<BaseResponse<List<RecentActivityModel>>> getRecentActivity(@Body GetPatrolRouteParams params);
 
-    @POST("patrol/post_place_visited.php")
+    @POST("/gsecure/patrol/post_place_visited.php")
     Observable<BaseResponse<Void>> postPlaceVisited(@Body PostPlaceVisitedParams params);
 
     // endregion
 
     // region Notification
 
-    @POST("patrol/post_place_visited.php")
+    @POST("/gsecure/patrol/post_place_visited.php")
     Observable<BaseResponse<Void>>  sendVisitationRequest(@Body SendVisitationRequestParams params);
 
     // endregion
