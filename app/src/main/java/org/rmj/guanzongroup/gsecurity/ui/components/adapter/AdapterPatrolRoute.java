@@ -9,21 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.databinding.ListItemPatrolRouteBinding;
-import org.rmj.guanzongroup.gsecurity.pojo.itinerary.PatrolRoute;
 
 import java.util.List;
 
 public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.ItineraryViewHolder> {
 
-    private final List<PatrolRoute> patrolRouteList;
+    private final List<PatrolRouteEntity> patrolRouteList;
     private final PatrolRouteClickListener mListener;
 
     public interface PatrolRouteClickListener{
         void onClick(String nfcID, String placeName);
     }
 
-    public AdapterPatrolRoute(List<PatrolRoute> patrolRouteList, PatrolRouteClickListener listener) {
+    public AdapterPatrolRoute(List<PatrolRouteEntity> patrolRouteList, PatrolRouteClickListener listener) {
         this.patrolRouteList = patrolRouteList;
         this.mListener = listener;
     }
@@ -42,15 +42,15 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
 
     @Override
     public void onBindViewHolder(@NonNull ItineraryViewHolder holder, int position) {
-        PatrolRoute patrolRoute = patrolRouteList.get(position);
-        holder.binding.nfcSiteDescription.setText(patrolRoute.getDescription());
-        holder.binding.siteWarehouse.setText(patrolRoute.getWarehouse());
-        holder.binding.patrolStatus.setText(patrolRoute.getPatrolType());
+        PatrolRouteEntity patrolRoute = patrolRouteList.get(position);
+        holder.binding.nfcSiteDescription.setText(patrolRoute.getSDescript());
+//        holder.binding.siteWarehouse.setText(patrolRoute.getWarehouse());
+//        holder.binding.patrolStatus.setText(patrolRoute.getPatrolType());
 
-        if(patrolRoute.isVisited())
+//        if(patrolRoute.isVisited())
             holder.binding.patrolRouteIcon.setImageResource(R.drawable.ic_location_check);
-        else
-            holder.binding.patrolRouteIcon.setImageResource(R.drawable.ic_location_next);
+//        else
+//            holder.binding.patrolRouteIcon.setImageResource(R.drawable.ic_location_next);
 
         holder.binding.getRoot().setOnClickListener(view -> {
             if(position == NO_POSITION) {
@@ -58,8 +58,8 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
             }
 
             mListener.onClick(
-                    patrolRoute.getNfcID(),
-                    patrolRoute.getDescription()
+                    patrolRoute.getSNFCIDxxx(),
+                    patrolRoute.getSDescript()
             );
         });
     }

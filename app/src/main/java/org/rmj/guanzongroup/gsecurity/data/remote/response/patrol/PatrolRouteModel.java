@@ -1,42 +1,25 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.response.patrol;
 
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
+
 import java.util.List;
 
 public class PatrolRouteModel {
     private String sNotexxxx;
-    private List<SSchedule> sSchedule;
-    private List<SRoutexxx> sRoutexxx;
+    private List<PatrolScheduleEntity> sSchedule;
+    private List<PatrolRouteEntity> sRoutexxx;
     private String cRecdStat;
 
-    public String getSNotexxxx() {
-        return sNotexxxx;
-    }
+    public String getSNotexxxx() { return sNotexxxx; }
+    public void setSNotexxxx(String value) { this.sNotexxxx = value; }
 
-    public void setSNotexxxx(String value) {
-        this.sNotexxxx = value;
-    }
+    public List<PatrolScheduleEntity> getSSchedule() { return sSchedule; }
+    public void setSSchedule(List<PatrolScheduleEntity> value) { this.sSchedule = value; }
 
-    public List<SSchedule> getSSchedule() {
-        return sSchedule;
-    }
+    public List<PatrolRouteEntity> getSRoutexxx() { return sRoutexxx; }
+    public void setSRoutexxx(List<PatrolRouteEntity> value) { this.sRoutexxx = value; }
 
-    public void setSSchedule(List<SSchedule> value) {
-        this.sSchedule = value;
-    }
-
-    public List<SRoutexxx> getSRoutexxx() {
-        return sRoutexxx;
-    }
-
-    public void setSRoutexxx(List<SRoutexxx> value) {
-        this.sRoutexxx = value;
-    }
-
-    public String getCRecdStat() {
-        return cRecdStat;
-    }
-
-    public void setCRecdStat(String value) {
-        this.cRecdStat = value;
-    }
+    public String getCRecdStat() { return cRecdStat; }
+    public void setCRecdStat(String value) { this.cRecdStat = value; }
 }

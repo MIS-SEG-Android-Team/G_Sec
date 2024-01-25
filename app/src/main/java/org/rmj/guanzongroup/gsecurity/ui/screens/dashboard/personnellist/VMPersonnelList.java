@@ -4,12 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-
-import org.rmj.guanzongroup.gsecurity.mockdata.ListPersonnel;
-import org.rmj.guanzongroup.gsecurity.pojo.user.Personnel;
-
-import java.util.List;
 
 public class VMPersonnelList extends AndroidViewModel {
 
@@ -17,7 +11,7 @@ public class VMPersonnelList extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<List<Personnel>> getPersonnelList(){
-        return ListPersonnel.getPersonnelList();
-    }
+//    public LiveData<List<Personnel>> getPersonnelList(){
+//        return ListPersonnel.getPersonnelList();
+//    }
 }

@@ -27,7 +27,7 @@ public class FragmentPersonnelDashboard extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMPersonnelDashboard.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMPersonnelDashboard.class);
         binding = FragmentPersonnelDashboardBinding.inflate(getLayoutInflater());
 
 

@@ -100,12 +100,12 @@ public class FragmentPatrolRoute extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(VERTICAL);
 
-        mViewModel.getItineraryList().observe(getViewLifecycleOwner(), patrolRoutes -> {
-            if(patrolRoutes == null) {
+        mViewModel.getPatrolCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
+            if(checkpoints == null) {
                 return;
             }
 
-            binding.patrolRouteList.setAdapter(new AdapterPatrolRoute(patrolRoutes, (nfcID, placeName) -> {
+            binding.patrolRouteList.setAdapter(new AdapterPatrolRoute(checkpoints, (nfcID, placeName) -> {
                 new DialogTagOption(requireActivity(), placeName, new DialogTagOption.DialogTagOptionCallback() {
                     @Override
                     public void onClickNFCButton() {

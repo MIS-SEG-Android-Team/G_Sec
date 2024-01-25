@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentRecentActivitiesBinding;
-import org.rmj.guanzongroup.gsecurity.pojo.activity.RecentActivity;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.AdapterRecentActivity;
 
 import java.util.List;
@@ -38,14 +36,14 @@ public class FragmentRecentActivities extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mViewModel.getRecentActivity().observe(getViewLifecycleOwner(), recentActivities -> {
-            if(recentActivities == null){
-                return;
-            }
-
-            binding.recentActivityList.setLayoutManager(linearLayoutManager);
-            binding.recentActivityList.setAdapter(new AdapterRecentActivity(recentActivities));
-        });
+//        mViewModel.getRecentActivity().observe(getViewLifecycleOwner(), recentActivities -> {
+//            if(recentActivities == null){
+//                return;
+//            }
+//
+//            binding.recentActivityList.setLayoutManager(linearLayoutManager);
+////            binding.recentActivityList.setAdapter(new AdapterRecentActivity(recentActivities));
+//        });
 
         return binding.getRoot();
     }

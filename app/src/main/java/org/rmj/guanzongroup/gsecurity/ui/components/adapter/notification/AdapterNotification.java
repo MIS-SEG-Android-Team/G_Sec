@@ -11,19 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.ListItemNotificationBinding;
-import org.rmj.guanzongroup.gsecurity.pojo.notification.Notification;
 
 import java.util.List;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.NotificationViewHolder> {
 
-    private final List<Notification> notificationList;
-    private final AdapterNotificationCallback listener;
-
-    public AdapterNotification(List<Notification> notificationList, AdapterNotificationCallback listener) {
-        this.notificationList = notificationList;
-        this.listener = listener;
-    }
+//    private final List<Notification> notificationList;
+//    private final AdapterNotificationCallback listener;
+//
+//    public AdapterNotification(List<Notification> notificationList, AdapterNotificationCallback listener) {
+//        this.notificationList = notificationList;
+//        this.listener = listener;
+//    }
 
     @NonNull
     @Override
@@ -40,24 +39,25 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
-        Notification notification = notificationList.get(position);
-
-        holder.binding.notificationTitle.setText(notification.getMessageTitle());
-        holder.binding.notificationBody.setText(notification.getMessageBody());
-
-        switch (notification.getMessageType()) {
-            case NOTIFICATION_ALARM:
-                holder.binding.notificationTypeIcon.setImageResource(R.drawable.ic_notification_alarm);
-                break;
-            case NOTIFICATION_VISIT:
-                holder.binding.notificationTypeIcon.setImageResource(R.drawable.ic_location_next);
-                break;
-        }
+//        Notification notification = notificationList.get(position);
+//
+//        holder.binding.notificationTitle.setText(notification.getMessageTitle());
+//        holder.binding.notificationBody.setText(notification.getMessageBody());
+//
+//        switch (notification.getMessageType()) {
+//            case NOTIFICATION_ALARM:
+//                holder.binding.notificationTypeIcon.setImageResource(R.drawable.ic_notification_alarm);
+//                break;
+//            case NOTIFICATION_VISIT:
+//                holder.binding.notificationTypeIcon.setImageResource(R.drawable.ic_location_next);
+//                break;
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return notificationList.size();
+//        return notificationList.size();
+        return 0;
     }
 
     public static class NotificationViewHolder extends RecyclerView.ViewHolder{

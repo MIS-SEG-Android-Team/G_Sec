@@ -16,11 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentNotificationsBinding;
-import org.rmj.guanzongroup.gsecurity.pojo.notification.Notification;
-import org.rmj.guanzongroup.gsecurity.ui.components.adapter.notification.AdapterNotification;
-import org.rmj.guanzongroup.gsecurity.ui.components.adapter.notification.AdapterNotificationCallback;
-
-import java.util.List;
 
 public class FragmentNotifications extends Fragment {
 
@@ -43,21 +38,21 @@ public class FragmentNotifications extends Fragment {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
         binding.notificationList.setLayoutManager(linearLayoutManager);
-        mViewModel.getNotifications().observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
-            @Override
-            public void onChanged(List<Notification> notifications) {
-                if(notifications == null){
-                    return;
-                }
-
-                binding.notificationList.setAdapter(new AdapterNotification(notifications, new AdapterNotificationCallback() {
-                    @Override
-                    public void onclickNotification(Notification notification) {
-
-                    }
-                }));
-            }
-        });
+//        mViewModel.getNotifications().observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
+//            @Override
+//            public void onChanged(List<Notification> notifications) {
+//                if(notifications == null){
+//                    return;
+//                }
+//
+//                binding.notificationList.setAdapter(new AdapterNotification(notifications, new AdapterNotificationCallback() {
+//                    @Override
+//                    public void onclickNotification(Notification notification) {
+//
+//                    }
+//                }));
+//            }
+//        });
 
         return binding.getRoot();
     }

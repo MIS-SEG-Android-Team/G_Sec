@@ -48,19 +48,19 @@ public class FragmentPersonnelList extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mViewModel.getPersonnelList().observe(getViewLifecycleOwner(), personnels -> {
-            if(personnels == null) {
-                return;
-            }
-
-            binding.personnelList.setLayoutManager(linearLayoutManager);
-            binding.personnelList.setAdapter(
-                    new AdapterActivePersonnel(
-                            personnels,
-                            personnelID -> navController.navigate(R.id.action_fragmentPersonnelList_to_fragmentRecentActivities)
-                    )
-            );
-        });
+//        mViewModel.getPersonnelList().observe(getViewLifecycleOwner(), personnels -> {
+//            if(personnels == null) {
+//                return;
+//            }
+//
+//            binding.personnelList.setLayoutManager(linearLayoutManager);
+//            binding.personnelList.setAdapter(
+//                    new AdapterActivePersonnel(
+//                            personnels,
+//                            personnelID -> navController.navigate(R.id.action_fragmentPersonnelList_to_fragmentRecentActivities)
+//                    )
+//            );
+//        });
 
         return binding.getRoot();
     }

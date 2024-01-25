@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/view_padding_8"
         android:maxLines="1"
+        android:visibility="gone"
         android:text="@string/list_item_personnel_active_site"
         android:textSize="@dimen/screen_body"
         app:fontFamily="@font/roboto_regular"
@@ -57,6 +58,7 @@
         android:text="@string/list_item_patrol_requested"
         android:textSize="@dimen/screen_footer_body"
         app:fontFamily="@font/roboto_medium"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

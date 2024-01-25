@@ -1,14 +1,15 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnel;
 
-import android.app.Application;
+import androidx.lifecycle.ViewModel;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
+import javax.inject.Inject;
 
-public class VMPersonnelDashboard extends AndroidViewModel {
+import dagger.hilt.android.lifecycle.HiltViewModel;
 
-    public VMPersonnelDashboard(@NonNull Application application) {
-        super(application);
+@HiltViewModel
+public class VMPersonnelDashboard extends ViewModel {
+
+    @Inject
+    public VMPersonnelDashboard() {
     }
-
 }
