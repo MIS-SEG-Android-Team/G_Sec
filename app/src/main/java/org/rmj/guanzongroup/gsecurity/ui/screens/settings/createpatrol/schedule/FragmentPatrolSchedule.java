@@ -81,7 +81,7 @@ public class FragmentPatrolSchedule extends Fragment {
                         try {
                             String time = hourOfDay + ":" + minute1;
                             Date parseDate = new SimpleDateFormat("HH:mm").parse(time);
-                            String formattedTime = new SimpleDateFormat("hh:mm a").format(parseDate);
+                            String formattedTime = new SimpleDateFormat("HH:mm a").format(parseDate);
                             mViewModel.editSchedule(position, formattedTime);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -110,7 +110,7 @@ public class FragmentPatrolSchedule extends Fragment {
                 try {
                     String time = hourOfDay + ":" + minute1;
                     Date parseDate = new SimpleDateFormat("HH:mm").parse(time);
-                    String formattedTime = new SimpleDateFormat("hh:mm a").format(parseDate);
+                    String formattedTime = new SimpleDateFormat("HH:mm a").format(parseDate);
                     mViewModel.addSchedule(formattedTime);
                 } catch (Exception e) {
                     e.printStackTrace();

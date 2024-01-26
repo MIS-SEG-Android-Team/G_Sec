@@ -68,6 +68,7 @@
     <string name="label_tap_the_nfc">Tap the NFC until device plays a sound.</string>
     <string name="label_specific_place">Specific Place</string>
     <string name="label_remarks">Remarks</string>
+    <string name="label_time">Time</string>
     <string name="label_visit_request">Visit Request</string>
     <string name="label_personnel">Personnel</string>
     <string name="label_place">Place</string>

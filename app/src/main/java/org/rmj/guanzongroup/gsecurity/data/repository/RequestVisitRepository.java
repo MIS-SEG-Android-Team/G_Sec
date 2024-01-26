@@ -41,4 +41,8 @@ public class RequestVisitRepository {
     public Observable<BaseResponse<Void>> sendVisitedNotification(RequestVisitEntity params) {
         return apiService.sendVisitedNotification(params);
     }
+
+    public Observable<BaseResponse<Void>> sendVisitationRequest(RequestSiteVisitParams params) {
+        return apiService.sendVisitationRequest(params);
+    }
 }
