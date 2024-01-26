@@ -28,6 +28,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
 import java.util.List;
@@ -194,7 +195,7 @@ public interface ApiService {
     Observable<BaseResponse<Void>> sendVisitationRequest(@Body RequestSiteVisitParams params);
 
     @POST("/gsecure/notification/send_request.php")
-    Observable<BaseResponse<Void>> sendVisitedNotification(@Body RequestSiteVisitParams params);
+    Observable<BaseResponse<Void>> sendVisitedNotification(@Body RequestVisitEntity params);
 
     // endregion
 }

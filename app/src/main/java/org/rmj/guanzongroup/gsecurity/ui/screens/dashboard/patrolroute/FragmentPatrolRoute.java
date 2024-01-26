@@ -45,6 +45,8 @@ public class FragmentPatrolRoute extends Fragment {
     private DialogLoad dialogLoad;
     private FragmentPatrolRouteBinding binding;
 
+    private Boolean isTaggingRequestedVisit = false;
+
     private final ActivityResultLauncher<Intent> intentFrontCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
        if(result.getResultCode() == RESULT_OK) {
 //           new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
@@ -80,7 +82,12 @@ public class FragmentPatrolRoute extends Fragment {
             if (intentResult != null) {
                 String payload = intentResult.getStringExtra(READ_NFC_DATA_PAYLOAD);
                 Timber.tag("NFC").d("Received NFC data: %s", payload);
-                mViewModel.tagVisitedCheckpoint(payload);
+
+                if (!isTaggingRequestedVisit) {
+                    mViewModel.tagVisitedCheckpoint(payload);
+                } else {
+                    mViewModel.tagRequestedVisit(payload);
+                }
             }
         } else if(result.getResultCode() == RESULT_CANCELED) {
             Toast.makeText(
@@ -105,15 +112,6 @@ public class FragmentPatrolRoute extends Fragment {
         dialogLoad = new DialogLoad(requireActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(VERTICAL);
-
-        mViewModel.successfullyTagged().observe(getViewLifecycleOwner(), message -> {
-            if (!message.isEmpty()) {
-                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, dialog -> {
-                    dialog.dismiss();
-                    mViewModel.clearMessage();
-                }).showDialog();
-            }
-        });
 
         mViewModel.getRequestedVisit().observe(getViewLifecycleOwner(), requestedVisit -> {
             if (requestedVisit == null) {
@@ -193,12 +191,14 @@ public class FragmentPatrolRoute extends Fragment {
                 dialogLoad.dismiss();
             }
         });
+
         mViewModel.hasLogout().observe(getViewLifecycleOwner(), hasLogOut -> {
             if (hasLogOut) {
                 requireActivity().finish();
                 requireActivity().startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
             }
         });
+
         mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
             if (errorMessage == null) {
                 return;
@@ -209,6 +209,15 @@ public class FragmentPatrolRoute extends Fragment {
             }
 
             new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
+        });
+
+        mViewModel.successfullyTagged().observe(getViewLifecycleOwner(), message -> {
+            if (!message.isEmpty()) {
+                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, dialog -> {
+                    dialog.dismiss();
+                    mViewModel.clearMessage();
+                }).showDialog();
+            }
         });
     }
 }

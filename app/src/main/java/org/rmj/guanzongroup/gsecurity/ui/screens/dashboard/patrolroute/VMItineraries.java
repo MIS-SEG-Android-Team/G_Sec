@@ -70,6 +70,50 @@ public class VMItineraries extends ViewModel {
         getPatrolRouteSchedules();
     }
 
+    public LiveData<List<PatrolRouteEntity>> getPatrolCheckpoints() {
+        return patrolRepository.getPatrolCheckpoints();
+    }
+
+    public LiveData<Boolean> isLoadingPatrolRoute() {
+        return isLoadingPatrolRoutes;
+    }
+
+    public LiveData<Boolean> hasLogout() {
+        return hasLogout;
+    }
+
+    public LiveData<Boolean> isLoggingOut() {
+        return loggingOut;
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
+
+    public LiveData<RequestVisitEntity> getRequestedVisit() {
+        return requestVisitRepository.getRequestedVisit();
+    }
+
+    public LiveData<String> successfullyTagged() {
+        return successMessage;
+    }
+
+    public void setCheckpoint(PatrolRouteEntity patrol) {
+        this.taggingCheckpoint.setValue(patrol);
+    }
+
+    public void setRequestedVisit(RequestVisitEntity patrol) {
+        this.requestedVisit.setValue(patrol);
+    }
+
+    public void setRemarks(String value) {
+        this.taggingRemarks.setValue(value);
+    }
+
+    public void clearMessage() {
+        this.successMessage.setValue("");
+    }
+
     @SuppressLint("CheckResult")
     public void getPatrolRouteSchedules() {
         GetPatrolRouteParams params = new GetPatrolRouteParams();
@@ -93,46 +137,6 @@ public class VMItineraries extends ViewModel {
 
                         }
                 );
-    }
-
-    public LiveData<List<PatrolRouteEntity>> getPatrolCheckpoints() {
-        return patrolRepository.getPatrolCheckpoints();
-    }
-
-    public LiveData<Boolean> isLoadingPatrolRoute() {
-        return isLoadingPatrolRoutes;
-    }
-
-    public LiveData<Boolean> hasLogout() {
-        return hasLogout;
-    }
-
-    public LiveData<Boolean> isLoggingOut() {
-        return loggingOut;
-    }
-
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
-    }
-
-    public LiveData<String> successfullyTagged() {
-        return successMessage;
-    }
-
-    public void setCheckpoint(PatrolRouteEntity patrol) {
-        this.taggingCheckpoint.setValue(patrol);
-    }
-
-    public void setRequestedVisit(RequestVisitEntity patrol) {
-        this.requestedVisit.setValue(patrol);
-    }
-
-    public void setRemarks(String value) {
-        this.taggingRemarks.setValue(value);
-    }
-
-    public void clearMessage() {
-        this.successMessage.setValue("");
     }
 
     @SuppressLint("NewApi")
@@ -186,7 +190,6 @@ public class VMItineraries extends ViewModel {
             List<PatrolLogEntity> patrols = patrolRepository.getPatrolLogsForPosting();
 
             if (patrols == null) {
-
                 return;
             }
 
@@ -243,7 +246,55 @@ public class VMItineraries extends ViewModel {
                 );
     }
 
-    public LiveData<RequestVisitEntity> getRequestedVisit() {
-        return requestVisitRepository.getRequestedVisit();
+    @SuppressLint({"NewApi", "CheckResult"})
+    public void tagRequestedVisit(String value) {
+
+        // Triggers the loading dialog on Main Thread...
+        isLoadingPosting.setValue(true);
+        Gson gson = new Gson();
+        Type type = new TypeToken<AddNfcTagParams>(){}.getType();
+        AddNfcTagParams nfcTag = gson.fromJson(value.replace("\u0002en", ""), type);
+
+        RequestVisitEntity requestVisit = requestedVisit.getValue();
+
+        if (requestVisit == null) {
+            errorMessage.setValue("Something went wrong. Please try again...");
+            return;
+        }
+
+        if (!nfcTag.getSDescript().equalsIgnoreCase(requestVisit.getSDescript())) {
+            errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
+            return;
+        }
+
+        String remarks = "";
+
+        if (taggingRemarks.getValue() != null) {
+            remarks = taggingRemarks.getValue();
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String currentDateTime = formatter.format(localDateTime);
+
+        requestVisit.setDVisitedx(currentDateTime);
+        requestVisit.setSRemark2(remarks);
+        requestVisit.setCSendStat("0");
+        requestVisitRepository.update(requestVisit);
+
+        isLoadingPosting.setValue(false);
+        successMessage.setValue("You visited " + nfcTag.getSDescript());
+
+        requestVisitRepository.sendVisitedNotification(requestVisit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        response -> {
+                            if (response.getResult().equalsIgnoreCase("error")) {
+                                return;
+                            }
+                            requestVisit.setCSendStat("1");
+                            requestVisitRepository.update(requestVisit);
+                        });
     }
 }

@@ -2,11 +2,15 @@ package org.rmj.guanzongroup.gsecurity.data.repository;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.guanzongroup.gsecurity.data.remote.param.RequestSiteVisitParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitDao;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 
 import javax.inject.Inject;
+
+import io.reactivex.rxjava3.core.Observable;
 
 public class RequestVisitRepository {
 
@@ -32,5 +36,9 @@ public class RequestVisitRepository {
 
     public LiveData<RequestVisitEntity> getRequestedVisit() {
         return requestVisitDao.getRequestedVisit();
+    }
+
+    public Observable<BaseResponse<Void>> sendVisitedNotification(RequestVisitEntity params) {
+        return apiService.sendVisitedNotification(params);
     }
 }
