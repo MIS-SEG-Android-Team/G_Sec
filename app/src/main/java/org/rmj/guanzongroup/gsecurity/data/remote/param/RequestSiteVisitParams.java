@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.param;
 
-public class SendSiteVisitataionParams {
+public class RequestSiteVisitParams {
     private String sWHouseID;
     private String sNFCIDxxx;
     private String dTimexxxx;

@@ -10,16 +10,17 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
-import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.RequestVisitRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
@@ -37,31 +38,33 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class VMItineraries extends ViewModel {
 
     private final DataStore dataStore;
-    private final PatrolCache patrolCache;
     private final AuthenticationRepository authenticationRepository;
     private final PatrolRepository patrolRepository;
+    private final RequestVisitRepository requestVisitRepository;
     private final ScheduleRepository scheduleRepository;
 
     private final MutableLiveData<Boolean> isLoadingPatrolRoutes = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> hasLogout = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> loggingOut = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
+    private final MutableLiveData<RequestVisitEntity> requestedVisit = new MutableLiveData<>(new RequestVisitEntity());
     private final MutableLiveData<PatrolRouteEntity> taggingCheckpoint = new MutableLiveData<>(new PatrolRouteEntity());
     private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
+    private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
 
     @Inject
     public VMItineraries(
             DataStore dataStore,
-            PatrolCache patrolCache,
             AuthenticationRepository authenticationRepository,
             PatrolRepository patrolRepository,
+            RequestVisitRepository requestVisitRepository,
             ScheduleRepository scheduleRepository
     ) {
         this.dataStore = dataStore;
-        this.patrolCache = patrolCache;
         this.authenticationRepository = authenticationRepository;
         this.patrolRepository = patrolRepository;
+        this.requestVisitRepository = requestVisitRepository;
         this.scheduleRepository = scheduleRepository;
 
         getPatrolRouteSchedules();
@@ -112,12 +115,24 @@ public class VMItineraries extends ViewModel {
         return errorMessage;
     }
 
+    public LiveData<String> successfullyTagged() {
+        return successMessage;
+    }
+
     public void setCheckpoint(PatrolRouteEntity patrol) {
         this.taggingCheckpoint.setValue(patrol);
     }
 
+    public void setRequestedVisit(RequestVisitEntity patrol) {
+        this.requestedVisit.setValue(patrol);
+    }
+
     public void setRemarks(String value) {
         this.taggingRemarks.setValue(value);
+    }
+
+    public void clearMessage() {
+        this.successMessage.setValue("");
     }
 
     @SuppressLint("NewApi")
@@ -161,6 +176,7 @@ public class VMItineraries extends ViewModel {
         patrolRepository.savePatrolLog(patrolLogEntity);
 
         isLoadingPosting.setValue(false);
+        successMessage.setValue("You visited " + nfcTag.getSDescript());
         postTaggedCheckpoints();
     }
 
@@ -181,7 +197,7 @@ public class VMItineraries extends ViewModel {
             PostPatrolParams params = new PostPatrolParams();
             params.setData(patrols);
 
-            patrolRepository.sendVisitationRequest(params)
+            patrolRepository.postPlaceVisited(params)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -227,5 +243,7 @@ public class VMItineraries extends ViewModel {
                 );
     }
 
-
+    public LiveData<RequestVisitEntity> getRequestedVisit() {
+        return requestVisitRepository.getRequestedVisit();
+    }
 }

@@ -15,10 +15,9 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.RequestSiteVisitParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolPersonnel;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.notification.SendVisitationRequestParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.placevisited.PostPlaceVisitedParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
@@ -185,14 +184,17 @@ public interface ApiService {
     Observable<BaseResponse<List<RecentActivityModel>>> getRecentActivity(@Body GetPatrolRouteParams params);
 
     @POST("/gsecure/patrol/post_place_visited.php")
-    Observable<BaseResponse<Void>> postPlaceVisited(@Body PostPlaceVisitedParams params);
+    Observable<BaseResponse<Void>> postPlaceVisited(@Body PostPatrolParams params);
 
     // endregion
 
     // region Notification
 
-    @POST("/gsecure/patrol/post_place_visited.php")
-    Observable<BaseResponse<Void>> sendVisitationRequest(@Body PostPatrolParams params);
+    @POST("/gsecure/notification/send_request.php")
+    Observable<BaseResponse<Void>> sendVisitationRequest(@Body RequestSiteVisitParams params);
+
+    @POST("/gsecure/notification/send_request.php")
+    Observable<BaseResponse<Void>> sendVisitedNotification(@Body RequestSiteVisitParams params);
 
     // endregion
 }

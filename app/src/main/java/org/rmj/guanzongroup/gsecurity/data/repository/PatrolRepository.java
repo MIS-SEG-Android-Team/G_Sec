@@ -62,7 +62,7 @@ public class PatrolRepository {
         return patrolLogDao.getPatrolLogsForPosting();
     }
 
-    public Observable<BaseResponse<Void>> sendVisitationRequest(PostPatrolParams params){
-        return apiService.sendVisitationRequest(params);
+    public Observable<BaseResponse<Void>> postPlaceVisited(PostPatrolParams params){
+        return apiService.postPlaceVisited(params);
     }
 }

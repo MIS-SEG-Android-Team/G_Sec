@@ -63,7 +63,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:padding="@dimen/view_padding_10">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -97,12 +96,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/siteWarehouse"
+                android:id="@+id/siteRemarks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/view_padding_8"
                 android:maxLines="1"
-                android:text="@string/list_item_personnel_active_site"
+                android:text="@string/request_visit_remarks"
                 android:textSize="@dimen/screen_body"
                 app:fontFamily="@font/roboto_regular"
                 app:layout_constraintHorizontal_bias="0.0"

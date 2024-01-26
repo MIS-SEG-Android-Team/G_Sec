@@ -81,7 +81,6 @@ public class FragmentPatrolRoute extends Fragment {
                 String payload = intentResult.getStringExtra(READ_NFC_DATA_PAYLOAD);
                 Timber.tag("NFC").d("Received NFC data: %s", payload);
                 mViewModel.tagVisitedCheckpoint(payload);
-//                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
             }
         } else if(result.getResultCode() == RESULT_CANCELED) {
             Toast.makeText(
@@ -106,6 +105,41 @@ public class FragmentPatrolRoute extends Fragment {
         dialogLoad = new DialogLoad(requireActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(VERTICAL);
+
+        mViewModel.successfullyTagged().observe(getViewLifecycleOwner(), message -> {
+            if (!message.isEmpty()) {
+                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, dialog -> {
+                    dialog.dismiss();
+                    mViewModel.clearMessage();
+                }).showDialog();
+            }
+        });
+
+        mViewModel.getRequestedVisit().observe(getViewLifecycleOwner(), requestedVisit -> {
+            if (requestedVisit == null) {
+                return;
+            }
+
+            binding.nfcSiteDescription.setText(requestedVisit.getSDescript());
+            binding.siteRemarks.setText(requestedVisit.getSRemark1());
+            binding.visitRequestBanner.setVisibility(View.VISIBLE);
+            binding.visitRequestBanner.setOnClickListener( view -> {
+                new DialogTagOption(requireActivity(), requestedVisit.getSDescript(), new DialogTagOption.DialogTagOptionCallback() {
+                    @Override
+                    public void onClickNFCButton(String remarks) {
+                        mViewModel.setRequestedVisit(requestedVisit);
+                        Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
+                        intentNFCReader.launch(intent);
+                    }
+
+                    @Override
+                    public void onClickQrCodeButton(String remarks) {
+                        Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
+                        intentQrCodeScanner.launch(intent);
+                    }
+                }).show();
+            });
+        });
 
         mViewModel.getPatrolCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
             if(checkpoints == null) {
@@ -132,25 +166,6 @@ public class FragmentPatrolRoute extends Fragment {
                 }).show();
             }));
             binding.patrolRouteList.setLayoutManager(linearLayoutManager);
-        });
-
-        binding.visitRequestBanner.setOnClickListener(view-> {
-            String placeName = "Warehouse 2 Back Door";
-            new DialogTagOption(requireActivity(), placeName, new DialogTagOption.DialogTagOptionCallback() {
-                @Override
-                public void onClickNFCButton(String remarks) {
-//                    visitedPlace = placeName;
-                    Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
-                    intentNFCReader.launch(intent);
-                }
-
-                @Override
-                public void onClickQrCodeButton(String remarks) {
-//                    visitedPlace = placeName;
-                    Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
-                    intentQrCodeScanner.launch(intent);
-                }
-            }).show();
         });
 
         setupObservables();

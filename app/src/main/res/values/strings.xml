@@ -139,6 +139,7 @@
     <string name="list_item_personnel_active_last_visit">Warehouse 2 Back Door</string>
     <string name="list_item_patrol_requested">Patrol Requested</string>
     <string name="list_item_patrol_route">Patrol Route</string>
+    <string name="request_visit_remarks">Check for unplug appliances on outlet</string>
 
     <!--    Content Description-->
     <string name="close_button">Close</string>

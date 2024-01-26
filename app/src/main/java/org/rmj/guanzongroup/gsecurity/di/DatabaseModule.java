@@ -15,6 +15,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionDao;
+import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitDao;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseDao;
 
 import javax.inject.Singleton;
@@ -89,5 +90,11 @@ public class DatabaseModule {
     @Singleton
     public static PatrolLogDao providePatrolLogDao(GSecureDB gSecureDB) {
         return gSecureDB.patrolLogDao();
+    }
+
+    @Provides
+    @Singleton
+    public static RequestVisitDao provideRequestVisitDao(GSecureDB gSecureDB) {
+        return gSecureDB.requestVisitDao();
     }
 }
