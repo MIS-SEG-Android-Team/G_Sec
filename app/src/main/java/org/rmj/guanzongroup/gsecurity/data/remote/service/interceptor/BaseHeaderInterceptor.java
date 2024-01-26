@@ -1,10 +1,9 @@
 package org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import org.rmj.guanzongroup.gsecurity.BuildConfig;
+import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.util.SECUtil;
 import org.rmj.guanzongroup.gsecurity.data.remote.util.SQLUtil;
 
@@ -17,30 +16,24 @@ import javax.inject.Singleton;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import timber.log.Timber;
 
 @Singleton
 public class BaseHeaderInterceptor implements Interceptor {
 
-    private String firebaseToken;
-    private String deviceID;
-
-    public void setFirebaseToken(String firebaseToken) {
-        this.firebaseToken = firebaseToken;
-    }
-
-    public void setDeviceID(String deviceID) {
-        this.deviceID = deviceID;
-    }
+    private final TokenCache tokenCache;
 
     @Inject
-    public BaseHeaderInterceptor() {
+    public BaseHeaderInterceptor(TokenCache tokenCache) {
+        this.tokenCache = tokenCache;
     }
 
     @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
+
+        String deviceID = tokenCache.getDeviceID();
+        String firebaseToken = tokenCache.getFirebaseToken();
 
         String apiKey = SQLUtil.dateFormat(Calendar.getInstance().getTime(), "yyyyMMddHHmmss");
         String apiHash = SECUtil.md5Hex(deviceID + apiKey);

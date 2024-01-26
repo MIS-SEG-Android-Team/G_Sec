@@ -5,7 +5,7 @@ import android.app.Application;
 import org.rmj.guanzongroup.gsecurity.data.preferences.AuthenticationCache;
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
-import org.rmj.guanzongroup.gsecurity.data.preferences.TokenDeviceID;
+import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
 
 import javax.inject.Singleton;
 
@@ -32,8 +32,8 @@ public class PreferencesModule {
 
     @Provides
     @Singleton
-    public static TokenDeviceID provideTokenDeviceID(Application application) {
-        return new TokenDeviceID(application);
+    public static TokenCache provideTokenDeviceID(Application application) {
+        return new TokenCache(application);
     }
 
     @Provides

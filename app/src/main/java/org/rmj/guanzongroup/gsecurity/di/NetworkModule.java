@@ -4,6 +4,7 @@ import android.app.Application;
 
 import org.rmj.guanzongroup.gsecurity.BuildConfig;
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
+import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.AuthorizedInterceptor;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.BaseHeaderInterceptor;
@@ -90,7 +91,7 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    public static BaseHeaderInterceptor provideBaseHeaderInterceptor() {
-        return new BaseHeaderInterceptor();
+    public static BaseHeaderInterceptor provideBaseHeaderInterceptor(TokenCache tokenCache) {
+        return new BaseHeaderInterceptor(tokenCache);
     }
 }

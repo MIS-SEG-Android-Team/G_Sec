@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 
 
 @Singleton
-public class TokenDeviceID {
+public class TokenCache {
 
     private final SharedPreferences preferences;
     private final SharedPreferences.Editor editor;
@@ -21,7 +21,7 @@ public class TokenDeviceID {
     private static final String DEVICE_ID = "device_id";
 
     @Inject
-    public TokenDeviceID(Application application){
+    public TokenCache(Application application){
         this.preferences = application.getSharedPreferences(CONFIG_NAME, Context.MODE_PRIVATE);
         this.editor = preferences.edit();
     }
