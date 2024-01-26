@@ -115,6 +115,7 @@ public class FragmentPatrolRoute extends Fragment {
 
         mViewModel.getRequestedVisit().observe(getViewLifecycleOwner(), requestedVisit -> {
             if (requestedVisit == null) {
+                binding.visitRequestBanner.setVisibility(View.GONE);
                 return;
             }
 

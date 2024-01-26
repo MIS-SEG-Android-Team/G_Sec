@@ -52,6 +52,7 @@
         android:id="@+id/visitRequestBanner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="@dimen/view_padding_8"

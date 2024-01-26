@@ -209,7 +209,9 @@ public class VMItineraries extends ViewModel {
         successMessage.setValue("You visited " + nfcTag.getSDescript());
         if (checkpointIndex.getValue() != null) {
             int checkpointPosition = checkpointIndex.getValue();
-            Objects.requireNonNull(patrolCheckpoints.getValue()).get(checkpointPosition).setVisited(true);
+            List<PatrolCheckpoint> checkpoints = patrolCheckpoints.getValue();
+            checkpoints.get(checkpointPosition).setVisited(true);
+            patrolCheckpoints.setValue(checkpoints);
         }
         postTaggedCheckpoints();
     }
