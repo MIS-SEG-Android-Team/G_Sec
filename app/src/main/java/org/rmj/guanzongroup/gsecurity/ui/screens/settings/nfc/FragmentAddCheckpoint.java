@@ -2,10 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.settings.nfc;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_DATA_CATEGORY_ID;
-import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_DATA_DESCRIPTION;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_DATA_PAYLOAD;
-import static org.rmj.guanzongroup.gsecurity.constants.Constants.WRITE_NFC_DATA_WAREHOUSE_ID;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -26,7 +23,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import org.json.JSONObject;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentAddCheckpointBinding;
 import org.rmj.guanzongroup.gsecurity.ui.activity.WriteNfcActivity;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
@@ -193,12 +189,9 @@ public class FragmentAddCheckpoint extends Fragment {
 
         binding.saveButton.setOnClickListener(view-> {
             try {
-                JSONObject payload = new JSONObject();
-                payload.put(WRITE_NFC_DATA_WAREHOUSE_ID, mViewModel.getWarehouseID());
-                payload.put(WRITE_NFC_DATA_CATEGORY_ID, mViewModel.getCategoryID());
-                payload.put(WRITE_NFC_DATA_DESCRIPTION, mViewModel.getDescription());
+                String payload = mViewModel.getAddCheckpointParams();
                 Intent intent = new Intent(requireActivity(), WriteNfcActivity.class);
-                intent.putExtra(WRITE_NFC_DATA_PAYLOAD, payload.toString());
+                intent.putExtra(WRITE_NFC_DATA_PAYLOAD, payload);
                 nfcWriterIntent.launch(intent);
             } catch (Exception e) {
                 e.printStackTrace();

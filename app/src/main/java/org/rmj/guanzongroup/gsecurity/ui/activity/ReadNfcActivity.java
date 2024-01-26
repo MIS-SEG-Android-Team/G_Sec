@@ -1,26 +1,29 @@
 package org.rmj.guanzongroup.gsecurity.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.READ_NFC_DATA_PAYLOAD;
 
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
-import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
+import android.os.Parcelable;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityReadNfcBinding;
 import org.rmj.guanzongroup.gsecurity.ui.screens.settings.places.FragmentPlaces;
+
+import java.nio.charset.StandardCharsets;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import timber.log.Timber;
 
 @AndroidEntryPoint
-public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.ReaderCallback {
-
-    private ActivityReadNfcBinding binding;
+public class ReadNfcActivity extends AppCompatActivity {
 
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
@@ -30,7 +33,7 @@ public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.Rea
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityReadNfcBinding.inflate(getLayoutInflater());
+        ActivityReadNfcBinding binding = ActivityReadNfcBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -67,15 +70,15 @@ public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.Rea
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, new IntentFilter[]{intentFilter}, techListsArray);
             Bundle options = new Bundle();
             options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 250);
-            nfcAdapter.enableReaderMode(this,
-                    this,
-                    NfcAdapter.FLAG_READER_NFC_A |
-                            NfcAdapter.FLAG_READER_NFC_B |
-                            NfcAdapter.FLAG_READER_NFC_F |
-                            NfcAdapter.FLAG_READER_NFC_V |
-                            NfcAdapter.FLAG_READER_NFC_BARCODE |
-                            NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
-                    options);
+//            nfcAdapter.enableReaderMode(this,
+//                    this,
+//                    NfcAdapter.FLAG_READER_NFC_A |
+//                            NfcAdapter.FLAG_READER_NFC_B |
+//                            NfcAdapter.FLAG_READER_NFC_F |
+//                            NfcAdapter.FLAG_READER_NFC_V |
+//                            NfcAdapter.FLAG_READER_NFC_BARCODE |
+//                            NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
+//                    options);
         }
     }
 
@@ -88,16 +91,14 @@ public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.Rea
         }
     }
 
-    @Override
-    public void onTagDiscovered(Tag tag) {
-        Ndef ndef = Ndef.get(tag);
-
-        if(ndef == null) {
-            return;
-        }
-
-        setResult(RESULT_OK);
-        finish();
+//    @Override
+//    public void onTagDiscovered(Tag tag) {
+//        Ndef ndef = Ndef.get(tag);
+//
+//        if(ndef == null) {
+//            return;
+//        }
+//
 //        try {
 //            ndef.connect();
 //            NdefMessage ndefMessage = ndef.getNdefMessage();
@@ -109,7 +110,7 @@ public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.Rea
 //
 //            NdefRecord[] ndefRecords = ndefMessage.getRecords();
 //            for (NdefRecord record: ndefRecords) {
-//                Log.d("ReadNfcActivity", record.toString());
+//                Timber.tag("ReadNfcActivity").d(record.);
 //                if (record.getTnf() == NdefRecord.TNF_WELL_KNOWN) {
 //                    if (record.getType() == NdefRecord.RTD_TEXT) {
 //                        // Read text payload
@@ -120,6 +121,52 @@ public class ReadNfcActivity extends AppCompatActivity implements NfcAdapter.Rea
 //            }
 //        } catch (FormatException | IOException e) {
 //            throw new RuntimeException(e);
-//        }e
+//        }
+//    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleNfcIntent(intent);
+    }
+
+    private void handleNfcIntent(Intent intent) {
+        String action = intent.getAction();
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+            NdefMessage[] messages = getNdefMessages(intent);
+            if (messages != null) {
+                processNdefMessages(messages);
+            }
+        }
+    }
+
+    private NdefMessage[] getNdefMessages(Intent intent) {
+        NdefMessage[] messages = null;
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            Parcelable[] rawMessages =
+                    intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (rawMessages != null) {
+                messages = new NdefMessage[rawMessages.length];
+                for (int i = 0; i < rawMessages.length; i++) {
+                    messages[i] = (NdefMessage) rawMessages[i];
+                }
+            }
+        }
+        return messages;
+    }
+
+    private void processNdefMessages(NdefMessage[] messages) {
+        for (NdefMessage message : messages) {
+            for (NdefRecord record : message.getRecords()) {
+                byte[] payload = record.getPayload();
+                // Assuming the payload contains text data
+                String textData = new String(payload, StandardCharsets.UTF_8);
+                Timber.tag("NFC").d("Read NFC data: %s", textData);
+                Intent intentResult = new Intent();
+                intentResult.putExtra(READ_NFC_DATA_PAYLOAD, textData);
+                setResult(RESULT_OK, intentResult);
+                finish();
+            }
+        }
     }
 }

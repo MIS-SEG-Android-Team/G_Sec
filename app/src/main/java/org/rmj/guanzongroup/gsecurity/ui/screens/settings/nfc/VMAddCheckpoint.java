@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.gson.Gson;
+
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
@@ -121,6 +123,16 @@ public class VMAddCheckpoint extends ViewModel {
 
     public LiveData<Boolean> checkpointAdded() {
         return checkpointAdded;
+    }
+
+    public String getAddCheckpointParams() {
+        AddNfcTagParams params = new AddNfcTagParams();
+        params.setSWHouseID(warehouse.getValue());
+        params.setSCatIDxxx(category.getValue());
+        params.setSDescript(description.getValue());
+        params.setCRecdStat("1");
+
+        return new Gson().toJson(params);
     }
 
     @SuppressLint("CheckResult")

@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.constants;
 public class Constants {
 
     public static final String WRITE_NFC_DATA_PAYLOAD = "nfc_data_payload";
+    public static final String READ_NFC_DATA_PAYLOAD = "nfc_data_payload";
     public static final String WRITE_NFC_DATA_WAREHOUSE_ID = "warehouse";
     public static final String WRITE_NFC_DATA_CATEGORY_ID = "category";
     public static final String WRITE_NFC_DATA_DESCRIPTION = "description";

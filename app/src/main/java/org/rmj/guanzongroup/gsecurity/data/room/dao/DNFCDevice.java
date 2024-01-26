@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+import androidx.room.Upsert;
 
 import org.rmj.guanzongroup.gsecurity.nfc.NFCDevice;
 import org.rmj.guanzongroup.gsecurity.data.room.entities.ENFCDevice;
@@ -14,7 +15,7 @@ import java.util.List;
 @Dao
 public interface DNFCDevice {
 
-    @Insert
+    @Upsert
     void insert(ENFCDevice nfcDevice);
 
     @Update

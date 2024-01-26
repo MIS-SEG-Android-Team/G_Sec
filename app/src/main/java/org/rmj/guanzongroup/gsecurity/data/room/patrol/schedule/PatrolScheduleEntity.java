@@ -15,6 +15,9 @@ public class PatrolScheduleEntity {
     @ColumnInfo(name = "nSchedule")
     protected String nSchedule;
 
+    public PatrolScheduleEntity() {
+    }
+
     @NonNull
     public String getDTimexxxx() { return dTimexxxx; }
     public void setDTimexxxx(@NonNull String dTimexxxx) { this.dTimexxxx = dTimexxxx; }

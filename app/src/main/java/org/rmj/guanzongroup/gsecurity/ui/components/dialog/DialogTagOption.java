@@ -16,9 +16,11 @@ public class DialogTagOption {
     private final AlertDialog alertDialog;
 
     public interface DialogTagOptionCallback {
-        void onClickNFCButton();
-        void onClickQrCodeButton();
+        void onClickNFCButton(String remarks);
+        void onClickQrCodeButton(String remarks);
     }
+
+    private String remarks = "";
 
     public DialogTagOption(Context context, String visitedPlace, DialogTagOptionCallback callback) {
         DialogTagOptionBinding binding = DialogTagOptionBinding.inflate(LayoutInflater.from(context));
@@ -33,12 +35,13 @@ public class DialogTagOption {
         binding.title.setText(visitedPlace);
 
         binding.nfcButton.setOnClickListener(view -> {
-            callback.onClickNFCButton();
+            remarks = Objects.requireNonNull(binding.tieRemarks.getText()).toString();
+            callback.onClickNFCButton(remarks);
             alertDialog.dismiss();
         });
 
         binding.qrCodeButton.setOnClickListener(view -> {
-            callback.onClickQrCodeButton();
+            callback.onClickQrCodeButton(remarks);
             alertDialog.dismiss();
         });
 

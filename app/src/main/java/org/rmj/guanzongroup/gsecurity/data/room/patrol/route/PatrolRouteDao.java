@@ -11,9 +11,9 @@ import java.util.List;
 @Dao
 public interface PatrolRouteDao {
 
-    @Insert
+    @Upsert
     void save(List<PatrolRouteEntity> value);
 
-    @Query("SELECT * FROM Patrol_Route WHERE cRecdStat == 1 ORDER BY nPatrolNo DESC")
+    @Query("SELECT * FROM Patrol_Route WHERE cRecdStat == 1 ORDER BY nPatrolNo ASC")
     LiveData<List<PatrolRouteEntity>> getPatrolCheckPoints();
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface NFCDeviceDao {
 
-    @Insert
+    @Upsert
     void saveCheckpoints(List<NFCDeviceEntity> value);
 
     @Query("SELECT dTimeStmp FROM NFC_Device ORDER BY dTimeStmp DESC LIMIT 1")

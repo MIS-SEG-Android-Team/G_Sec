@@ -61,16 +61,12 @@ public class FragmentSplashscreen extends Fragment {
 
         mViewModel.setFirebaseToken();
 
-        if (!mViewModel.hasSession()) {
-            navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
-        } else if(mViewModel.isAdmin()) {
+        if (mViewModel.hasSession() && mViewModel.isAdmin()) {
             Intent intent = new Intent(requireActivity(), AdminActivity.class);
             requireActivity().startActivity(intent);
             requireActivity().finish();
         } else {
-            Intent intent = new Intent(requireActivity(), PersonnelActivity.class);
-            requireActivity().startActivity(intent);
-            requireActivity().finish();
+            navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
         }
         return binding.getRoot();
     }

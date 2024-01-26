@@ -11,6 +11,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.GSecureDB;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchDao;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryDao;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceDao;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionDao;
@@ -82,5 +83,11 @@ public class DatabaseModule {
     @Singleton
     public static PatrolScheduleDao providePatrolScheduleDao(GSecureDB gSecureDB) {
         return gSecureDB.patrolScheduleDao();
+    }
+
+    @Provides
+    @Singleton
+    public static PatrolLogDao providePatrolLogDao(GSecureDB gSecureDB) {
+        return gSecureDB.patrolLogDao();
     }
 }

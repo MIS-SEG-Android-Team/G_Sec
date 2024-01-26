@@ -20,7 +20,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     private final PatrolRouteClickListener mListener;
 
     public interface PatrolRouteClickListener{
-        void onClick(String nfcID, String placeName);
+        void onClick(PatrolRouteEntity patrol);
     }
 
     public AdapterPatrolRoute(List<PatrolRouteEntity> patrolRouteList, PatrolRouteClickListener listener) {
@@ -57,10 +57,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                 return;
             }
 
-            mListener.onClick(
-                    patrolRoute.getSNFCIDxxx(),
-                    patrolRoute.getSDescript()
-            );
+            mListener.onClick(patrolRoute);
         });
     }
 

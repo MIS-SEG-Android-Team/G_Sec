@@ -42,21 +42,22 @@ public class VMAdminSettings extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void logoutUser() {
+        loggingOut.setValue(true);
         repository.logoutUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         baseResponse -> {
-
+                            loggingOut.setValue(false);
                             if (baseResponse.getResult().equalsIgnoreCase("error")) {
-
-                                loggingOut.setValue(false);
                                 errorMessage.setValue(baseResponse.getError().getMessage());
                                 return;
                             }
-
+                            hasLogout.setValue(true);
+                        },
+                        error -> {
                             loggingOut.setValue(false);
-
+                            errorMessage.setValue(error.getMessage());
                         }
                 );
     }

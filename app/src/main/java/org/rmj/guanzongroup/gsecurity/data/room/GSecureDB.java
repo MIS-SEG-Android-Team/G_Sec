@@ -9,6 +9,8 @@ import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryDao;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceDao;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogDao;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
@@ -26,6 +28,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 //                EDailyActivePersonnel.class,
 //                EPatrolRoute.class,
 //                EPersonnelPosition.class,
+                PatrolLogEntity.class,
                 PatrolRouteEntity.class,
                 PatrolScheduleEntity.class,
                 NFCDeviceEntity.class,
@@ -45,5 +48,6 @@ public abstract class GSecureDB extends RoomDatabase {
     public abstract NFCDeviceDao nfcDeviceDao();
     public abstract PatrolRouteDao patrolRouteDao();
     public abstract PatrolScheduleDao patrolScheduleDao();
+    public abstract PatrolLogDao patrolLogDao();
 
 }

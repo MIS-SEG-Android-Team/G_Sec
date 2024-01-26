@@ -47,9 +47,6 @@ public class FragmentAdminSettings extends Fragment {
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
 
-
-
-
         // region Observables
         mViewModel.isLoggingOut().observe(getViewLifecycleOwner(), isLoggingOut -> {
             if (isLoggingOut) {

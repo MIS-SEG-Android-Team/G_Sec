@@ -38,36 +38,36 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sub_title_settings" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/accountLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:layout_marginTop="@dimen/view_padding_36"
-                android:text="@string/label_account"
-                android:textSize="@dimen/screen_sub_header1" />
+<!--            <com.google.android.material.textview.MaterialTextView-->
+<!--                android:id="@+id/accountLabel"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/roboto_medium"-->
+<!--                android:layout_marginTop="@dimen/view_padding_36"-->
+<!--                android:text="@string/label_account"-->
+<!--                android:textSize="@dimen/screen_sub_header1" />-->
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/changePasswordButton"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/label_change_password"
-                android:textSize="@dimen/screen_body"
-                app:icon="@drawable/ic_chevron_right"
-                app:iconGravity="end" />
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/changePasswordButton"-->
+<!--                style="@style/Widget.MaterialComponents.Button.TextButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="start|center_vertical"-->
+<!--                android:text="@string/label_change_password"-->
+<!--                android:textSize="@dimen/screen_body"-->
+<!--                app:icon="@drawable/ic_chevron_right"-->
+<!--                app:iconGravity="end" />-->
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/changePinButton"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/label_change_pin"
-                android:textSize="@dimen/screen_body"
-                app:icon="@drawable/ic_chevron_right"
-                app:iconGravity="end" />
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/changePinButton"-->
+<!--                style="@style/Widget.MaterialComponents.Button.TextButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="start|center_vertical"-->
+<!--                android:text="@string/label_change_pin"-->
+<!--                android:textSize="@dimen/screen_body"-->
+<!--                app:icon="@drawable/ic_chevron_right"-->
+<!--                app:iconGravity="end" />-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/personnelLabel"
@@ -142,16 +142,16 @@
                 app:icon="@drawable/ic_chevron_right"
                 app:iconGravity="end" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/nfcPlacesButton"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/button_nfc_checkpoints"
-                android:textSize="@dimen/screen_body"
-                app:icon="@drawable/ic_chevron_right"
-                app:iconGravity="end" />
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/nfcPlacesButton"-->
+<!--                style="@style/Widget.MaterialComponents.Button.TextButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="start|center_vertical"-->
+<!--                android:text="@string/button_nfc_checkpoints"-->
+<!--                android:textSize="@dimen/screen_body"-->
+<!--                app:icon="@drawable/ic_chevron_right"-->
+<!--                app:iconGravity="end" />-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/warehouseLabel"

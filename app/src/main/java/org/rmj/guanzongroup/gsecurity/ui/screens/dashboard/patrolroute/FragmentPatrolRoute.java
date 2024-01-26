@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.READ_NFC_DATA_PAYLOAD;
 import static org.rmj.guanzongroup.gsecurity.utils.ImageFileCreator.CreateImageUri;
 
 import android.app.Dialog;
@@ -34,6 +35,8 @@ import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogTagOption;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class FragmentPatrolRoute extends Fragment {
 
     @Inject
@@ -42,11 +45,9 @@ public class FragmentPatrolRoute extends Fragment {
     private DialogLoad dialogLoad;
     private FragmentPatrolRouteBinding binding;
 
-    private String visitedPlace;
-
     private final ActivityResultLauncher<Intent> intentFrontCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
        if(result.getResultCode() == RESULT_OK) {
-           new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
+//           new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
        } else if(result.getResultCode() == RESULT_CANCELED) {
            Toast.makeText(requireActivity(), "Selfie tagging cancelled.", Toast.LENGTH_SHORT).show();
        } else {
@@ -74,8 +75,14 @@ public class FragmentPatrolRoute extends Fragment {
 
     private final ActivityResultLauncher<Intent> intentNFCReader = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result-> {
         if(result.getResultCode() == RESULT_OK) {
-            // TODO: Process the JSON Data to intent Selfie Camera...
-            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
+            Intent intentResult = result.getData();
+
+            if (intentResult != null) {
+                String payload = intentResult.getStringExtra(READ_NFC_DATA_PAYLOAD);
+                Timber.tag("NFC").d("Received NFC data: %s", payload);
+                mViewModel.tagVisitedCheckpoint(payload);
+//                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
+            }
         } else if(result.getResultCode() == RESULT_CANCELED) {
             Toast.makeText(
                             requireActivity(),
@@ -105,18 +112,20 @@ public class FragmentPatrolRoute extends Fragment {
                 return;
             }
 
-            binding.patrolRouteList.setAdapter(new AdapterPatrolRoute(checkpoints, (nfcID, placeName) -> {
-                new DialogTagOption(requireActivity(), placeName, new DialogTagOption.DialogTagOptionCallback() {
+            binding.patrolRouteList.setAdapter(new AdapterPatrolRoute(checkpoints, patrol -> {
+                new DialogTagOption(requireActivity(), patrol.getSDescript(), new DialogTagOption.DialogTagOptionCallback() {
                     @Override
-                    public void onClickNFCButton() {
-                        visitedPlace = placeName;
+                    public void onClickNFCButton(String remarks) {
+                        mViewModel.setCheckpoint(patrol);
+                        mViewModel.setRemarks(remarks);
                         Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
                         intentNFCReader.launch(intent);
                     }
 
                     @Override
-                    public void onClickQrCodeButton() {
-                        visitedPlace = placeName;
+                    public void onClickQrCodeButton(String remarks) {
+                        mViewModel.setCheckpoint(patrol);
+                        mViewModel.setRemarks(remarks);
                         Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
                         intentQrCodeScanner.launch(intent);
                     }
@@ -129,15 +138,15 @@ public class FragmentPatrolRoute extends Fragment {
             String placeName = "Warehouse 2 Back Door";
             new DialogTagOption(requireActivity(), placeName, new DialogTagOption.DialogTagOptionCallback() {
                 @Override
-                public void onClickNFCButton() {
-                    visitedPlace = placeName;
+                public void onClickNFCButton(String remarks) {
+//                    visitedPlace = placeName;
                     Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
                     intentNFCReader.launch(intent);
                 }
 
                 @Override
-                public void onClickQrCodeButton() {
-                    visitedPlace = placeName;
+                public void onClickQrCodeButton(String remarks) {
+//                    visitedPlace = placeName;
                     Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
                     intentQrCodeScanner.launch(intent);
                 }
@@ -179,7 +188,6 @@ public class FragmentPatrolRoute extends Fragment {
             if (errorMessage == null) {
                 return;
             }
-
 
             if (errorMessage.isEmpty()) {
                 return;

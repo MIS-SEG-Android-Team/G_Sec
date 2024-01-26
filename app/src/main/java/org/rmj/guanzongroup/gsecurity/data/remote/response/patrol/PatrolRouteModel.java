@@ -7,12 +7,16 @@ import java.util.List;
 
 public class PatrolRouteModel {
     private String sNotexxxx;
+    private String sWHouseID;
     private List<PatrolScheduleEntity> sSchedule;
     private List<PatrolRouteEntity> sRoutexxx;
     private String cRecdStat;
 
     public String getSNotexxxx() { return sNotexxxx; }
     public void setSNotexxxx(String value) { this.sNotexxxx = value; }
+
+    public String getSWHouseID() { return sWHouseID; }
+    public void setSWHouseID(String value) { this.sWHouseID = value; }
 
     public List<PatrolScheduleEntity> getSSchedule() { return sSchedule; }
     public void setSSchedule(List<PatrolScheduleEntity> value) { this.sSchedule = value; }

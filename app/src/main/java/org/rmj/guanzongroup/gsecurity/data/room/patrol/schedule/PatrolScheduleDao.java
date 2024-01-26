@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface PatrolScheduleDao {
 
-    @Insert
+    @Upsert
     void save(List<PatrolScheduleEntity> value);
 
     @Query("SELECT * FROM Patrol_Schedule ORDER BY dTimexxxx ASC")

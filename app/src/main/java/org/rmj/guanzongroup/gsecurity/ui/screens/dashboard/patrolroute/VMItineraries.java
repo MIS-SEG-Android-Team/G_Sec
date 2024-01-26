@@ -6,14 +6,26 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
+import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -25,28 +37,34 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class VMItineraries extends ViewModel {
 
     private final DataStore dataStore;
+    private final PatrolCache patrolCache;
     private final AuthenticationRepository authenticationRepository;
     private final PatrolRepository patrolRepository;
+    private final ScheduleRepository scheduleRepository;
 
     private final MutableLiveData<Boolean> isLoadingPatrolRoutes = new MutableLiveData<>(false);
-
     private final MutableLiveData<Boolean> hasLogout = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> loggingOut = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
+    private final MutableLiveData<PatrolRouteEntity> taggingCheckpoint = new MutableLiveData<>(new PatrolRouteEntity());
+    private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
+    private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
 
     @Inject
-    public VMItineraries(DataStore dataStore,
-                         AuthenticationRepository authenticationRepository,
-                         PatrolRepository patrolRepository) {
+    public VMItineraries(
+            DataStore dataStore,
+            PatrolCache patrolCache,
+            AuthenticationRepository authenticationRepository,
+            PatrolRepository patrolRepository,
+            ScheduleRepository scheduleRepository
+    ) {
         this.dataStore = dataStore;
+        this.patrolCache = patrolCache;
         this.authenticationRepository = authenticationRepository;
         this.patrolRepository = patrolRepository;
+        this.scheduleRepository = scheduleRepository;
 
         getPatrolRouteSchedules();
-    }
-
-    public LiveData<Boolean> isLoadingPatrolRoute() {
-        return isLoadingPatrolRoutes;
     }
 
     @SuppressLint("CheckResult")
@@ -66,7 +84,7 @@ public class VMItineraries extends ViewModel {
                             List<PatrolScheduleEntity> patrolSchedules = response.getData().get(0).getSSchedule();
 
                             patrolRepository.savePatrolRoute(patrolRoutes);
-                            patrolRepository.savePatrolSchedule(patrolSchedules);
+                            scheduleRepository.savePatrolSchedule(patrolSchedules);
                         },
                         throwable -> {
 
@@ -76,6 +94,10 @@ public class VMItineraries extends ViewModel {
 
     public LiveData<List<PatrolRouteEntity>> getPatrolCheckpoints() {
         return patrolRepository.getPatrolCheckpoints();
+    }
+
+    public LiveData<Boolean> isLoadingPatrolRoute() {
+        return isLoadingPatrolRoutes;
     }
 
     public LiveData<Boolean> hasLogout() {
@@ -90,24 +112,120 @@ public class VMItineraries extends ViewModel {
         return errorMessage;
     }
 
+    public void setCheckpoint(PatrolRouteEntity patrol) {
+        this.taggingCheckpoint.setValue(patrol);
+    }
+
+    public void setRemarks(String value) {
+        this.taggingRemarks.setValue(value);
+    }
+
+    @SuppressLint("NewApi")
+    public void tagVisitedCheckpoint(String value) {
+
+        // Triggers the loading dialog on Main Thread...
+        isLoadingPosting.setValue(true);
+        Gson gson = new Gson();
+        Type type = new TypeToken<AddNfcTagParams>(){}.getType();
+        AddNfcTagParams nfcTag = gson.fromJson(value.replace("\u0002en", ""), type);
+
+        PatrolRouteEntity patrol = taggingCheckpoint.getValue();
+
+        if (patrol == null) {
+            errorMessage.setValue("Something went wrong. Please try again...");
+            return;
+        }
+
+        if (!nfcTag.getSDescript().equalsIgnoreCase(patrol.getSDescript())) {
+            errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
+            return;
+        }
+
+        String remarks = "";
+
+        if (taggingRemarks.getValue() != null) {
+            remarks = taggingRemarks.getValue();
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String currentDateTime = formatter.format(localDateTime);
+
+        PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
+        patrolLogEntity.setDVisitedx(currentDateTime);
+        patrolLogEntity.setSNFCIDxxx(patrol.getSNFCIDxxx());
+        patrolLogEntity.setSRemarksx(remarks);
+        patrolLogEntity.setSUserIDxx(dataStore.getUserId());
+        patrolLogEntity.setCSendStat("0");
+        patrolLogEntity.setSSchedule("0");
+        patrolRepository.savePatrolLog(patrolLogEntity);
+
+        isLoadingPosting.setValue(false);
+        postTaggedCheckpoints();
+    }
+
+    @SuppressLint("CheckResult")
+    private void postTaggedCheckpoints() {
+        try{
+            List<PatrolLogEntity> patrols = patrolRepository.getPatrolLogsForPosting();
+
+            if (patrols == null) {
+
+                return;
+            }
+
+            if (patrols.isEmpty()) {
+                return;
+            }
+
+            PostPatrolParams params = new PostPatrolParams();
+            params.setData(patrols);
+
+            patrolRepository.sendVisitationRequest(params)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            response -> {
+                                if (response.getResult().equalsIgnoreCase("error")) {
+                                    return;
+                                }
+
+                                for (int x = 0; x < patrols.size(); x++) {
+                                    patrols.get(x).setCSendStat("1");
+                                }
+                                patrolRepository.updatePatrolLog(patrols);
+                            },
+                            error -> {
+
+                            }
+                    );
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @SuppressLint("CheckResult")
     public void logoutUser() {
+        loggingOut.setValue(true);
         authenticationRepository.logoutUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         response -> {
-
+                            loggingOut.setValue(false);
                             if (response.getResult().equalsIgnoreCase("error")) {
-
-                                loggingOut.setValue(false);
                                 errorMessage.setValue(response.getError().getMessage());
                                 return;
                             }
 
+                            hasLogout.setValue(true);
+                        },
+                        throwable -> {
                             loggingOut.setValue(false);
-
+                            errorMessage.setValue(throwable.getMessage());
                         }
                 );
     }
+
+
 }
