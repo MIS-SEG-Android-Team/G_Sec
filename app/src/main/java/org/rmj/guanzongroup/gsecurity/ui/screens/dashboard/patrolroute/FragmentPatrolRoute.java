@@ -125,6 +125,7 @@ public class FragmentPatrolRoute extends Fragment {
                 new DialogTagOption(requireActivity(), requestedVisit.getSDescript(), new DialogTagOption.DialogTagOptionCallback() {
                     @Override
                     public void onClickNFCButton(String remarks) {
+                        isTaggingRequestedVisit = true;
                         mViewModel.setRequestedVisit(requestedVisit);
                         Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
                         intentNFCReader.launch(intent);
@@ -132,6 +133,7 @@ public class FragmentPatrolRoute extends Fragment {
 
                     @Override
                     public void onClickQrCodeButton(String remarks) {
+                        isTaggingRequestedVisit = true;
                         Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
                         intentQrCodeScanner.launch(intent);
                     }
@@ -144,11 +146,19 @@ public class FragmentPatrolRoute extends Fragment {
                 return;
             }
 
-            binding.patrolRouteList.setAdapter(new AdapterPatrolRoute(checkpoints, patrol -> {
-                new DialogTagOption(requireActivity(), patrol.getSDescript(), new DialogTagOption.DialogTagOptionCallback() {
+            binding.patrolRouteList.setAdapter(new AdapterPatrolRoute(checkpoints, (patrol, position) -> {
+                if (patrol.isVisited()) {
+                    new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
+                        dialog.dismiss();
+                        mViewModel.clearMessage();
+                    }).showDialog();
+                    return;
+                }
+                new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
                     @Override
                     public void onClickNFCButton(String remarks) {
-                        mViewModel.setCheckpoint(patrol);
+                        isTaggingRequestedVisit = false;
+                        mViewModel.setCheckpoint(patrol, position);
                         mViewModel.setRemarks(remarks);
                         Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
                         intentNFCReader.launch(intent);
@@ -156,7 +166,8 @@ public class FragmentPatrolRoute extends Fragment {
 
                     @Override
                     public void onClickQrCodeButton(String remarks) {
-                        mViewModel.setCheckpoint(patrol);
+                        isTaggingRequestedVisit = false;
+                        mViewModel.setCheckpoint(patrol, position);
                         mViewModel.setRemarks(remarks);
                         Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
                         intentQrCodeScanner.launch(intent);

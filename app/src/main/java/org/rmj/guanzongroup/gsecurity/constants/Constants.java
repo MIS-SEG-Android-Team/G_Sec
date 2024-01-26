@@ -2,6 +2,8 @@ package org.rmj.guanzongroup.gsecurity.constants;
 
 public class Constants {
 
+    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
     public static final String WRITE_NFC_DATA_PAYLOAD = "nfc_data_payload";
     public static final String READ_NFC_DATA_PAYLOAD = "nfc_data_payload";
     public static final String WRITE_NFC_DATA_WAREHOUSE_ID = "warehouse";

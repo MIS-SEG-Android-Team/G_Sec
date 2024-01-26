@@ -42,7 +42,7 @@ public class PatrolRepository {
         patrolRouteDao.save(value);
     }
 
-    public LiveData<List<PatrolRouteEntity>> getPatrolCheckpoints() {
+    public List<PatrolRouteEntity> getPatrolCheckpoints() {
         return patrolRouteDao.getPatrolCheckPoints();
     }
 

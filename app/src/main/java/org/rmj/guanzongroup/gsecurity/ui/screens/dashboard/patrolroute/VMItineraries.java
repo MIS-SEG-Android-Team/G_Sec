@@ -1,5 +1,8 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 
+import static org.rmj.guanzongroup.gsecurity.etc.DateTime.formatDateTimeResult;
+import static org.rmj.guanzongroup.gsecurity.etc.DateTime.getCurrentLocalDateTime;
+
 import android.annotation.SuppressLint;
 
 import androidx.lifecycle.LiveData;
@@ -25,8 +28,10 @@ import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -48,7 +53,9 @@ public class VMItineraries extends ViewModel {
     private final MutableLiveData<Boolean> loggingOut = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
     private final MutableLiveData<RequestVisitEntity> requestedVisit = new MutableLiveData<>(new RequestVisitEntity());
-    private final MutableLiveData<PatrolRouteEntity> taggingCheckpoint = new MutableLiveData<>(new PatrolRouteEntity());
+    private final MutableLiveData<PatrolCheckpoint> taggingCheckpoint = new MutableLiveData<>();
+    private final MutableLiveData<Integer> checkpointIndex = new MutableLiveData<>(0);
+    private final MutableLiveData<List<PatrolCheckpoint>> patrolCheckpoints = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
     private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
@@ -68,10 +75,30 @@ public class VMItineraries extends ViewModel {
         this.scheduleRepository = scheduleRepository;
 
         getPatrolRouteSchedules();
+        initPatrolCheckpoints();
     }
 
-    public LiveData<List<PatrolRouteEntity>> getPatrolCheckpoints() {
-        return patrolRepository.getPatrolCheckpoints();
+    private void initPatrolCheckpoints() {
+        List<PatrolCheckpoint> checkpoints = new ArrayList<>();
+        List<PatrolRouteEntity> patrolRouteEntities = patrolRepository.getPatrolCheckpoints();
+
+        if (patrolRouteEntities == null) {
+            return;
+        }
+
+        for (int x=0; x < patrolRouteEntities.size(); x++) {
+            PatrolRouteEntity checkpoint = patrolRouteEntities.get(x);
+            checkpoints.add(new PatrolCheckpoint(
+                    checkpoint.getSNFCIDxxx(),
+                    checkpoint.getNPatrolNo(),
+                    checkpoint.getSDescript())
+            );
+        }
+        patrolCheckpoints.setValue(checkpoints);
+    }
+
+    public LiveData<List<PatrolCheckpoint>> getPatrolCheckpoints() {
+        return patrolCheckpoints;
     }
 
     public LiveData<Boolean> isLoadingPatrolRoute() {
@@ -98,8 +125,9 @@ public class VMItineraries extends ViewModel {
         return successMessage;
     }
 
-    public void setCheckpoint(PatrolRouteEntity patrol) {
+    public void setCheckpoint(PatrolCheckpoint patrol, int position) {
         this.taggingCheckpoint.setValue(patrol);
+        this.checkpointIndex.setValue(position);
     }
 
     public void setRequestedVisit(RequestVisitEntity patrol) {
@@ -148,14 +176,14 @@ public class VMItineraries extends ViewModel {
         Type type = new TypeToken<AddNfcTagParams>(){}.getType();
         AddNfcTagParams nfcTag = gson.fromJson(value.replace("\u0002en", ""), type);
 
-        PatrolRouteEntity patrol = taggingCheckpoint.getValue();
+        PatrolCheckpoint patrol = taggingCheckpoint.getValue();
 
         if (patrol == null) {
             errorMessage.setValue("Something went wrong. Please try again...");
             return;
         }
 
-        if (!nfcTag.getSDescript().equalsIgnoreCase(patrol.getSDescript())) {
+        if (!nfcTag.getSDescript().equalsIgnoreCase(patrol.getsDescript())) {
             errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
             return;
         }
@@ -166,13 +194,11 @@ public class VMItineraries extends ViewModel {
             remarks = taggingRemarks.getValue();
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        LocalDateTime localDateTime = LocalDateTime.now();
-        String currentDateTime = formatter.format(localDateTime);
+        String currentDateTime = formatDateTimeResult(getCurrentLocalDateTime());
 
         PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
         patrolLogEntity.setDVisitedx(currentDateTime);
-        patrolLogEntity.setSNFCIDxxx(patrol.getSNFCIDxxx());
+        patrolLogEntity.setSNFCIDxxx(patrol.getsNFCIDxxx());
         patrolLogEntity.setSRemarksx(remarks);
         patrolLogEntity.setSUserIDxx(dataStore.getUserId());
         patrolLogEntity.setCSendStat("0");
@@ -181,6 +207,10 @@ public class VMItineraries extends ViewModel {
 
         isLoadingPosting.setValue(false);
         successMessage.setValue("You visited " + nfcTag.getSDescript());
+        if (checkpointIndex.getValue() != null) {
+            int checkpointPosition = checkpointIndex.getValue();
+            Objects.requireNonNull(patrolCheckpoints.getValue()).get(checkpointPosition).setVisited(true);
+        }
         postTaggedCheckpoints();
     }
 
@@ -273,9 +303,7 @@ public class VMItineraries extends ViewModel {
             remarks = taggingRemarks.getValue();
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        LocalDateTime localDateTime = LocalDateTime.now();
-        String currentDateTime = formatter.format(localDateTime);
+        String currentDateTime = formatDateTimeResult(getCurrentLocalDateTime());
 
         requestVisit.setDVisitedx(currentDateTime);
         requestVisit.setSRemark2(remarks);
