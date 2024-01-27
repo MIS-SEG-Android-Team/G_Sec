@@ -6,19 +6,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.guanzongroup.gsecurity.data.remote.response.ActivePersonnelModel;
 import org.rmj.guanzongroup.gsecurity.databinding.ListItemPersonnelActiveBinding;
 
 import java.util.List;
 
 public class AdapterActivePersonnel extends RecyclerView.Adapter<AdapterActivePersonnel.ActivePersonelViewHolder> {
 
-//    private final List<Personnel> personnelList;
-//    private final AdapterActivePersonnelCallback listener;
-//
-//    public AdapterActivePersonnel(List<Personnel> personnelList, AdapterActivePersonnelCallback listener) {
-//        this.personnelList = personnelList;
-//        this.listener = listener;
-//    }
+    private final List<ActivePersonnelModel> personnelList;
+    private final AdapterActivePersonnelCallback listener;
+
+    public AdapterActivePersonnel(List<ActivePersonnelModel> personnelList, AdapterActivePersonnelCallback listener) {
+        this.personnelList = personnelList;
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -34,18 +35,17 @@ public class AdapterActivePersonnel extends RecyclerView.Adapter<AdapterActivePe
 
     @Override
     public void onBindViewHolder(@NonNull ActivePersonelViewHolder holder, int position) {
-//        Personnel personnel = personnelList.get(position);
-//        holder.binding.personnelFullName.setText(personnel.getPersonnelName());
-//        holder.binding.personnelAssignedDuty.setText(personnel.getWareHouseDuty());
-//        holder.binding.personnelLastVisit.setText(personnel.getLastVisited());
-//
-//        holder.binding.getRoot().setOnClickListener(view -> listener.onClickPersonnel(personnel.getPersonnelID()));
+        ActivePersonnelModel personnel = personnelList.get(position);
+        holder.binding.personnelFullName.setText(personnel.getSUserName());
+        holder.binding.personnelAssignedDuty.setText(personnel.getSWHouseNM());
+        holder.binding.personnelLastVisit.setText(personnel.getSLstVisit());
+
+        holder.binding.getRoot().setOnClickListener(view -> listener.onClickPersonnel(personnel.getSUserIDxx()));
     }
 
     @Override
     public int getItemCount() {
-//        return personnelList.size();
-        return 0;
+        return personnelList.size();
     }
 
     public static class ActivePersonelViewHolder extends RecyclerView.ViewHolder{

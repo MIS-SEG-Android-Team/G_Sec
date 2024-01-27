@@ -87,9 +87,6 @@ public class FragmentVisitArea extends Fragment {
         });
 
         mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
-            if (errorMessage == null) {
-                return;
-            }
             if (errorMessage.isEmpty()) {
                 return;
             }

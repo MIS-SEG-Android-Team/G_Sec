@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PositionRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
@@ -119,7 +119,7 @@ public class VMAddPersonnel extends ViewModel {
 
     @SuppressLint("CheckResult")
     private void checkPositions() {
-        GetPositionParams params = new GetPositionParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         String timeStamp = positionRepository.getLatestTimeStamp();
         if (timeStamp != null) {
             params.setDTimeStmp(timeStamp);

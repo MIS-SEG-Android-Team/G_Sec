@@ -1,16 +1,14 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.request;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPersonnelParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.RequestSiteVisitParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.CheckpointRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
@@ -21,7 +19,6 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -100,7 +97,7 @@ public class VMVisitArea extends ViewModel {
     private void importWarehouse() {
         loadingWarehouse.setValue(true);
 
-        GetWarehouseParams params = new GetWarehouseParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         String timeStamp = warehouseRepository.getLatestTimeStamp();
 
         if(timeStamp != null) {
@@ -161,7 +158,7 @@ public class VMVisitArea extends ViewModel {
     @SuppressLint("CheckResult")
     private void getPersonnels() {
         loadingPersonnel.setValue(true);
-        GetPersonnelParams params = new GetPersonnelParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         params.setDTimeStmp("");
         personnelRepository.getPersonnels(params)
                 .subscribeOn(Schedulers.io())
@@ -241,6 +238,7 @@ public class VMVisitArea extends ViewModel {
                             requestSent.setValue(true);
                         },
                         error -> {
+                            errorMessage.setValue(error.getMessage());
                             sendingRequest.setValue(false);
                         }
                 );

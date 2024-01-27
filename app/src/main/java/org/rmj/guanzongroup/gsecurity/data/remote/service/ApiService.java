@@ -6,18 +6,16 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPersonnelParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.RequestSiteVisitParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolPersonnel;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.ActivePersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
@@ -76,7 +74,10 @@ public interface ApiService {
     Observable<BaseResponse<Void>> addPersonnel(@Body AddPersonnelParam value);
 
     @POST("/gsecure/personnel/get_personnels.php")
-    Observable<BaseResponse<List<PersonnelModel>>> getPersonnels(@Body GetPersonnelParams value);
+    Observable<BaseResponse<List<PersonnelModel>>> getPersonnels(@Body DateTimeStampParams value);
+
+    @POST("/gsecure/personnel/get_active_personnel.php")
+    Observable<BaseResponse<List<ActivePersonnelModel>>> getActivePersonnels(@Body DateTimeStampParams value);
 
     // endregion
 
@@ -95,7 +96,7 @@ public interface ApiService {
     Observable<BaseResponse<Void>> addPosition(@Body AddPositionParams value);
 
     @POST("/gsecure/personnel/get_position.php")
-    Observable<BaseResponse<List<PositionEntity>>> getPositions(@Body GetPositionParams params);
+    Observable<BaseResponse<List<PositionEntity>>> getPositions(@Body DateTimeStampParams params);
 
     // endregion
 
@@ -114,7 +115,7 @@ public interface ApiService {
     Observable<BaseResponse<Void>> addWarehouse(@Body AddWarehouseParams params);
 
     @POST("/gsecure/place/get_warehouse.php")
-    Observable<BaseResponse<List<WarehouseEntity>>> getWarehouses(@Body GetWarehouseParams params);
+    Observable<BaseResponse<List<WarehouseEntity>>> getWarehouses(@Body DateTimeStampParams params);
 
     @POST("/integsys/param/download_branch.php")
     Observable<BranchResponse<List<BranchEntity>>> getBranches(@Body GetBranchParams params);
@@ -136,7 +137,7 @@ public interface ApiService {
     Observable<BaseResponse<Void>> addCategory(@Body AddCategoryParams params);
 
     @POST("/gsecure/place/get_category.php")
-    Observable<BaseResponse<List<CategoryEntity>>> getCategories(@Body GetCategoryParams params);
+    Observable<BaseResponse<List<CategoryEntity>>> getCategories(@Body DateTimeStampParams params);
 
 
     // endregion

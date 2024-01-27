@@ -3,7 +3,7 @@ package org.rmj.guanzongroup.gsecurity.data.repository;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionDao;
@@ -33,7 +33,7 @@ public class PositionRepository {
         return apiService.addPosition(params);
     }
 
-    public Observable<BaseResponse<List<PositionEntity>>> getPositions(GetPositionParams params) {
+    public Observable<BaseResponse<List<PositionEntity>>> getPositions(DateTimeStampParams params) {
         return apiService.getPositions(params);
     }
 

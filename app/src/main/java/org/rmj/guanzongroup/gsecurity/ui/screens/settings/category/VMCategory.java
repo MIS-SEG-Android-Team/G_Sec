@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddCategoryParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.CategoryRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 
@@ -106,7 +106,7 @@ public class VMCategory extends ViewModel {
     @SuppressLint("CheckResult")
     public void importCategories() {
         importingCategories.setValue(true);
-        GetCategoryParams params = new GetCategoryParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         String timeStamp = categoryRepository.getLatestTimeStamp();
         if (timeStamp != null) {
             params.setDTimeStmp(timeStamp);

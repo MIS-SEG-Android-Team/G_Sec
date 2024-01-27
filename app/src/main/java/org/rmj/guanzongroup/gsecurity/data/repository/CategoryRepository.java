@@ -3,7 +3,7 @@ package org.rmj.guanzongroup.gsecurity.data.repository;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddCategoryParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryDao;
@@ -37,7 +37,7 @@ public class CategoryRepository {
         return categoryDao.getLatestTimeStamp();
     }
 
-    public Observable<BaseResponse<List<CategoryEntity>>> getCategories(GetCategoryParams params) {
+    public Observable<BaseResponse<List<CategoryEntity>>> getCategories(DateTimeStampParams params) {
         return apiService.getCategories(params);
     }
 

@@ -9,8 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.gson.Gson;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetCategoryParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.CategoryRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.CheckpointRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.WarehouseRepository;
@@ -168,7 +167,7 @@ public class VMAddCheckpoint extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void importCategories() {
-        GetCategoryParams params = new GetCategoryParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         String timeStamp = categoryRepository.getLatestTimeStamp();
         if (timeStamp != null) {
             params.setDTimeStmp(timeStamp);
@@ -196,7 +195,7 @@ public class VMAddCheckpoint extends ViewModel {
 
     @SuppressLint("CheckResult")
     private void importWarehouse() {
-        GetWarehouseParams params = new GetWarehouseParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         String timeStamp = warehouseRepository.getLatestTimeStamp();
 
         if(timeStamp != null) {

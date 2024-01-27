@@ -1,19 +1,17 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnellist;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPersonnelListBinding;
@@ -45,23 +43,44 @@ public class FragmentPersonnelList extends Fragment {
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mViewModel.isLoadingPersonnelList().observe(getViewLifecycleOwner(), loadingPersonnel -> {
+            if (loadingPersonnel) {
+                binding.loadingPersonnel.setVisibility(View.VISIBLE);
+            } else {
+                binding.loadingPersonnel.setVisibility(View.GONE);
+            }
+        });
 
-//        mViewModel.getPersonnelList().observe(getViewLifecycleOwner(), personnels -> {
-//            if(personnels == null) {
-//                return;
-//            }
-//
-//            binding.personnelList.setLayoutManager(linearLayoutManager);
-//            binding.personnelList.setAdapter(
-//                    new AdapterActivePersonnel(
-//                            personnels,
-//                            personnelID -> navController.navigate(R.id.action_fragmentPersonnelList_to_fragmentRecentActivities)
-//                    )
-//            );
-//        });
+        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
+            if (errorMessage.isEmpty()) {
+                binding.errorMessageNotice.setVisibility(View.GONE);
+                return;
+            }
 
+            binding.loadingPersonnel.setVisibility(View.GONE);
+            binding.personnelList.setVisibility(View.GONE);
+            binding.errorMessageNotice.setVisibility(View.VISIBLE);
+            binding.errorMessage.setText(errorMessage);
+        });
+
+        mViewModel.getActivePersonnel().observe(getViewLifecycleOwner(), activePersonnel -> {
+            if(activePersonnel == null) {
+                return;
+            }
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            binding.personnelList.setVisibility(View.VISIBLE);
+            binding.personnelList.setLayoutManager(linearLayoutManager);
+            binding.personnelList.setAdapter(
+                    new AdapterActivePersonnel(
+                            activePersonnel,
+                            personnelID -> navController.navigate(R.id.action_fragmentPersonnelList_to_fragmentRecentActivities)
+                    )
+            );
+        });
+
+        binding.refreshList.setOnClickListener( view -> mViewModel.getPersonnelList());
         return binding.getRoot();
     }
 }

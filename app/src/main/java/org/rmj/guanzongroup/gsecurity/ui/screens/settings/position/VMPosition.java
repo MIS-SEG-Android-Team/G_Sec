@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPositionParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.PositionRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
 
@@ -100,7 +100,7 @@ public class VMPosition extends ViewModel {
     private void importPositions() {
         finishImporting.setValue(false);
 
-        GetPositionParams params = new GetPositionParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         String timeStamp = repository.getLatestTimeStamp();
 
         if (timeStamp != null) {

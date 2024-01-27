@@ -6,15 +6,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPersonnelParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -51,7 +50,7 @@ public class VMPersonnelSelection extends ViewModel {
     @SuppressLint("CheckResult")
     private void getPersonnels() {
         isLoadingPersonnels.setValue(true);
-        GetPersonnelParams params = new GetPersonnelParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         params.setDTimeStmp("");
         personnelRepository.getPersonnels(params)
                 .subscribeOn(Schedulers.io())

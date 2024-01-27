@@ -1,43 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.screens.dashboard.personnellist.FragmentPersonnelList"
+    android:orientation="vertical"
     android:padding="@dimen/horizontal_padding_default">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"
         style="@style/ScreenTitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/view_padding_8"
-        android:text="@string/title_personnel_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/title_personnel_list" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/subTitle"
         style="@style/ScreenSubTitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/view_padding_8"
-        android:text="@string/sub_title_personnel_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        android:text="@string/sub_title_personnel_list" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/personnelList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".86"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle"
-        app:layout_constraintVertical_bias=".8" />
+        android:layout_marginTop="@dimen/view_padding_16"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/loadingPersonnel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:indeterminate="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding_8"
+            android:text="@string/label_loading_warehouse"
+            android:textSize="@dimen/screen_body"
+            android:fontFamily="@font/roboto_medium" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/errorMessageNotice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_warning"
+            app:tint="?attr/colorAccent"
+            android:contentDescription="@string/content_descript_error_icon" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding_8"
+            android:text="@string/label_something_went_wrong"
+            android:textSize="@dimen/screen_body"
+            android:fontFamily="@font/roboto_medium" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/errorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding_8"
+            android:textSize="@dimen/screen_body"
+            android:fontFamily="@font/roboto_medium" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/refreshList"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_padding_8"
+            android:text="@string/label_retry"
+            android:textAllCaps="false"
+            android:textSize="@dimen/screen_body"
+            android:fontFamily="@font/roboto_medium" />
+
+    </LinearLayout>
+
+</LinearLayout>

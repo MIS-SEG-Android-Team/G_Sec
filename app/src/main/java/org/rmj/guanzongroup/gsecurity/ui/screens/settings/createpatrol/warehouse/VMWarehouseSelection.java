@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.data.remote.param.GetWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.WarehouseRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
@@ -65,7 +65,7 @@ public class VMWarehouseSelection extends ViewModel {
     private void importWarehouse() {
         importingWarehouse.setValue(true);
 
-        GetWarehouseParams params = new GetWarehouseParams();
+        DateTimeStampParams params = new DateTimeStampParams();
         String timeStamp = warehouseRepository.getLatestTimeStamp();
 
         if(timeStamp != null) {
