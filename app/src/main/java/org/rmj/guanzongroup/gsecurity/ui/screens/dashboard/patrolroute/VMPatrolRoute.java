@@ -26,12 +26,8 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEn
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 
 import java.lang.reflect.Type;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -40,7 +36,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @HiltViewModel
-public class VMItineraries extends ViewModel {
+public class VMPatrolRoute extends ViewModel {
 
     private final DataStore dataStore;
     private final AuthenticationRepository authenticationRepository;
@@ -61,7 +57,7 @@ public class VMItineraries extends ViewModel {
     private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
 
     @Inject
-    public VMItineraries(
+    public VMPatrolRoute(
             DataStore dataStore,
             AuthenticationRepository authenticationRepository,
             PatrolRepository patrolRepository,

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.SSchedule;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
@@ -30,6 +31,7 @@ public class VMSchedule extends ViewModel {
     private final MutableLiveData<List<SSchedule>> schedules = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<CreateUpdateScheduleParams> patrolRoute = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
+    private final MutableLiveData<Boolean> scheduleSaved = new MutableLiveData<>(false);
 
     @Inject
     public VMSchedule(ScheduleRepository scheduleRepository) {
@@ -44,6 +46,10 @@ public class VMSchedule extends ViewModel {
 
     public LiveData<String> errorMessage() {
         return errorMessage;
+    }
+
+    public LiveData<Boolean> scheduleSaved() {
+        return scheduleSaved;
     }
 
     private void initSchedules() {
@@ -104,9 +110,21 @@ public class VMSchedule extends ViewModel {
 
     public void saveSchedule() {
         List<SSchedule> schedules1 = schedules.getValue();
+
+        if (schedules1 == null) {
+            errorMessage.setValue("Unable to proceed without any patrol schedule created.");
+            return;
+        }
+
+        if (schedules1.isEmpty()) {
+            errorMessage.setValue("Unable to proceed without any patrol schedule created.");
+            return;
+        }
+
         Objects.requireNonNull(patrolRoute.getValue()).setSSchedule(schedules1);
 
         scheduleRepository.updatePatrolScheduleToCache(patrolRoute.getValue());
+        scheduleSaved.setValue(true);
     }
 
     public void dismissErrorMessage() {
@@ -116,7 +134,7 @@ public class VMSchedule extends ViewModel {
     @SuppressLint("SimpleDateFormat")
     private static boolean isTimeGapValid(List<SSchedule> timeList, String newTime) {
         // Custom date format for parsing times
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm a");
 
         try {
             // Parse the new time

@@ -12,7 +12,7 @@
         style="@style/ScreenTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/title_warehouse_selection"
+        android:text="@string/title_patrol_checkpoints"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         style="@style/ScreenSubTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/sub_title_warehouse_selection"
+        android:text="@string/sub_title_plot_patrol_stops"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />

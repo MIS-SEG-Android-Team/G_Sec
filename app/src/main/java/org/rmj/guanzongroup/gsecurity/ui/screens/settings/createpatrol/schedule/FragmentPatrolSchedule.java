@@ -63,6 +63,12 @@ public class FragmentPatrolSchedule extends Fragment {
             }
         });
 
+        mViewModel.scheduleSaved().observe(getViewLifecycleOwner(), saved -> {
+            if (saved) {
+                navController.navigate(R.id.action_fragmentPatrolSchedule_to_fragmentPersonnelSelection);
+            }
+        });
+
         mViewModel.getSchedules().observe(getViewLifecycleOwner(), schedules -> {
             if (schedules == null) {
                 return;
@@ -123,7 +129,6 @@ public class FragmentPatrolSchedule extends Fragment {
 
         binding.buttonNext.setOnClickListener( view -> {
             mViewModel.saveSchedule();
-            navController.navigate(R.id.action_fragmentPatrolSchedule_to_fragmentPersonnelSelection);
         });
 
         return binding.getRoot();

@@ -33,6 +33,8 @@ public class VMRouteSelection extends ViewModel {
 
     private final MutableLiveData<List<Checkpoint>> checkpoints = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<CreateUpdateScheduleParams> patrolRoute = new MutableLiveData<>(new CreateUpdateScheduleParams());
+    private final MutableLiveData<Boolean> savedPatrolCheckpoints = new MutableLiveData<>(false);
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
 
     @Inject
     public VMRouteSelection(
@@ -48,6 +50,14 @@ public class VMRouteSelection extends ViewModel {
 
     public LiveData<Boolean> isLoadingCheckpoints() {
         return isLoadingCheckpoints;
+    }
+
+    public LiveData<Boolean> savedPatrolCheckpoints() {
+        return savedPatrolCheckpoints;
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
     }
 
     @SuppressLint("CheckResult")
@@ -124,6 +134,11 @@ public class VMRouteSelection extends ViewModel {
             }
         }
 
+        if (selectedCheckpoints.isEmpty()) {
+            errorMessage.setValue("Unable to proceed without any checkpoints selected.");
+            return;
+        }
+
         List<SRoutexxx> routes = new ArrayList<>();
 
         for (int x = 0; x < selectedCheckpoints.size(); x++) {
@@ -138,5 +153,6 @@ public class VMRouteSelection extends ViewModel {
         Objects.requireNonNull(patrolRoute.getValue()).setSRoutexxx(routes);
 
         scheduleRepository.updatePatrolScheduleToCache(patrolRoute.getValue());
+        savedPatrolCheckpoints.setValue(true);
     }
 }

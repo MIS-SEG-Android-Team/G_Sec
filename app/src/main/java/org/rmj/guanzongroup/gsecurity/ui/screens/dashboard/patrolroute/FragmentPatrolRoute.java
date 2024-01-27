@@ -40,7 +40,7 @@ import timber.log.Timber;
 public class FragmentPatrolRoute extends Fragment {
 
     @Inject
-    VMItineraries mViewModel;
+    VMPatrolRoute mViewModel;
 
     private DialogLoad dialogLoad;
     private FragmentPatrolRouteBinding binding;
@@ -107,7 +107,7 @@ public class FragmentPatrolRoute extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMItineraries.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMPatrolRoute.class);
         binding = FragmentPatrolRouteBinding.inflate(getLayoutInflater());
         dialogLoad = new DialogLoad(requireActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());

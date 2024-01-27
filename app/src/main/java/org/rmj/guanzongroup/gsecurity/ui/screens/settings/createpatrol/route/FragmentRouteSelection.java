@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.route;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentRouteSelectionBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint.AdapterCheckpointSelection;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.checkpoint.AdapterCheckpointSelectionCallback;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,9 +111,19 @@ public class FragmentRouteSelection extends Fragment {
             binding.patrolCheckpoints.setAdapter(adapterCheckpointSelection);
         });
 
+        mViewModel.savedPatrolCheckpoints().observe(getViewLifecycleOwner(), saved -> {
+            if (saved) {
+                navController.navigate(R.id.action_fragmentRouteSelection_to_fragmentPatrolSchedule);
+            }
+        });
+        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), message -> {
+            if (!message.isEmpty()) {
+                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, Dialog::dismiss).showDialog();
+            }
+        });
+
         binding.continueButton.setOnClickListener(view -> {
             mViewModel.saveRouteSelection();
-            navController.navigate(R.id.action_fragmentRouteSelection_to_fragmentPatrolSchedule);
         });
 
         return binding.getRoot();

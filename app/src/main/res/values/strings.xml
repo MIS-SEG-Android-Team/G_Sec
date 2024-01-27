@@ -37,7 +37,7 @@
     <string name="sub_title_position">Personnel Roles</string>
     <string name="sub_title_create_schedule">Plan Patrol Route</string>
     <string name="sub_title_warehouse_selection">Choose Patrol Base</string>
-    <string name="sub_title_plot_patrol_stops">Plot Your Patrol Stops</string>
+    <string name="sub_title_plot_patrol_stops">Select Patrol Stops</string>
 
     <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>
