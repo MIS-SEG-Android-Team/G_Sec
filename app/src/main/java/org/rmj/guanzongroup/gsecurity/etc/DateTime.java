@@ -6,10 +6,13 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class DateTime {
 
@@ -27,5 +30,19 @@ public class DateTime {
     public static String formatDateTimeResult(LocalDateTime localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
         return localDateTime.format(formatter);
+    }
+
+    public static String formatDateTimeToUIPreview(String dateTime) {
+        try {
+            if (dateTime != null) {
+                Date parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime);
+                return new SimpleDateFormat("MMMM dd, yyyy hh:mm aa").format(parseDate);
+            } else {
+                return "";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

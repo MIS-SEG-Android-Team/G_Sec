@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
@@ -71,10 +72,9 @@ public class VMPatrolRoute extends ViewModel {
         this.scheduleRepository = scheduleRepository;
 
         getPatrolRouteSchedules();
-        initPatrolCheckpoints();
     }
 
-    private void initPatrolCheckpoints() {
+    public void initPatrolCheckpoints() {
         List<PatrolCheckpoint> checkpoints = new ArrayList<>();
         List<PatrolRouteEntity> patrolRouteEntities = patrolRepository.getPatrolCheckpoints();
 
@@ -140,6 +140,7 @@ public class VMPatrolRoute extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void getPatrolRouteSchedules() {
+        isLoadingPatrolRoutes.setValue(true);
         GetPatrolRouteParams params = new GetPatrolRouteParams();
         params.setSUserIDxx(dataStore.getUserId());
         patrolRepository.getPatrolRouteSchedule(params)
@@ -156,60 +157,66 @@ public class VMPatrolRoute extends ViewModel {
 
                             patrolRepository.savePatrolRoute(patrolRoutes);
                             scheduleRepository.savePatrolSchedule(patrolSchedules);
+                            isLoadingPatrolRoutes.setValue(false);
                         },
                         throwable -> {
-
+                            isLoadingPatrolRoutes.setValue(false);
                         }
                 );
     }
 
     @SuppressLint("NewApi")
     public void tagVisitedCheckpoint(String value) {
+        try {
+            // Triggers the loading dialog on Main Thread...
+            isLoadingPosting.setValue(true);
+            Gson gson = new Gson();
+            Type type = new TypeToken<AddNfcTagParams>() {
+            }.getType();
+            AddNfcTagParams nfcTag = gson.fromJson(value.replace("\u0002en", ""), type);
 
-        // Triggers the loading dialog on Main Thread...
-        isLoadingPosting.setValue(true);
-        Gson gson = new Gson();
-        Type type = new TypeToken<AddNfcTagParams>(){}.getType();
-        AddNfcTagParams nfcTag = gson.fromJson(value.replace("\u0002en", ""), type);
+            PatrolCheckpoint patrol = taggingCheckpoint.getValue();
 
-        PatrolCheckpoint patrol = taggingCheckpoint.getValue();
+            if (patrol == null) {
+                errorMessage.setValue("Something went wrong. Please try again.");
+                return;
+            }
 
-        if (patrol == null) {
-            errorMessage.setValue("Something went wrong. Please try again...");
-            return;
+            if (!nfcTag.getSDescript().equalsIgnoreCase(patrol.getsDescript())) {
+                errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
+                return;
+            }
+
+            String remarks = "";
+
+            if (taggingRemarks.getValue() != null) {
+                remarks = taggingRemarks.getValue();
+            }
+
+            String currentDateTime = formatDateTimeResult(getCurrentLocalDateTime());
+
+            PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
+            patrolLogEntity.setDVisitedx(currentDateTime);
+            patrolLogEntity.setSNFCIDxxx(patrol.getsNFCIDxxx());
+            patrolLogEntity.setSRemarksx(remarks);
+            patrolLogEntity.setSUserIDxx(dataStore.getUserId());
+            patrolLogEntity.setCSendStat("0");
+            patrolLogEntity.setSSchedule("0");
+            patrolRepository.savePatrolLog(patrolLogEntity);
+
+            isLoadingPosting.setValue(false);
+            successMessage.setValue("You visited " + nfcTag.getSDescript());
+            if (checkpointIndex.getValue() != null) {
+                int checkpointPosition = checkpointIndex.getValue();
+                List<PatrolCheckpoint> checkpoints = patrolCheckpoints.getValue();
+                checkpoints.get(checkpointPosition).setVisited(true);
+                patrolCheckpoints.setValue(checkpoints);
+            }
+            postTaggedCheckpoints();
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            errorMessage.setValue("Invalid payload has been scan. Please try again...");
         }
-
-        if (!nfcTag.getSDescript().equalsIgnoreCase(patrol.getsDescript())) {
-            errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
-            return;
-        }
-
-        String remarks = "";
-
-        if (taggingRemarks.getValue() != null) {
-            remarks = taggingRemarks.getValue();
-        }
-
-        String currentDateTime = formatDateTimeResult(getCurrentLocalDateTime());
-
-        PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
-        patrolLogEntity.setDVisitedx(currentDateTime);
-        patrolLogEntity.setSNFCIDxxx(patrol.getsNFCIDxxx());
-        patrolLogEntity.setSRemarksx(remarks);
-        patrolLogEntity.setSUserIDxx(dataStore.getUserId());
-        patrolLogEntity.setCSendStat("0");
-        patrolLogEntity.setSSchedule("0");
-        patrolRepository.savePatrolLog(patrolLogEntity);
-
-        isLoadingPosting.setValue(false);
-        successMessage.setValue("You visited " + nfcTag.getSDescript());
-        if (checkpointIndex.getValue() != null) {
-            int checkpointPosition = checkpointIndex.getValue();
-            List<PatrolCheckpoint> checkpoints = patrolCheckpoints.getValue();
-            checkpoints.get(checkpointPosition).setVisited(true);
-            patrolCheckpoints.setValue(checkpoints);
-        }
-        postTaggedCheckpoints();
     }
 
     @SuppressLint("CheckResult")
@@ -276,51 +283,56 @@ public class VMPatrolRoute extends ViewModel {
 
     @SuppressLint({"NewApi", "CheckResult"})
     public void tagRequestedVisit(String value) {
+        try {
+            // Triggers the loading dialog on Main Thread...
+            isLoadingPosting.setValue(true);
+            Gson gson = new Gson();
+            Type type = new TypeToken<AddNfcTagParams>() {
+            }.getType();
+            AddNfcTagParams nfcTag = gson.fromJson(value.replace("\u0002en", ""), type);
 
-        // Triggers the loading dialog on Main Thread...
-        isLoadingPosting.setValue(true);
-        Gson gson = new Gson();
-        Type type = new TypeToken<AddNfcTagParams>(){}.getType();
-        AddNfcTagParams nfcTag = gson.fromJson(value.replace("\u0002en", ""), type);
+            RequestVisitEntity requestVisit = requestedVisit.getValue();
 
-        RequestVisitEntity requestVisit = requestedVisit.getValue();
+            if (requestVisit == null) {
+                errorMessage.setValue("Something went wrong. Please try again...");
+                return;
+            }
 
-        if (requestVisit == null) {
-            errorMessage.setValue("Something went wrong. Please try again...");
-            return;
+            if (!nfcTag.getSDescript().equalsIgnoreCase(requestVisit.getSDescript())) {
+                errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
+                return;
+            }
+
+            String remarks = "";
+
+            if (taggingRemarks.getValue() != null) {
+                remarks = taggingRemarks.getValue();
+            }
+
+            String currentDateTime = formatDateTimeResult(getCurrentLocalDateTime());
+
+            requestVisit.setDVisitedx(currentDateTime);
+            requestVisit.setSRemark2(remarks);
+            requestVisit.setCSendStat("0");
+            requestVisitRepository.update(requestVisit);
+
+            isLoadingPosting.setValue(false);
+            successMessage.setValue("You visited " + nfcTag.getSDescript());
+
+            requestVisitRepository.sendVisitedNotification(requestVisit)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
+                            response -> {
+                                if (response.getResult().equalsIgnoreCase("error")) {
+                                    return;
+                                }
+                                requestVisit.setCSendStat("1");
+                                requestVisitRepository.update(requestVisit);
+                            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorMessage.setValue("Invalid payload has been scan. Please try again...");
         }
-
-        if (!nfcTag.getSDescript().equalsIgnoreCase(requestVisit.getSDescript())) {
-            errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
-            return;
-        }
-
-        String remarks = "";
-
-        if (taggingRemarks.getValue() != null) {
-            remarks = taggingRemarks.getValue();
-        }
-
-        String currentDateTime = formatDateTimeResult(getCurrentLocalDateTime());
-
-        requestVisit.setDVisitedx(currentDateTime);
-        requestVisit.setSRemark2(remarks);
-        requestVisit.setCSendStat("0");
-        requestVisitRepository.update(requestVisit);
-
-        isLoadingPosting.setValue(false);
-        successMessage.setValue("You visited " + nfcTag.getSDescript());
-
-        requestVisitRepository.sendVisitedNotification(requestVisit)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(
-                        response -> {
-                            if (response.getResult().equalsIgnoreCase("error")) {
-                                return;
-                            }
-                            requestVisit.setCSendStat("1");
-                            requestVisitRepository.update(requestVisit);
-                        });
     }
 }

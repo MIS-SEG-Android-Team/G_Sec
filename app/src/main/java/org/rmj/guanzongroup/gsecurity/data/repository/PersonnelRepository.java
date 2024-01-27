@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.data.repository;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.ActivePersonnelModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.AddPersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
@@ -26,7 +27,7 @@ public class PersonnelRepository {
         return apiService.getPersonnels(params);
     }
 
-    public Observable<BaseResponse<Void>> addPersonnel(AddPersonnelParam params) {
+    public Observable<BaseResponse<AddPersonnelModel>> addPersonnel(AddPersonnelParam params) {
         return apiService.addPersonnel(params);
     }
 

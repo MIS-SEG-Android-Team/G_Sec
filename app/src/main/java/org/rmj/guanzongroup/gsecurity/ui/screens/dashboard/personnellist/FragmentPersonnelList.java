@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnellist;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_ID;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +77,11 @@ public class FragmentPersonnelList extends Fragment {
             binding.personnelList.setAdapter(
                     new AdapterActivePersonnel(
                             activePersonnel,
-                            personnelID -> navController.navigate(R.id.action_fragmentPersonnelList_to_fragmentRecentActivities)
+                            personnelID -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putString(PERSONNEL_ID, personnelID);
+                                navController.navigate(R.id.action_fragmentPersonnelList_to_fragmentRecentActivities, bundle);
+                            }
                     )
             );
         });

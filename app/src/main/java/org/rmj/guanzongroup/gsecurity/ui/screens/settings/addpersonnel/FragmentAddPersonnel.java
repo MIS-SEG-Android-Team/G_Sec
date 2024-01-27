@@ -1,21 +1,18 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.addpersonnel;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentAddPersonnelBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
@@ -60,15 +57,18 @@ public class FragmentAddPersonnel extends Fragment {
 
         mViewModel.hasCompleteInfo().observe(getViewLifecycleOwner(), hasCompleteInfo -> binding.savePersonnelButton.setEnabled(hasCompleteInfo));
 
-        mViewModel.isPersonnelAdded().observe(getViewLifecycleOwner(), isPersonnelAdded -> {
-            if (isPersonnelAdded) {
-                binding.tieLastName.setText("");
-                binding.tieFirstName.setText("");
-                binding.tieMiddleName.setText("");
-                binding.tiePosition.setText("");
-                binding.tieDescription.setText("");
-                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.", Dialog::dismiss).showDialog();
+        mViewModel.getPersonnelMPIN().observe(getViewLifecycleOwner(), mpin -> {
+            if (mpin.isEmpty()) {
+                return;
             }
+
+            binding.tieLastName.setText("");
+            binding.tieFirstName.setText("");
+            binding.tieMiddleName.setText("");
+            binding.tiePosition.setText("");
+            binding.tieDescription.setText("");
+            binding.tieMPIN.setText(mpin);
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.", Dialog::dismiss).showDialog();
         });
 
         mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {

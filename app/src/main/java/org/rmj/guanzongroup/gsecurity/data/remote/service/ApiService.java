@@ -8,6 +8,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetRecentActivityParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
@@ -16,6 +17,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolPersonnel;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.ActivePersonnelModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.AddPersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
@@ -71,7 +73,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/personnel/add_personnel.php")
-    Observable<BaseResponse<Void>> addPersonnel(@Body AddPersonnelParam value);
+    Observable<BaseResponse<AddPersonnelModel>> addPersonnel(@Body AddPersonnelParam value);
 
     @POST("/gsecure/personnel/get_personnels.php")
     Observable<BaseResponse<List<PersonnelModel>>> getPersonnels(@Body DateTimeStampParams value);
@@ -183,7 +185,7 @@ public interface ApiService {
     Observable<BaseResponse<List<PatrolRouteModel>>> getPatrolRoute(@Body GetPatrolRouteParams params);
 
     @POST("/gsecure/patrol/get_recent_activity.php")
-    Observable<BaseResponse<List<RecentActivityModel>>> getRecentActivity(@Body GetPatrolRouteParams params);
+    Observable<BaseResponse<List<RecentActivityModel>>> getRecentActivity(@Body GetRecentActivityParams params);
 
     @POST("/gsecure/patrol/post_place_visited.php")
     Observable<BaseResponse<Void>> postPlaceVisited(@Body PostPatrolParams params);

@@ -32,6 +32,7 @@
         app:layout_constraintVertical_bias="0.35"
         app:layout_constraintWidth_percent=".25" />
 
+    <!--        This area contains the footer of the UI-->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/labelApplicationName"
         android:layout_width="wrap_content"
@@ -41,10 +42,10 @@
         android:textSize="@dimen/screen_title"
         app:fontFamily="@font/roboto_medium"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <!--        This area contains the footer of the UI-->
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
@@ -160,6 +161,35 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilMPIN"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_personnel_mpin">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tieMPIN"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:imeOptions="actionDone"
+                    android:gravity="center"
+                    android:enabled="false"
+                    android:inputType="textLongMessage"
+                    android:maxLength="6" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_padding_8"
+                android:text="@string/label_personnel_mpin_reminder"
+                android:textSize="@dimen/screen_body"
+                android:gravity="center"
+                app:fontFamily="@font/roboto_regular"/>
+
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -176,28 +206,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/labelSplashScreenFooter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_padding_4"
-        android:text="@string/label_guanzon_group"
-        android:textSize="@dimen/screen_footer"
-        app:fontFamily="@font/roboto_regular"
-        app:layout_constraintBottom_toTopOf="@+id/labelVersionInfo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/labelVersionInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/build_version_detail"
-        android:textSize="@dimen/screen_footer_body"
-        app:fontFamily="@font/roboto_regular"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

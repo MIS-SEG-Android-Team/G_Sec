@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.QR_CODE_DATA;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.READ_NFC_DATA_PAYLOAD;
 import static org.rmj.guanzongroup.gsecurity.utils.ImageFileCreator.CreateImageUri;
 
@@ -46,10 +47,15 @@ public class FragmentPatrolRoute extends Fragment {
     private FragmentPatrolRouteBinding binding;
 
     private Boolean isTaggingRequestedVisit = false;
+    private String QrCodeData = "";
 
     private final ActivityResultLauncher<Intent> intentFrontCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
        if(result.getResultCode() == RESULT_OK) {
-//           new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "You visited " + visitedPlace, Dialog::dismiss).showDialog();
+           if (!isTaggingRequestedVisit) {
+               mViewModel.tagVisitedCheckpoint(QrCodeData);
+           } else {
+               mViewModel.tagRequestedVisit(QrCodeData);
+           }
        } else if(result.getResultCode() == RESULT_CANCELED) {
            Toast.makeText(requireActivity(), "Selfie tagging cancelled.", Toast.LENGTH_SHORT).show();
        } else {
@@ -59,7 +65,13 @@ public class FragmentPatrolRoute extends Fragment {
 
     private final ActivityResultLauncher<Intent> intentQrCodeScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if(result.getResultCode() == RESULT_OK) {
-            // TODO: Process the JSON Data to intent Selfie Camera...
+            Intent intentResult = result.getData();
+            if (intentResult != null) {
+                String payload = intentResult.getStringExtra(QR_CODE_DATA);
+                Timber.tag("QrCode").d("Received QrCode data: %s", payload);
+                QrCodeData = payload;
+            }
+
             Intent intentTakeSelfie = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intentTakeSelfie.putExtra(MediaStore.EXTRA_OUTPUT, CreateImageUri(requireActivity()));
             intentTakeSelfie.putExtra("android.intent.extras.CAMERA_FACING", 1);
@@ -140,6 +152,14 @@ public class FragmentPatrolRoute extends Fragment {
                     }
                 }).show();
             });
+        });
+
+        mViewModel.isLoadingPatrolRoute().observe(getViewLifecycleOwner(), loadingPatrolRoute -> {
+            if (loadingPatrolRoute) {
+
+            } else {
+                mViewModel.initPatrolCheckpoints();
+            }
         });
 
         mViewModel.getPatrolCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {

@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.recentactivities;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_ID;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentRecentActivitiesBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.AdapterRecentActivity;
 
-import java.util.List;
+import javax.inject.Inject;
 
 public class FragmentRecentActivities extends Fragment {
 
-    private VMRecentActivities mViewModel;
+    @Inject
+    VMRecentActivities mViewModel;
 
     private FragmentRecentActivitiesBinding binding;
 
@@ -29,21 +32,24 @@ public class FragmentRecentActivities extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(VMRecentActivities.class);
-
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMRecentActivities.class);
         binding = FragmentRecentActivitiesBinding.inflate(getLayoutInflater());
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        if (getArguments()!= null) {
+            String personnelID = getArguments().getString(PERSONNEL_ID);
+            mViewModel.getRecentActivity(personnelID);
+        }
 
-//        mViewModel.getRecentActivity().observe(getViewLifecycleOwner(), recentActivities -> {
-//            if(recentActivities == null){
-//                return;
-//            }
-//
-//            binding.recentActivityList.setLayoutManager(linearLayoutManager);
-////            binding.recentActivityList.setAdapter(new AdapterRecentActivity(recentActivities));
-//        });
+        mViewModel.getActivities().observe(getViewLifecycleOwner(), recentActivities -> {
+            if(recentActivities == null){
+                return;
+            }
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            binding.recentActivityList.setLayoutManager(linearLayoutManager);
+            binding.recentActivityList.setAdapter(new AdapterRecentActivity(recentActivities));
+        });
 
         return binding.getRoot();
     }

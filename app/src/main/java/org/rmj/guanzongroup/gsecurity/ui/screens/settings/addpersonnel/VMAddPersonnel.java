@@ -45,7 +45,7 @@ public class VMAddPersonnel extends ViewModel {
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> hasCompleteInfo = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
-    private final MutableLiveData<Boolean> isPersonnelAdded = new MutableLiveData<>(false);
+    private final MutableLiveData<String> personnelMPIN = new MutableLiveData<>("");
 
     @Inject
     public VMAddPersonnel(
@@ -106,11 +106,11 @@ public class VMAddPersonnel extends ViewModel {
     public MutableLiveData<Boolean> isLoading() {
         return isLoading;
     }
-    public MutableLiveData<Boolean> isPersonnelAdded() {
-        return isPersonnelAdded;
-    }
     public MutableLiveData<String> getErrorMessage() {
         return errorMessage;
+    }
+    public MutableLiveData<String> getPersonnelMPIN() {
+        return personnelMPIN;
     }
 
     public LiveData<List<PositionEntity>> getPositions() {
@@ -162,25 +162,24 @@ public class VMAddPersonnel extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        baseResponse -> {
+                        response -> {
 
                             // API Response validation
                             // Any API response with HTTP Error Code 200 is handled in this area...
-                            if (baseResponse.getResult().equalsIgnoreCase("error")) {
+                            if (response.getResult().equalsIgnoreCase("error")) {
 
                                 isLoading.setValue(false);
-                                errorMessage.setValue(baseResponse.getError().getMessage());
+                                errorMessage.setValue(response.getError().getMessage());
                                 return;
                             }
 
                             isLoading.setValue(false);
-                            isPersonnelAdded.setValue(true);
-
+                            personnelMPIN.setValue(response.getData().getNPINCodex());
                         },
 
                         // Exception handling...
-                        throwable -> {
-                            errorMessage.setValue(throwable.getMessage());
+                        error -> {
+                            errorMessage.setValue(error.getMessage());
                             isLoading.setValue(false);
                         }
                 );

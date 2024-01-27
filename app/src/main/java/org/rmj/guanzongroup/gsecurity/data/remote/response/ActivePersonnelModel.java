@@ -2,16 +2,13 @@ package org.rmj.guanzongroup.gsecurity.data.remote.response;
 
 public class ActivePersonnelModel {
     private String sWHouseID;
-    private String sLstVisit;
     private String sUserIDxx;
     private String sUserName;
-    private String sWHouseNM;
+    private String dVisitedx;
+    private String sWHouseNm;
 
     public String getSWHouseID() { return sWHouseID; }
     public void setSWHouseID(String value) { this.sWHouseID = value; }
-
-    public String getSLstVisit() { return sLstVisit; }
-    public void setSLstVisit(String value) { this.sLstVisit = value; }
 
     public String getSUserIDxx() { return sUserIDxx; }
     public void setSUserIDxx(String value) { this.sUserIDxx = value; }
@@ -19,6 +16,9 @@ public class ActivePersonnelModel {
     public String getSUserName() { return sUserName; }
     public void setSUserName(String value) { this.sUserName = value; }
 
-    public String getSWHouseNM() { return sWHouseNM; }
-    public void setSWHouseNM(String value) { this.sWHouseNM = value; }
+    public String getDVisitedx() { return dVisitedx; }
+    public void setDVisitedx(String value) { this.dVisitedx = value; }
+
+    public String getSWHouseNm() { return sWHouseNm; }
+    public void setSWHouseNm(String value) { this.sWHouseNm = value; }
 }

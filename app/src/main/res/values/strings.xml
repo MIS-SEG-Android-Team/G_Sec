@@ -76,8 +76,10 @@
     <string name="label_officer">Officer</string>
     <string name="label_position">Position</string>
     <string name="label_description">Description</string>
+    <string name="label_personnel_mpin">Personnel MPIN</string>
     <string name="label_loading_warehouse">Loading warehouse…</string>
     <string name="label_retry">Retry</string>
+    <string name="label_schedules">Schedules</string>
     <string name="label_select_checkpoints">Select Checkpoints Here</string>
     <string name="label_added_checkpoints">Added Checkpoints</string>
     <string name="label_add_category">Add Category</string>
@@ -89,6 +91,7 @@
     <string name="label_patrol_schedules">Patrol Schedules</string>
     <string name="label_assigned_personnel">Assigned Personnel</string>
     <string name="label_something_went_wrong">Something went wrong</string>
+    <string name="label_personnel_mpin_reminder">Reminder: Make sure to share the MPIN with personnel before closing or adding new personnel.</string>
 
     <!--    Buttons-->
     <string name="button_okay">Okay</string>

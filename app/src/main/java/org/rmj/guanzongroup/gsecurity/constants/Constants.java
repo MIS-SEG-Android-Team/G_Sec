@@ -29,4 +29,6 @@ public class Constants {
         a request for visiting a specific site...
      */
     public static final String NOTIFICATION_VISIT = "_notice_visit_request";
+
+    public static final String PERSONNEL_ID = "personnel_id";
 }

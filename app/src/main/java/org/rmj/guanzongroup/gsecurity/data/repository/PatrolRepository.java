@@ -3,9 +3,11 @@ package org.rmj.guanzongroup.gsecurity.data.repository;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetRecentActivityParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.recentactivity.RecentActivityModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
@@ -48,6 +50,10 @@ public class PatrolRepository {
 
     public PatrolLogEntity getPatrolLog(String nSchedule, String sNFCIDxxx, String date) {
         return patrolLogDao.getPatrolLog(nSchedule, sNFCIDxxx, date);
+    }
+
+    public Observable<BaseResponse<List<RecentActivityModel>>> getRecentActivity(GetRecentActivityParams params) {
+        return apiService.getRecentActivity(params);
     }
 
     public void savePatrolLog(PatrolLogEntity value) {

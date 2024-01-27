@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel;
 
+import static org.rmj.guanzongroup.gsecurity.etc.DateTime.formatDateTimeToUIPreview;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -37,8 +39,8 @@ public class AdapterActivePersonnel extends RecyclerView.Adapter<AdapterActivePe
     public void onBindViewHolder(@NonNull ActivePersonelViewHolder holder, int position) {
         ActivePersonnelModel personnel = personnelList.get(position);
         holder.binding.personnelFullName.setText(personnel.getSUserName());
-        holder.binding.personnelAssignedDuty.setText(personnel.getSWHouseNM());
-        holder.binding.personnelLastVisit.setText(personnel.getSLstVisit());
+        holder.binding.personnelAssignedDuty.setText(personnel.getSWHouseNm());
+        holder.binding.personnelLastVisit.setText(formatDateTimeToUIPreview(personnel.getDVisitedx()));
 
         holder.binding.getRoot().setOnClickListener(view -> listener.onClickPersonnel(personnel.getSUserIDxx()));
     }

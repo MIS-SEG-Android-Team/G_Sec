@@ -1,71 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="@dimen/view_padding_16">
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="@dimen/view_padding_8">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/personnelIcon"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_location_check"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent=".1" />
+        android:src="@drawable/ic_location_check"/>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/recentSpecificPlace"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/view_padding_8"
-        android:maxLines="1"
-        android:text="@string/list_item_personnel_active_last_visit"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="@dimen/screen_sub_header1"
-        app:fontFamily="@font/roboto_medium"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/personnelIcon"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1"
+        android:paddingStart="@dimen/view_padding_8"
+        android:orientation="vertical">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/wareHouseName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/view_padding_8"
-        android:maxLines="1"
-        android:text="@string/list_item_personnel_active_site"
-        android:textSize="@dimen/screen_body"
-        app:fontFamily="@font/roboto_regular"
-        app:layout_constraintEnd_toEndOf="@+id/recentSpecificPlace"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/personnelIcon"
-        app:layout_constraintTop_toBottomOf="@+id/recentSpecificPlace" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/recentSpecificPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/list_item_personnel_active_last_visit"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/screen_sub_header2"
+            app:fontFamily="@font/roboto_medium"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/personnelIcon"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/personnelLastVisitLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_last_visited"
-        app:layout_constraintStart_toStartOf="@+id/wareHouseName"
-        app:layout_constraintTop_toBottomOf="@+id/wareHouseName" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lastTimeVisit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list_item_personnel_recent_time_visit"/>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/lastTimeVisit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/view_padding_8"
-        android:text="@string/list_item_personnel_recent_time_visit"
-        app:layout_constraintBottom_toBottomOf="@+id/personnelLastVisitLabel"
-        app:layout_constraintStart_toEndOf="@+id/personnelLastVisitLabel"
-        app:layout_constraintTop_toTopOf="@+id/personnelLastVisitLabel" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>
