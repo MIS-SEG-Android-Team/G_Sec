@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/fragmentPersonnelList"
-        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnellist.FragmentPersonnelList"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnellist.FragmentActivePersonnelList"
         android:label="fragment_personnel_list"
-        tools:layout="@layout/fragment_personnel_list" >
+        tools:layout="@layout/fragment_active_personnel_list" >
         <action
             android:id="@+id/action_fragmentPersonnelList_to_fragmentRecentActivities"
             app:destination="@id/fragmentRecentActivities"

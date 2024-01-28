@@ -105,6 +105,7 @@
     <string name="button_nfc_categories">NFC Categories</string>
     <string name="button_warehouse">Warehouse</string>
     <string name="button_add_personnel">Add Personnel</string>
+    <string name="button_personnel_list">Personnel List</string>
     <string name="button_add_position">Add Position</string>
     <string name="button_add_category">Add Category</string>
     <string name="button_create_schedule">Create Schedule</string>

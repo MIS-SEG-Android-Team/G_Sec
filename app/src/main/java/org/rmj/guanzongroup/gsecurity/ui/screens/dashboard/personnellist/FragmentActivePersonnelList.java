@@ -16,31 +16,31 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.rmj.guanzongroup.gsecurity.R;
-import org.rmj.guanzongroup.gsecurity.databinding.FragmentPersonnelListBinding;
+import org.rmj.guanzongroup.gsecurity.databinding.FragmentActivePersonnelListBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel.AdapterActivePersonnel;
 
 import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class FragmentPersonnelList extends Fragment {
+public class FragmentActivePersonnelList extends Fragment {
 
     @Inject
     VMPersonnelList mViewModel;
 
-    private FragmentPersonnelListBinding binding;
+    private FragmentActivePersonnelListBinding binding;
 
     private NavController navController;
 
-    public static FragmentPersonnelList newInstance() {
-        return new FragmentPersonnelList();
+    public static FragmentActivePersonnelList newInstance() {
+        return new FragmentActivePersonnelList();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPersonnelList.class);
-        binding = FragmentPersonnelListBinding.inflate(getLayoutInflater());
+        binding = FragmentActivePersonnelListBinding.inflate(getLayoutInflater());
 
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
