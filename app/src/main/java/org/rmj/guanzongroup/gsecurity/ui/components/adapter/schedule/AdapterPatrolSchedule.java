@@ -7,17 +7,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.SSchedule;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.PersonnelPatrolSchedule;
 import org.rmj.guanzongroup.gsecurity.databinding.ListItemPatrolScheduleBinding;
 
 import java.util.List;
 
 public class AdapterPatrolSchedule extends RecyclerView.Adapter<AdapterPatrolSchedule.PatrolScheduleViewHolder> {
 
-    private final List<SSchedule> schedules;
+    private final List<PersonnelPatrolSchedule> schedules;
     private final AdapterPatrolScheduleCallback callback;
 
-    public AdapterPatrolSchedule(List<SSchedule> schedules, AdapterPatrolScheduleCallback callback) {
+    public AdapterPatrolSchedule(List<PersonnelPatrolSchedule> schedules, AdapterPatrolScheduleCallback callback) {
         this.schedules = schedules;
         this.callback = callback;
     }
@@ -35,7 +35,7 @@ public class AdapterPatrolSchedule extends RecyclerView.Adapter<AdapterPatrolSch
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PatrolScheduleViewHolder holder, int position) {
-        SSchedule schedule = schedules.get(position);
+        PersonnelPatrolSchedule schedule = schedules.get(position);
 
         holder.binding.patrolNumber.setText("Patrol " +schedule.getNSchedule());
         holder.binding.scheduleTime.setText(schedule.getDTimexxxx());

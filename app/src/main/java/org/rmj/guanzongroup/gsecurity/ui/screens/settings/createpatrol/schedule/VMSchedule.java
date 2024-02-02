@@ -6,9 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.R;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.SSchedule;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.PersonnelPatrolSchedule;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 
 import java.text.ParseException;
@@ -28,8 +27,8 @@ public class VMSchedule extends ViewModel {
 
     private final ScheduleRepository scheduleRepository;
 
-    private final MutableLiveData<List<SSchedule>> schedules = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<CreateUpdateScheduleParams> patrolRoute = new MutableLiveData<>();
+    private final MutableLiveData<List<PersonnelPatrolSchedule>> schedules = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<CreateScheduleParams> patrolRoute = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> scheduleSaved = new MutableLiveData<>(false);
 
@@ -40,7 +39,7 @@ public class VMSchedule extends ViewModel {
         initSchedules();
     }
 
-    public LiveData<List<SSchedule>> getSchedules() {
+    public LiveData<List<PersonnelPatrolSchedule>> getSchedules() {
         return schedules;
     }
 
@@ -56,8 +55,8 @@ public class VMSchedule extends ViewModel {
         patrolRoute.setValue(scheduleRepository.getPatrolScheduleFromCache());
 
         if (patrolRoute.getValue() != null) {
-            CreateUpdateScheduleParams params = patrolRoute.getValue();
-            List<SSchedule> schedules1 = params.getSSchedule();
+            CreateScheduleParams params = patrolRoute.getValue();
+            List<PersonnelPatrolSchedule> schedules1 = params.getSSchedule();
             if (schedules1 != null) {
                 schedules.setValue(schedules1);
             }
@@ -66,7 +65,7 @@ public class VMSchedule extends ViewModel {
 
     public void addSchedule(String time) {
         if (schedules.getValue() != null) {
-            List<SSchedule> schedules1 = schedules.getValue();
+            List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
 
             for (int x = 0; x < schedules1.size(); x++) {
                 if (time.equalsIgnoreCase(schedules1.get(x).getDTimexxxx())) {
@@ -80,36 +79,36 @@ public class VMSchedule extends ViewModel {
                 return;
             }
 
-            SSchedule schedule = new SSchedule();
+            PersonnelPatrolSchedule schedule = new PersonnelPatrolSchedule();
             int position = schedules1.size() + 1;
             schedule.setNSchedule(String.valueOf(position));
             schedule.setDTimexxxx(time);
             schedules1.add(schedule);
-            schedules1.sort(Comparator.comparing(SSchedule::getDTimexxxx));
+            schedules1.sort(Comparator.comparing(PersonnelPatrolSchedule::getDTimexxxx));
             schedules.setValue(schedules1);
         }
     }
 
     public void editSchedule(int position, String time) {
         if (schedules.getValue() != null) {
-            List<SSchedule> schedules1 = schedules.getValue();
+            List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
             schedules1.get(position).setNSchedule(String.valueOf(position));
             schedules1.get(position).setDTimexxxx(time);
-            schedules1.sort(Comparator.comparing(SSchedule::getDTimexxxx));
+            schedules1.sort(Comparator.comparing(PersonnelPatrolSchedule::getDTimexxxx));
             schedules.setValue(schedules1);
         }
     }
 
     public void deleteSchedule(int position) {
         if (schedules.getValue() != null) {
-            List<SSchedule> schedules1 = schedules.getValue();
+            List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
             schedules1.remove(position);
             schedules.setValue(schedules1);
         }
     }
 
     public void saveSchedule() {
-        List<SSchedule> schedules1 = schedules.getValue();
+        List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
 
         if (schedules1 == null) {
             errorMessage.setValue("Unable to proceed without any patrol schedule created.");
@@ -132,7 +131,7 @@ public class VMSchedule extends ViewModel {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private static boolean isTimeGapValid(List<SSchedule> timeList, String newTime) {
+    private static boolean isTimeGapValid(List<PersonnelPatrolSchedule> timeList, String newTime) {
         // Custom date format for parsing times
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm a");
 
@@ -145,7 +144,7 @@ public class VMSchedule extends ViewModel {
             }
 
             // Iterate through existing times
-            for (SSchedule existingTime : timeList) {
+            for (PersonnelPatrolSchedule existingTime : timeList) {
                 Date existingTimeDate = dateFormat.parse(existingTime.getDTimexxxx());
 
                 if (existingTimeDate == null) {

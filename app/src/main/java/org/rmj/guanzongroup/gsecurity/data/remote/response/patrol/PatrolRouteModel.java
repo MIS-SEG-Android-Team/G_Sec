@@ -6,11 +6,15 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEn
 import java.util.List;
 
 public class PatrolRouteModel {
+    private String sSchedIDx;
     private String sNotexxxx;
     private String sWHouseID;
     private List<PatrolScheduleEntity> sSchedule;
     private List<PatrolRouteEntity> sRoutexxx;
     private String cRecdStat;
+
+    public String getSSchedIDx() { return sSchedIDx; }
+    public void setSSchedIDx(String value) { this.sSchedIDx = value; }
 
     public String getSNotexxxx() { return sNotexxxx; }
     public void setSNotexxxx(String value) { this.sNotexxxx = value; }

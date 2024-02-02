@@ -23,6 +23,7 @@
     <string name="title_create_schedule">Create Schedule</string>
     <string name="title_warehouse_selection">Warehouse Selection</string>
     <string name="title_patrol_checkpoints">Patrol Checkpoints</string>
+    <string name="title_patrol_schedule">Patrol Schedule</string>
 
     <!--    Sub Title-->
     <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring</string>
@@ -38,6 +39,7 @@
     <string name="sub_title_create_schedule">Plan Patrol Route</string>
     <string name="sub_title_warehouse_selection">Choose Patrol Base</string>
     <string name="sub_title_plot_patrol_stops">Select Patrol Stops</string>
+    <string name="sub_title_patrol_schedule">Set Up Your Patrol Routine with a Custom Schedule</string>
 
     <!--    List of Labels-->
     <string name="label_guanzon_group">Guanzon Group of Companies</string>

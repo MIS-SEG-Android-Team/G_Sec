@@ -13,9 +13,11 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.RequestSiteVisitParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.UpdatePatrolPersonnel;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.updatepatrolroute.UpdatePatrolRouteParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.updatepatrolschedule.UpdatePatrolScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.updatepersonnel.UpdatePatrolPersonnelParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.ActivePersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.AddPersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
@@ -23,6 +25,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginB
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.branch.BranchResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.recentactivity.RecentActivityModel;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
@@ -166,21 +169,22 @@ public interface ApiService {
     // region Scheduler
 
     @POST("/gsecure/patrol/create_schedule.php")
-    Observable<BaseResponse<Void>> addNewSchedule(@Body CreateUpdateScheduleParams params);
+    Observable<BaseResponse<Void>> addNewSchedule(@Body CreateScheduleParams params);
 
     @POST("/gsecure/patrol/update_patrol_schedule.php")
-    Observable<BaseResponse<Void>> updateSchedule(@Body CreateUpdateScheduleParams params);
+    Observable<BaseResponse<Void>> updateSchedule(@Body UpdatePatrolScheduleParams params);
 
     @POST("/gsecure/patrol/update_patrol_route.php")
-    Observable<BaseResponse<Void>> updatePatrolRoute(@Body CreateUpdateScheduleParams params);
+    Observable<BaseResponse<Void>> updatePatrolRoute(@Body UpdatePatrolRouteParams params);
 
     @POST("/gsecure/patrol/update_patrol_personnel.php")
-    Observable<BaseResponse<Void>> updatePatrolPersonnel(@Body UpdatePatrolPersonnel params);
+    Observable<BaseResponse<Void>> updatePatrolPersonnel(@Body UpdatePatrolPersonnelParams params);
 
     // endregion
 
     // region Patrol
-
+    // Use this API call only if the user is not Admin account,
+    // this is only intended to automatically save data on cache/database
     @POST("/gsecure/patrol/get_patrol_route.php")
     Observable<BaseResponse<List<PatrolRouteModel>>> getPatrolRoute(@Body GetPatrolRouteParams params);
 
@@ -189,6 +193,10 @@ public interface ApiService {
 
     @POST("/gsecure/patrol/post_place_visited.php")
     Observable<BaseResponse<Void>> postPlaceVisited(@Body PostPatrolParams params);
+
+    // This API call is only use for updating personnel patrol route and schedules...
+    @POST("/gsecure/patrol/get_patrol_route.php")
+    Observable<BaseResponse<List<PersonnelPatrolModel>>> getPatrolRouteForUpdate(@Body GetPatrolRouteParams params);
 
     // endregion
 

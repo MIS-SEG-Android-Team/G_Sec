@@ -77,6 +77,7 @@ public class FragmentAdminSettings extends Fragment {
         // region Navigation Buttons
         binding.addPosition.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentPosition));
         binding.addPersonnelButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPersonnel));
+        binding.personnelList.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentPersonnelList2));
         binding.createScheduleButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentWarehouseSelection));
         binding.nfcCategoryButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentNfcCategory));
         binding.addNfcTagButton.setOnClickListener(view -> navController.navigate(R.id.action_fragmentSettings_to_fragmentAddPlace));

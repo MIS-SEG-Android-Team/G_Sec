@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.review;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_ID;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +16,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import org.rmj.guanzongroup.gsecurity.R;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.SRoutexxx;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.SSchedule;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.PersonnelPatrolRoute;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.PersonnelPatrolSchedule;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentScheduleReviewBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
@@ -48,6 +50,57 @@ public class FragmentScheduleReview extends Fragment {
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
+        if (getArguments() != null) {
+            String userID = getArguments().getString(PERSONNEL_ID);
+            mViewModel.getPatrolSchedulerForUser(userID);
+            mViewModel.getPatrolRouteForUpdate().observe(getViewLifecycleOwner(), patrolRouteModel -> {
+                if (patrolRouteModel == null) { return; }
+                List<PersonnelPatrolRoute> checkpoints = patrolRouteModel.getSRoutexxx();
+                List<PersonnelPatrolSchedule> schedules = patrolRouteModel.getSSchedule();
+
+                ArrayList<String> checkpointNames = new ArrayList<>();
+                for (int x = 0; x < checkpoints.size(); x++) {
+                    checkpointNames.add(checkpoints.get(x).getSDescript());
+                }
+
+                ArrayList<String> patrolSchedules = new ArrayList<>();
+                for (int x = 0; x < schedules.size(); x++) {
+                    patrolSchedules.add(schedules.get(x).getDTimexxxx());
+                }
+
+                binding.patrolCheckpoints.setAdapter(
+                        new ArrayAdapter<>(requireActivity(),
+                                android.R.layout.simple_dropdown_item_1line,
+                                checkpointNames)
+                );
+
+                binding.patrolSchedule.setAdapter(
+                        new ArrayAdapter<>(requireActivity(),
+                                android.R.layout.simple_dropdown_item_1line,
+                                patrolSchedules)
+                );
+            });
+
+
+            mViewModel.isLoadingSchedule().observe(getViewLifecycleOwner(), loading -> {
+                if (loading) {
+                    dialogLoad.show("Loading patrol schedule...");
+                } else {
+                    dialogLoad.dismiss();
+                }
+            });
+
+            binding.editPersonnel.setOnClickListener(view -> navController.navigate(R.id.action_fragmentScheduleReview_to_fragmentPersonnelSelection));
+            binding.editCheckpoints.setOnClickListener(view -> navController.navigate(R.id.action_fragmentScheduleReview_to_fragmentRouteSelection));
+            binding.editSchedules.setOnClickListener(view -> navController.navigate(R.id.action_fragmentScheduleReview_to_fragmentPatrolSchedule));
+            binding.saveButton.setVisibility(View.GONE);
+        } else {
+            binding.editPersonnel.setVisibility(View.GONE);
+            binding.editCheckpoints.setVisibility(View.GONE);
+            binding.editSchedules.setVisibility(View.GONE);
+            binding.saveButton.setOnClickListener( view -> mViewModel.saveSchedule());
+        }
+
         mViewModel.isLoadingSaveSchedule().observe(getViewLifecycleOwner(), loading -> {
             if (loading) {
                 dialogLoad.show("Saving new patrol schedule...");
@@ -72,22 +125,23 @@ public class FragmentScheduleReview extends Fragment {
                 dialogMessage.initDialog("Patrol Schedule", "New schedule has been saved!");
                 dialogMessage.setPositiveButton("Close", dialog -> {
                     dialog.dismiss();
-                    navController.popBackStack(R.id.fragmentPersonnelList, false);
+                    navController.popBackStack(R.id.action_fragmentScheduleReview_to_fragmentSettings, false);
                 });
                 dialogMessage.show();
             }
         });
 
         mViewModel.getCreatedSchedule().observe(getViewLifecycleOwner(), createdSchedule -> {
+            if (createdSchedule == null) { return; }
             binding.warehouse.setText(createdSchedule.getSWHouseNm());
             binding.assignedPersonnel.setText(createdSchedule.getSUserName());
 
-            List<SRoutexxx> checkpoints = createdSchedule.getSRoutexxx();
-            List<SSchedule> schedules = createdSchedule.getSSchedule();
+            List<PersonnelPatrolRoute> checkpoints = createdSchedule.getSRoutexxx();
+            List<PersonnelPatrolSchedule> schedules = createdSchedule.getSSchedule();
 
             ArrayList<String> checkpointNames = new ArrayList<>();
             for (int x = 0; x < checkpoints.size(); x++) {
-                checkpointNames.add(checkpoints.get(x).getSCheckpnt());
+                checkpointNames.add(checkpoints.get(x).getSDescript());
             }
 
             ArrayList<String> patrolSchedules = new ArrayList<>();
@@ -96,23 +150,16 @@ public class FragmentScheduleReview extends Fragment {
             }
 
             binding.patrolCheckpoints.setAdapter(
-                            new ArrayAdapter<String>(requireActivity(),
+                    new ArrayAdapter<>(requireActivity(),
                             android.R.layout.simple_dropdown_item_1line,
                             checkpointNames)
             );
 
-
             binding.patrolSchedule.setAdapter(
-                            new ArrayAdapter<String>(requireActivity(),
+                    new ArrayAdapter<>(requireActivity(),
                             android.R.layout.simple_dropdown_item_1line,
                             patrolSchedules)
             );
-
-            binding.assignedPersonnel.setText(createdSchedule.getSUserName());
-        });
-
-        binding.saveButton.setOnClickListener( view -> {
-            mViewModel.saveSchedule();
         });
 
         return binding.getRoot();

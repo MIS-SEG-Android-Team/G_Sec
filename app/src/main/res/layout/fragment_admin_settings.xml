@@ -101,7 +101,7 @@
                 app:iconGravity="end" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/addPersonnelList"
+                android:id="@+id/personnelList"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

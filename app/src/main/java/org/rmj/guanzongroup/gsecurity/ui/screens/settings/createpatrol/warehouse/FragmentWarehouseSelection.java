@@ -71,7 +71,7 @@ public class FragmentWarehouseSelection extends Fragment {
                         DialogMessage dialogMessage = new DialogMessage(requireActivity());
                         dialogMessage.initDialog("Create Schedule", "Creating patrol for " + warehouseName);
                         dialogMessage.setPositiveButton("Create", dialog -> {
-                            mViewModel.setWarehouse(warehouseID);
+                            mViewModel.setWarehouse(warehouseID, warehouseName);
                             navController.navigate(R.id.action_fragmentWarehouseSelection_to_fragmentRouteSelection);
                             dialog.dismiss();
                         });

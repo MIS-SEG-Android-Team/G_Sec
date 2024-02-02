@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
-import androidx.lifecycle.LiveData;
-
+import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolUpdateCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetRecentActivityParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;

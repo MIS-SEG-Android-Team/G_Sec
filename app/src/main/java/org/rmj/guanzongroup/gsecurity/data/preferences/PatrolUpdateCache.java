@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 
 import java.lang.reflect.Type;
 
@@ -15,36 +15,36 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class PatrolSchedulerCache {
+public class PatrolUpdateCache {
 
     private final SharedPreferences preferences;
 
     private final SharedPreferences.Editor editor;
 
-    private static final String PREFERENCES_NAME = "PatrolSchedulerCache";
+    private static final String PREFERENCES_NAME = "PatrolUpdateCache";
 
-    private static final String PATROL_SCHEDULE = "patrol_schedule";
+    private static final String PATROL_UPDATE_SCHEDULE = "patrol_update_schedule";
 
     @Inject
-    public PatrolSchedulerCache(Application application) {
+    public PatrolUpdateCache(Application application) {
         this.preferences = application.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         this.editor = preferences.edit();
     }
 
-    public void setPatrolSchedule(CreateScheduleParams value) {
+    public void setPatrolUpdateSchedule(PersonnelPatrolModel value) {
         String routes = new Gson().toJson(value);
-        editor.putString(PATROL_SCHEDULE, routes);
+        editor.putString(PATROL_UPDATE_SCHEDULE, routes);
         editor.commit();
     }
 
-    public CreateScheduleParams getPatrolSchedule() {
-        String routes = preferences.getString(PATROL_SCHEDULE, "");
+    public PersonnelPatrolModel getPatrolScheduleForUpdate() {
+        String routes = preferences.getString(PATROL_UPDATE_SCHEDULE, "");
         if (routes.isEmpty()) {
             return null;
         }
 
         Gson gson = new Gson();
-        Type type = new TypeToken<CreateScheduleParams>(){}.getType();
+        Type type = new TypeToken<PersonnelPatrolModel>(){}.getType();
         return gson.fromJson(routes, type);
     }
 

@@ -163,17 +163,15 @@ public class VMAddPersonnel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         response -> {
+                            isLoading.setValue(false);
 
                             // API Response validation
                             // Any API response with HTTP Error Code 200 is handled in this area...
                             if (response.getResult().equalsIgnoreCase("error")) {
-
-                                isLoading.setValue(false);
                                 errorMessage.setValue(response.getError().getMessage());
                                 return;
                             }
 
-                            isLoading.setValue(false);
                             personnelMPIN.setValue(response.getData().getNPINCodex());
                         },
 

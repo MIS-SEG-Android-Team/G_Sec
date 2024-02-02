@@ -5,8 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/view_padding_16"
-    android:gravity="center_vertical">
+    android:padding="@dimen/view_padding_8"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/personnelIcon"
@@ -24,7 +26,6 @@
         android:layout_marginStart="@dimen/view_padding_8"
         android:maxLines="1"
         android:text="@string/list_item_personnel_active_name"
-        android:textColor="?attr/colorPrimary"
         android:textSize="@dimen/screen_sub_header1"
         app:fontFamily="@font/roboto_medium" />
 

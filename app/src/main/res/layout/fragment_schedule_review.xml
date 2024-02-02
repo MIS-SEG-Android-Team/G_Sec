@@ -39,27 +39,10 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_assigned_personnel"
-            android:textSize="@dimen/screen_sub_header1"
             android:fontFamily="@font/roboto_medium"
-            android:layout_marginTop="@dimen/view_padding_8"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/assignedPersonnel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/screen_sub_header2"
-            android:paddingStart="@dimen/view_padding_8"
-            android:fontFamily="@font/roboto_regular"
-            android:layout_marginTop="@dimen/view_padding_4"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/label_warehouse"
             android:textSize="@dimen/screen_sub_header1"
-            android:fontFamily="@font/roboto_medium"
-            android:layout_marginTop="@dimen/view_padding_4"/>
+            android:layout_marginTop="@dimen/view_padding_8" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/warehouse"
@@ -70,13 +53,62 @@
             android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="@dimen/view_padding_4"/>
 
-        <com.google.android.material.textview.MaterialTextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_padding_8"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@string/label_patrol_checkpoints"
-            android:textSize="@dimen/screen_sub_header1" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/view_padding_8">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_assigned_personnel"
+                android:textSize="@dimen/screen_sub_header1" />
+
+            <ImageButton
+                android:id="@+id/editPersonnel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:src="@drawable/ic_edit" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/assignedPersonnel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/screen_sub_header2"
+            android:paddingStart="@dimen/view_padding_8"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginTop="@dimen/view_padding_4"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/view_padding_8">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_patrol_checkpoints"
+                android:textSize="@dimen/screen_sub_header1" />
+
+            <ImageButton
+                android:id="@+id/editCheckpoints"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:src="@drawable/ic_edit" />
+
+        </LinearLayout>
 
         <ListView
             android:id="@+id/patrolCheckpoints"
@@ -84,13 +116,29 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <com.google.android.material.textview.MaterialTextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_padding_8"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@string/label_patrol_schedules"
-            android:textSize="@dimen/screen_sub_header1" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/view_padding_8">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_patrol_schedules"
+                android:textSize="@dimen/screen_sub_header1" />
+
+            <ImageButton
+                android:id="@+id/editSchedules"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                android:src="@drawable/ic_edit" />
+
+        </LinearLayout>
 
         <ListView
             android:id="@+id/patrolSchedule"

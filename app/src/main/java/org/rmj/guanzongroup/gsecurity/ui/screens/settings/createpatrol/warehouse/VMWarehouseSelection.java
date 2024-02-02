@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateUpdateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.WarehouseRepository;
@@ -29,7 +29,7 @@ public class VMWarehouseSelection extends ViewModel {
 
     private final MutableLiveData<Boolean> importingWarehouse = new MutableLiveData<>(false);
 
-    private final MutableLiveData<CreateUpdateScheduleParams> schedule = new MutableLiveData<>(new CreateUpdateScheduleParams());
+    private final MutableLiveData<CreateScheduleParams> schedule = new MutableLiveData<>(new CreateScheduleParams());
 
     @Inject
     public VMWarehouseSelection(
@@ -46,10 +46,11 @@ public class VMWarehouseSelection extends ViewModel {
     /**
      * This temporarily saves the information of warehouse to cache/preferences in order to handle
      * saveState.
-     * @param value id/unique key of selected warehouse for creating patrol schedule...
+     * @param warehouseID id/unique key of selected warehouse for creating patrol schedule...
      */
-    public void setWarehouse(String value) {
-        Objects.requireNonNull(schedule.getValue()).setSWHouseID(value);
+    public void setWarehouse(String warehouseID, String warehouseName) {
+        Objects.requireNonNull(schedule.getValue()).setSWHouseID(warehouseID);
+        Objects.requireNonNull(schedule.getValue()).setSWHouseNm(warehouseName);
         scheduleRepository.createNewPatrolScheduleToCache(schedule.getValue());
     }
 

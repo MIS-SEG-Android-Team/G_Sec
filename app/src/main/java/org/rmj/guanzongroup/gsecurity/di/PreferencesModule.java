@@ -5,6 +5,7 @@ import android.app.Application;
 import org.rmj.guanzongroup.gsecurity.data.preferences.AuthenticationCache;
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
+import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolUpdateCache;
 import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
 
 import javax.inject.Singleton;
@@ -40,5 +41,11 @@ public class PreferencesModule {
     @Singleton
     public static AuthenticationCache provideAuthenticationCache(Application application) {
         return new AuthenticationCache(application);
+    }
+
+    @Provides
+    @Singleton
+    public static PatrolUpdateCache providePatrolUpdateCache(Application application) {
+        return new PatrolUpdateCache(application);
     }
 }

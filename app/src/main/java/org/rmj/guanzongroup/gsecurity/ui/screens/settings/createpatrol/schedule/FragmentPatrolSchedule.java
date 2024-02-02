@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.schedule;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;

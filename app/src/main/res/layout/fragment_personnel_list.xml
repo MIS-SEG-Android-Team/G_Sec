@@ -1,71 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/horizontal_padding_default"
-    tools:context=".ui.screens.settings.createpatrol.route.FragmentRouteSelection">
+    tools:context=".ui.screens.settings.personnellist.FragmentPersonnelList"
+    android:orientation="vertical"
+    android:padding="@dimen/horizontal_padding_default">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"
         style="@style/ScreenTitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_patrol_checkpoints"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="@dimen/view_padding_8"
+        android:text="@string/title_personnel_list" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/subTitle"
         style="@style/ScreenSubTitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sub_title_plot_patrol_stops"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        android:layout_marginStart="@dimen/view_padding_8"
+        android:text="@string/sub_title_personnel_list" />
 
-    <LinearLayout
-        android:id="@+id/checkpointsLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/personnelList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/patrolCheckpoints"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/view_padding_16"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/continueButton"
-            style="@style/MaterialButtonAccent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/view_padding_4"
-            android:layout_marginTop="@dimen/view_padding_16"
-            android:text="@string/button_continue" />
-
-    </LinearLayout>
+        android:layout_marginTop="@dimen/view_padding_16"/>
 
     <LinearLayout
-        android:id="@+id/loadingCheckpoints"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/loadingPersonnel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle">
+        android:orientation="vertical">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:indeterminate="true"
@@ -127,4 +99,4 @@
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
