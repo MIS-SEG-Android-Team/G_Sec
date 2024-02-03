@@ -9,14 +9,25 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AlarmActivity;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import timber.log.Timber;
+
+@AndroidEntryPoint
 public class TimeCheckService extends Service {
     private static final String TAG = TimeCheckService.class.getSimpleName();
 
@@ -25,12 +36,16 @@ public class TimeCheckService extends Service {
     private static final String CHANNEL_ID = "patrol_channel";
     private static final int NOTIFICATION_ID = 1;
 
+    @Inject
+    ScheduleRepository scheduleRepository;
+
     private Handler handler;
     private Runnable timeCheckRunnable;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Timber.tag(TAG).d("Service created");
         handler = new Handler();
         timeCheckRunnable = new Runnable() {
             @Override
@@ -39,6 +54,11 @@ public class TimeCheckService extends Service {
             }
         };
         handler.post(timeCheckRunnable);
+
+        List<PatrolScheduleEntity> patrolSchedule = scheduleRepository.getPatrolScheduleList();
+        if (patrolSchedule == null) {
+            return;
+        }
     }
 
     @Nullable
@@ -50,6 +70,7 @@ public class TimeCheckService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Timber.tag(TAG).d("Service destroyed");
         handler.removeCallbacks(timeCheckRunnable);
     }
 
@@ -60,7 +81,7 @@ public class TimeCheckService extends Service {
     @SuppressLint("MissingPermission")
     private void showNotification() {
         Intent intent = new Intent(this, AlarmActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Patrol Reminder")

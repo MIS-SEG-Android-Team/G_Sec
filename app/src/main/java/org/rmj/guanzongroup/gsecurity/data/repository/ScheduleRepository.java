@@ -83,6 +83,10 @@ public class ScheduleRepository {
         return patrolScheduleDao.getPatrolSchedules();
     }
 
+    public List<PatrolScheduleEntity> getPatrolScheduleList() {
+        return patrolScheduleDao.getPatrolScheduleList();
+    }
+
     public void setPatrolUpdateCache(PersonnelPatrolModel value) {
         patrolUpdateCache.setPatrolUpdateSchedule(value);
     }

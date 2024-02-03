@@ -72,14 +72,8 @@ public class FragmentAddPersonnel extends Fragment {
         });
 
         mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
-            if (errorMessage == null) {
-                return;
-            }
-
-            if (errorMessage.isEmpty()) {
-                return;
-            }
-
+            if (errorMessage == null) { return; }
+            if (errorMessage.isEmpty()) { return; }
             new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });
 

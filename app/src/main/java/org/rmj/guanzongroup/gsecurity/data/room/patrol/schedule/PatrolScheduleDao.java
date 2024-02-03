@@ -16,4 +16,7 @@ public interface PatrolScheduleDao {
 
     @Query("SELECT * FROM Patrol_Schedule ORDER BY dTimexxxx ASC")
     LiveData<List<PatrolScheduleEntity>> getPatrolSchedules();
+
+    @Query("SELECT * FROM Patrol_Schedule ORDER BY dTimexxxx ASC")
+    List<PatrolScheduleEntity> getPatrolScheduleList();
 }

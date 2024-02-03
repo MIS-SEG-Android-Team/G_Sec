@@ -176,6 +176,7 @@
                     android:imeOptions="actionDone"
                     android:gravity="center"
                     android:enabled="false"
+                    android:textColor="?attr/colorOnPrimary"
                     android:inputType="textLongMessage"
                     android:maxLength="6" />
 

@@ -106,9 +106,7 @@ public class VMAddPersonnel extends ViewModel {
     public MutableLiveData<Boolean> isLoading() {
         return isLoading;
     }
-    public MutableLiveData<String> getErrorMessage() {
-        return errorMessage;
-    }
+    public MutableLiveData<String> getErrorMessage() { return errorMessage; }
     public MutableLiveData<String> getPersonnelMPIN() {
         return personnelMPIN;
     }
@@ -172,7 +170,7 @@ public class VMAddPersonnel extends ViewModel {
                                 return;
                             }
 
-                            personnelMPIN.setValue(response.getData().getNPINCodex());
+                            personnelMPIN.setValue(response.getData().getMpin());
                         },
 
                         // Exception handling...
