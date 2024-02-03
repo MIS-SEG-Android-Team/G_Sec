@@ -21,6 +21,7 @@ import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.RequestVisitRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.UserProfileRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
@@ -44,6 +45,7 @@ public class VMPatrolRoute extends ViewModel {
     private final PatrolRepository patrolRepository;
     private final RequestVisitRepository requestVisitRepository;
     private final ScheduleRepository scheduleRepository;
+    private final UserProfileRepository userProfileRepository;
 
     private final MutableLiveData<Boolean> isLoadingPatrolRoutes = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> hasLogout = new MutableLiveData<>(false);
@@ -63,13 +65,15 @@ public class VMPatrolRoute extends ViewModel {
             AuthenticationRepository authenticationRepository,
             PatrolRepository patrolRepository,
             RequestVisitRepository requestVisitRepository,
-            ScheduleRepository scheduleRepository
+            ScheduleRepository scheduleRepository,
+            UserProfileRepository userProfileRepository
     ) {
         this.dataStore = dataStore;
         this.authenticationRepository = authenticationRepository;
         this.patrolRepository = patrolRepository;
         this.requestVisitRepository = requestVisitRepository;
         this.scheduleRepository = scheduleRepository;
+        this.userProfileRepository = userProfileRepository;
 
         getPatrolRouteSchedules();
     }
@@ -261,7 +265,7 @@ public class VMPatrolRoute extends ViewModel {
     @SuppressLint("CheckResult")
     public void logoutUser() {
         loggingOut.setValue(true);
-        authenticationRepository.logoutUser()
+        userProfileRepository.logoutUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

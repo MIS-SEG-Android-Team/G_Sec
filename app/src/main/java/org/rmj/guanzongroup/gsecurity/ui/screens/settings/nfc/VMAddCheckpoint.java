@@ -33,6 +33,10 @@ public class VMAddCheckpoint extends ViewModel {
     private final CategoryRepository categoryRepository;
     private final CheckpointRepository checkpointRepository;
 
+
+    private final MutableLiveData<Boolean> isLoadingData = new MutableLiveData<>(false);
+    private final MutableLiveData<String> dataErrorMessage = new MutableLiveData<>("");
+
     private final MutableLiveData<String> warehouse = new MutableLiveData<>("");
     private final MutableLiveData<String> category = new MutableLiveData<>("");
     private final MutableLiveData<String> description = new MutableLiveData<>("");
@@ -87,42 +91,28 @@ public class VMAddCheckpoint extends ViewModel {
                 !Objects.requireNonNull(description.getValue()).isEmpty() &&
                 !Objects.requireNonNull(category.getValue()).isEmpty());
     }
-
-    public LiveData<Boolean> hasCompleteInfo() {
-        return hasCompleteInfo;
-    }
-
     public String getWarehouseID() {
         return warehouse.getValue();
     }
-
     public String getCategoryID() {
         return category.getValue();
     }
-
     public String getDescription() {
         return description.getValue();
     }
-
     public LiveData<List<CategoryEntity>> getCategories() {
         return categoryRepository.getCategories();
     }
-
     public LiveData<List<WarehouseEntity>> getWarehouses() {
         return warehouseRepository.getWarehouseList();
     }
 
-    public LiveData<Boolean> addingCheckpoint() {
-        return addingCheckpoint;
-    }
-
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
-    }
-
-    public LiveData<Boolean> checkpointAdded() {
-        return checkpointAdded;
-    }
+    public LiveData<Boolean> hasCompleteInfo() { return hasCompleteInfo; }
+    public LiveData<Boolean> addingCheckpoint() { return addingCheckpoint; }
+    public LiveData<String> getErrorMessage() { return errorMessage; }
+    public LiveData<Boolean> checkpointAdded() { return checkpointAdded; }
+    public LiveData<Boolean> isLoadingData() { return isLoadingData; }
+    public LiveData<String> getDataErrorMessage() { return dataErrorMessage; }
 
     public String getAddCheckpointParams() {
         AddNfcTagParams params = new AddNfcTagParams();
@@ -147,14 +137,12 @@ public class VMAddCheckpoint extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         baseResponse -> {
-
+                            addingCheckpoint.setValue(false);
                             if (baseResponse.getResult().equalsIgnoreCase("error")) {
                                 errorMessage.setValue(baseResponse.getError().getMessage());
-                                addingCheckpoint.setValue(false);
                                 return;
                             }
 
-                            addingCheckpoint.setValue(false);
                             checkpointAdded.setValue(true);
                         },
                         throwable -> {

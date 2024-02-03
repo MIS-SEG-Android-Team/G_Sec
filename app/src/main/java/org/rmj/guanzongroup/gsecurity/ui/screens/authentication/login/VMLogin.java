@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,6 +14,9 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -20,6 +24,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import timber.log.Timber;
 
 @HiltViewModel
 public class VMLogin extends ViewModel {
@@ -199,5 +204,15 @@ public class VMLogin extends ViewModel {
         dataStore.setMainOffice(baseResponse.getcMainOffc());
         dataStore.setSelfieLogAllowed(baseResponse.getcSlfieLog());
         dataStore.setAllowedUpdate(baseResponse.getcAllowUpd());
+        dataStore.setSessionDateTime(createSessionDateTime());
+    }
+
+    @SuppressLint("NewApi")
+    private String createSessionDateTime() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+        String currentDateTime = localDateTime.format(formatter);
+        Timber.tag("CurrentDateTime").d("Session date time: %s", currentDateTime);
+        return currentDateTime;
     }
 }

@@ -140,13 +140,17 @@ public class FragmentScheduleReview extends Fragment {
             List<PersonnelPatrolSchedule> schedules = createdSchedule.getSSchedule();
 
             ArrayList<String> checkpointNames = new ArrayList<>();
-            for (int x = 0; x < checkpoints.size(); x++) {
-                checkpointNames.add(checkpoints.get(x).getSDescript());
+            if (checkpoints != null) {
+                for (int x = 0; x < checkpoints.size(); x++) {
+                    checkpointNames.add(checkpoints.get(x).getSDescript());
+                }
             }
 
             ArrayList<String> patrolSchedules = new ArrayList<>();
-            for (int x = 0; x < schedules.size(); x++) {
-                patrolSchedules.add(schedules.get(x).getDTimexxxx());
+            if (schedules != null) {
+                for (int x = 0; x < schedules.size(); x++) {
+                    patrolSchedules.add(schedules.get(x).getDTimexxxx());
+                }
             }
 
             binding.patrolCheckpoints.setAdapter(

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.UserProfileRepository;
 
 import javax.inject.Inject;
 
@@ -17,15 +18,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 @HiltViewModel
 public class VMPersonnelSettings extends ViewModel {
 
-    private final AuthenticationRepository repository;
+    private final UserProfileRepository userProfileRepository;
 
     private final MutableLiveData<Boolean> hasLogout = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> loggingOut = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
 
     @Inject
-    public VMPersonnelSettings(AuthenticationRepository repository) {
-        this.repository = repository;
+    public VMPersonnelSettings(UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
     }
 
     public LiveData<Boolean> hasLogout() {
@@ -42,7 +43,7 @@ public class VMPersonnelSettings extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void logoutUser() {
-        repository.logoutUser()
+        userProfileRepository.logoutUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

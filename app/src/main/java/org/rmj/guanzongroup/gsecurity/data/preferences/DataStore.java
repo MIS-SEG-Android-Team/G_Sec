@@ -33,6 +33,7 @@ public class DataStore {
     private static final String MAIN_OFFICE = "is_main_office";
     private static final String SELFIE_LOG_ALLOWED = "selfie_log_allowed";
     private static final String ALLOWED_UPDATE = "allowed_update";
+    private static final String SESSION_DATE_TIME = "session_date_time";
 
     @Inject
     public DataStore(Application application) {
@@ -171,6 +172,15 @@ public class DataStore {
     public void setAllowedUpdate(String value) {
         editor.putString(ALLOWED_UPDATE, value);
         editor.commit();
+    }
+
+    public void setSessionDateTime(String value) {
+        editor.putString(SESSION_DATE_TIME, value);
+        editor.commit();
+    }
+
+    public String getSessionDateTime() {
+        return preferences.getString(SESSION_DATE_TIME, "");
     }
 
     public void clearDataStore() {

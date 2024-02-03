@@ -113,7 +113,7 @@ public class FragmentRouteSelection extends Fragment {
                     mViewModel.initializeSelectedCheckpoints(checkpoints);
                 });
 
-                binding.continueButton.setText("Update");
+                binding.continueButton.setText("Update Route");
                 binding.continueButton.setOnClickListener(view -> mViewModel.updatePatrolRoute());
             } else {
                 mViewModel.initForCreatingSchedule();

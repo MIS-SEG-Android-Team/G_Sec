@@ -39,16 +39,4 @@ public class AuthenticationRepository {
     public Observable<LoginBaseResponse> loginPersonnel(PINParams mpin) {
         return apiService.loginPersonnel(mpin);
     }
-
-    public Observable<BaseResponse<Void>> logoutUser() {
-        return apiService.logout();
-    }
-
-    public Boolean hasUserSession() {
-        return !dataStore.getLogNumber().isEmpty();
-    }
-
-    public Boolean isAdmin() {
-        return !dataStore.getClientId().isEmpty();
-    }
 }

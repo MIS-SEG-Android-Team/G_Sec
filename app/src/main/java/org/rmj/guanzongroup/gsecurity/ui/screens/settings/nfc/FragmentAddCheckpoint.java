@@ -63,6 +63,23 @@ public class FragmentAddCheckpoint extends Fragment {
         DialogMessage dialogMessage = new DialogMessage(requireActivity());
 
         // Observables...
+        mViewModel.isLoadingData().observe(getViewLifecycleOwner(), isLoading -> {
+            if (isLoading) {
+                binding.loadingData.setVisibility(View.VISIBLE);
+                binding.inputFields.setVisibility(View.GONE);
+                binding.errorMessageNotice.setVisibility(View.GONE);
+            } else {
+                binding.loadingData.setVisibility(View.GONE);
+                binding.inputFields.setVisibility(View.VISIBLE);
+            }
+        });
+        mViewModel.getDataErrorMessage().observe(getViewLifecycleOwner(), message -> {
+            if(message == null) { return; }
+            if(message.isEmpty()) { return; }
+            binding.errorMessageNotice.setVisibility(View.VISIBLE);
+            binding.errorMessage.setText(message);
+            binding.inputFields.setVisibility(View.GONE);
+        });
         mViewModel.addingCheckpoint().observe(getViewLifecycleOwner(), addingCheckpoint -> {
             if (addingCheckpoint) {
                 dialogLoad.show("Adding NFC checkpoint...");
@@ -71,14 +88,10 @@ public class FragmentAddCheckpoint extends Fragment {
             }
         });
 
-        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
-            if(errorMessage == null) {
-                return;
-            }
-            if(errorMessage.isEmpty()) {
-                return;
-            }
-            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
+        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), message -> {
+            if(message == null) { return; }
+            if(message.isEmpty()) { return; }
+            new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, message, Dialog::dismiss).showDialog();
         });
 
         mViewModel.checkpointAdded().observe(getViewLifecycleOwner(), checkpointAdded -> {

@@ -131,13 +131,8 @@ public class FragmentLogin extends Fragment {
         });
 
         mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
-            if (errorMessage == null) {
-                return;
-            }
-
-            if (errorMessage.isEmpty()) {
-                return;
-            }
+            if (errorMessage == null) { return; }
+            if (errorMessage.isEmpty()) { return; }
 
             // Clear the PIN Edittext each time the user fails to authenticate...
             stringBuilder.delete(0, stringBuilder.length());
@@ -186,7 +181,6 @@ public class FragmentLogin extends Fragment {
                 binding.button9.setEnabled(true);
                 binding.button0.setEnabled(true);
             }
-
         });
 
         binding.tieEmail.addTextChangedListener(new TextChangeCallback(binding.tieEmail));
