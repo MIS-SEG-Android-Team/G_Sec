@@ -23,14 +23,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class VMScheduleReview extends ViewModel {
 
     private final ScheduleRepository scheduleRepository;
-    private final PatrolRepository patrolRepository;
 
     private final MutableLiveData<CreateScheduleParams> createdSchedule = new MutableLiveData<>();
     private final MutableLiveData<PersonnelPatrolModel> patrolRouteModel = new MutableLiveData<>();
 
     private final MutableLiveData<Boolean> isLoadingSchedule = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
-    private final MutableLiveData<Boolean> scheduleSave = new MutableLiveData<>(false);
+    private final MutableLiveData<String> message = new MutableLiveData<>("");
 
     private final MutableLiveData<Boolean> isLoadingSaveSchedule = new MutableLiveData<>(false);
 
@@ -38,7 +37,6 @@ public class VMScheduleReview extends ViewModel {
     public VMScheduleReview(ScheduleRepository scheduleRepository,
                             PatrolRepository patrolRepository) {
         this.scheduleRepository = scheduleRepository;
-        this.patrolRepository = patrolRepository;
         initPatrolSchedule();
     }
 
@@ -60,8 +58,8 @@ public class VMScheduleReview extends ViewModel {
     public LiveData<String> errorMessage() {
         return errorMessage;
     }
-    public LiveData<Boolean> scheduleSaved() {
-        return scheduleSave;
+    public LiveData<String> getMessage() {
+        return message;
     }
     public void dismissErrorDialog() {
         errorMessage.setValue("");
@@ -73,6 +71,7 @@ public class VMScheduleReview extends ViewModel {
     public LiveData<PersonnelPatrolModel> getPatrolRouteForUpdate() {
         return patrolRouteModel;
     }
+
     @SuppressLint("CheckResult")
     public void saveSchedule() {
         CreateScheduleParams params = createdSchedule.getValue();
@@ -89,7 +88,7 @@ public class VMScheduleReview extends ViewModel {
                                     return;
                                 }
 
-                                scheduleSave.setValue(true);
+                                message.setValue(baseResponse.getMessage());
                                 scheduleRepository.clearCache();
                             },
                             throwable -> {

@@ -93,13 +93,12 @@ public class FragmentRouteSelection extends Fragment {
                 dialogLoad.dismiss();
             }
         });
-        mViewModel.patrolRouteUpdated().observe(getViewLifecycleOwner(), isUpdated -> {
-            if (isUpdated) {
-                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "", dialog -> {
-                    dialog.dismiss();
-                    navController.popBackStack();
-                }).showDialog();
-            }
+        mViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
+            if (message.isEmpty()) { return; }
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, dialog -> {
+                dialog.dismiss();
+                navController.popBackStack();
+            }).showDialog();
         });
         mViewModel.forUpdate().observe(getViewLifecycleOwner(), forUpdate-> {
             if (forUpdate) {

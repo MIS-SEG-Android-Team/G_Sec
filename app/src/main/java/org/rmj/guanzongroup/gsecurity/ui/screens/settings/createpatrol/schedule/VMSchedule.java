@@ -40,7 +40,7 @@ public class VMSchedule extends ViewModel {
     private final MutableLiveData<Boolean> isLoadingUpdateSchedule = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> scheduleSaved = new MutableLiveData<>(false);
-    private final MutableLiveData<Boolean> scheduleUpdated = new MutableLiveData<>(false);
+    private final MutableLiveData<String> message = new MutableLiveData<>("");
 
     @Inject
     public VMSchedule(DataStore dataStore,
@@ -55,7 +55,7 @@ public class VMSchedule extends ViewModel {
     public LiveData<List<PersonnelPatrolSchedule>> getSchedules() { return schedules; }
     public LiveData<String> errorMessage() { return errorMessage; }
     public LiveData<Boolean> scheduleSaved() { return scheduleSaved; }
-    public LiveData<Boolean> scheduleUpdated() { return scheduleSaved; }
+    public LiveData<String> getMessage() { return message; }
     public LiveData<Boolean> isLoadingUpdateSchedule() { return isLoadingUpdateSchedule; }
 
     public void initScheduleForUpdate() {
@@ -188,7 +188,7 @@ public class VMSchedule extends ViewModel {
                                 return;
                             }
 
-                            scheduleUpdated.setValue(true);
+                            message.setValue(response.getMessage());
                         },
                         error -> {
                             errorMessage.setValue(error.getMessage());

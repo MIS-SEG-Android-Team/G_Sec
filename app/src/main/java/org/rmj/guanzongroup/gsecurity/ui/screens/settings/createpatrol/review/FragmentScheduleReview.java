@@ -21,6 +21,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.Personnel
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentScheduleReviewBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,15 +121,12 @@ public class FragmentScheduleReview extends Fragment {
             }
         });
 
-        mViewModel.scheduleSaved().observe(getViewLifecycleOwner(), saved -> {
-            if (saved) {
-                dialogMessage.initDialog("Patrol Schedule", "New schedule has been saved!");
-                dialogMessage.setPositiveButton("Close", dialog -> {
-                    dialog.dismiss();
-                    navController.popBackStack(R.id.action_fragmentScheduleReview_to_fragmentSettings, false);
-                });
-                dialogMessage.show();
-            }
+        mViewModel.getMessage().observe(getViewLifecycleOwner(), mesage -> {
+            if (mesage.isEmpty()) { return; }
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, mesage, dialog -> {
+                dialog.dismiss();
+                navController.popBackStack(R.id.fragmentWarehouseSelection, false);
+            }).showDialog();
         });
 
         mViewModel.getCreatedSchedule().observe(getViewLifecycleOwner(), createdSchedule -> {

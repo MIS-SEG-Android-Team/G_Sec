@@ -21,6 +21,7 @@ import org.rmj.guanzongroup.gsecurity.ui.components.adapter.schedule.AdapterPatr
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.schedule.AdapterPatrolScheduleCallback;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -77,8 +78,12 @@ public class FragmentPatrolSchedule extends Fragment {
             }
         });
 
-        mViewModel.scheduleUpdated().observe(getViewLifecycleOwner(), saved -> {
-            if (saved) { navController.popBackStack(); }
+        mViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
+            if (message.isEmpty()) { return; }
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, dialog -> {
+                dialog.dismiss();
+                navController.popBackStack();
+            }).showDialog();
         });
 
         mViewModel.foUpdate().observe(getViewLifecycleOwner(), forUpdate -> {

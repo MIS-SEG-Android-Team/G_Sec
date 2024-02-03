@@ -44,7 +44,7 @@ public class VMRouteSelection extends ViewModel {
     private final MutableLiveData<PersonnelPatrolModel> patrolRouteForUpdate = new MutableLiveData<>(new PersonnelPatrolModel());
     private final MutableLiveData<Boolean> isLoadingUpdatedRoute = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
-    private final MutableLiveData<Boolean> patrolRouteUpdated = new MutableLiveData<>(false);
+    private final MutableLiveData<String> message = new MutableLiveData<>("");
 
     @Inject
     public VMRouteSelection(
@@ -64,7 +64,7 @@ public class VMRouteSelection extends ViewModel {
     public LiveData<Boolean> savedPatrolCheckpoints() { return savedPatrolCheckpoints; }
     public LiveData<Boolean> forUpdate() { return forUpdate; }
     public LiveData<Boolean> isLoadingUpdatedRoute() { return isLoadingUpdatedRoute; }
-    public LiveData<Boolean> patrolRouteUpdated() { return patrolRouteUpdated; }
+    public LiveData<String> getMessage() { return message; }
     public LiveData<String> getErrorMessage() { return errorMessage; }
 
     private void initPatrolRoutes() {
@@ -252,7 +252,7 @@ public class VMRouteSelection extends ViewModel {
                                         errorMessage.setValue(response.getError().getMessage());
                                         return;
                                     }
-                                    patrolRouteUpdated.setValue(true);
+                                    message.setValue(response.getMessage());
                                 },
                                 error -> {
                                     isLoadingUpdatedRoute.setValue(false);

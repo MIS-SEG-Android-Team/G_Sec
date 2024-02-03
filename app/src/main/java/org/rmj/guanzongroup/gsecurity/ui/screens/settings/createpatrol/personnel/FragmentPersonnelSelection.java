@@ -71,10 +71,9 @@ public class FragmentPersonnelSelection extends Fragment {
         });
         mViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
             if (message.isEmpty()) { return; }
-
             new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, dialog -> {
                 dialog.dismiss();
-                navController.popBackStack();
+                navController.popBackStack(R.id.fragmentSettings, false);
             }).showDialog();
         });
 
