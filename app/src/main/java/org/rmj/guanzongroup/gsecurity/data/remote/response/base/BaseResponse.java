@@ -6,6 +6,7 @@ public class BaseResponse<T> {
 
     // Receives the result from JSON...
     private String result;
+    private String message;
 
     // If result = error, get the error to get the message...
     private ErrorResponse error;
@@ -13,23 +14,15 @@ public class BaseResponse<T> {
     // Generic data type to handle response from API which consist of JSON with key 'data'
     private T data;
 
-    public BaseResponse() {
+    public BaseResponse() { }
 
-    }
+    public String getResult() { return result; }
+    public void setResult(String result) { this.result = result; }
 
-    public String getResult() {
-        return result;
-    }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
 
-    public void setResult(String result) {
-        this.result = result;
-    }
+    public ErrorResponse getError() { return error; }
 
-    public ErrorResponse getError() {
-        return error;
-    }
-
-    public T getData() {
-        return data;
-    }
+    public T getData() { return data; }
 }

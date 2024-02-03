@@ -11,7 +11,6 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateSch
 import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.updatepersonnel.UpdatePatrolPersonnelParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
@@ -32,14 +31,13 @@ public class VMPersonnelSelection extends ViewModel {
 
     private final DataStore dataStore;
     private final PersonnelRepository personnelRepository;
-    private final PatrolRepository patrolRepository;
     private final ScheduleRepository scheduleRepository;
 
     private final MutableLiveData<Boolean> forUpdate = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isLoadingPersonnels = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isLoadingUpdate = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
-    private final MutableLiveData<Boolean> patrolUpdated = new MutableLiveData<>(false);
+    private final MutableLiveData<String> message = new MutableLiveData<>("");
     private final MutableLiveData<PersonnelPatrolModel> patrolRoute = new MutableLiveData<>();
     private final MutableLiveData<String> selectedPersonnel = new MutableLiveData<>("");
     private final MutableLiveData<List<PersonnelModel>> personnels = new MutableLiveData<>(new ArrayList<>());
@@ -51,7 +49,6 @@ public class VMPersonnelSelection extends ViewModel {
                                 ScheduleRepository scheduleRepository) {
         this.dataStore = dataStore;
         this.personnelRepository = personnelRepository;
-        this.patrolRepository = patrolRepository;
         this.scheduleRepository = scheduleRepository;
 
         forUpdate.setValue(scheduleRepository.getPatrolScheduleFromCache() == null);
@@ -59,9 +56,7 @@ public class VMPersonnelSelection extends ViewModel {
         getPersonnels();
     }
 
-    public LiveData<Boolean> forUpdate() {
-        return forUpdate;
-    }
+    public LiveData<Boolean> forUpdate() { return forUpdate; }
 
     private void initUpdatePersonnel() {
         if (scheduleRepository.getPatrolRouteForUpdate() != null) {
@@ -69,24 +64,12 @@ public class VMPersonnelSelection extends ViewModel {
             patrolRoute.setValue(patrolRouteModel);
         }
     }
-    public LiveData<Boolean> isLoadingPersonnel() {
-        return isLoadingPersonnels;
-    }
-    public LiveData<List<PersonnelModel>> getPersonnelList() {
-        return personnels;
-    }
-    public LiveData<List<PersonnelModel>> getPersonnelListForUpdate() {
-        return personnels;
-    }
-    public LiveData<Boolean> isLoadingUpdate() {
-        return isLoadingUpdate;
-    }
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
-    }
-    public LiveData<Boolean> patrolUpdated() {
-        return patrolUpdated;
-    }
+    public LiveData<Boolean> isLoadingPersonnel() { return isLoadingPersonnels; }
+    public LiveData<List<PersonnelModel>> getPersonnelList() { return personnels; }
+    public LiveData<List<PersonnelModel>> getPersonnelListForUpdate() { return personnels; }
+    public LiveData<Boolean> isLoadingUpdate() { return isLoadingUpdate; }
+    public LiveData<String> getErrorMessage() { return errorMessage; }
+    public LiveData<String> getMessage() { return message; }
 
     @SuppressLint("CheckResult")
     private void getPersonnels() {
@@ -138,7 +121,7 @@ public class VMPersonnelSelection extends ViewModel {
                                 errorMessage.setValue(response.getError().getMessage());
                                 return;
                             }
-                            patrolUpdated.setValue(true);
+                            message.setValue(response.getMessage());
                         },
                         error -> {
                             errorMessage.setValue(error.getMessage());
@@ -147,7 +130,5 @@ public class VMPersonnelSelection extends ViewModel {
                 );
     }
 
-    public void clearCache() {
-        scheduleRepository.clearCache();
-    }
+    public void clearCache() { scheduleRepository.clearCache(); }
 }

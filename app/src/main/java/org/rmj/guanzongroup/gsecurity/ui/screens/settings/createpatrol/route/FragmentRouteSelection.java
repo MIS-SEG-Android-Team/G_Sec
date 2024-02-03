@@ -76,6 +76,16 @@ public class FragmentRouteSelection extends Fragment {
                 binding.errorMessageNotice.setVisibility(View.GONE);
             }
         });
+        mViewModel.savedPatrolCheckpoints().observe(getViewLifecycleOwner(), saved -> {
+            if (saved) {
+                navController.navigate(R.id.action_fragmentRouteSelection_to_fragmentPatrolSchedule);
+            }
+        });
+        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), message -> {
+            if (!message.isEmpty()) {
+                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, Dialog::dismiss).showDialog();
+            }
+        });
         mViewModel.isLoadingUpdatedRoute().observe(getViewLifecycleOwner(), isLoading -> {
             if (isLoading) {
                 dialogLoad.show("Updating patrol route...");
@@ -160,17 +170,6 @@ public class FragmentRouteSelection extends Fragment {
 
             binding.patrolCheckpoints.setLayoutManager(linearLayoutManager);
             binding.patrolCheckpoints.setAdapter(adapterCheckpointSelection);
-        });
-
-        mViewModel.savedPatrolCheckpoints().observe(getViewLifecycleOwner(), saved -> {
-            if (saved) {
-                navController.navigate(R.id.action_fragmentRouteSelection_to_fragmentPatrolSchedule);
-            }
-        });
-        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), message -> {
-            if (!message.isEmpty()) {
-                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, Dialog::dismiss).showDialog();
-            }
         });
 
         return binding.getRoot();

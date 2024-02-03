@@ -69,13 +69,13 @@ public class FragmentPersonnelSelection extends Fragment {
             if (message.isEmpty()) { return; }
             new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, message, Dialog::dismiss).showDialog();
         });
-        mViewModel.patrolUpdated().observe(getViewLifecycleOwner(), updated -> {
-            if (updated) {
-                new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "Personnel has been assign to this patrol.", dialog -> {
-                    mViewModel.clearCache();
-                    navController.popBackStack(R.id.action_fragmentScheduleReview_to_fragmentSettings, false);
-                }).showDialog();
-            }
+        mViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
+            if (message.isEmpty()) { return; }
+
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, dialog -> {
+                dialog.dismiss();
+                navController.popBackStack();
+            }).showDialog();
         });
 
         mViewModel.forUpdate().observe(getViewLifecycleOwner(), forUpdate -> {

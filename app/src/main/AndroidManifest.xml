@@ -4,17 +4,17 @@
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
     <application
+        android:name=".base.GSecureApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
@@ -23,14 +23,19 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_app_icon"
         android:supportsRtl="true"
-        android:name=".base.GSecureApplication"
         android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
-        tools:targetApi="31"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="UnusedAttribute"
+        tools:targetApi="31">
+        <activity
+            android:name=".ui.activity.AlarmActivity"
+            android:screenOrientation="userPortrait"
+            tools:ignore="LockedOrientationActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.ReadNfcActivity"
+            android:screenOrientation="userPortrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="false">
-
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
 
@@ -60,14 +65,16 @@
                 android:name="android.nfc.action.NDEF_DISCOVERED"
                 android:resource="@xml/nfc_tech_filter" />
         </activity>
-
         <activity
             android:name=".ui.activity.QrCodeScannerActivity"
+            android:screenOrientation="userPortrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.activity.WriteNfcActivity"
-            android:exported="false">
+            android:screenOrientation="userPortrait"
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
 
@@ -124,9 +131,8 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
-            tools:replace="android:authorities"
-            android:grantUriPermissions="true">
-
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
@@ -136,8 +142,13 @@
             android:name=".service.GSecureMessagingService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.TimeCheckService"
+            android:exported="true">
         </service>
     </application>
 
