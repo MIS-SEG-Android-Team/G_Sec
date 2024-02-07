@@ -15,6 +15,8 @@ import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -82,6 +84,7 @@ public class VMSchedule extends ViewModel {
         }
     }
 
+    @SuppressLint("NewApi")
     public void addSchedule(String time) {
         if (schedules.getValue() != null) {
             List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
@@ -103,17 +106,18 @@ public class VMSchedule extends ViewModel {
             schedule.setNSchedule(String.valueOf(position));
             schedule.setDTimexxxx(time);
             schedules1.add(schedule);
-            schedules1.sort(Comparator.comparing(PersonnelPatrolSchedule::getDTimexxxx));
+            schedules1.sort(Comparator.comparing(schedule1 -> LocalTime.parse(schedule1.getDTimexxxx(), DateTimeFormatter.ofPattern("hh:mm a"))));
             schedules.setValue(schedules1);
         }
     }
 
+    @SuppressLint("NewApi")
     public void editSchedule(int position, String time) {
         if (schedules.getValue() != null) {
             List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
             schedules1.get(position).setNSchedule(String.valueOf(position));
             schedules1.get(position).setDTimexxxx(time);
-            schedules1.sort(Comparator.comparing(PersonnelPatrolSchedule::getDTimexxxx));
+            schedules1.sort(Comparator.comparing(schedule -> LocalTime.parse(schedule.getDTimexxxx(), DateTimeFormatter.ofPattern("hh:mm a"))));
             schedules.setValue(schedules1);
         }
     }

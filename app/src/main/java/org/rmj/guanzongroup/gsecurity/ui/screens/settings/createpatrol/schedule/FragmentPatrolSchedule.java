@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -112,8 +113,12 @@ public class FragmentPatrolSchedule extends Fragment {
                     new TimePickerDialog(requireActivity(), android.R.style.Theme_Holo_Dialog, (view1, hourOfDay, minute1) -> {
                         try {
                             String time = hourOfDay + ":" + minute1;
-                            Date parseDate = new SimpleDateFormat("HH:mm").parse(time);
-                            String formattedTime = new SimpleDateFormat("HH:mm").format(parseDate);
+                            Date parseDate = new SimpleDateFormat("hh:mm").parse(time);
+                            if (parseDate == null) {
+                                Toast.makeText(requireActivity(), "Unknown date time error occurred. Please try again.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            String formattedTime = new SimpleDateFormat("hh:mm a").format(parseDate);
                             mViewModel.editSchedule(position, formattedTime);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -121,7 +126,7 @@ public class FragmentPatrolSchedule extends Fragment {
                     },
                     hour,
                     minute,
-                    true).show();
+                    false).show();
                 }
 
                 @Override
@@ -139,8 +144,12 @@ public class FragmentPatrolSchedule extends Fragment {
             new TimePickerDialog(requireActivity(), android.R.style.Theme_Holo_Dialog, (view1, hourOfDay, minute1) -> {
                 try {
                     String time = hourOfDay + ":" + minute1;
-                    Date parseDate = new SimpleDateFormat("HH:mm").parse(time);
-                    String formattedTime = new SimpleDateFormat("HH:mm").format(parseDate);
+                    Date parseDate = new SimpleDateFormat("hh:mm").parse(time);
+                    if (parseDate == null) {
+                        Toast.makeText(requireActivity(), "Unknown date time error occurred. Please try again.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String formattedTime = new SimpleDateFormat("hh:mm a").format(parseDate);
                     mViewModel.addSchedule(formattedTime);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -148,7 +157,7 @@ public class FragmentPatrolSchedule extends Fragment {
             },
             hour,
             minute,
-            true).show();
+            false).show();
         });
 
         return binding.getRoot();

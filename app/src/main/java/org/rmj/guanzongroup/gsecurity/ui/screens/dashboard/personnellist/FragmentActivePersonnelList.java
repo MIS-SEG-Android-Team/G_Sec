@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.personnellist;
 
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_ID;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentActivePersonnelListBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel.AdapterActivePersonnel;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.util.Objects;
 
@@ -26,7 +29,7 @@ import javax.inject.Inject;
 public class FragmentActivePersonnelList extends Fragment {
 
     @Inject
-    VMPersonnelList mViewModel;
+    VMActivePersonnelList mViewModel;
 
     private FragmentActivePersonnelListBinding binding;
 
@@ -39,9 +42,9 @@ public class FragmentActivePersonnelList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMPersonnelList.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMActivePersonnelList.class);
         binding = FragmentActivePersonnelListBinding.inflate(getLayoutInflater());
-
+        DialogLoad dialogLoad = new DialogLoad(requireActivity());
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
 
@@ -53,7 +56,7 @@ public class FragmentActivePersonnelList extends Fragment {
             }
         });
 
-        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
+        mViewModel.getListErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
             if (errorMessage.isEmpty()) {
                 binding.errorMessageNotice.setVisibility(View.GONE);
                 return;

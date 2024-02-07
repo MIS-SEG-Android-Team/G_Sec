@@ -29,6 +29,14 @@ public class Constants {
         a request for visiting a specific site...
      */
     public static final String NOTIFICATION_VISIT = "_notice_visit_request";
+    public static final int PATROL_ALARM_ID = 101;
 
     public static final String PERSONNEL_ID = "personnel_id";
+
+
+    public static final long CHECK_INTERVAL = 5 * 60 * 1000; // Check every 5 minutes
+
+    public static final String CHANNEL_ID = "patrol_channel";
+    public static final int NOTIFICATION_ID = 1;
+
 }

@@ -1,13 +1,14 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.request;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -36,6 +38,7 @@ public class FragmentVisitArea extends Fragment {
         return new FragmentVisitArea();
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -87,48 +90,68 @@ public class FragmentVisitArea extends Fragment {
         });
 
         mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
-            if (errorMessage.isEmpty()) {
-                return;
-            }
+            if (errorMessage.isEmpty()) { return; }
 
             new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });
 
-        mViewModel.getWarehouseList().observe(getViewLifecycleOwner(), warehouseList -> {
-            if (warehouseList == null) {
-                return;
+        mViewModel.getWarehouseList().observe(getViewLifecycleOwner(), warehouses -> {
+            if (warehouses == null) { return; }
+            if (warehouses.size() == 0) { return; }
+
+            ArrayList<String> branchNames = new ArrayList<>();
+            for (int x = 0; x < warehouses.size(); x++) {
+                String branch = warehouses.get(x).getsBranchNm();
+
+                // Validate if the branch has exists in the current branch list...
+                // If the branch name already exists. Skip the current iteration to avoid duplicate.
+                boolean branchExist = false;
+                for (String branchName : branchNames) {
+                    if (branchName.equalsIgnoreCase(branch)) {
+                        branchExist = true;
+                        break;
+                    }
+                }
+
+                if (branchExist) { break; }
+
+                branchNames.add(branch);
             }
 
-            if (warehouseList.isEmpty()) {
-                return;
-            }
-
-            ArrayList<String> warehouseNames = new ArrayList<>();
-            for (int x = 0; x < warehouseList.size(); x++) {
-                warehouseNames.add(warehouseList.get(x).getSWHouseNm());
-            }
-            binding.tieWarehouse.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, warehouseNames));
-            binding.tieWarehouse.setOnItemClickListener((parent, view, position, id) -> {
-                for (int x = 0; x < warehouseList.size(); x++) {
-                    String warehouseNm = warehouseList.get(x).getSWHouseNm();
-                    String warehouseName = binding.tieWarehouse.getText().toString();
-                    if (warehouseName.equalsIgnoreCase(warehouseNm)){
-                        String warehouseID = warehouseList.get(x).getSWHouseID();
-                        mViewModel.setWarehouseID(warehouseID);
+            binding.tieBranchName.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, branchNames.toArray()));
+            binding.tieBranchName.setOnItemClickListener((parent, view, position, id) -> {
+                for (int x = 0; x < branchNames.size(); x ++) {
+                    if (binding.tieBranchName.getText().toString().equalsIgnoreCase(branchNames.get(x))) {
+                        mViewModel.setBranch(warehouses.get(x).getSBranchCd());
                         break;
                     }
                 }
             });
+
+            mViewModel.getBranch().observe(getViewLifecycleOwner(), branch -> {
+                if (branch.isEmpty()) { return; }
+                ArrayList<String> warehouseNames = new ArrayList<>();
+                for (int x = 0; x < warehouses.size(); x++) {
+                    if (warehouses.get(x).getSBranchCd().equalsIgnoreCase(branch)) {
+                        String warehouse = warehouses.get(x).getSWHouseNm();
+                        warehouseNames.add(warehouse);
+                    }
+                }
+                binding.tieWarehouse.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, warehouseNames.toArray()));
+                binding.tieWarehouse.setOnItemClickListener((parent, view, position, id) -> {
+                    for (int x = 0; x < warehouses.size(); x++) {
+                        if (binding.tieWarehouse.getText().toString().equalsIgnoreCase(warehouses.get(x).getSWHouseNm())) {
+                            mViewModel.setWarehouseID(warehouses.get(x).getSWHouseID());
+                            break;
+                        }
+                    }
+                });
+            });
         });
 
         mViewModel.getPersonnelList().observe(getViewLifecycleOwner(), personnelList -> {
-            if (personnelList == null) {
-                return;
-            }
-
-            if (personnelList.isEmpty()) {
-                return;
-            }
+            if (personnelList == null) { return; }
+            if (personnelList.isEmpty()) { return; }
 
             ArrayList<String> personnelNames = new ArrayList<>();
             for (int x = 0; x < personnelList.size(); x++) {
@@ -149,25 +172,15 @@ public class FragmentVisitArea extends Fragment {
         });
 
         mViewModel.getWarehouseID().observe(getViewLifecycleOwner(), warehouseID -> {
-            if (warehouseID == null) {
-                return;
-            }
-
-            if (warehouseID.isEmpty()) {
-                return;
-            }
+            if (warehouseID == null) { return; }
+            if (warehouseID.isEmpty()) { return; }
 
             mViewModel.getNfcTags(warehouseID);
         });
 
         mViewModel.getCheckpointList().observe(getViewLifecycleOwner(), checkpointList -> {
-            if (checkpointList == null) {
-                return;
-            }
-
-            if (checkpointList.isEmpty()) {
-                return;
-            }
+            if (checkpointList == null) { return; }
+            if (checkpointList.isEmpty()) { return; }
 
             ArrayList<String> checkpoints = new ArrayList<>();
             for (int x = 0; x < checkpointList.size(); x++) {
@@ -195,8 +208,12 @@ public class FragmentVisitArea extends Fragment {
             new TimePickerDialog(requireActivity(), android.R.style.Theme_Holo_Dialog, (view1, hourOfDay, minute1) -> {
                 try {
                     String time = hourOfDay + ":" + minute1;
-                    Date parseDate = new SimpleDateFormat("HH:mm").parse(time);
-                    String formattedTime = new SimpleDateFormat("HH:mm a").format(parseDate);
+                    Date parseDate = new SimpleDateFormat("hh:mm").parse(time);
+                    if (parseDate == null) {
+                        Toast.makeText(requireActivity(), "Unknown date time error occurred. Please try again.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String formattedTime = new SimpleDateFormat("hh:mm a").format(parseDate);
                     mViewModel.setScheduleTime(formattedTime);
                     binding.tieTime.setText(formattedTime);
                 } catch (Exception e) {
@@ -209,7 +226,7 @@ public class FragmentVisitArea extends Fragment {
         });
 
         binding.sendRequestButton.setOnClickListener(view-> {
-            mViewModel.setRemarks(binding.tieRemarks.getText().toString());
+            mViewModel.setRemarks(Objects.requireNonNull(binding.tieRemarks.getText()).toString());
             mViewModel.sendVisitationRequest();
         });
 

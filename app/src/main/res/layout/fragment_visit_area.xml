@@ -39,6 +39,26 @@
         app:layout_constraintTop_toBottomOf="@+id/subTitle">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilBranchName"
+            style="@style/CustomDropDownTilStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label_branch">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/tieBranchName"
+                style="@style/DropdownStyleTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:maxLength="50"
+                android:nextFocusForward="@id/tiePassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilWarehouse"
             style="@style/CustomDropDownTilStyle"
             android:layout_width="match_parent"

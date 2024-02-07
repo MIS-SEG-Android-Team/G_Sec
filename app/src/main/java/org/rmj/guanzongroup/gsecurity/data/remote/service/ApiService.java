@@ -5,6 +5,8 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPositionParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddWarehouseParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.DeactivatePersonnelParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetActivePersonnelParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
@@ -56,7 +58,7 @@ public interface ApiService {
     @POST("/gsecure/auth/login_mpin.php")
     Observable<LoginBaseResponse> loginPersonnel(@Body PINParams mpin);
 
-    @POST("/security/mlogin.php")
+    @POST("/security/glogin.php")
     Observable<LoginBaseResponse> loginAdmin(@Body LoginParams params);
 
     @POST("/gsecure/auth/logout.php")
@@ -82,7 +84,10 @@ public interface ApiService {
     Observable<BaseResponse<List<PersonnelModel>>> getPersonnels(@Body DateTimeStampParams value);
 
     @POST("/gsecure/personnel/get_active_personnel.php")
-    Observable<BaseResponse<List<ActivePersonnelModel>>> getActivePersonnels(@Body DateTimeStampParams value);
+    Observable<BaseResponse<List<ActivePersonnelModel>>> getActivePersonnels(@Body GetActivePersonnelParams value);
+
+    @POST("/gsecure/personnel/deactivate_personnel.php")
+    Observable<BaseResponse<Void>> deactivatePersonnelAccount(@Body DeactivatePersonnelParams value);
 
     // endregion
 
@@ -202,7 +207,7 @@ public interface ApiService {
 
     // region Notification
 
-    @POST("/gsecure/notification/send_request.php")
+    @POST("/gsecure/patrol/send_visit_request.php")
     Observable<BaseResponse<Void>> sendVisitationRequest(@Body RequestSiteVisitParams params);
 
     @POST("/gsecure/notification/send_request.php")

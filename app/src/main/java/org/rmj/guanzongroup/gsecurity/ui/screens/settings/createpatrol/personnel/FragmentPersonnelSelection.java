@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPersonnelSelectionBinding;
-import org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel.AdapterPersonnel;
+import org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel.AdapterPersonnelSelection;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
@@ -79,16 +79,16 @@ public class FragmentPersonnelSelection extends Fragment {
 
         mViewModel.forUpdate().observe(getViewLifecycleOwner(), forUpdate -> {
             if (forUpdate) {
-                mViewModel.getPersonnelListForUpdate().observe(getViewLifecycleOwner(), personnel -> {
-                    if (personnel == null) { return; }
+                mViewModel.getPersonnelListForUpdate().observe(getViewLifecycleOwner(), personnelList -> {
+                    if (personnelList == null) { return; }
 
                     LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
                     layoutManager.setOrientation(RecyclerView.VERTICAL);
-                    AdapterPersonnel adapter = new AdapterPersonnel(personnel, (name, id) -> {
-                        dialogMessage.initDialog("Assign Schedule", "Would you like to assign this schedule to " + name + "?");
+                    AdapterPersonnelSelection adapter = new AdapterPersonnelSelection(personnelList, personnel -> {
+                        dialogMessage.initDialog("Assign Schedule", "Would you like to assign this schedule to " + personnel.getSUserName() + "?");
                         dialogMessage.setPositiveButton("Assign", dialog -> {
                             dialog.dismiss();
-                            mViewModel.updatePersonnel(id);
+                            mViewModel.updatePersonnel(personnel.getSUserIDxx());
                         });
                         dialogMessage.setNegativeButton("Cancel", Dialog::dismiss);
                         dialogMessage.show();
@@ -97,16 +97,16 @@ public class FragmentPersonnelSelection extends Fragment {
                     binding.personnelList.setAdapter(adapter);
                 });
             } else {
-                mViewModel.getPersonnelList().observe(getViewLifecycleOwner(), personnel -> {
-                    if (personnel == null) { return; }
+                mViewModel.getPersonnelList().observe(getViewLifecycleOwner(), personnelList -> {
+                    if (personnelList == null) { return; }
 
                     LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
                     layoutManager.setOrientation(RecyclerView.VERTICAL);
-                    AdapterPersonnel adapter = new AdapterPersonnel(personnel, (name, id) -> {
-                        dialogMessage.initDialog("Assign Schedule", "Would you like to assign this schedule to " + name + "?");
+                    AdapterPersonnelSelection adapter = new AdapterPersonnelSelection(personnelList, personnel -> {
+                        dialogMessage.initDialog("Assign Schedule", "Would you like to assign this schedule to " + personnel.getSUserName() + "?");
                         dialogMessage.setPositiveButton("Assign", dialog -> {
                             dialog.dismiss();
-                            mViewModel.setPersonnel(name, id);
+                            mViewModel.setPersonnel(personnel.getSUserName(), personnel.getSUserIDxx());
                             navController.navigate(R.id.action_fragmentPersonnelSelection_to_fragmentScheduleReview);
                         });
                         dialogMessage.setNegativeButton("Cancel", Dialog::dismiss);

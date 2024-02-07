@@ -20,7 +20,7 @@ public interface PatrolLogDao {
     @Query("SELECT * FROM Patrol_Log ORDER BY dVisitedx DESC")
     LiveData<List<PatrolLogEntity>> getPatrolLogs();
 
-    @Query("SELECT * FROM Patrol_Log WHERE nSchedule =:nSchedule AND sNFCIDxxx =:sNFCIDxxx AND dVisitedx LIKE '%'||:date||'%'")
+    @Query("SELECT * FROM Patrol_Log WHERE dSchedule =:nSchedule AND sNFCIDxxx =:sNFCIDxxx AND dVisitedx LIKE '%'||:date||'%'")
     PatrolLogEntity getPatrolLog(String nSchedule, String sNFCIDxxx, String date);
 
     @Query("SELECT * FROM Patrol_Log WHERE cSendStat <> '1'")

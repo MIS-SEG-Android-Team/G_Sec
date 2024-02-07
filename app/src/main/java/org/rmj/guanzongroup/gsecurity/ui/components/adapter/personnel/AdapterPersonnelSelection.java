@@ -1,23 +1,22 @@
 package org.rmj.guanzongroup.gsecurity.ui.components.adapter.personnel;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
-import org.rmj.guanzongroup.gsecurity.databinding.ListItemPersonnelBinding;
+import org.rmj.guanzongroup.gsecurity.databinding.ListItemPersonnelSelectionBinding;
 
 import java.util.List;
 
-public class AdapterPersonnel extends RecyclerView.Adapter<AdapterPersonnel.PersonnelViewHolder> {
+public class AdapterPersonnelSelection extends RecyclerView.Adapter<AdapterPersonnelSelection.PersonnelViewHolder> {
 
     private final List<PersonnelModel> personnels;
-    private final AdapterPersonnelCallback callback;
+    private final AdapterPersonnelSelectionCallback callback;
 
-    public AdapterPersonnel(List<PersonnelModel> personnels, AdapterPersonnelCallback callback) {
+    public AdapterPersonnelSelection(List<PersonnelModel> personnels, AdapterPersonnelSelectionCallback callback) {
         this.personnels = personnels;
         this.callback = callback;
     }
@@ -26,7 +25,7 @@ public class AdapterPersonnel extends RecyclerView.Adapter<AdapterPersonnel.Pers
     @Override
     public PersonnelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new PersonnelViewHolder(
-                ListItemPersonnelBinding.inflate(
+                ListItemPersonnelSelectionBinding.inflate(
                         LayoutInflater.from(parent.getContext()),
                         parent,
                         false));
@@ -37,9 +36,9 @@ public class AdapterPersonnel extends RecyclerView.Adapter<AdapterPersonnel.Pers
         PersonnelModel personnel = personnels.get(position);
 
         holder.binding.personnelFullName.setText(personnel.getSUserName());
-        holder.binding.getRoot().setOnClickListener(view -> callback.onClickEdit(personnel));
-        holder.binding.editPersonnel.setOnClickListener(view -> callback.onClickEdit(personnel));
-        holder.binding.previewInfo.setOnClickListener(view -> callback.onClickInfo(personnel));
+        holder.binding.getRoot().setOnClickListener(view -> {
+            callback.onClickPersonnel(personnel);
+        });
     }
 
     @Override
@@ -49,9 +48,9 @@ public class AdapterPersonnel extends RecyclerView.Adapter<AdapterPersonnel.Pers
 
     public static class PersonnelViewHolder extends RecyclerView.ViewHolder {
 
-        public ListItemPersonnelBinding binding;
+        public ListItemPersonnelSelectionBinding binding;
 
-        public PersonnelViewHolder(ListItemPersonnelBinding binding) {
+        public PersonnelViewHolder(ListItemPersonnelSelectionBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

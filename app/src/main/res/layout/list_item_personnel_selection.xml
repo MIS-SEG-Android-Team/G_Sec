@@ -29,16 +29,4 @@
         android:textSize="@dimen/screen_sub_header1"
         app:fontFamily="@font/roboto_medium" />
 
-    <ImageButton
-        android:id="@+id/editPersonnel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_edit" />
-
-    <ImageButton
-        android:id="@+id/previewInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_information" />
-
 </LinearLayout>

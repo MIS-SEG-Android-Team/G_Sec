@@ -6,9 +6,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetActivePersonnelParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.RequestSiteVisitParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.ActivePersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.CheckpointRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
@@ -38,9 +40,9 @@ public class VMVisitArea extends ViewModel {
     private final MutableLiveData<Boolean> loadingWarehouse = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> loadingPersonnel = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> loadingCheckpoint = new MutableLiveData<>(false);
-    private final MutableLiveData<List<WarehouseEntity>> warehouseList = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<List<PersonnelModel>> personnelList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<ActivePersonnelModel>> personnelList = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<NFCDeviceEntity>> checkpointList = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<String> branch = new MutableLiveData<>("");
     private final MutableLiveData<String> warehouseID = new MutableLiveData<>("");
     private final MutableLiveData<String> personnelID = new MutableLiveData<>("");
     private final MutableLiveData<String> checkpointID = new MutableLiveData<>("");
@@ -62,6 +64,11 @@ public class VMVisitArea extends ViewModel {
 
         importWarehouse();
         getPersonnels();
+    }
+
+    public void setBranch(String value) {
+        Timber.tag("Branch ID").d(value);
+        this.branch.setValue(value);
     }
 
     public void setWarehouseID(String value) {
@@ -92,6 +99,9 @@ public class VMVisitArea extends ViewModel {
     public LiveData<String> getWarehouseID() {
         return warehouseID;
     }
+    public LiveData<String> getBranch() {
+        return branch;
+    }
 
     @SuppressLint("CheckResult")
     private void importWarehouse() {
@@ -108,16 +118,15 @@ public class VMVisitArea extends ViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        baseResponse -> {
+                        response -> {
                             loadingWarehouse.setValue(false);
 
-                            if(baseResponse.getResult().equalsIgnoreCase("error")) {
+                            if(response.getResult().equalsIgnoreCase("error")) {
                                 return;
                             }
 
-                            List<WarehouseEntity> warehouseEntityList = baseResponse.getData();
+                            List<WarehouseEntity> warehouseEntityList = response.getData();
                             warehouseRepository.saveWarehouses(warehouseEntityList);
-                            warehouseList.setValue(warehouseEntityList);
                         },
                         error -> loadingWarehouse.setValue(false)
                 );
@@ -137,41 +146,37 @@ public class VMVisitArea extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(
-                        baseResponse -> {
+                        response -> {
                             loadingCheckpoint.setValue(false);
-                            if (baseResponse.getResult().equalsIgnoreCase("error")) {
+                            if (response.getResult().equalsIgnoreCase("error")) {
                                 return;
                             }
 
-                            List<NFCDeviceEntity> nfcDeviceEntities = baseResponse.getData();
+                            List<NFCDeviceEntity> nfcDeviceEntities = response.getData();
                             checkpointRepository.saveNfcTags(nfcDeviceEntities);
                             checkpointList.setValue(nfcDeviceEntities);
                         },
-
-                        throwable -> {
-                            loadingCheckpoint.setValue(false);
-                        }
+                        error -> loadingCheckpoint.setValue(false)
                 );
     }
-
 
     @SuppressLint("CheckResult")
     private void getPersonnels() {
         loadingPersonnel.setValue(true);
-        DateTimeStampParams params = new DateTimeStampParams();
-        params.setDTimeStmp("");
-        personnelRepository.getPersonnels(params)
+        GetActivePersonnelParams params = new GetActivePersonnelParams();
+        params.setSWHouseID(warehouseID.getValue());
+        personnelRepository.getActivePersonnels(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        baseResponse -> {
+                        response -> {
                             loadingPersonnel.setValue(false);
 
-                            if (baseResponse.getResult().equalsIgnoreCase("error")) {
+                            if (response.getResult().equalsIgnoreCase("error")) {
                                 return;
                             }
 
-                            List<PersonnelModel> personnelModels = baseResponse.getData();
+                            List<ActivePersonnelModel> personnelModels = response.getData();
                             personnelList.setValue(personnelModels);
                         },
                         error -> {
@@ -180,41 +185,17 @@ public class VMVisitArea extends ViewModel {
                 );
     }
 
-    public LiveData<Boolean> isLoadingWarehouse(){
-        return loadingWarehouse;
-    }
-
-    public LiveData<Boolean> isLoadingPersonnel(){
-        return loadingPersonnel;
-    }
-
-    public LiveData<Boolean> isLoadingCheckpoint(){
-        return loadingCheckpoint;
-    }
-
-
+    public LiveData<Boolean> isLoadingWarehouse(){ return loadingWarehouse; }
+    public LiveData<Boolean> isLoadingPersonnel(){ return loadingPersonnel; }
+    public LiveData<Boolean> isLoadingCheckpoint(){ return loadingCheckpoint; }
     public LiveData<List<WarehouseEntity>> getWarehouseList() {
-        return warehouseList;
+        return warehouseRepository.getWarehouseList();
     }
-
-    public LiveData<List<PersonnelModel>> getPersonnelList() {
-        return personnelList;
-    }
-
-    public LiveData<List<NFCDeviceEntity>> getCheckpointList() {
-        return checkpointList;
-    }
-
-    public LiveData<Boolean> sendingRequest() {
-        return sendingRequest;
-    }
-    public LiveData<Boolean> hasSentRequest() {
-        return requestSent;
-    }
-
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
-    }
+    public LiveData<List<ActivePersonnelModel>> getPersonnelList() { return personnelList; }
+    public LiveData<List<NFCDeviceEntity>> getCheckpointList() { return checkpointList; }
+    public LiveData<Boolean> sendingRequest() { return sendingRequest; }
+    public LiveData<Boolean> hasSentRequest() { return requestSent; }
+    public LiveData<String> getErrorMessage() { return errorMessage; }
 
     @SuppressLint("CheckResult")
     public void sendVisitationRequest() {

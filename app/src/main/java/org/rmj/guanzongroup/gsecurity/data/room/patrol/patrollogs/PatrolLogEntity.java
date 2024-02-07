@@ -20,8 +20,8 @@ public class PatrolLogEntity {
     protected String sUserIDxx;
     @ColumnInfo(name = "cSendStat")
     protected String cSendStat;
-    @ColumnInfo(name = "nSchedule")
-    protected String nSchedule;
+    @ColumnInfo(name = "dSchedule")
+    protected String dSchedule;
 
     public PatrolLogEntity() {
     }
@@ -41,6 +41,6 @@ public class PatrolLogEntity {
     public String getCSendStat() { return cSendStat; }
     public void setCSendStat(String value) { this.cSendStat = value; }
 
-    public String getSSchedule() { return nSchedule; }
-    public void setSSchedule(String value) { this.nSchedule = value; }
+    public String getDSchedule() { return dSchedule; }
+    public void setDSchedule(String value) { this.dSchedule = value; }
 }

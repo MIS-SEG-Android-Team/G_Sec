@@ -102,6 +102,7 @@
     <string name="button_add_tag">Print NFC Tag</string>
     <string name="button_overwrite">Overwrite</string>
     <string name="button_close">Close</string>
+    <string name="button_deactivate">Deactivate</string>
     <string name="button_register">Register</string>
     <string name="button_logout">Logout</string>
     <string name="button_nfc_categories">NFC Categories</string>

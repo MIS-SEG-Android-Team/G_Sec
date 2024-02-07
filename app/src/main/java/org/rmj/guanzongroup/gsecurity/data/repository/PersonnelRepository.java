@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddPersonnelParam;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.DeactivatePersonnelParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetActivePersonnelParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.ActivePersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.AddPersonnelModel;
@@ -31,8 +33,12 @@ public class PersonnelRepository {
         return apiService.addPersonnel(params);
     }
 
-    public Observable<BaseResponse<List<ActivePersonnelModel>>> getActivePersonnels(DateTimeStampParams value){
+    public Observable<BaseResponse<List<ActivePersonnelModel>>> getActivePersonnels(GetActivePersonnelParams value){
         return apiService.getActivePersonnels(value);
+    }
+
+    public Observable<BaseResponse<Void>> deactivatePersonnelAccount(DeactivatePersonnelParams value){
+        return apiService.deactivatePersonnelAccount(value);
     }
 
 }

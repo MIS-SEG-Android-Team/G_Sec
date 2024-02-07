@@ -109,37 +109,62 @@ public class FragmentAddCheckpoint extends Fragment {
         });
 
         mViewModel.getWarehouses().observe(getViewLifecycleOwner(), warehouses -> {
-            if (warehouses == null) {
-                return;
-            }
+            if (warehouses == null) { return; }
+            if (warehouses.size() == 0) { return; }
 
-            if (warehouses.size() == 0) {
-                return;
-            }
-
-            ArrayList<String> list = new ArrayList<>();
+            ArrayList<String> branchNames = new ArrayList<>();
             for (int x = 0; x < warehouses.size(); x++) {
-                list.add(warehouses.get(x).getSWHouseNm());
+                String branch = warehouses.get(x).getsBranchNm();
+
+                // Validate if the branch has exists in the current branch list...
+                // If the branch name already exists. Skip the current iteration to avoid duplicate.
+                boolean branchExist = false;
+                for (String branchName : branchNames) {
+                    if (branchName.equalsIgnoreCase(branch)) {
+                        branchExist = true;
+                        break;
+                    }
+                }
+
+                if (branchExist) { break; }
+
+                branchNames.add(branch);
             }
-            binding.tieWarehouse.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, list.toArray()));
-            binding.tieWarehouse.setOnItemClickListener((parent, view, position, id) -> {
-                for (int x = 0; x < warehouses.size(); x++) {
-                    if (binding.tieWarehouse.getText().toString().equalsIgnoreCase(warehouses.get(position).getSWHouseNm())) {
-                        mViewModel.setWarehouse(warehouses.get(position).getSWHouseID());
+
+            binding.tieBranchName.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, branchNames.toArray()));
+            binding.tieBranchName.setOnItemClickListener((parent, view, position, id) -> {
+                for (int x = 0; x < branchNames.size(); x ++) {
+                    if (binding.tieBranchName.getText().toString().equalsIgnoreCase(branchNames.get(x))) {
+                        mViewModel.setBranch(warehouses.get(x).getSBranchCd());
                         break;
                     }
                 }
             });
+
+            mViewModel.getBranch().observe(getViewLifecycleOwner(), branch -> {
+                if (branch.isEmpty()) { return; }
+                ArrayList<String> warehouseNames = new ArrayList<>();
+                for (int x = 0; x < warehouses.size(); x++) {
+                    if (warehouses.get(x).getSBranchCd().equalsIgnoreCase(branch)) {
+                        String warehouse = warehouses.get(x).getSWHouseNm();
+                        warehouseNames.add(warehouse);
+                    }
+                }
+                binding.tieWarehouse.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, warehouseNames.toArray()));
+                binding.tieWarehouse.setOnItemClickListener((parent, view, position, id) -> {
+                    for (int x = 0; x < warehouses.size(); x++) {
+                        if (binding.tieWarehouse.getText().toString().equalsIgnoreCase(warehouses.get(x).getSWHouseNm())) {
+                            mViewModel.setWarehouse(warehouses.get(x).getSWHouseID());
+                            break;
+                        }
+                    }
+                });
+            });
         });
 
         mViewModel.getCategories().observe(getViewLifecycleOwner(), categories -> {
-            if (categories == null) {
-                return;
-            }
-
-            if (categories.size() == 0) {
-                return;
-            }
+            if (categories == null) { return; }
+            if (categories.size() == 0) { return; }
 
             ArrayList<String> list = new ArrayList<>();
             for (int x = 0; x < categories.size(); x++) {

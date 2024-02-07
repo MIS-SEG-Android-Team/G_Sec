@@ -140,9 +140,14 @@
 
         <service
             android:name=".service.GSecureMessagingService"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 

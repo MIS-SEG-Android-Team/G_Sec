@@ -1,5 +1,8 @@
 package org.rmj.guanzongroup.gsecurity.service;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.CHANNEL_ID;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.NOTIFICATION_ID;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -32,9 +35,6 @@ public class TimeCheckService extends Service {
     private static final String TAG = TimeCheckService.class.getSimpleName();
 
     private static final long CHECK_INTERVAL = 5 * 60 * 1000; // Check every 5 minutes
-
-    private static final String CHANNEL_ID = "patrol_channel";
-    private static final int NOTIFICATION_ID = 1;
 
     @Inject
     ScheduleRepository scheduleRepository;

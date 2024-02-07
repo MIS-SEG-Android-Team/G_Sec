@@ -37,6 +37,7 @@ public class VMAddCheckpoint extends ViewModel {
     private final MutableLiveData<Boolean> isLoadingData = new MutableLiveData<>(false);
     private final MutableLiveData<String> dataErrorMessage = new MutableLiveData<>("");
 
+    private final MutableLiveData<String> branch = new MutableLiveData<>("");
     private final MutableLiveData<String> warehouse = new MutableLiveData<>("");
     private final MutableLiveData<String> category = new MutableLiveData<>("");
     private final MutableLiveData<String> description = new MutableLiveData<>("");
@@ -69,6 +70,14 @@ public class VMAddCheckpoint extends ViewModel {
             throw new RuntimeException(e);
         }
         importWarehouse(); // import to update the category list on local
+    }
+
+    public void setBranch(String value) {
+        this.branch.setValue(value);
+    }
+
+    public LiveData<String> getBranch() {
+        return branch;
     }
 
     public void setWarehouse(String value) {

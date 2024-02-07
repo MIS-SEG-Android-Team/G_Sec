@@ -33,11 +33,8 @@ public class DialogMessage {
         alertDialog.setCancelable(false);
         Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-
         binding.title.setText(title);
         binding.message.setText(message);
-
-
     }
 
     public void setPositiveButton(String text, DialogMessageUICallBack callBack) {

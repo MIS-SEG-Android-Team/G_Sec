@@ -205,7 +205,7 @@ public class VMPatrolRoute extends ViewModel {
             patrolLogEntity.setSRemarksx(remarks);
             patrolLogEntity.setSUserIDxx(dataStore.getUserId());
             patrolLogEntity.setCSendStat("0");
-            patrolLogEntity.setSSchedule("0");
+            patrolLogEntity.setDSchedule("0");
             patrolRepository.savePatrolLog(patrolLogEntity);
 
             isLoadingPosting.setValue(false);
