@@ -19,8 +19,11 @@ import org.rmj.guanzongroup.gsecurity.data.repository.WarehouseRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -204,7 +207,7 @@ public class VMVisitArea extends ViewModel {
         params.setSWHouseID(warehouseID.getValue());
         params.setSNFCIDxxx(checkpointID.getValue());
         params.setSUserIDxx(personnelID.getValue());
-        params.setDTimexxxx(scheduleTime.getValue());
+        params.setDTimexxxx(convertTimeToDateTime(scheduleTime.getValue()));
         params.setSRemarksx(remarks.getValue());
         requestVisitRepository.sendVisitationRequest(params)
                 .subscribeOn(Schedulers.io())
@@ -223,5 +226,24 @@ public class VMVisitArea extends ViewModel {
                             sendingRequest.setValue(false);
                         }
                 );
+    }
+
+    private String convertTimeToDateTime(String time) {
+        try{
+            // Format time string "hh:mm a"
+
+            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+            Date timeDate = timeFormat.parse(time);
+
+            Date currentDate = new Date();
+            SimpleDateFormat combinedFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            if (timeDate == null) {
+                return "";
+            }
+            return combinedFormat.format(currentDate) + " " + new SimpleDateFormat("HH:mm:ss", Locale.US).format(timeDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

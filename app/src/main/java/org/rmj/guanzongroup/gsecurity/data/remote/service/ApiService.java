@@ -10,6 +10,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.GetActivePersonnelParams
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetBranchParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPersonnelPatrolReportParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetRecentActivityParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
@@ -27,6 +28,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginB
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.branch.BranchResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.patrolreport.PersonnelPatrolReport;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.recentactivity.RecentActivityModel;
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
@@ -214,4 +216,11 @@ public interface ApiService {
     Observable<BaseResponse<Void>> sendVisitedNotification(@Body RequestVisitEntity params);
 
     // endregion
+
+    // region Reports
+
+
+    @POST("/gsecure/patrol/get_report.php")
+    Observable<BaseResponse<List<PersonnelPatrolReport>>> getPersonnelPatrolReport(@Body GetPersonnelPatrolReportParams params);
+
 }

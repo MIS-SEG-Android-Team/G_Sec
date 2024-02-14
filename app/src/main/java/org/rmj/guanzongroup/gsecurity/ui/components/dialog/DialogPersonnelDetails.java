@@ -16,6 +16,7 @@ import java.util.Objects;
 public class DialogPersonnelDetails {
 
     public interface OnDialogButtonClickCallback {
+        void onClickGetReports(String id);
         void OnClickDeactivate(String id, String name);
     }
 
@@ -37,6 +38,10 @@ public class DialogPersonnelDetails {
         binding.personnelPIN.setText("PIN: " + personnelModel.getNPINCodex());
 
         binding.closeButton.setOnClickListener(view -> alertDialog.dismiss());
+        binding.reportButton.setOnClickListener(view -> {
+            alertDialog.dismiss();
+            callback.onClickGetReports(personnelModel.getSUserIDxx());
+        });
         binding.deactivateButton.setOnClickListener(view -> {
             alertDialog.dismiss();
             callback.OnClickDeactivate(personnelModel.getSUserIDxx(), personnelModel.getSUserName());

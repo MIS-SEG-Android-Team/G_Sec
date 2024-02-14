@@ -122,8 +122,6 @@ public class FragmentPatrolRoute extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPatrolRoute.class);
         binding = FragmentPatrolRouteBinding.inflate(getLayoutInflater());
         dialogLoad = new DialogLoad(requireActivity());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-        linearLayoutManager.setOrientation(VERTICAL);
 
         mViewModel.getRequestedVisit().observe(getViewLifecycleOwner(), requestedVisit -> {
             if (requestedVisit == null) {
@@ -163,11 +161,11 @@ public class FragmentPatrolRoute extends Fragment {
         });
 
         mViewModel.getPatrolCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
-            if(checkpoints == null) {
-                return;
-            }
+            if(checkpoints == null) { return; }
 
-            binding.patrolRouteList.setAdapter(new AdapterPatrolRoute(checkpoints, (patrol, position) -> {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+            linearLayoutManager.setOrientation(VERTICAL);
+            AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, (patrol, position) -> {
                 if (patrol.isVisited()) {
                     new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
                         dialog.dismiss();
@@ -175,6 +173,7 @@ public class FragmentPatrolRoute extends Fragment {
                     }).showDialog();
                     return;
                 }
+
                 new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
                     @Override
                     public void onClickNFCButton(String remarks) {
@@ -194,8 +193,10 @@ public class FragmentPatrolRoute extends Fragment {
                         intentQrCodeScanner.launch(intent);
                     }
                 }).show();
-            }));
+            });
+
             binding.patrolRouteList.setLayoutManager(linearLayoutManager);
+            binding.patrolRouteList.setAdapter(adapterPatrolRoute);
         });
 
         setupObservables();
@@ -232,13 +233,8 @@ public class FragmentPatrolRoute extends Fragment {
         });
 
         mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
-            if (errorMessage == null) {
-                return;
-            }
-
-            if (errorMessage.isEmpty()) {
-                return;
-            }
+            if (errorMessage == null) { return; }
+            if (errorMessage.isEmpty()) { return; }
 
             new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, errorMessage, Dialog::dismiss).showDialog();
         });

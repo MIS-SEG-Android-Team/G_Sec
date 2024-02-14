@@ -37,7 +37,16 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_marginHorizontal="@dimen/view_padding_4"
+            android:textSize="@dimen/screen_footer"
             android:text="@string/button_deactivate"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reportButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/view_padding_4"
+            android:layout_marginTop="@dimen/view_padding_8"
+            android:text="@string/button_reports"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/closeButton"

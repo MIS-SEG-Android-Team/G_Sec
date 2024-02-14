@@ -208,6 +208,18 @@
             app:destination="@id/fragmentScheduleReview"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"  />
+
+        <action
+            android:id="@+id/action_fragmentPersonnelList2_to_fragmentPatrolReport"
+            app:destination="@id/fragmentPatrolReport"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"  />
     </fragment>
+
+    <fragment
+        android:id="@+id/fragmentPatrolReport"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.report.FragmentPatrolReport"
+        android:label="fragment_patrol_report"
+        tools:layout="@layout/fragment_patrol_report" />
 
 </navigation>

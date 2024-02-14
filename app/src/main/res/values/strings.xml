@@ -12,6 +12,7 @@
     <string name="title_login">Login</string>
     <string name="title_add_nfc">Add NFC Tag</string>
     <string name="title_personnel_list">Personnel List</string>
+    <string name="title_personnel_report">Personnel Report</string>
     <string name="title_recent_activities">Recent Activities</string>
     <string name="title_settings">Settings</string>
     <string name="title_nfc_sites">NFC Sites</string>
@@ -28,6 +29,7 @@
     <!--    Sub Title-->
     <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring</string>
     <string name="sub_title_personnel_list">List of active personnel</string>
+    <string name="sub_title_personnel_patrol_report">Personnel Patrol Report</string>
     <string name="sub_title_recent_activities">Recent Patrol Locations for Different Personnel</string>
     <string name="sub_title_visit_area">Request a personnel to visit an area</string>
     <string name="sub_title_nfc_sites">Locations of NFC tags</string>
@@ -102,6 +104,7 @@
     <string name="button_add_tag">Print NFC Tag</string>
     <string name="button_overwrite">Overwrite</string>
     <string name="button_close">Close</string>
+    <string name="button_reports">Get Reports</string>
     <string name="button_deactivate">Deactivate</string>
     <string name="button_register">Register</string>
     <string name="button_logout">Logout</string>

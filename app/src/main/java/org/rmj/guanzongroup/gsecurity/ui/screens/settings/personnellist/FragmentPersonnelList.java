@@ -91,7 +91,10 @@ public class FragmentPersonnelList extends Fragment {
         mViewModel.getMessage().observe(getViewLifecycleOwner(), message -> {
             if (message.isEmpty()) { return; }
 
-            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, Dialog::dismiss).showDialog();
+            new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, message, dialog -> {
+                dialog.dismiss();
+                mViewModel.importPersonnelList();
+            }).showDialog();
         });
 
         mViewModel.getPersonnelList().observe(getViewLifecycleOwner(), personnelList -> {
@@ -109,14 +112,24 @@ public class FragmentPersonnelList extends Fragment {
 
                 @Override
                 public void onClickInfo(PersonnelModel personnel) {
-                    new DialogPersonnelDetails(requireActivity(), personnel, (personnelID, name) -> {
-                        dialogMessage.initDialog("Deactivate Account","Confirm Deactivation: Proceed with deactivating " + name + "'s account?");
-                        dialogMessage.setPositiveButton("Yes", dialog -> {
-                            dialog.dismiss();
-                            mViewModel.deactivatePersonnelAccount(personnelID);
-                        });
-                        dialogMessage.setNegativeButton("No", dialog -> dialogLoad.dismiss());
-                        dialogMessage.show();
+                    new DialogPersonnelDetails(requireActivity(), personnel, new DialogPersonnelDetails.OnDialogButtonClickCallback() {
+                        @Override
+                        public void onClickGetReports(String id) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(PERSONNEL_ID, id);
+                            navController.navigate(R.id.action_fragmentPersonnelList2_to_fragmentPatrolReport, bundle);
+                        }
+
+                        @Override
+                        public void OnClickDeactivate(String id, String name) {
+                            dialogMessage.initDialog("Deactivate Account","Confirm Deactivation: Proceed with deactivating " + name + "'s account?");
+                            dialogMessage.setPositiveButton("Yes", dialog -> {
+                                dialog.dismiss();
+                                mViewModel.deactivatePersonnelAccount(id);
+                            });
+                            dialogMessage.setNegativeButton("No", dialog -> dialogLoad.dismiss());
+                            dialogMessage.show();
+                        }
                     }).show();
                 }
             });

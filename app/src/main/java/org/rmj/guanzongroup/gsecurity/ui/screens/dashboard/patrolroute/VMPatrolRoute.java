@@ -152,7 +152,6 @@ public class VMPatrolRoute extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         response -> {
-                            isLoadingPatrolRoutes.setValue(false);
                             if (response.getResult().equalsIgnoreCase("error")) {
                                 return;
                             }
@@ -162,6 +161,7 @@ public class VMPatrolRoute extends ViewModel {
 
                             patrolRepository.savePatrolRoute(patrolRoutes);
                             scheduleRepository.savePatrolSchedule(patrolSchedules);
+                            isLoadingPatrolRoutes.setValue(false);
                         },
                         throwable -> {
                             isLoadingPatrolRoutes.setValue(false);
