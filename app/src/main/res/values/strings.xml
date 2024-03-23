@@ -18,6 +18,7 @@
     <string name="title_nfc_sites">NFC Sites</string>
     <string name="title_visit_area">Visit Area</string>
     <string name="title_personnel_settings">Personnel Settings</string>
+    <string name="title_parameters">Parameters</string>
     <string name="title_patrol_route">Patrol Route</string>
     <string name="title_add_warehouse">Add Warehouse</string>
     <string name="title_position">Position/Roles</string>
@@ -83,7 +84,10 @@
     <string name="label_personnel_mpin">Personnel MPIN</string>
     <string name="label_loading_warehouse">Loading warehouse…</string>
     <string name="label_retry">Retry</string>
+    <string name="label_date_start">Date Start</string>
+    <string name="label_date_end">Date End</string>
     <string name="label_schedules">Schedules</string>
+    <string name="label_select_date">Select Date</string>
     <string name="label_select_checkpoints">Select Checkpoints Here</string>
     <string name="label_added_checkpoints">Added Checkpoints</string>
     <string name="label_add_category">Add Category</string>
@@ -95,6 +99,8 @@
     <string name="label_patrol_schedules">Patrol Schedules</string>
     <string name="label_assigned_personnel">Assigned Personnel</string>
     <string name="label_something_went_wrong">Something went wrong</string>
+    <string name="label_select_tagging_option">Select tagging option</string>
+    <string name="label_patrol_alarm">Patrol Reminder: Your scheduled patrol time has arrived. Please proceed to your designated patrol area.</string>
     <string name="label_personnel_mpin_reminder">Reminder: Make sure to share the MPIN with personnel before closing or adding new personnel.</string>
 
     <!--    Buttons-->
@@ -105,6 +111,7 @@
     <string name="button_overwrite">Overwrite</string>
     <string name="button_close">Close</string>
     <string name="button_reports">Get Reports</string>
+    <string name="button_export">Export</string>
     <string name="button_deactivate">Deactivate</string>
     <string name="button_register">Register</string>
     <string name="button_logout">Logout</string>
@@ -135,6 +142,8 @@
     <string name="button_continue">Continue</string>
     <string name="button_add_checkpoint">Add Checkpoint</string>
     <string name="button_save_schedule">Save Schedule</string>
+    <string name="button_start_patrol">Start Patrol</string>
+    <string name="button_patrol_later">Patrol Later</string>
 
     <!--    Sentences-->
 

@@ -66,6 +66,9 @@ public interface ApiService {
     @POST("/gsecure/auth/logout.php")
     Observable<BaseResponse<Void>> logout();
 
+    @POST("/security/logout.php")
+    Observable<BaseResponse<Void>> logoutAdmin();
+
     // endregion
 
 
@@ -219,8 +222,7 @@ public interface ApiService {
 
     // region Reports
 
-
-    @POST("/gsecure/patrol/get_report.php")
+    @POST("/gsecure/reports/get_personnel_report.php")
     Observable<BaseResponse<List<PersonnelPatrolReport>>> getPersonnelPatrolReport(@Body GetPersonnelPatrolReportParams params);
 
 }

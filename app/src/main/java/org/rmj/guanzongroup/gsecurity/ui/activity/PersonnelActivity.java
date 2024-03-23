@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class PersonnelActivity extends AppCompatActivity {
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,6 @@ public class PersonnelActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         Intent patrolServiceIntent = new Intent(this, TimeCheckService.class);
-        startService(patrolServiceIntent);
+        startForegroundService(patrolServiceIntent);
     }
 }

@@ -50,6 +50,7 @@ public class GSecureMessagingService extends FirebaseMessagingService {
         String message = remoteMessage.getData().get("message");
         Timber.d("Title: %s", title);
         Timber.d("Message: %s", message);
+        Timber.d("Remote Message: %s", remoteMessage);
         showNotification(
                 title,
                 message

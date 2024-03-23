@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_DATE_TIME_FORMAT;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
 import static org.rmj.guanzongroup.gsecurity.etc.DateTime.formatDateTimeResult;
 import static org.rmj.guanzongroup.gsecurity.etc.DateTime.getCurrentLocalDateTime;
 
@@ -14,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
+import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
@@ -28,8 +31,16 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEn
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -41,6 +52,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class VMPatrolRoute extends ViewModel {
 
     private final DataStore dataStore;
+    private final PatrolCache patrolCache;
     private final AuthenticationRepository authenticationRepository;
     private final PatrolRepository patrolRepository;
     private final RequestVisitRepository requestVisitRepository;
@@ -62,6 +74,7 @@ public class VMPatrolRoute extends ViewModel {
     @Inject
     public VMPatrolRoute(
             DataStore dataStore,
+            PatrolCache patrolCache,
             AuthenticationRepository authenticationRepository,
             PatrolRepository patrolRepository,
             RequestVisitRepository requestVisitRepository,
@@ -69,6 +82,7 @@ public class VMPatrolRoute extends ViewModel {
             UserProfileRepository userProfileRepository
     ) {
         this.dataStore = dataStore;
+        this.patrolCache = patrolCache;
         this.authenticationRepository = authenticationRepository;
         this.patrolRepository = patrolRepository;
         this.requestVisitRepository = requestVisitRepository;
@@ -197,15 +211,25 @@ public class VMPatrolRoute extends ViewModel {
                 remarks = taggingRemarks.getValue();
             }
 
-            String currentDateTime = formatDateTimeResult(getCurrentLocalDateTime());
+
+            DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
+            DateTimeFormatter defaultDateTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
+
+            String currentDateTime = defaultDateTimeFormat.format(LocalDateTime.now());
+            String currentTime = defaultTimeFormat.format(LocalTime.now());
+
+            LocalTime schedule = LocalTime.parse(patrolCache.getPatrolSchedule(), defaultTimeFormat);
+            LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), schedule);
+            String patrolSchedule = scheduleDateTime.format(defaultDateTimeFormat);
 
             PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
             patrolLogEntity.setDVisitedx(currentDateTime);
+            patrolLogEntity.setDTimeVist(currentTime);
             patrolLogEntity.setSNFCIDxxx(patrol.getsNFCIDxxx());
             patrolLogEntity.setSRemarksx(remarks);
             patrolLogEntity.setSUserIDxx(dataStore.getUserId());
             patrolLogEntity.setCSendStat("0");
-            patrolLogEntity.setDSchedule("0");
+            patrolLogEntity.setDSchedule(patrolSchedule);
             patrolRepository.savePatrolLog(patrolLogEntity);
 
             isLoadingPosting.setValue(false);

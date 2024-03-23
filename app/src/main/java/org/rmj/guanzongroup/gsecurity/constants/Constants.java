@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.constants;
 public class Constants {
 
     public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_TIME_FORMAT = "hh:mm a";
 
     public static final String WRITE_NFC_DATA_PAYLOAD = "nfc_data_payload";
     public static final String READ_NFC_DATA_PAYLOAD = "nfc_data_payload";
@@ -32,6 +33,7 @@ public class Constants {
     public static final int PATROL_ALARM_ID = 101;
 
     public static final String PERSONNEL_ID = "personnel_id";
+    public static final String PERSONNEL_NAME = "personnel_name";
 
 
     public static final long CHECK_INTERVAL = 5 * 60 * 1000; // Check every 5 minutes

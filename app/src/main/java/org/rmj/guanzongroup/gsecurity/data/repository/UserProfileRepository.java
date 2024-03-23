@@ -27,6 +27,10 @@ public class UserProfileRepository {
         return apiService.logout();
     }
 
+    public Observable<BaseResponse<Void>> logoutAdmin() {
+        return apiService.logoutAdmin();
+    }
+
     public Boolean hasUserSession() {
         return !dataStore.getLogNumber().isEmpty();
     }

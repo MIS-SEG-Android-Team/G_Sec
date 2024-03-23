@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.personnellist;
 
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_ID;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_NAME;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -107,6 +108,7 @@ public class FragmentPersonnelList extends Fragment {
                 public void onClickEdit(PersonnelModel personnel) {
                     Bundle bundle = new Bundle();
                     bundle.putString(PERSONNEL_ID, personnel.getSUserIDxx());
+                    bundle.putString(PERSONNEL_NAME, personnel.getSUserName());
                     navController.navigate(R.id.action_fragmentPersonnelList2_to_fragmentScheduleReview, bundle);
                 }
 
@@ -117,6 +119,7 @@ public class FragmentPersonnelList extends Fragment {
                         public void onClickGetReports(String id) {
                             Bundle bundle = new Bundle();
                             bundle.putString(PERSONNEL_ID, id);
+                            bundle.putString(PERSONNEL_NAME, personnel.getSUserName());
                             navController.navigate(R.id.action_fragmentPersonnelList2_to_fragmentPatrolReport, bundle);
                         }
 

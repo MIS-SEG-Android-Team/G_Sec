@@ -43,7 +43,7 @@ public class VMAdminSettings extends ViewModel {
     @SuppressLint("CheckResult")
     public void logoutUser() {
         loggingOut.setValue(true);
-        userProfileRepository.logoutUser()
+        userProfileRepository.logoutAdmin()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -53,6 +53,7 @@ public class VMAdminSettings extends ViewModel {
                                 errorMessage.setValue(baseResponse.getError().getMessage());
                                 return;
                             }
+                            userProfileRepository.clearCache();
                             hasLogout.setValue(true);
                         },
                         error -> {

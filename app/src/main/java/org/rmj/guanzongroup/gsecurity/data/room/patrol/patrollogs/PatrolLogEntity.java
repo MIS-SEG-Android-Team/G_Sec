@@ -14,6 +14,8 @@ public class PatrolLogEntity {
     @ColumnInfo(name = "dVisitedx")
     protected String dVisitedx;
 
+    @ColumnInfo(name = "dTimeVist")
+    protected String dTimeVist;
     @ColumnInfo(name = "sRemarksx")
     protected String sRemarksx;
     @ColumnInfo(name = "sUserIDxx")
@@ -43,4 +45,7 @@ public class PatrolLogEntity {
 
     public String getDSchedule() { return dSchedule; }
     public void setDSchedule(String value) { this.dSchedule = value; }
+
+    public String getDTimeVist() { return dTimeVist; }
+    public void setDTimeVist(String dTimeVist) { this.dTimeVist = dTimeVist; }
 }

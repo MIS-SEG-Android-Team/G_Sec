@@ -13,6 +13,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 
@@ -93,6 +94,10 @@ public class ScheduleRepository {
 
     public PersonnelPatrolModel getPatrolRouteForUpdate() {
         return patrolUpdateCache.getPatrolScheduleForUpdate();
+    }
+
+    public List<PatrolLogEntity> getPatrolLogForSchedule(String timeFrom, String timeTo){
+        return patrolScheduleDao.getPatrolLogForSchedule(timeFrom, timeTo);
     }
 
     public void updatePatrolRouteForUpdate(PersonnelPatrolModel value) {
