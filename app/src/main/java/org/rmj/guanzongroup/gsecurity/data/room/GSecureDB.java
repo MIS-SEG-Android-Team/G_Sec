@@ -39,7 +39,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
                 WarehouseEntity.class,
                 BranchEntity.class
         },
-        version = 1,
+        version = 2,
         exportSchema = false)
 public abstract class GSecureDB extends RoomDatabase {
 
