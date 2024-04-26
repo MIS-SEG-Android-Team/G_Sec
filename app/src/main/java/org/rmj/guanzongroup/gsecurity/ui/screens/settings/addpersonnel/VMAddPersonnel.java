@@ -36,8 +36,6 @@ public class VMAddPersonnel extends ViewModel {
     private final MutableLiveData<String> middName = new MutableLiveData<>("");
     // Personnel position ID
     private final MutableLiveData<String> position = new MutableLiveData<>("");
-    // Personnel position description
-    private final MutableLiveData<String> descript = new MutableLiveData<>("");
     // Personnel account level
     private final MutableLiveData<String> userLevl = new MutableLiveData<>("0");
 
@@ -62,7 +60,6 @@ public class VMAddPersonnel extends ViewModel {
         hasCompleteInfo.setValue(
                 !value.trim().isEmpty() &&
                 !Objects.requireNonNull(frstName.getValue()).trim().isEmpty() &&
-                !Objects.requireNonNull(descript.getValue()).trim().isEmpty() &&
                 !Objects.requireNonNull(position.getValue()).isEmpty()
         );
     }
@@ -71,7 +68,6 @@ public class VMAddPersonnel extends ViewModel {
         hasCompleteInfo.setValue(
                 !value.trim().isEmpty() &&
                         !Objects.requireNonNull(lastName.getValue()).trim().isEmpty() &&
-                        !Objects.requireNonNull(descript.getValue()).trim().isEmpty() &&
                         !Objects.requireNonNull(position.getValue()).isEmpty()
         );
     }
@@ -83,17 +79,7 @@ public class VMAddPersonnel extends ViewModel {
         hasCompleteInfo.setValue(
                 !value.trim().isEmpty() &&
                         !Objects.requireNonNull(frstName.getValue()).trim().isEmpty() &&
-                        !Objects.requireNonNull(descript.getValue()).trim().isEmpty() &&
                         !Objects.requireNonNull(lastName.getValue()).isEmpty()
-        );
-    }
-    public void setPositionDescription(String value) {
-        descript.setValue(value);
-        hasCompleteInfo.setValue(
-                !value.trim().isEmpty() &&
-                        !Objects.requireNonNull(frstName.getValue()).trim().isEmpty() &&
-                        !Objects.requireNonNull(lastName.getValue()).trim().isEmpty() &&
-                        !Objects.requireNonNull(position.getValue()).isEmpty()
         );
     }
     public void setUserLevel(String value) {
@@ -154,7 +140,6 @@ public class VMAddPersonnel extends ViewModel {
         param.setsFrstName(frstName.getValue());
         param.setsMiddName(middName.getValue());
         param.setsPositnID(position.getValue());
-        param.setsPositnDs(descript.getValue());
         param.setnUserLvel(userLevl.getValue());
         personnelRepository.addPersonnel(param)
                 .subscribeOn(Schedulers.io())

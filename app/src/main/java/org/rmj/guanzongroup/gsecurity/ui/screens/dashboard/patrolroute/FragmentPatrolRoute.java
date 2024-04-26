@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -210,6 +211,20 @@ public class FragmentPatrolRoute extends Fragment {
                 mViewModel.logoutUser();
             });
             dialogMessage.show();
+        });
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                DialogMessage dialogMessage = new DialogMessage(requireActivity());
+                dialogMessage.initDialog("GSecure", "Exit GSecure?");
+                dialogMessage.setNegativeButton("Yes", dialog -> {
+                    dialog.dismiss();
+                    requireActivity().finish();
+                });
+                dialogMessage.setPositiveButton("No", Dialog::dismiss);
+                dialogMessage.show();
+            }
         });
 
         return binding.getRoot();

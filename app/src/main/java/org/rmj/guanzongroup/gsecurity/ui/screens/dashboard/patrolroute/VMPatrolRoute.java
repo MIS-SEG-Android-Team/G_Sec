@@ -211,6 +211,10 @@ public class VMPatrolRoute extends ViewModel {
                 remarks = taggingRemarks.getValue();
             }
 
+            if (patrolCache.getPatrolSchedule().isEmpty()) {
+                errorMessage.setValue("Unable to tag this checkpoint as visited. Wait for the next patrol schedule.");
+                return;
+            }
 
             DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
             DateTimeFormatter defaultDateTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);

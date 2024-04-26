@@ -1,10 +1,12 @@
 package org.rmj.guanzongroup.gsecurity.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -14,6 +16,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityPersonnelBinding;
 import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
+import org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute.FragmentPatrolRoute;
 
 import java.util.Objects;
 
@@ -21,6 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class PersonnelActivity extends AppCompatActivity {
+
+    private NavController navController;
 
     @SuppressLint("NewApi")
     @Override
@@ -32,7 +38,7 @@ public class PersonnelActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_personnel);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_personnel);
         BottomNavigationView navView = binding.bottomNavBar;
 
         NavigationUI.setupWithNavController(navView, navController);

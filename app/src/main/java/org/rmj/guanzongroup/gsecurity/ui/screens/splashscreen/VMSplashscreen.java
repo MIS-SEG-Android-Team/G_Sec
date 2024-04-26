@@ -49,6 +49,8 @@ public class VMSplashscreen extends ViewModel {
     public Boolean hasSession() {
         if (userProfileRepository.hasUserSession()) {
             String sessionDateTime = userProfileRepository.getSessionDateTime();
+            if (sessionDateTime.isEmpty()) {return false; }
+
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
             LocalDate sessionDate = LocalDate.parse(sessionDateTime, formatter);
             LocalDate currentDate = LocalDate.now();

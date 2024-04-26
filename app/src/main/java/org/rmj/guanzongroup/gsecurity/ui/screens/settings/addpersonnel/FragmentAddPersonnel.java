@@ -45,7 +45,6 @@ public class FragmentAddPersonnel extends Fragment {
         binding.tieLastName.addTextChangedListener(new TextChangeCallback(binding.tieLastName));
         binding.tieFirstName.addTextChangedListener(new TextChangeCallback(binding.tieFirstName));
         binding.tieMiddleName.addTextChangedListener(new TextChangeCallback(binding.tieMiddleName));
-        binding.tieDescription.addTextChangedListener(new TextChangeCallback(binding.tieDescription));
 
         mViewModel.isLoading().observe(getViewLifecycleOwner(), isLoading -> {
             if (isLoading) {
@@ -66,7 +65,6 @@ public class FragmentAddPersonnel extends Fragment {
             binding.tieFirstName.setText("");
             binding.tieMiddleName.setText("");
             binding.tiePosition.setText("");
-            binding.tieDescription.setText("");
             binding.tieMPIN.setText(mpin);
             new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.", Dialog::dismiss).showDialog();
         });
@@ -122,8 +120,6 @@ public class FragmentAddPersonnel extends Fragment {
                 mViewModel.setFirstName(s.toString());
             } else if(id == binding.tieMiddleName.getId()) {
                 mViewModel.setMiddleName(s.toString());
-            } else if(id == binding.tieDescription.getId()) {
-                mViewModel.setPositionDescription(s.toString());
             }
         }
 
