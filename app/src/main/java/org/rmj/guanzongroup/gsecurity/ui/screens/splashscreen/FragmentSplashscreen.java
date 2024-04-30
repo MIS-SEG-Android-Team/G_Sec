@@ -17,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.rmj.guanzongroup.gsecurity.BuildConfig;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSplashscreenBinding;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AdminActivity;
@@ -66,6 +67,8 @@ public class FragmentSplashscreen extends Fragment {
         } else {
             navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
         }
+
+        binding.labelVersionInfo.setText(BuildConfig.VERSION_NAME);
         return binding.getRoot();
     }
 }

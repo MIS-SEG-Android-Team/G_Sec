@@ -7,8 +7,11 @@ import static org.rmj.guanzongroup.gsecurity.constants.Constants.QR_CODE_DATA;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.READ_NFC_DATA_PAYLOAD;
 import static org.rmj.guanzongroup.gsecurity.utils.ImageFileCreator.CreateImageUri;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -21,6 +24,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -117,12 +122,14 @@ public class FragmentPatrolRoute extends Fragment {
         return new FragmentPatrolRoute();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPatrolRoute.class);
         binding = FragmentPatrolRouteBinding.inflate(getLayoutInflater());
         dialogLoad = new DialogLoad(requireActivity());
+
 
         mViewModel.getRequestedVisit().observe(getViewLifecycleOwner(), requestedVisit -> {
             if (requestedVisit == null) {

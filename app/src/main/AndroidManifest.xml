@@ -33,6 +33,7 @@
         <activity
             android:name=".ui.activity.AlarmActivity"
             android:screenOrientation="userPortrait"
+            android:launchMode="singleTop"
             tools:ignore="LockedOrientationActivity"
             android:exported="false" />
         <activity
@@ -109,7 +110,7 @@
                 android:resource="@xml/nfc_tech_filter" />
         </activity>
         <activity
-            android:name=".ui.activity.PersonnelActivity"
+            android:name=".ui.activity.personnel.PersonnelActivity"
             android:exported="true"
             android:screenOrientation="userPortrait"
             tools:ignore="LockedOrientationActivity" />

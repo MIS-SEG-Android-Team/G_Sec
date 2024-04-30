@@ -24,10 +24,11 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.rmj.guanzongroup.gsecurity.BuildConfig;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentLoginBinding;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AdminActivity;
-import org.rmj.guanzongroup.gsecurity.ui.activity.PersonnelActivity;
+import org.rmj.guanzongroup.gsecurity.ui.activity.personnel.PersonnelActivity;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
@@ -234,6 +235,7 @@ public class FragmentLogin extends Fragment {
             }
         });
 
+        binding.labelVersionInfo.setText(BuildConfig.VERSION_NAME);
         return binding.getRoot();
     }
 
