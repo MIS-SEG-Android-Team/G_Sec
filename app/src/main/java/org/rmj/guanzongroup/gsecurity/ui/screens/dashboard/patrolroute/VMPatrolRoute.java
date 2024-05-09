@@ -4,8 +4,10 @@ import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_DATE_TI
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
 import static org.rmj.guanzongroup.gsecurity.etc.DateTime.formatDateTimeResult;
 import static org.rmj.guanzongroup.gsecurity.etc.DateTime.getCurrentLocalDateTime;
+import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -29,10 +31,14 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntit
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
+import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
+import org.rmj.guanzongroup.gsecurity.ui.activity.AlarmActivity;
+import org.rmj.guanzongroup.gsecurity.utils.TimeComparator;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -47,9 +53,11 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import timber.log.Timber;
 
 @HiltViewModel
 public class VMPatrolRoute extends ViewModel {
+    private static final String TAG = TimeCheckService.class.getSimpleName();
 
     private final DataStore dataStore;
     private final PatrolCache patrolCache;
@@ -59,6 +67,8 @@ public class VMPatrolRoute extends ViewModel {
     private final ScheduleRepository scheduleRepository;
     private final UserProfileRepository userProfileRepository;
 
+
+    private final MutableLiveData<Boolean> notificationPermissionEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isLoadingPatrolRoutes = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> hasLogout = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> loggingOut = new MutableLiveData<>(false);
@@ -90,6 +100,14 @@ public class VMPatrolRoute extends ViewModel {
         this.userProfileRepository = userProfileRepository;
 
         getPatrolRouteSchedules();
+    }
+
+    public void setNotificationPermissionEnabled(boolean value) {
+        notificationPermissionEnabled.setValue(value);
+    }
+
+    public LiveData<Boolean> isNotificationPermissionEnabled() {
+        return notificationPermissionEnabled;
     }
 
     public void initPatrolCheckpoints() {
@@ -173,6 +191,9 @@ public class VMPatrolRoute extends ViewModel {
                             List<PatrolRouteEntity> patrolRoutes = response.getData().get(0).getSRoutexxx();
                             List<PatrolScheduleEntity> patrolSchedules = response.getData().get(0).getSSchedule();
 
+                            if (patrolSchedules.isEmpty()) {
+                                reportException("", "Imported patrol schedules is empty.");
+                            }
                             patrolRepository.savePatrolRoute(patrolRoutes);
                             scheduleRepository.savePatrolSchedule(patrolSchedules);
                             isLoadingPatrolRoutes.setValue(false);
@@ -200,10 +221,10 @@ public class VMPatrolRoute extends ViewModel {
                 return;
             }
 
-            if (!nfcTag.getSDescript().equalsIgnoreCase(patrol.getsDescript())) {
-                errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
-                return;
-            }
+//            if (!nfcTag.getSDescript().equalsIgnoreCase(patrol.getsDescript())) {
+//                errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
+//                return;
+//            }
 
             String remarks = "";
 
@@ -212,6 +233,7 @@ public class VMPatrolRoute extends ViewModel {
             }
 
             if (patrolCache.getPatrolSchedule().isEmpty()) {
+                reportException("", "Patrol schedule is empty");
                 errorMessage.setValue("Unable to tag this checkpoint as visited. Wait for the next patrol schedule.");
                 return;
             }
@@ -365,6 +387,75 @@ public class VMPatrolRoute extends ViewModel {
         } catch (Exception e) {
             e.printStackTrace();
             errorMessage.setValue("Invalid payload has been scan. Please try again...");
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private void checkPatrolSchedule() {
+        List<PatrolScheduleEntity> patrolSchedule = scheduleRepository.getPatrolScheduleList();
+        if (patrolSchedule == null) {
+            return;
+        }
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
+
+        // Parse the current time
+        LocalTime currentTime = LocalTime.now();
+        Timber.tag(TAG).d("Current Time: %s", currentTime.format(dateTimeFormatter));
+
+        patrolSchedule.sort(new TimeComparator());
+        if (patrolSchedule.isEmpty()) {
+            reportException("", "Imported patrol schedules is empty.");
+        }
+        for (int x = 0; x < patrolSchedule.size(); x++) {
+            reportException("", "Imported patrol schedules is empty.");
+            PatrolScheduleEntity schedule = patrolSchedule.get(x);
+
+            // Parse the time from the list
+            LocalTime patrolTime = LocalTime.parse(schedule.getDTimexxxx(), dateTimeFormatter);
+
+            int comparison = currentTime.compareTo(patrolTime);
+
+            if (comparison < 0) {
+                break;
+            }
+
+            if (comparison > 0) {
+                Duration duration = Duration.between(currentTime, patrolTime);
+
+                long minutes = duration.toMinutes() % 60;
+
+                boolean patrolStarted = patrolCache.getPatrolStarted();
+
+                if (!patrolStarted) {
+                    if (minutes <= 1 && minutes > -25) {
+                        patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
+                        break;
+                    }
+                }
+
+                Timber.tag(TAG).d("Validating time...");
+                int nextPatrol = x + 1;
+                if (nextPatrol < patrolSchedule.size()) {
+                    Timber.tag(TAG).d("Validating next patrol time...");
+                    LocalTime nextPatrolSchedule = LocalTime.parse(patrolSchedule.get(nextPatrol).getDTimexxxx(), dateTimeFormatter);
+
+                    comparison = currentTime.compareTo(nextPatrolSchedule);
+                    if (comparison > 0) {
+                        continue;
+                    }
+
+                    if (comparison < 0) {
+                        patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
+                        reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime.format(dateTimeFormatter));
+                        if (patrolCache.getPatrolSchedule().isEmpty()) {
+                            reportException("", "Patrol schedule is empty");
+                        }
+                        Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
+                        break;
+                    }
+                }
+            }
         }
     }
 }

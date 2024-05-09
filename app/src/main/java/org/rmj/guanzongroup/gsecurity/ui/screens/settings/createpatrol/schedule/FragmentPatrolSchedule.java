@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.schedule;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
+
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -118,7 +120,7 @@ public class FragmentPatrolSchedule extends Fragment {
                                 Toast.makeText(requireActivity(), "Unknown date time error occurred. Please try again.", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            String formattedTime = new SimpleDateFormat("hh:mm a").format(parseDate);
+                            String formattedTime = new SimpleDateFormat(DEFAULT_TIME_FORMAT).format(parseDate);
                             mViewModel.editSchedule(position, formattedTime);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -149,7 +151,7 @@ public class FragmentPatrolSchedule extends Fragment {
                         Toast.makeText(requireActivity(), "Unknown date time error occurred. Please try again.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    String formattedTime = new SimpleDateFormat("hh:mm a").format(parseDate);
+                    String formattedTime = new SimpleDateFormat(DEFAULT_TIME_FORMAT).format(parseDate);
                     mViewModel.addSchedule(formattedTime);
                 } catch (Exception e) {
                     e.printStackTrace();
