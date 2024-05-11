@@ -121,7 +121,6 @@ public class TimeCheckService extends Service {
 
             // Parse the current time
             LocalTime currentTime = LocalTime.now();
-            Timber.tag(TAG).d("Current Time: %s", currentTime.format(dateTimeFormatter));
 
             patrolSchedule.sort(new TimeComparator());
             if (patrolSchedule.isEmpty()) {
@@ -133,7 +132,8 @@ public class TimeCheckService extends Service {
 
                 // Parse the time from the list
                 LocalTime patrolTime = LocalTime.parse(schedule.getDTimexxxx(), dateTimeFormatter);
-
+                currentTime = LocalTime.parse(currentTime.format(dateTimeFormatter), dateTimeFormatter);
+                Timber.tag(TAG).d("Current Time: %s", currentTime);
                 int comparison = currentTime.compareTo(patrolTime);
 
                 if (comparison < 0) {
@@ -155,17 +155,17 @@ public class TimeCheckService extends Service {
                 if (comparison > 0) {
                     Duration duration = Duration.between(currentTime, patrolTime);
 
-                    long minutes = duration.toMinutes() % 60;
+                    long minutes = duration.toMinutes();
 
                     boolean patrolStarted = patrolCache.getPatrolStarted();
 
                     if (!patrolStarted) {
                         if (minutes <= 1 && minutes > -25) {
                             patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
-                            Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
                             Intent intent = new Intent(this, AlarmActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
                             Timber.tag(TAG).d("Starting alarm activity...");
                             break;
                         }
