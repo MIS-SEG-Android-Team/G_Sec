@@ -304,6 +304,7 @@ public class VMPatrolRoute extends ViewModel {
                                 return;
                             }
 
+                            userProfileRepository.clearCache();
                             hasLogout.setValue(true);
                         },
                         throwable -> {
