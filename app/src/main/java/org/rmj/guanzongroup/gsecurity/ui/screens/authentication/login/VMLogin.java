@@ -189,6 +189,7 @@ public class VMLogin extends ViewModel {
     }
 
     private void initDataStore(LoginBaseResponse baseResponse) {
+        String logNoxx = baseResponse.getsLogNoxxx();
         dataStore.setClientId(baseResponse.getsClientID());
         dataStore.setBranchCode(baseResponse.getsBranchCD());
         dataStore.setBranchName(baseResponse.getsBranchNm());

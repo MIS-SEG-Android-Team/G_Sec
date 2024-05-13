@@ -21,6 +21,7 @@ import org.rmj.guanzongroup.gsecurity.BuildConfig;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentSplashscreenBinding;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AdminActivity;
+import org.rmj.guanzongroup.gsecurity.ui.activity.personnel.PersonnelActivity;
 
 import java.util.Objects;
 
@@ -60,10 +61,16 @@ public class FragmentSplashscreen extends Fragment {
                         Settings.Secure.ANDROID_ID)
         );
 
-        if (mViewModel.hasSession() && mViewModel.isAdmin()) {
-            Intent intent = new Intent(requireActivity(), AdminActivity.class);
-            requireActivity().startActivity(intent);
-            requireActivity().finish();
+        if (mViewModel.hasSession()) {
+            if (mViewModel.isAdmin()) {
+                Intent intent = new Intent(requireActivity(), AdminActivity.class);
+                requireActivity().startActivity(intent);
+                requireActivity().finish();
+            } else {
+                Intent intent = new Intent(requireActivity(), PersonnelActivity.class);
+                requireActivity().startActivity(intent);
+                requireActivity().finish();
+            }
         } else {
             navController.navigate(R.id.action_fragmentSplashscreen_to_fragmentLogin);
         }

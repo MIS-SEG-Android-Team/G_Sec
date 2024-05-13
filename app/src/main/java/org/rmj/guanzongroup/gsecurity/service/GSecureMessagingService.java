@@ -19,6 +19,8 @@ import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -46,8 +48,8 @@ public class GSecureMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        String title = remoteMessage.getData().get("title");
-        String message = remoteMessage.getData().get("message");
+        String title = Objects.requireNonNull(remoteMessage.getNotification()).getTitle();
+        String message = Objects.requireNonNull(remoteMessage.getNotification()).getBody();
         Timber.d("Title: %s", title);
         Timber.d("Message: %s", message);
         Timber.d("Remote Message: %s", remoteMessage);

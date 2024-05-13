@@ -154,7 +154,7 @@ public class TimeCheckService extends Service {
                         if (minutes <= 1 && minutes > -25) {
                             patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
                             Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
-                            Intent intent = new Intent(thisa, AlarmActivity.class);
+                            Intent intent = new Intent(this, AlarmActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             Timber.tag(TAG).d("Starting alarm activity...");
