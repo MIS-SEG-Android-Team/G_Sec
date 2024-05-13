@@ -216,6 +216,8 @@ public class VMPatrolRoute extends ViewModel {
                 return;
             }
 
+
+
             DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
             DateTimeFormatter defaultDateTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
 
@@ -225,6 +227,11 @@ public class VMPatrolRoute extends ViewModel {
             LocalTime schedule = LocalTime.parse(patrolCache.getPatrolSchedule(), defaultTimeFormat);
             LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), schedule);
             String patrolSchedule = scheduleDateTime.format(defaultDateTimeFormat);
+
+            if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null) {
+                errorMessage.setValue("You already tagged this checkpoint as visited.");
+                return;
+            }
 
             PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
             patrolLogEntity.setDVisitedx(currentDateTime);

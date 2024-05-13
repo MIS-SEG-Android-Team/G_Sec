@@ -70,4 +70,8 @@ public class PatrolRepository {
     public Observable<BaseResponse<Void>> postPlaceVisited(PostPatrolParams params){
         return apiService.postPlaceVisited(params);
     }
+
+    public PatrolLogEntity checkIfCheckpointIsVisited(String sNFCIDxxx, String dSchedule) {
+        return patrolLogDao.checkIfCheckpointIsVisited(sNFCIDxxx, dSchedule);
+    }
 }

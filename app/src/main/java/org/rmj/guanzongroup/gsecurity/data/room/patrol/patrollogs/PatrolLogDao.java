@@ -25,4 +25,7 @@ public interface PatrolLogDao {
 
     @Query("SELECT * FROM Patrol_Log WHERE cSendStat <> '1'")
     List<PatrolLogEntity> getPatrolLogsForPosting();
+
+    @Query("SELECT * FROM Patrol_Log WHERE sNFCIDxxx=:sNFCIDxxx AND dSchedule=:dSchedule")
+    PatrolLogEntity checkIfCheckpointIsVisited(String sNFCIDxxx, String dSchedule);
 }
