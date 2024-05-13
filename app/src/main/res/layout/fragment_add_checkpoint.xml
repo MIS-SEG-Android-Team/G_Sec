@@ -216,12 +216,12 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveButton"
+        android:id="@+id/printToNFCButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/view_padding_4"
         android:layout_marginVertical="@dimen/view_padding_16"
-        android:text="@string/button_send_request"
+        android:text="@string/button_print_nfc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

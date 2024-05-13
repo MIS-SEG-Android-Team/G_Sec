@@ -144,6 +144,8 @@
     <string name="button_save_schedule">Save Schedule</string>
     <string name="button_start_patrol">Start Patrol</string>
     <string name="button_patrol_later">Patrol Later</string>
+    <string name="button_print_nfc">Print to NFC</string>
+    <string name="button_create_qr_code">Create QR-Code</string>
 
     <!--    Sentences-->
 

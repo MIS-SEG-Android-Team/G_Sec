@@ -223,9 +223,9 @@ public class FragmentAddCheckpoint extends Fragment {
             }
         });
 
-        binding.saveButton.setOnClickListener(view -> {});
+        binding.printToNFCButton.setOnClickListener(view -> {});
 
-        binding.saveButton.setOnClickListener(view-> {
+        binding.printToNFCButton.setOnClickListener(view-> {
             try {
                 String payload = mViewModel.getAddCheckpointParams();
                 Intent intent = new Intent(requireActivity(), WriteNfcActivity.class);
