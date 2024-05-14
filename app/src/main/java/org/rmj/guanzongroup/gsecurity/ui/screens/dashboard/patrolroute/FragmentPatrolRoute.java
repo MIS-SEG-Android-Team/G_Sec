@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static androidx.core.content.ContextCompat.startForegroundService;
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.QR_CODE_DATA;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.READ_NFC_DATA_PAYLOAD;
@@ -31,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPatrolRouteBinding;
+import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.QrCodeScannerActivity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.ReadNfcActivity;
@@ -118,6 +120,12 @@ public class FragmentPatrolRoute extends Fragment {
         }
     });
 
+
+    private final ActivityResultLauncher<String> notificationPermission =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                mViewModel.setNotificationPermissionEnabled(isGranted);
+            });
+
     public static FragmentPatrolRoute newInstance() {
         return new FragmentPatrolRoute();
     }
@@ -130,6 +138,30 @@ public class FragmentPatrolRoute extends Fragment {
         binding = FragmentPatrolRouteBinding.inflate(getLayoutInflater());
         dialogLoad = new DialogLoad(requireActivity());
 
+        boolean isNotificationPermissionGranted =
+                ContextCompat.checkSelfPermission(requireActivity(),
+                        Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+
+        mViewModel.setNotificationPermissionEnabled(isNotificationPermissionGranted);
+
+        mViewModel.isNotificationPermissionEnabled().observe(requireActivity(), isGranted -> {
+            if (isGranted) {
+                Intent patrolServiceIntent = new Intent(requireActivity(), TimeCheckService.class);
+                startForegroundService(requireActivity(), patrolServiceIntent);
+            } else {
+                DialogMessage dialogMessage = new DialogMessage(requireActivity());
+                dialogMessage.initDialog("Permission", "Enable notifications permission in order to make the app run properly.");
+                dialogMessage.setNegativeButton("Enable", dialog -> {
+                    dialog.dismiss();
+                    notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+                });
+                dialogMessage.setPositiveButton("Cancel", dialog -> {
+                    dialog.dismiss();
+                    requireActivity().finish();
+                });
+                dialogMessage.show();
+            }
+        });
 
         mViewModel.getRequestedVisit().observe(getViewLifecycleOwner(), requestedVisit -> {
             if (requestedVisit == null) {

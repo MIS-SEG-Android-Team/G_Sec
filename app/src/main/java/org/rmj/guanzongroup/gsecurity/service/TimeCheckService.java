@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.service;
 
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
+import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -24,12 +25,14 @@ import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AlarmActivity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
+import org.rmj.guanzongroup.gsecurity.utils.TimeComparator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -111,20 +114,26 @@ public class TimeCheckService extends Service {
                 return;
             }
 
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
+            DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
+                    .parseCaseInsensitive()
+                    .appendPattern(DEFAULT_TIME_FORMAT)
+                    .toFormatter(Locale.ENGLISH);
 
             // Parse the current time
             LocalTime currentTime = LocalTime.now();
-            Timber.tag(TAG).d("Current Time: %s", currentTime.format(dateTimeFormatter));
 
             patrolSchedule.sort(new TimeComparator());
+            if (patrolSchedule.isEmpty()) {
+                reportException("", "Imported patrol schedules is empty.");
+            }
             for (int x = 0; x < patrolSchedule.size(); x++) {
+                reportException("", "Imported patrol schedules is empty.");
                 PatrolScheduleEntity schedule = patrolSchedule.get(x);
 
                 // Parse the time from the list
                 LocalTime patrolTime = LocalTime.parse(schedule.getDTimexxxx(), dateTimeFormatter);
-//                Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime);
-
+                currentTime = LocalTime.parse(currentTime.format(dateTimeFormatter), dateTimeFormatter);
+                Timber.tag(TAG).d("Current Time: %s", currentTime);
                 int comparison = currentTime.compareTo(patrolTime);
 
                 if (comparison < 0) {
@@ -146,7 +155,7 @@ public class TimeCheckService extends Service {
                 if (comparison > 0) {
                     Duration duration = Duration.between(currentTime, patrolTime);
 
-                    long minutes = duration.toMinutes() % 60;
+                    long minutes = duration.toMinutes();
 
                     boolean patrolStarted = patrolCache.getPatrolStarted();
 
@@ -157,6 +166,7 @@ public class TimeCheckService extends Service {
                             Intent intent = new Intent(this, AlarmActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
                             Timber.tag(TAG).d("Starting alarm activity...");
                             break;
                         }
@@ -175,6 +185,10 @@ public class TimeCheckService extends Service {
 
                         if (comparison < 0) {
                             patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
+                            reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime.format(dateTimeFormatter));
+                            if (patrolCache.getPatrolSchedule().isEmpty()) {
+                                reportException("", "Patrol schedule is empty");
+                            }
                             Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
                             break;
                         }
@@ -240,22 +254,6 @@ public class TimeCheckService extends Service {
                 .setContentIntent(pendingIntent);
 
         return builder.build();
-    }
-
-    static class TimeComparator implements Comparator<PatrolScheduleEntity> {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.US);
-
-        @Override
-        public int compare(PatrolScheduleEntity o1, PatrolScheduleEntity o2) {
-            try {
-                Date date1 = dateFormat.parse(o1.getDTimexxxx());
-                Date date2 = dateFormat.parse(o2.getDTimexxxx());
-                return date1.compareTo(date2);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return 0; // Handle parsing error
-            }
-        }
     }
 
     private void playSound() {

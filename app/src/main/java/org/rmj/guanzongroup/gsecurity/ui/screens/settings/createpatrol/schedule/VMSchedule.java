@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.schedule;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
+
 import android.annotation.SuppressLint;
 
 import androidx.lifecycle.LiveData;
@@ -106,7 +108,7 @@ public class VMSchedule extends ViewModel {
             schedule.setNSchedule(String.valueOf(position));
             schedule.setDTimexxxx(time);
             schedules1.add(schedule);
-            schedules1.sort(Comparator.comparing(schedule1 -> LocalTime.parse(schedule1.getDTimexxxx(), DateTimeFormatter.ofPattern("hh:mm a"))));
+            schedules1.sort(Comparator.comparing(schedule1 -> LocalTime.parse(schedule1.getDTimexxxx(), DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT))));
             schedules.setValue(schedules1);
         }
     }
@@ -117,7 +119,7 @@ public class VMSchedule extends ViewModel {
             List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
             schedules1.get(position).setNSchedule(String.valueOf(position));
             schedules1.get(position).setDTimexxxx(time);
-            schedules1.sort(Comparator.comparing(schedule -> LocalTime.parse(schedule.getDTimexxxx(), DateTimeFormatter.ofPattern("hh:mm a"))));
+            schedules1.sort(Comparator.comparing(schedule -> LocalTime.parse(schedule.getDTimexxxx(), DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT))));
             schedules.setValue(schedules1);
         }
     }

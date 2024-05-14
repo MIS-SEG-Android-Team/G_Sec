@@ -33,11 +33,6 @@ public class PersonnelActivity extends AppCompatActivity {
 
     PersonnelActivityViewModel mViewModel;
 
-    private final ActivityResultLauncher<String> notificationPermission =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                mViewModel.setNotificationPermissionEnabled(isGranted);
-            });
-
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,30 +48,5 @@ public class PersonnelActivity extends AppCompatActivity {
         BottomNavigationView navView = binding.bottomNavBar;
 
         NavigationUI.setupWithNavController(navView, navController);
-
-        boolean isNotificationPermissionGranted =
-                ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
-
-        mViewModel.setNotificationPermissionEnabled(isNotificationPermissionGranted);
-
-        mViewModel.isNotificationPermissionEnabled().observe(this, isGranted -> {
-            if (isGranted) {
-                Intent patrolServiceIntent = new Intent(this, TimeCheckService.class);
-                startForegroundService(patrolServiceIntent);
-            } else {
-                DialogMessage dialogMessage = new DialogMessage(this);
-                dialogMessage.initDialog("Permission", "Enable notifications permission in order to make the app run properly.");
-                dialogMessage.setNegativeButton("Enable", dialog -> {
-                    dialog.dismiss();
-                    notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
-                });
-                dialogMessage.setPositiveButton("Cancel", dialog -> {
-                    dialog.dismiss();
-                    finish();
-                });
-                dialogMessage.show();
-            }
-        });
     }
 }
