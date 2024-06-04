@@ -74,4 +74,12 @@ public class PatrolRepository {
     public PatrolLogEntity checkIfCheckpointIsVisited(String sNFCIDxxx, String dSchedule) {
         return patrolLogDao.checkIfCheckpointIsVisited(sNFCIDxxx, dSchedule);
     }
+
+    public List<PatrolLogEntity> checkIfHasPatrolForSchedule(String dSchedule) {
+        return patrolLogDao.checkIfHasPatrolForSchedule(dSchedule);
+    }
+
+    public int checkIfPatrolFinished(String dSchedule) {
+        return patrolLogDao.checkIfPatrolFinished(dSchedule);
+    }
 }

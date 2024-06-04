@@ -28,4 +28,17 @@ public interface PatrolLogDao {
 
     @Query("SELECT * FROM Patrol_Log WHERE sNFCIDxxx=:sNFCIDxxx AND dSchedule=:dSchedule")
     PatrolLogEntity checkIfCheckpointIsVisited(String sNFCIDxxx, String dSchedule);
+
+    @Query("SELECT * FROM Patrol_Log WHERE dSchedule=:dSchedule")
+    List<PatrolLogEntity> checkIfHasPatrolForSchedule(String dSchedule);
+
+    @Query("SELECT CASE " +
+            "WHEN COUNT(*) = 0 THEN '0' " +
+            "ELSE '1' " +
+            "END AS result " +
+            "FROM Patrol_Route a " +
+            "LEFT JOIN Patrol_Log b ON a.sNFCIDxxx = b.sNFCIDxxx " +
+            "WHERE b.dSchedule =:dSchedule " +
+            "AND b.sNFCIDxxx IS NOT NULL")
+    int checkIfPatrolFinished(String dSchedule);
 }
