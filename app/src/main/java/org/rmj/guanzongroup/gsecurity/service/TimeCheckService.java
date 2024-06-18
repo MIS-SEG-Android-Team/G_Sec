@@ -108,114 +108,6 @@ public class TimeCheckService extends Service {
 
     @SuppressLint("NewApi")
     private void checkDatabase() {
-//        try {
-//
-//            List<PatrolScheduleEntity> patrolSchedule = scheduleRepository.getPatrolScheduleList();
-//            if (patrolSchedule == null) {
-//                return;
-//            }
-//
-//            DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
-//                    .parseCaseInsensitive()
-//                    .appendPattern(DEFAULT_TIME_FORMAT)
-//                    .toFormatter(Locale.ENGLISH);
-//
-//            // Parse the current time
-//            LocalTime currentTime = LocalTime.now();
-//
-//            patrolSchedule.sort(new TimeComparator());
-//            if (patrolSchedule.isEmpty()) {
-//                reportException("", "Imported patrol schedules is empty.");
-//            }
-//
-//            for (int x = 0; x < patrolSchedule.size(); x++) {
-//                PatrolScheduleEntity schedule = patrolSchedule.get(x);
-//
-//                // Parse the time from the list
-//                LocalTime patrolTime = LocalTime.parse(schedule.getDTimexxxx(), dateTimeFormatter);
-//                currentTime = LocalTime.parse(currentTime.format(dateTimeFormatter), dateTimeFormatter);
-//                Timber.tag(TAG).d("Current Time: %s", currentTime);
-//                int comparison = currentTime.compareTo(patrolTime);
-//
-//                if (comparison < 0) {
-//                    patrolCache.setPatrolStarted(false);
-//                    Duration duration = Duration.between(currentTime, patrolTime);
-//
-//                    long minutes = duration.toMinutes() % 60;
-//
-//                    if (minutes <= 10) {
-//                        if (minutes > 5) {
-//                            showNotification("Patrol Reminder", "Your upcoming patrol schedule will start in " + minutes + " minutes.");
-//                        } else {
-//                            showNotification("Patrol Reminder", "Your upcoming patrol schedule will start soon.");
-//                        }
-//                    }
-//                    break;
-//                }
-//
-//                if (comparison > 0) {
-//                    Duration duration = Duration.between(currentTime, patrolTime);
-//
-//                    long minutes = duration.toMinutes();
-//
-//                    String scheduledTime = patrolTime.format(dateTimeFormatter);
-//                    List<PatrolLogEntity> patrolLogs = patrolRepository.checkIfHasPatrolForSchedule(scheduledTime);
-//
-//                    if (patrolLogs == null) {
-//                        patrolCache.setPatrolStarted(false);
-//                        reportException("", "Patrol logs for schedule " + scheduledTime + " is empty. Patrol alarm enabled.");
-//                    } else if (patrolLogs.isEmpty()) {
-//                        patrolCache.setPatrolStarted(false);
-//                        reportException("", "Patrol logs for schedule " + scheduledTime + " is empty. Patrol alarm enabled");
-//                    } else {
-//                        patrolCache.setPatrolStarted(false);
-//                        reportException("", "Patrol logs for schedule " + scheduledTime + " is not empty. Patrol alarm disabled.");
-//                    }
-//
-//                    boolean patrolStarted = patrolCache.getPatrolStarted();
-//
-//                    if (!patrolStarted) {
-//                        if (minutes <= 1 && minutes > -25) {
-//                            patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
-//                            Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
-//                            Timber.tag(TAG).d("Starting alarm activity...");
-//                            startAlarm();
-//                            break;
-//                        }
-//                    }
-//
-//                    Timber.tag(TAG).d("Validating time...");
-//                    int nextPatrol = x + 1;
-//                    if (nextPatrol < patrolSchedule.size()) {
-//                        Timber.tag(TAG).d("Validating next patrol time...");
-//                        LocalTime nextPatrolSchedule = LocalTime.parse(patrolSchedule.get(nextPatrol).getDTimexxxx(), dateTimeFormatter);
-//
-//                        comparison = currentTime.compareTo(nextPatrolSchedule);
-//                        if (comparison > 0) {
-//                            continue;
-//                        }
-//
-//                        if (comparison < 0) {
-//                            patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
-//                            reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime.format(dateTimeFormatter));
-//                            if (patrolCache.getPatrolSchedule().isEmpty()) {
-//                                reportException("", "Patrol schedule is empty");
-//                            }
-//
-//                            if (!patrolStarted) {
-//                                startAlarm();
-//                            }
-//                            Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            reportException("", "Patrol schedule has an error. Error message: " + e.getMessage());
-//        }
-
         try {
             List<PatrolScheduleEntity> patrolSchedule = scheduleRepository.getPatrolScheduleList();
             if (patrolSchedule == null) {
@@ -229,108 +121,33 @@ public class TimeCheckService extends Service {
 
             // Parse the current time
             LocalTime currentTime = LocalTime.now();
+            currentTime = LocalTime.parse(currentTime.format(dateTimeFormatter), dateTimeFormatter);
+            Timber.tag(TAG).d("Current Time: %s", currentTime);
 
-            patrolSchedule.sort(new TimeComparator());
-            if (patrolSchedule.isEmpty()) {
-                reportException("", "Imported patrol schedules is empty.");
-                return;
-            }
+            String scheduledTime = patrolCache.getPatrolSchedule();
 
-            for (int x = 0; x < patrolSchedule.size(); x++) {
-                PatrolScheduleEntity schedule = patrolSchedule.get(x);
+            if (!scheduledTime.isEmpty()) {
+                LocalTime localTimeSchedule = LocalTime.parse(scheduledTime, DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT));
+                LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), localTimeSchedule);
+                scheduledTime = scheduleDateTime.format(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
 
-                // Parse the time from the list
-                LocalTime patrolTime = LocalTime.parse(schedule.getDTimexxxx(), dateTimeFormatter);
-                currentTime = LocalTime.parse(currentTime.format(dateTimeFormatter), dateTimeFormatter);
-                Timber.tag(TAG).d("Current Time: %s", currentTime);
-                int comparison = currentTime.compareTo(patrolTime);
-
-                if (comparison < 0) {
+                if (isPatrolFinished(scheduledTime)) {
                     patrolCache.setPatrolStarted(false);
-                    Duration duration = Duration.between(currentTime, patrolTime);
+                    patrolCache.setPatrolReSchedule("");
+                    reportException("", "Patrol for " + scheduledTime + " has finished!!!");
+                } else {
 
-                    long minutes = duration.toMinutes() % 60;
+                    checkSchedules(patrolSchedule, dateTimeFormatter, currentTime);
+                }
+            } else {
 
-                    if (minutes <= 10) {
-                        if (minutes > 5) {
-                            showNotification("Patrol Reminder", "Your upcoming patrol schedule will start in " + minutes + " minutes.");
-                        } else {
-                            showNotification("Patrol Reminder", "Your upcoming patrol schedule will start soon.");
-                        }
-                    }
-                    break;
+                patrolSchedule.sort(new TimeComparator());
+                if (patrolSchedule.isEmpty()) {
+                    reportException("", "Imported patrol schedules is empty.");
+                    return;
                 }
 
-                if (comparison > 0) {
-                    Duration duration = Duration.between(currentTime, patrolTime);
-
-                    long minutes = duration.toMinutes();
-
-                    String scheduledTime = patrolCache.getPatrolSchedule();
-                    if (!scheduledTime.isEmpty()) {
-                        LocalTime localTimeSchedule = LocalTime.parse(scheduledTime, DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT));
-                        LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), localTimeSchedule);
-                        scheduledTime = scheduleDateTime.format(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
-
-                        if (isPatrolFinished(scheduledTime)) {
-                            patrolCache.setPatrolStarted(false);
-                            reportException("", "Patrol for " + scheduledTime + "has finished!!!");
-                            return;
-                        }
-
-                        List<PatrolLogEntity> patrolLogs = patrolRepository.checkIfHasPatrolForSchedule(scheduledTime);
-
-                        if (patrolLogs == null) {
-                            patrolCache.setPatrolStarted(false);
-                            reportException("", "Patrol logs for schedule " + scheduledTime + " is empty. Patrol alarm enabled.");
-                        } else if (patrolLogs.isEmpty()) {
-                            patrolCache.setPatrolStarted(false);
-                            reportException("", "Patrol logs for schedule " + scheduledTime + " is empty. Patrol alarm enabled");
-                        } else {
-                            patrolCache.setPatrolStarted(false);
-                            reportException("", "Patrol logs for schedule " + scheduledTime + " is not empty. Patrol alarm disabled.");
-                        }
-                    }
-
-
-                    boolean patrolStarted = patrolCache.getPatrolStarted();
-
-                    if (!patrolStarted) {
-                        if (minutes <= 1 && minutes > -25) {
-                            patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
-                            Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
-                            Timber.tag(TAG).d("Starting alarm activity...");
-                            startAlarm();
-                            break;
-                        }
-                    }
-
-                    Timber.tag(TAG).d("Validating time...");
-                    int nextPatrol = x + 1;
-                    if (nextPatrol < patrolSchedule.size()) {
-                        Timber.tag(TAG).d("Validating next patrol time...");
-                        LocalTime nextPatrolSchedule = LocalTime.parse(patrolSchedule.get(nextPatrol).getDTimexxxx(), dateTimeFormatter);
-
-                        comparison = currentTime.compareTo(nextPatrolSchedule);
-                        if (comparison > 0) {
-                            continue;
-                        }
-
-                        if (comparison < 0) {
-                            patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
-                            reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime.format(dateTimeFormatter));
-                            if (patrolCache.getPatrolSchedule().isEmpty()) {
-                                reportException("", "Patrol schedule is empty");
-                            }
-
-                            if (!patrolStarted) {
-                                startAlarm();
-                            }
-                            Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
-                            break;
-                        }
-                    }
-                }
+                checkSchedules(patrolSchedule, dateTimeFormatter, currentTime);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -408,5 +225,76 @@ public class TimeCheckService extends Service {
 
     private boolean isPatrolFinished(String dSchedule) {
         return patrolRepository.checkIfPatrolFinished(dSchedule) == 1;
+    }
+
+    @SuppressLint("NewApi")
+    private void checkSchedules(List<PatrolScheduleEntity> patrolSchedule, DateTimeFormatter dateTimeFormatter, LocalTime currentTime) {
+        for (int x = 0; x < patrolSchedule.size(); x++) {
+            PatrolScheduleEntity schedule = patrolSchedule.get(x);
+
+            // Parse the time from the list
+            LocalTime patrolTime = LocalTime.parse(schedule.getDTimexxxx(), dateTimeFormatter);
+
+            int comparison = currentTime.compareTo(patrolTime);
+
+            if (comparison < 0) {
+                patrolCache.setPatrolStarted(false);
+                Duration duration = Duration.between(currentTime, patrolTime);
+
+                long minutes = duration.toMinutes() % 60;
+
+                if (minutes <= 10) {
+                    if (minutes > 5) {
+                        showNotification("Patrol Reminder", "Your upcoming patrol schedule will start in " + minutes + " minutes.");
+                    } else {
+                        showNotification("Patrol Reminder", "Your upcoming patrol schedule will start soon.");
+                    }
+                }
+                break;
+            }
+
+            if (comparison > 0) {
+                Duration duration = Duration.between(currentTime, patrolTime);
+
+                long minutes = duration.toMinutes();
+
+                boolean patrolStarted = patrolCache.getPatrolStarted();
+
+                if (!patrolStarted) {
+                    if (minutes <= 1 && minutes > -25) {
+                        patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
+                        Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
+                        Timber.tag(TAG).d("Starting alarm activity...");
+                        startAlarm();
+                    }
+                }
+
+                Timber.tag(TAG).d("Validating time...");
+                int nextPatrol = x + 1;
+                if (nextPatrol < patrolSchedule.size()) {
+                    Timber.tag(TAG).d("Validating next patrol time...");
+                    LocalTime nextPatrolSchedule = LocalTime.parse(patrolSchedule.get(nextPatrol).getDTimexxxx(), dateTimeFormatter);
+
+                    comparison = currentTime.compareTo(nextPatrolSchedule);
+                    if (comparison > 0) {
+                        continue;
+                    }
+
+                    if (comparison < 0) {
+                        patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
+                        reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime.format(dateTimeFormatter));
+                        if (patrolCache.getPatrolSchedule().isEmpty()) {
+                            reportException("", "Patrol schedule is empty");
+                        }
+
+                        if (!patrolStarted) {
+                            startAlarm();
+                        }
+                        Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

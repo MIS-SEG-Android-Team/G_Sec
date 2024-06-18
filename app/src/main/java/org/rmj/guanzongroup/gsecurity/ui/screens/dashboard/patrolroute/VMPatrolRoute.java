@@ -42,6 +42,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -239,14 +240,16 @@ public class VMPatrolRoute extends ViewModel {
             }
 
 
-
-            DateTimeFormatter defaultTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
+            DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
+                    .parseCaseInsensitive()
+                    .appendPattern(DEFAULT_TIME_FORMAT)
+                    .toFormatter(Locale.ENGLISH);
             DateTimeFormatter defaultDateTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
 
             String currentDateTime = defaultDateTimeFormat.format(LocalDateTime.now());
-            String currentTime = defaultTimeFormat.format(LocalTime.now());
+            String currentTime = dateTimeFormatter.format(LocalTime.now());
 
-            LocalTime schedule = LocalTime.parse(patrolCache.getPatrolSchedule(), defaultTimeFormat);
+            LocalTime schedule = LocalTime.parse(patrolCache.getPatrolSchedule(), dateTimeFormatter);
             LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), schedule);
             String patrolSchedule = scheduleDateTime.format(defaultDateTimeFormat);
 
@@ -405,7 +408,10 @@ public class VMPatrolRoute extends ViewModel {
             return;
         }
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT);
+        DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .appendPattern(DEFAULT_TIME_FORMAT)
+                .toFormatter(Locale.ENGLISH);
 
         // Parse the current time
         LocalTime currentTime = LocalTime.now();
