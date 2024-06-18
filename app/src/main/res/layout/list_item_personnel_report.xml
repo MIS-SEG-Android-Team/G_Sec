@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/view_padding_8">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/placeVisitedLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Visited Hallway 2"
+        android:textSize="@dimen/screen_sub_header1"
+        android:fontFamily="@font/roboto_medium"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/view_padding_4">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/scheduleLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Schedule: 2:00 AM"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/timeVisitedLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Time Visited: 2:00 AM"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/remarksLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remarks"/>
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/fragmentSplashscreen">
+
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login.FragmentLogin"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentSignUp"
+            app:destination="@id/fragmentSignUp" />
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentForgotPassword"
+            app:destination="@id/fragmentForgotPassword" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentSignUp"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.authentication.signup.FragmentSignUp"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
+
+    <fragment
+        android:id="@+id/fragmentForgotPassword"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.authentication.forgotpassword.FragmentForgotPassword"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
+
+    <fragment
+        android:id="@+id/fragmentSplashscreen"
+        android:name="org.rmj.guanzongroup.gsecurity.ui.screens.splashscreen.FragmentSplashscreen"
+        android:label="fragment_splashscreen"
+        tools:layout="@layout/fragment_splashscreen" >
+
+        <action
+            android:id="@+id/action_fragmentSplashscreen_to_fragmentLogin"
+            app:destination="@id/fragmentLogin"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+
+    </fragment>
+
+</navigation>

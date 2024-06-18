@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/view_padding_16">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/patrolRouteIcon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_location_check"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".1" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/nfcSiteDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/view_padding_8"
+        android:maxLines="1"
+        android:text="@string/list_item_personnel_active_last_visit"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/screen_sub_header2"
+        app:fontFamily="@font/roboto_medium"
+        app:layout_constraintEnd_toStartOf="@+id/patrolStatus"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/patrolRouteIcon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/siteWarehouse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/view_padding_8"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:text="@string/list_item_personnel_active_site"
+        android:textSize="@dimen/screen_body"
+        app:fontFamily="@font/roboto_regular"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/patrolRouteIcon"
+        app:layout_constraintTop_toBottomOf="@+id/nfcSiteDescription" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/patrolStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/list_item_patrol_requested"
+        android:textSize="@dimen/screen_footer_body"
+        app:fontFamily="@font/roboto_medium"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

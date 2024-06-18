@@ -1,3 +1,185 @@
 <resources>
-    <string name="app_name">G_Sec</string>
+
+    <!--    Application Name-->
+    <string name="app_name">GSecure</string>
+
+    <!--    List of Screen Titles-->
+    <string name="title_activity_main">Dashboard</string>
+    <string name="title_activity_authentication">Authentication</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_login">Login</string>
+    <string name="title_add_nfc">Add NFC Tag</string>
+    <string name="title_personnel_list">Personnel List</string>
+    <string name="title_personnel_report">Personnel Report</string>
+    <string name="title_recent_activities">Recent Activities</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_nfc_sites">NFC Sites</string>
+    <string name="title_visit_area">Visit Area</string>
+    <string name="title_personnel_settings">Personnel Settings</string>
+    <string name="title_parameters">Parameters</string>
+    <string name="title_patrol_route">Patrol Route</string>
+    <string name="title_add_warehouse">Add Warehouse</string>
+    <string name="title_position">Position/Roles</string>
+    <string name="title_create_schedule">Create Schedule</string>
+    <string name="title_warehouse_selection">Warehouse Selection</string>
+    <string name="title_patrol_checkpoints">Patrol Checkpoints</string>
+    <string name="title_patrol_schedule">Patrol Schedule</string>
+
+    <!--    Sub Title-->
+    <string name="sub_title_add_nfc">Complete the Details to Integrate a New Location for NFC Tag Security Monitoring</string>
+    <string name="sub_title_personnel_list">List of active personnel</string>
+    <string name="sub_title_personnel_patrol_report">Personnel Patrol Report</string>
+    <string name="sub_title_recent_activities">Recent Patrol Locations for Different Personnel</string>
+    <string name="sub_title_visit_area">Request a personnel to visit an area</string>
+    <string name="sub_title_nfc_sites">Locations of NFC tags</string>
+    <string name="sub_title_settings">GSecure settings</string>
+    <string name="sub_title_patrol_route">Duty Patrol Plan</string>
+    <string name="sub_title_add_warehouse">Register New Warehouse Location</string>
+    <string name="sub_title_notification">Important Notice</string>
+    <string name="sub_title_position">Personnel Roles</string>
+    <string name="sub_title_create_schedule">Plan Patrol Route</string>
+    <string name="sub_title_warehouse_selection">Choose Patrol Base</string>
+    <string name="sub_title_plot_patrol_stops">Select Patrol Stops</string>
+    <string name="sub_title_patrol_schedule">Set Up Your Patrol Routine with a Custom Schedule</string>
+
+    <!--    List of Labels-->
+    <string name="label_guanzon_group">Guanzon Group of Companies</string>
+    <string name="label_forgot_password">Forgot Password</string>
+    <string name="label_sign_up">Sign Up</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_new_personnel">New personnel?</string>
+    <string name="label_change_password">Change Password</string>
+    <string name="label_change_pin">Change PIN</string>
+    <string name="label_nfc_settings">NFC Settings</string>
+    <string name="label_account">Account Settings</string>
+    <string name="label_NFC">NFC</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_first_name">First Name</string>
+    <string name="label_middle_name">Middle Name</string>
+    <string name="label_please_wait">Please wait…</string>
+    <string name="label_warehouse_name">Warehouse Name</string>
+    <string name="label_search_branch">Search Branch</string>
+    <string name="label_branch">Branch</string>
+    <string name="label_selected_branch">Selected Branch</string>
+    <string name="label_category">Category</string>
+    <string name="label_category_description">Category Description</string>
+    <string name="label_nfc_description">NFC Description</string>
+    <string name="label_search_nfc">Search NFC</string>
+    <string name="label_warehouse">Warehouse</string>
+    <string name="label_last_visited">Last visited: </string>
+    <string name="label_tap_the_nfc">Tap the NFC until device plays a sound.</string>
+    <string name="label_specific_place">Specific Place</string>
+    <string name="label_remarks">Remarks</string>
+    <string name="label_time">Time</string>
+    <string name="label_visit_request">Visit Request</string>
+    <string name="label_personnel">Personnel</string>
+    <string name="label_place">Place</string>
+    <string name="label_admin">Admin</string>
+    <string name="label_officer">Officer</string>
+    <string name="label_position">Position</string>
+    <string name="label_description">Description</string>
+    <string name="label_personnel_mpin">Personnel MPIN</string>
+    <string name="label_loading_warehouse">Loading warehouse…</string>
+    <string name="label_retry">Retry</string>
+    <string name="label_date_start">Date Start</string>
+    <string name="label_date_end">Date End</string>
+    <string name="label_schedules">Schedules</string>
+    <string name="label_select_date">Select Date</string>
+    <string name="label_select_checkpoints">Select Checkpoints Here</string>
+    <string name="label_added_checkpoints">Added Checkpoints</string>
+    <string name="label_add_category">Add Category</string>
+    <string name="label_no_warehouse_record_found">Couldn\'t find any warehouse records in your account. Check if you\'ve added any, or create one now!</string>
+    <string name="label_add_schedule">Add Schedule</string>
+    <string name="label_patrol_number_place_holder">Patrol 1</string>
+    <string name="label_patrol_time_place_holder">10:00 PM</string>
+    <string name="label_patrol_checkpoints">Patrol Checkpoints</string>
+    <string name="label_patrol_schedules">Patrol Schedules</string>
+    <string name="label_assigned_personnel">Assigned Personnel</string>
+    <string name="label_something_went_wrong">Something went wrong</string>
+    <string name="label_select_tagging_option">Select tagging option</string>
+    <string name="label_patrol_alarm">Patrol Reminder: Your scheduled patrol time has arrived. Please proceed to your designated patrol area.</string>
+    <string name="label_personnel_mpin_reminder">Reminder: Make sure to share the MPIN with personnel before closing or adding new personnel.</string>
+
+    <!--    Buttons-->
+    <string name="button_okay">Okay</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_nfc_checkpoints">NFC Checkpoints</string>
+    <string name="button_add_tag">Print NFC Tag</string>
+    <string name="button_overwrite">Overwrite</string>
+    <string name="button_close">Close</string>
+    <string name="button_reports">Get Reports</string>
+    <string name="button_export">Export</string>
+    <string name="button_deactivate">Deactivate</string>
+    <string name="button_register">Register</string>
+    <string name="button_logout">Logout</string>
+    <string name="button_nfc_categories">NFC Categories</string>
+    <string name="button_warehouse">Warehouse</string>
+    <string name="button_add_personnel">Add Personnel</string>
+    <string name="button_personnel_list">Personnel List</string>
+    <string name="button_add_position">Add Position</string>
+    <string name="button_add_category">Add Category</string>
+    <string name="button_create_schedule">Create Schedule</string>
+    <string name="button_save">Save</string>
+    <string name="button_add_warehouse">Add Warehouse</string>
+    <string name="button_qr_code">Qr-Code</string>
+    <string name="button_nfc">NFC</string>
+    <string name="button_send_request">Send Request</string>
+    <string name="button_one">1</string>
+    <string name="button_two">2</string>
+    <string name="button_three">3</string>
+    <string name="button_four">4</string>
+    <string name="button_five">5</string>
+    <string name="button_six">6</string>
+    <string name="button_seven">7</string>
+    <string name="button_eight">8</string>
+    <string name="button_nine">9</string>
+    <string name="button_zero">0</string>
+    <string name="button_clear">Clear</string>
+    <string name="button_refresh_list">Refresh List</string>
+    <string name="button_continue">Continue</string>
+    <string name="button_add_checkpoint">Add Checkpoint</string>
+    <string name="button_save_schedule">Save Schedule</string>
+    <string name="button_start_patrol">Start Patrol</string>
+    <string name="button_patrol_later">Patrol Later</string>
+    <string name="button_print_nfc">Print to NFC</string>
+    <string name="button_create_qr_code">Create QR-Code</string>
+
+    <!--    Sentences-->
+
+    <!--    Error Messages-->
+    <string name="error_loading_app_failed">Loading application failed</string>
+
+    <!--    Place Holders-->
+    <string name="version_name">Version v.1</string>
+    <string name="build_version_detail">Build Version 12-10-2023 </string>
+    <string name="dialog_title">Title</string>
+    <string name="dialog_message">Message</string>
+    <string name="list_item_personnel_active_name">Paragas, Daniel</string>
+    <string name="list_item_personnel_active_site">Warehouse Anolid</string>
+    <string name="list_item_personnel_recent_time_visit">2:25 PM</string>
+    <string name="list_item_personnel_active_last_visit">Warehouse 2 Back Door</string>
+    <string name="list_item_patrol_requested">Patrol Requested</string>
+    <string name="list_item_patrol_route">Patrol Route</string>
+    <string name="request_visit_remarks">Check for unplug appliances on outlet</string>
+
+    <!--    Content Description-->
+    <string name="close_button">Close</string>
+    <string name="title_activity_bot_nav">BotNavActivity</string>
+    <string name="title_activity_nav_drawer">NavDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="content_descript_add_button">Add Schedule</string>
+    <string name="content_descript_error_icon">Error</string>
 </resources>
