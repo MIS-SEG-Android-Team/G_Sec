@@ -127,9 +127,9 @@ public class TimeCheckService extends Service {
             String scheduledTime = patrolCache.getPatrolSchedule();
 
             if (!scheduledTime.isEmpty()) {
-                LocalTime localTimeSchedule = LocalTime.parse(scheduledTime, DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT));
+                LocalTime localTimeSchedule = LocalTime.parse(scheduledTime, dateTimeFormatter);
                 LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), localTimeSchedule);
-                scheduledTime = scheduleDateTime.format(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));
+                scheduledTime = scheduleDateTime.format(dateTimeFormatter);
 
                 if (isPatrolFinished(scheduledTime)) {
                     patrolCache.setPatrolStarted(false);
