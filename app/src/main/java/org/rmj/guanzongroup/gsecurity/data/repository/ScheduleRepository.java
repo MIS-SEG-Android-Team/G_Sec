@@ -1,6 +1,11 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
+
+import android.annotation.SuppressLint;
+
 import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolUpdateCache;
@@ -17,7 +22,12 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntit
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -30,6 +40,12 @@ public class ScheduleRepository {
     private final PatrolScheduleDao patrolScheduleDao;
     private final PatrolSchedulerCache patrolSchedulerCache;
     private final PatrolUpdateCache patrolUpdateCache;
+    @SuppressLint("NewApi")
+    private final DateTimeFormatter dateTimeFormatter =
+            new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .appendPattern(DEFAULT_TIME_FORMAT)
+            .toFormatter(Locale.ENGLISH);
 
     @Inject
     public ScheduleRepository(
@@ -88,16 +104,26 @@ public class ScheduleRepository {
         return patrolScheduleDao.getPatrolScheduleList();
     }
 
+    @SuppressLint("NewApi")
+    public PatrolScheduleEntity getPatrolSchedule(){
+        return patrolScheduleDao.getSchedule(
+                new SimpleSQLiteQuery(
+                        "SELECT a.* FROM Patrol_Schedule a, Patrol_Log b" +
+                                " WHERE " + LocalTime.parse("a.dTimexxxx", dateTimeFormatter)
+                        + " = " + LocalTime.parse(
+                                LocalTime.parse("b.dSchedule")
+                                        .format(dateTimeFormatter), dateTimeFormatter)
+                        + " AND b.sNFCIDxxx IS NOT NULL ORDER BY nSchedule ASC LIMIT 1"
+                )
+        );
+    }
+
     public void setPatrolUpdateCache(PersonnelPatrolModel value) {
         patrolUpdateCache.setPatrolUpdateSchedule(value);
     }
 
     public PersonnelPatrolModel getPatrolRouteForUpdate() {
         return patrolUpdateCache.getPatrolScheduleForUpdate();
-    }
-
-    public List<PatrolLogEntity> getPatrolLogForSchedule(String timeFrom, String timeTo){
-        return patrolScheduleDao.getPatrolLogForSchedule(timeFrom, timeTo);
     }
 
     public void updatePatrolRouteForUpdate(PersonnelPatrolModel value) {
