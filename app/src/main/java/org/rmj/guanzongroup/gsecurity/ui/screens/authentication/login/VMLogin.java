@@ -114,8 +114,10 @@ public class VMLogin extends ViewModel {
 
         // Display loading dialog on UI...
         isLoading.setValue(true);
+
         PINParams param = new PINParams();
         param.setMpin(mpin.getValue());
+
         repository.loginPersonnel(param)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -158,6 +160,7 @@ public class VMLogin extends ViewModel {
         LoginParams params = new LoginParams();
         params.setUsername(user);
         params.setPassword(password);
+
         repository.loginAdmin(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

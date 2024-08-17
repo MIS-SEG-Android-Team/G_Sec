@@ -177,9 +177,12 @@ public class VMPatrolRoute extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void getPatrolRouteSchedules() {
+
         isLoadingPatrolRoutes.setValue(true);
+
         GetPatrolRouteParams params = new GetPatrolRouteParams();
         params.setSUserIDxx(dataStore.getUserId());
+
         patrolRepository.getPatrolRouteSchedule(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -195,6 +198,7 @@ public class VMPatrolRoute extends ViewModel {
                             if (patrolSchedules.isEmpty()) {
                                 reportException("", "Imported patrol schedules is empty.");
                             }
+
                             patrolRepository.savePatrolRoute(patrolRoutes);
                             scheduleRepository.savePatrolSchedule(patrolSchedules);
                             isLoadingPatrolRoutes.setValue(false);

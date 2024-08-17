@@ -202,13 +202,17 @@ public class VMVisitArea extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void sendVisitationRequest() {
+
         sendingRequest.setValue(true);
+
         RequestSiteVisitParams params = new RequestSiteVisitParams();
+
         params.setSWHouseID(warehouseID.getValue());
         params.setSNFCIDxxx(checkpointID.getValue());
         params.setSUserIDxx(personnelID.getValue());
         params.setDTimexxxx(convertTimeToDateTime(scheduleTime.getValue()));
         params.setSRemarksx(remarks.getValue());
+
         requestVisitRepository.sendVisitationRequest(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

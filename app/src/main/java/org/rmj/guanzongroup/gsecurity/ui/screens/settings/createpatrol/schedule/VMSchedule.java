@@ -178,11 +178,15 @@ public class VMSchedule extends ViewModel {
         }
 
         personnelPatrolSchedule.setSSchedule(schedules1);
+
         scheduleRepository.updatePatrolRouteForUpdate(personnelPatrolSchedule);
+
         UpdatePatrolScheduleParams params = new UpdatePatrolScheduleParams();
+
         params.setSAdminIDx(dataStore.getUserId());
         params.setSSchedIDx(personnelPatrolSchedule.getSSchedIDx());
         params.setSSchedule(schedules1);
+
         scheduleRepository.updateSchedule(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

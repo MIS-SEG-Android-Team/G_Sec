@@ -24,7 +24,4 @@ public interface PatrolScheduleDao {
     @Query("SELECT * FROM Patrol_Schedule ORDER BY nSchedule ASC")
     List<PatrolScheduleEntity> getPatrolScheduleList();
 
-    @RawQuery
-    PatrolScheduleEntity getSchedule(SimpleSQLiteQuery query);
-
 }

@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
-import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolUpdateCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetRecentActivityParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
@@ -18,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Observable;
+
 
 public class PatrolRepository {
 

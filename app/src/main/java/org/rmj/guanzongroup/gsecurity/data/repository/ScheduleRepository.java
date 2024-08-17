@@ -5,8 +5,6 @@ import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FO
 import android.annotation.SuppressLint;
 
 import androidx.lifecycle.LiveData;
-import androidx.sqlite.db.SimpleSQLiteQuery;
-
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolUpdateCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
@@ -15,24 +13,16 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.updatepatrolroute.Update
 import org.rmj.guanzongroup.gsecurity.data.remote.param.updatepatrolschedule.UpdatePatrolScheduleParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.updatepersonnel.UpdatePatrolPersonnelParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
-import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
-
 import javax.inject.Inject;
-
 import io.reactivex.rxjava3.core.Observable;
-import retrofit2.http.Body;
 
 public class ScheduleRepository {
 
@@ -96,26 +86,8 @@ public class ScheduleRepository {
         patrolScheduleDao.save(value);
     }
 
-    public LiveData<List<PatrolScheduleEntity>> getPatrolSchedules() {
-        return patrolScheduleDao.getPatrolSchedules();
-    }
-
     public List<PatrolScheduleEntity> getPatrolScheduleList() {
         return patrolScheduleDao.getPatrolScheduleList();
-    }
-
-    @SuppressLint("NewApi")
-    public PatrolScheduleEntity getPatrolSchedule(){
-        return patrolScheduleDao.getSchedule(
-                new SimpleSQLiteQuery(
-                        "SELECT a.* FROM Patrol_Schedule a, Patrol_Log b" +
-                                " WHERE " + LocalTime.parse("a.dTimexxxx", dateTimeFormatter)
-                        + " = " + LocalTime.parse(
-                                LocalTime.parse("b.dSchedule")
-                                        .format(dateTimeFormatter), dateTimeFormatter)
-                        + " AND b.sNFCIDxxx IS NOT NULL ORDER BY nSchedule ASC LIMIT 1"
-                )
-        );
     }
 
     public void setPatrolUpdateCache(PersonnelPatrolModel value) {
