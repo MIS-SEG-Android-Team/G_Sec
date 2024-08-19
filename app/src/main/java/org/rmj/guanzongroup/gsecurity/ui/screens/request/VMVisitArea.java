@@ -11,7 +11,6 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.GetNFCTagsParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.RequestSiteVisitParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.ActivePersonnelModel;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.PersonnelModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.CheckpointRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PersonnelRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.RequestVisitRepository;

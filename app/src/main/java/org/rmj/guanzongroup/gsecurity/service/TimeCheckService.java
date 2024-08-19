@@ -242,7 +242,7 @@ public class TimeCheckService extends Service {
 
             Duration duration = Duration.between(currentTime, patrolTime);
 
-            long minutes = duration.toMinutes() % 60;
+            long minutes = duration.toMinutes();
 
             Timber.tag(TAG).d("%s is current index", patrolTime);
 

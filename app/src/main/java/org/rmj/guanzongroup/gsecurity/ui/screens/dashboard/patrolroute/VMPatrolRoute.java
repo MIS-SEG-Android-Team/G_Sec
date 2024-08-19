@@ -7,8 +7,6 @@ import static org.rmj.guanzongroup.gsecurity.etc.DateTime.getCurrentLocalDateTim
 import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -402,78 +400,6 @@ public class VMPatrolRoute extends ViewModel {
         } catch (Exception e) {
             e.printStackTrace();
             errorMessage.setValue("Invalid payload has been scan. Please try again...");
-        }
-    }
-
-    @SuppressLint("NewApi")
-    private void checkPatrolSchedule() {
-        List<PatrolScheduleEntity> patrolSchedule = scheduleRepository.getPatrolScheduleList();
-        if (patrolSchedule == null) {
-            return;
-        }
-
-        DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
-                .parseCaseInsensitive()
-                .appendPattern(DEFAULT_TIME_FORMAT)
-                .toFormatter(Locale.ENGLISH);
-
-        // Parse the current time
-        LocalTime currentTime = LocalTime.now();
-        Timber.tag(TAG).d("Current Time: %s", currentTime.format(dateTimeFormatter));
-
-        patrolSchedule.sort(new TimeComparator());
-        if (patrolSchedule.isEmpty()) {
-            reportException("", "Imported patrol schedules is empty.");
-        }
-        for (int x = 0; x < patrolSchedule.size(); x++) {
-            reportException("", "Imported patrol schedules is empty.");
-            PatrolScheduleEntity schedule = patrolSchedule.get(x);
-
-            // Parse the time from the list
-            LocalTime patrolTime = LocalTime.parse(schedule.getDTimexxxx(), dateTimeFormatter);
-
-            int comparison = currentTime.compareTo(patrolTime);
-
-            if (comparison < 0) {
-                break;
-            }
-
-            if (comparison > 0) {
-                Duration duration = Duration.between(currentTime, patrolTime);
-
-                long minutes = duration.toMinutes() % 60;
-
-                boolean patrolStarted = patrolCache.getPatrolStarted();
-
-                if (!patrolStarted) {
-                    if (minutes <= 1 && minutes > -25) {
-                        patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
-                        break;
-                    }
-                }
-
-                Timber.tag(TAG).d("Validating time...");
-                int nextPatrol = x + 1;
-                if (nextPatrol < patrolSchedule.size()) {
-                    Timber.tag(TAG).d("Validating next patrol time...");
-                    LocalTime nextPatrolSchedule = LocalTime.parse(patrolSchedule.get(nextPatrol).getDTimexxxx(), dateTimeFormatter);
-
-                    comparison = currentTime.compareTo(nextPatrolSchedule);
-                    if (comparison > 0) {
-                        continue;
-                    }
-
-                    if (comparison < 0) {
-                        patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
-                        reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime.format(dateTimeFormatter));
-                        if (patrolCache.getPatrolSchedule().isEmpty()) {
-                            reportException("", "Patrol schedule is empty");
-                        }
-                        Timber.tag(TAG).d("Patrol Schedule: %s", patrolTime.format(dateTimeFormatter));
-                        break;
-                    }
-                }
-            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.service;
 
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.NOTIFICATION_VISIT;
+import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -21,8 +22,12 @@ import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -37,10 +42,13 @@ import timber.log.Timber;
 public class GSecureMessagingService extends FirebaseMessagingService {
 
     @Inject
-    private PatrolRepository patrolRepository;
+    PatrolRepository patrolRepository;
 
     @Inject
-    private DataStore dataStore;
+    ScheduleRepository scheduleRepository;
+
+    @Inject
+    DataStore dataStore;
 
     @Inject
     TokenCache tokenCache;
@@ -118,16 +126,33 @@ public class GSecureMessagingService extends FirebaseMessagingService {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             listBaseResponse -> {
+
                                 Timber.tag("GSecureMessagingService").d(listBaseResponse.getResult());
+
+                                if (listBaseResponse.getResult().equalsIgnoreCase("error")) {
+                                    return;
+                                }
+
+                                List<PatrolRouteEntity> patrolRoutes = listBaseResponse.getData().get(0).getSRoutexxx();
+                                List<PatrolScheduleEntity> patrolSchedules = listBaseResponse.getData().get(0).getSSchedule();
+
+                                if (patrolSchedules.isEmpty()) {
+                                    Timber.tag("GSecureMessagingService").d("Imported patrol schedules is empty.");
+                                    reportException("", "Imported patrol schedules is empty.");
+                                }
+
+                                patrolRepository.savePatrolRoute(patrolRoutes);
+                                scheduleRepository.savePatrolSchedule(patrolSchedules);
                             },
 
                             throwable -> {
                                 Timber.tag("GSecureMessagingService").d(throwable);
+                                reportException("", throwable.toString());
                             }
                     );
 
         }catch (Exception e){
-            Timber.tag("GSecureMessagingService").d(e.getMessage());
+            Timber.tag("GSecureMessagingService").d(e);
         }
         
     }

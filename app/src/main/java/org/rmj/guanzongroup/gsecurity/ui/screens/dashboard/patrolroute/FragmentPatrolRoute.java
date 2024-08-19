@@ -178,6 +178,7 @@ public class FragmentPatrolRoute extends Fragment {
                     public void onClickNFCButton(String remarks) {
                         isTaggingRequestedVisit = true;
                         mViewModel.setRequestedVisit(requestedVisit);
+
                         Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
                         intentNFCReader.launch(intent);
                     }
@@ -185,6 +186,7 @@ public class FragmentPatrolRoute extends Fragment {
                     @Override
                     public void onClickQrCodeButton(String remarks) {
                         isTaggingRequestedVisit = true;
+
                         Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
                         intentQrCodeScanner.launch(intent);
                     }
