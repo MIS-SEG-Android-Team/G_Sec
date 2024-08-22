@@ -14,6 +14,8 @@ public class PatrolScheduleEntity {
     protected String dTimexxxx;
     @ColumnInfo(name = "nSchedule")
     protected String nSchedule;
+    @ColumnInfo(name = "cRequestxx")
+    protected String cRequestxx;
     @ColumnInfo(name = "cAlarmxxx")
     protected boolean cAlarmxxx = false;
 
@@ -27,10 +29,12 @@ public class PatrolScheduleEntity {
     public String getNSchedule() { return nSchedule; }
     public void setNSchedule(String nSchedule) { this.nSchedule = nSchedule; }
 
+    public String getCRequestd() { return cRequestxx; }
+    public void setCRequestd(String value) { this.cRequestxx = value; }
+
     public boolean getCAlarmxxx() {
         return cAlarmxxx;
     }
-
     public void setCAlarmxxx(boolean cAlarmxxx) {
         this.cAlarmxxx = cAlarmxxx;
     }

@@ -36,8 +36,11 @@ public class PersonnelActivity extends AppCompatActivity {
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         mViewModel = new ViewModelProvider(this).get(PersonnelActivityViewModel.class);
+
         org.rmj.guanzongroup.gsecurity.databinding.ActivityPersonnelBinding binding = ActivityPersonnelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

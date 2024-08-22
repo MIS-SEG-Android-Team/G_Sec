@@ -173,6 +173,7 @@ public class FragmentPatrolRoute extends Fragment {
             binding.siteRemarks.setText(requestedVisit.getSRemark1());
             binding.visitRequestBanner.setVisibility(View.VISIBLE);
             binding.visitRequestBanner.setOnClickListener( view -> {
+
                 new DialogTagOption(requireActivity(), requestedVisit.getSDescript(), new DialogTagOption.DialogTagOptionCallback() {
                     @Override
                     public void onClickNFCButton(String remarks) {
@@ -207,6 +208,7 @@ public class FragmentPatrolRoute extends Fragment {
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
             linearLayoutManager.setOrientation(VERTICAL);
+            
             AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, (patrol, position) -> {
                 if (patrol.isVisited()) {
                     new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {

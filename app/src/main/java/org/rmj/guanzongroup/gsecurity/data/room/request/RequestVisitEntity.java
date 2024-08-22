@@ -17,8 +17,6 @@ public class RequestVisitEntity {
     protected String sDescript;
     @ColumnInfo(name = "dVisitedx")
     protected String dVisitedx;
-    @ColumnInfo(name = "cRequestd")
-    protected String cRequestd;
     @ColumnInfo(name = "sRemarks1")
     protected String sRemarks1;
     @ColumnInfo(name = "sRemarks2")
@@ -37,9 +35,6 @@ public class RequestVisitEntity {
 
     public String getDVisitedx() { return dVisitedx; }
     public void setDVisitedx(String value) { this.dVisitedx = value; }
-
-    public String getCRequestd() { return cRequestd; }
-    public void setCRequestd(String value) { this.cRequestd = value; }
 
     public String getSRemark1() { return sRemarks1; }
     public void setSRemark1(String value) { this.sRemarks1 = value; }

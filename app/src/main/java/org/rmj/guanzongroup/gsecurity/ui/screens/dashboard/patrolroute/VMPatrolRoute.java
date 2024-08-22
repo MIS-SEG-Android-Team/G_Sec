@@ -7,6 +7,8 @@ import static org.rmj.guanzongroup.gsecurity.etc.DateTime.getCurrentLocalDateTim
 import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -193,6 +195,8 @@ public class VMPatrolRoute extends ViewModel {
                             List<PatrolRouteEntity> patrolRoutes = response.getData().get(0).getSRoutexxx();
                             List<PatrolScheduleEntity> patrolSchedules = response.getData().get(0).getSSchedule();
 
+                            Timber.tag("VMPatrolRoute").d(response.getData().get(0).getcRequestx());
+
                             if (patrolSchedules.isEmpty()) {
                                 reportException("", "Imported patrol schedules is empty.");
                             }
@@ -202,6 +206,7 @@ public class VMPatrolRoute extends ViewModel {
                             isLoadingPatrolRoutes.setValue(false);
                         },
                         throwable -> {
+                            Timber.tag("VMPatrolRoute").d(throwable);
                             isLoadingPatrolRoutes.setValue(false);
                         }
                 );
@@ -268,16 +273,20 @@ public class VMPatrolRoute extends ViewModel {
             patrolLogEntity.setSUserIDxx(dataStore.getUserId());
             patrolLogEntity.setCSendStat("0");
             patrolLogEntity.setDSchedule(patrolSchedule);
+            patrolLogEntity.setcRequested("2"); //todo: this should be same value with visit schedule 'cRequested'
+
             patrolRepository.savePatrolLog(patrolLogEntity);
 
             isLoadingPosting.setValue(false);
             successMessage.setValue("You visited " + nfcTag.getSDescript());
+
             if (checkpointIndex.getValue() != null) {
                 int checkpointPosition = checkpointIndex.getValue();
                 List<PatrolCheckpoint> checkpoints = patrolCheckpoints.getValue();
                 checkpoints.get(checkpointPosition).setVisited(true);
                 patrolCheckpoints.setValue(checkpoints);
             }
+
             postTaggedCheckpoints();
         } catch (JsonSyntaxException e) {
             e.printStackTrace();
@@ -381,6 +390,7 @@ public class VMPatrolRoute extends ViewModel {
             requestVisit.setDVisitedx(currentDateTime);
             requestVisit.setSRemark2(remarks);
             requestVisit.setCSendStat("0");
+
             requestVisitRepository.update(requestVisit);
 
             isLoadingPosting.setValue(false);

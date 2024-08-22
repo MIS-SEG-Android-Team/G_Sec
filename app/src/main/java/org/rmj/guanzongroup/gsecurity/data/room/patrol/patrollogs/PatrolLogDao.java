@@ -17,20 +17,11 @@ public interface PatrolLogDao {
     @Update
     void update(List<PatrolLogEntity> value);
 
-    @Query("SELECT * FROM Patrol_Log ORDER BY dVisitedx DESC")
-    LiveData<List<PatrolLogEntity>> getPatrolLogs();
-
-    @Query("SELECT * FROM Patrol_Log WHERE dSchedule =:nSchedule AND sNFCIDxxx =:sNFCIDxxx AND dVisitedx LIKE '%'||:date||'%'")
-    PatrolLogEntity getPatrolLog(String nSchedule, String sNFCIDxxx, String date);
-
     @Query("SELECT * FROM Patrol_Log WHERE cSendStat <> '1'")
     List<PatrolLogEntity> getPatrolLogsForPosting();
 
     @Query("SELECT * FROM Patrol_Log WHERE sNFCIDxxx=:sNFCIDxxx AND dSchedule=:dSchedule")
     PatrolLogEntity checkIfCheckpointIsVisited(String sNFCIDxxx, String dSchedule);
-
-    @Query("SELECT * FROM Patrol_Log WHERE dSchedule=:dSchedule")
-    List<PatrolLogEntity> checkIfHasPatrolForSchedule(String dSchedule);
 
     @Query("SELECT CASE " +
             "WHEN COUNT(*) = 0 THEN '0' " +

@@ -101,9 +101,12 @@ public class VMScheduleReview extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void getPatrolSchedulerForUser(String userID) {
+
         isLoadingSchedule.setValue(true);
+
         GetPatrolRouteParams params = new GetPatrolRouteParams();
         params.setSUserIDxx(userID);
+
         scheduleRepository.getPatrolRouteForUpdate(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

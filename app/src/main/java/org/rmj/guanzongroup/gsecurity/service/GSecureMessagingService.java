@@ -22,6 +22,7 @@ import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
+import org.rmj.guanzongroup.gsecurity.data.repository.RequestVisitRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
@@ -46,6 +47,9 @@ public class GSecureMessagingService extends FirebaseMessagingService {
 
     @Inject
     ScheduleRepository scheduleRepository;
+
+    @Inject
+    RequestVisitRepository requestVisitRepository;
 
     @Inject
     DataStore dataStore;
@@ -117,7 +121,7 @@ public class GSecureMessagingService extends FirebaseMessagingService {
 
         try{
 
-            GetPatrolRouteParams params = new GetPatrolRouteParams();
+            /*GetPatrolRouteParams params = new GetPatrolRouteParams();
 
             params.setSUserIDxx(dataStore.getUserId());
 
@@ -149,6 +153,15 @@ public class GSecureMessagingService extends FirebaseMessagingService {
                                 Timber.tag("GSecureMessagingService").d(throwable);
                                 reportException("", throwable.toString());
                             }
+                    );*/
+
+            requestVisitRepository.getVisitRequest()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+
+                            voidBaseResponse -> Timber.tag("GSecureMessagingService").d(voidBaseResponse.getResult())
+
                     );
 
         }catch (Exception e){

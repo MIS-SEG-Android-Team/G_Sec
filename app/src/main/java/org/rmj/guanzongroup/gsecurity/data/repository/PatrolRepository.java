@@ -47,10 +47,6 @@ public class PatrolRepository {
         return patrolRouteDao.getPatrolCheckPoints();
     }
 
-    public PatrolLogEntity getPatrolLog(String nSchedule, String sNFCIDxxx, String date) {
-        return patrolLogDao.getPatrolLog(nSchedule, sNFCIDxxx, date);
-    }
-
     public Observable<BaseResponse<List<RecentActivityModel>>> getRecentActivity(GetRecentActivityParams params) {
         return apiService.getRecentActivity(params);
     }
@@ -73,10 +69,6 @@ public class PatrolRepository {
 
     public PatrolLogEntity checkIfCheckpointIsVisited(String sNFCIDxxx, String dSchedule) {
         return patrolLogDao.checkIfCheckpointIsVisited(sNFCIDxxx, dSchedule);
-    }
-
-    public List<PatrolLogEntity> checkIfHasPatrolForSchedule(String dSchedule) {
-        return patrolLogDao.checkIfHasPatrolForSchedule(dSchedule);
     }
 
     public int checkIfPatrolFinished(String dSchedule) {

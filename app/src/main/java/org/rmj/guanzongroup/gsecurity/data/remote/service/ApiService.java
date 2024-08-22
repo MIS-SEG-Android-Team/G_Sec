@@ -208,6 +208,9 @@ public interface ApiService {
     @POST("/gsecure/patrol/get_patrol_route.php")
     Observable<BaseResponse<List<PersonnelPatrolModel>>> getPatrolRouteForUpdate(@Body GetPatrolRouteParams params);
 
+    @POST("/gsecure/patrol/get_visit_request.php")
+    Observable<BaseResponse<Void>> getVisitRequest();
+
     // endregion
 
     // region Notification

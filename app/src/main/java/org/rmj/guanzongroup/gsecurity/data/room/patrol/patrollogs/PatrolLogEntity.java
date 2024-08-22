@@ -24,6 +24,8 @@ public class PatrolLogEntity {
     protected String cSendStat;
     @ColumnInfo(name = "dSchedule")
     protected String dSchedule;
+    @ColumnInfo(name = "cRequested")
+    protected String cRequested;
 
     public PatrolLogEntity() {
     }
@@ -48,4 +50,7 @@ public class PatrolLogEntity {
 
     public String getDTimeVist() { return dTimeVist; }
     public void setDTimeVist(String dTimeVist) { this.dTimeVist = dTimeVist; }
+
+    public String getcRequested() { return dTimeVist; }
+    public void setcRequested(String dTimeVist) { this.dTimeVist = dTimeVist; }
 }
