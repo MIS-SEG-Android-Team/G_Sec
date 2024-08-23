@@ -38,10 +38,6 @@ public class RequestVisitRepository {
         return requestVisitDao.getRequestedVisit();
     }
 
-    public Observable<BaseResponse<Void>> getVisitRequest() {
-        return apiService.getVisitRequest();
-    }
-
     public Observable<BaseResponse<Void>> sendVisitedNotification(RequestVisitEntity params) {
         return apiService.sendVisitedNotification(params);
     }

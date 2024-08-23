@@ -21,6 +21,7 @@ import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.RequestVisitRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
@@ -121,7 +122,7 @@ public class GSecureMessagingService extends FirebaseMessagingService {
 
         try{
 
-            /*GetPatrolRouteParams params = new GetPatrolRouteParams();
+            GetPatrolRouteParams params = new GetPatrolRouteParams();
 
             params.setSUserIDxx(dataStore.getUserId());
 
@@ -131,37 +132,35 @@ public class GSecureMessagingService extends FirebaseMessagingService {
                     .subscribe(
                             listBaseResponse -> {
 
-                                Timber.tag("GSecureMessagingService").d(listBaseResponse.getResult());
-
                                 if (listBaseResponse.getResult().equalsIgnoreCase("error")) {
                                     return;
+                                }else {
+
+                                    for(PatrolRouteModel obj: listBaseResponse.getData()) {
+
+                                        List<PatrolRouteEntity> patrolRoutes = obj.getSRoutexxx();
+                                        List<PatrolScheduleEntity> patrolSchedules = obj.getSSchedule();
+
+                                        if (patrolSchedules.isEmpty()) {
+                                            reportException("", "Imported patrol schedules is empty.");
+                                        }else {
+
+                                            for (PatrolScheduleEntity value: patrolSchedules) {
+                                                value.setCRequestd(obj.getcRequestx());
+                                            }
+                                        }
+
+                                        patrolRepository.savePatrolRoute(patrolRoutes);
+                                        scheduleRepository.savePatrolSchedule(patrolSchedules);
+
+                                    }
                                 }
-
-                                List<PatrolRouteEntity> patrolRoutes = listBaseResponse.getData().get(0).getSRoutexxx();
-                                List<PatrolScheduleEntity> patrolSchedules = listBaseResponse.getData().get(0).getSSchedule();
-
-                                if (patrolSchedules.isEmpty()) {
-                                    Timber.tag("GSecureMessagingService").d("Imported patrol schedules is empty.");
-                                    reportException("", "Imported patrol schedules is empty.");
-                                }
-
-                                patrolRepository.savePatrolRoute(patrolRoutes);
-                                scheduleRepository.savePatrolSchedule(patrolSchedules);
                             },
 
                             throwable -> {
                                 Timber.tag("GSecureMessagingService").d(throwable);
                                 reportException("", throwable.toString());
                             }
-                    );*/
-
-            requestVisitRepository.getVisitRequest()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-
-                            voidBaseResponse -> Timber.tag("GSecureMessagingService").d(voidBaseResponse.getResult())
-
                     );
 
         }catch (Exception e){

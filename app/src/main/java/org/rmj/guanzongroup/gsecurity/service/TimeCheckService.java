@@ -277,8 +277,8 @@ public class TimeCheckService extends Service {
                 //TODO: 4. IF PATROL SCHEDULE IS NOT STARTED
                 if (!patrolCache.getPatrolStarted()){
 
-                    //TODO: 5. START ALARM ACTIVITY WITHIN 25 SECONDS (IF CURRENT TIME = CURRENT SCHEDULE)
-                    if (minutes <= 1 && minutes > -25) {
+                    //TODO: 5. START ALARM ACTIVITY, IF CURRENT TIME IS THE SCHEDULED TIME
+                    if (minutes == 0) {
 
                         startAlarm();
 

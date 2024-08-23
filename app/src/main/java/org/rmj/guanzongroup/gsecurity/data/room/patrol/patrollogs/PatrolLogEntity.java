@@ -51,6 +51,6 @@ public class PatrolLogEntity {
     public String getDTimeVist() { return dTimeVist; }
     public void setDTimeVist(String dTimeVist) { this.dTimeVist = dTimeVist; }
 
-    public String getcRequested() { return dTimeVist; }
-    public void setcRequested(String dTimeVist) { this.dTimeVist = dTimeVist; }
+    public String getcRequested() { return cRequested; }
+    public void setcRequested(String cRequested) { this.cRequested = cRequested; }
 }

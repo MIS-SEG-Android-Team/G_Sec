@@ -30,6 +30,7 @@ public class ScheduleRepository {
     private final PatrolScheduleDao patrolScheduleDao;
     private final PatrolSchedulerCache patrolSchedulerCache;
     private final PatrolUpdateCache patrolUpdateCache;
+
     @SuppressLint("NewApi")
     private final DateTimeFormatter dateTimeFormatter =
             new DateTimeFormatterBuilder()
@@ -84,6 +85,18 @@ public class ScheduleRepository {
 
     public void savePatrolSchedule(List<PatrolScheduleEntity> value) {
         patrolScheduleDao.save(value);
+    }
+
+    public void updateRequestSchedule(String schedule){
+        patrolScheduleDao.updateCRequest(schedule);
+    }
+
+    public String getCRequestTime(String schedule){
+        return patrolScheduleDao.getCRequest(schedule);
+    }
+
+    public String getRecentSchedule(String schedule){
+        return patrolScheduleDao.getRecentSchedule(schedule);
     }
 
     public List<PatrolScheduleEntity> getPatrolScheduleList() {

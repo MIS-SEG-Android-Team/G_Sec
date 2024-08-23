@@ -22,6 +22,7 @@ import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.AddNfcTagParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.RequestVisitRepository;
@@ -188,22 +189,31 @@ public class VMPatrolRoute extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         response -> {
+
                             if (response.getResult().equalsIgnoreCase("error")) {
                                 return;
                             }
 
-                            List<PatrolRouteEntity> patrolRoutes = response.getData().get(0).getSRoutexxx();
-                            List<PatrolScheduleEntity> patrolSchedules = response.getData().get(0).getSSchedule();
+                            for(PatrolRouteModel obj: response.getData()) {
 
-                            Timber.tag("VMPatrolRoute").d(response.getData().get(0).getcRequestx());
+                                List<PatrolRouteEntity> patrolRoutes = obj.getSRoutexxx();
+                                List<PatrolScheduleEntity> patrolSchedules = obj.getSSchedule();
 
-                            if (patrolSchedules.isEmpty()) {
-                                reportException("", "Imported patrol schedules is empty.");
+                                if (patrolSchedules.isEmpty()) {
+                                    reportException("", "Imported patrol schedules is empty.");
+                                }else {
+
+                                    for (PatrolScheduleEntity value: patrolSchedules) {
+                                        value.setCRequestd(obj.getcRequestx());
+                                    }
+                                }
+
+                                patrolRepository.savePatrolRoute(patrolRoutes);
+                                scheduleRepository.savePatrolSchedule(patrolSchedules);
+                                isLoadingPatrolRoutes.setValue(false);
+
                             }
 
-                            patrolRepository.savePatrolRoute(patrolRoutes);
-                            scheduleRepository.savePatrolSchedule(patrolSchedules);
-                            isLoadingPatrolRoutes.setValue(false);
                         },
                         throwable -> {
                             Timber.tag("VMPatrolRoute").d(throwable);
@@ -229,11 +239,6 @@ public class VMPatrolRoute extends ViewModel {
                 return;
             }
 
-//            if (!nfcTag.getSDescript().equalsIgnoreCase(patrol.getsDescript())) {
-//                errorMessage.setValue("You are tagging the wrong NFC checkpoint.");
-//                return;
-//            }
-
             String remarks = "";
 
             if (taggingRemarks.getValue() != null) {
@@ -246,24 +251,43 @@ public class VMPatrolRoute extends ViewModel {
                 return;
             }
 
-
+            //TODO: DEFAULT TIME FORMATTER
             DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
                     .parseCaseInsensitive()
                     .appendPattern(DEFAULT_TIME_FORMAT)
                     .toFormatter(Locale.ENGLISH);
+
             DateTimeFormatter defaultDateTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
 
+            //TODO: FORMAT CURRENT DATE AND TIME
             String currentDateTime = defaultDateTimeFormat.format(LocalDateTime.now());
             String currentTime = dateTimeFormatter.format(LocalTime.now());
 
-            LocalTime schedule = LocalTime.parse(patrolCache.getPatrolSchedule(), dateTimeFormatter);
+            //TODO: FORMAT SCHEDULE TIME, SET SCHEDULE TO PREVIOUS ONE BEHIND CURRENT CACHE
+            LocalTime schedule = LocalTime.parse(scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()),
+                    dateTimeFormatter);
+
             LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), schedule);
+
             String patrolSchedule = scheduleDateTime.format(defaultDateTimeFormat);
 
+            //TODO: CHECK PREVIOUS SCHEDULE BEHIND THE CURRENT CACHE IF VISITED
             if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null) {
-                errorMessage.setValue("You already tagged this checkpoint as visited.");
-                return;
+
+                //TODO: IF VISITED, SET PATROL SCHEDULE TO CURRENT CACHE
+                patrolSchedule = LocalDateTime.of(LocalDateTime.now().toLocalDate(),
+                        LocalTime.parse(patrolCache.getPatrolSchedule())).format(defaultDateTimeFormat);
+
+                //TODO: CHECK AGAIN, IF CURRENT SCHEDULE VISITED RETURN
+                if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null){
+
+                    errorMessage.setValue("You already tagged this checkpoint as visited.");
+                    return;
+
+                }
             }
+
+            Timber.tag("VMPatrolRoute").d(patrolSchedule);
 
             PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
             patrolLogEntity.setDVisitedx(currentDateTime);
@@ -273,7 +297,23 @@ public class VMPatrolRoute extends ViewModel {
             patrolLogEntity.setSUserIDxx(dataStore.getUserId());
             patrolLogEntity.setCSendStat("0");
             patrolLogEntity.setDSchedule(patrolSchedule);
-            patrolLogEntity.setcRequested("2"); //todo: this should be same value with visit schedule 'cRequested'
+
+            String cRequestSchedule = scheduleRepository.getCRequestTime(
+                    scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase());
+
+            if (cRequestSchedule.equals("1")){
+
+                //todo: this should be same value with visit schedule 'cRequested'
+                patrolLogEntity.setcRequested("2");
+
+                //todo: update cRequest to '2' as it should be done by the day requested
+                scheduleRepository.updateRequestSchedule(
+                        scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase());
+            }else {
+
+                //todo: this should be same value with visit schedule 'cRequested'
+                patrolLogEntity.setcRequested(cRequestSchedule);
+            }
 
             patrolRepository.savePatrolLog(patrolLogEntity);
 
@@ -281,14 +321,18 @@ public class VMPatrolRoute extends ViewModel {
             successMessage.setValue("You visited " + nfcTag.getSDescript());
 
             if (checkpointIndex.getValue() != null) {
+
                 int checkpointPosition = checkpointIndex.getValue();
+
                 List<PatrolCheckpoint> checkpoints = patrolCheckpoints.getValue();
                 checkpoints.get(checkpointPosition).setVisited(true);
+
                 patrolCheckpoints.setValue(checkpoints);
             }
 
             postTaggedCheckpoints();
         } catch (JsonSyntaxException e) {
+
             e.printStackTrace();
             errorMessage.setValue("Invalid payload has been scan. Please try again...");
         }
