@@ -276,7 +276,7 @@ public class VMPatrolRoute extends ViewModel {
 
                 //TODO: IF VISITED, SET PATROL SCHEDULE TO CURRENT CACHE
                 patrolSchedule = LocalDateTime.of(LocalDateTime.now().toLocalDate(),
-                        LocalTime.parse(patrolCache.getPatrolSchedule())).format(defaultDateTimeFormat);
+                        LocalTime.parse(patrolCache.getPatrolSchedule(), dateTimeFormatter)).format(defaultDateTimeFormat);
 
                 //TODO: CHECK AGAIN, IF CURRENT SCHEDULE VISITED RETURN
                 if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null){
