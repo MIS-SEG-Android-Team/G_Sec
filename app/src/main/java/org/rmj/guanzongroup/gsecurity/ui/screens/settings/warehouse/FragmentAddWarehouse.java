@@ -41,10 +41,13 @@ public class FragmentAddWarehouse extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAddWarehouse.class);
         binding = FragmentAddWarehouseBinding.inflate(getLayoutInflater());
+
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_admin);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+
         DialogLoad dialogLoad = new DialogLoad(requireActivity());
         DialogMessage dialogMessage = new DialogMessage(requireActivity());
 

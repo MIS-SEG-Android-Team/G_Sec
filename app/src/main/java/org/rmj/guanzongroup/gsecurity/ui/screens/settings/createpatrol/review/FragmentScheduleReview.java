@@ -43,8 +43,10 @@ public class FragmentScheduleReview extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         mViewModel = new ViewModelProvider(requireActivity()).get(VMScheduleReview.class);
         binding = FragmentScheduleReviewBinding.inflate(getLayoutInflater());
+
         DialogLoad dialogLoad = new DialogLoad(requireActivity());
         DialogMessage dialogMessage = new DialogMessage(requireActivity());
 
@@ -52,10 +54,14 @@ public class FragmentScheduleReview extends Fragment {
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
         if (getArguments() != null) {
+
             String userID = getArguments().getString(PERSONNEL_ID);
+
             mViewModel.getPatrolSchedulerForUser(userID);
             mViewModel.getPatrolRouteForUpdate().observe(getViewLifecycleOwner(), patrolRouteModel -> {
+
                 if (patrolRouteModel == null) { return; }
+
                 List<PersonnelPatrolRoute> checkpoints = patrolRouteModel.getSRoutexxx();
                 List<PersonnelPatrolSchedule> schedules = patrolRouteModel.getSSchedule();
 

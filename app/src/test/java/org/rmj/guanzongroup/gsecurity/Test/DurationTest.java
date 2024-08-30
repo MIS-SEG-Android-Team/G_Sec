@@ -20,8 +20,8 @@ public class DurationTest {
                 .appendPattern(DEFAULT_TIME_FORMAT)
                 .toFormatter(Locale.ENGLISH);
 
-        LocalTime currentTime = LocalTime.parse("01:32 pm", dateTimeFormatter);
-        LocalTime patrolTime = LocalTime.parse("01:31 pm", dateTimeFormatter);
+        LocalTime currentTime = LocalTime.parse("11:53 am", dateTimeFormatter);
+        LocalTime patrolTime = LocalTime.parse("12:30 am", dateTimeFormatter);
 
         System.out.println(Duration.between(currentTime, patrolTime).toMinutes());
 

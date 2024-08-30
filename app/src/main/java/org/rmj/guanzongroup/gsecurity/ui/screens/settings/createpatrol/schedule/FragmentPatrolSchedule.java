@@ -146,20 +146,24 @@ public class FragmentPatrolSchedule extends Fragment {
             new TimePickerDialog(requireActivity(), android.R.style.Theme_Holo_Dialog, (view1, hourOfDay, minute1) -> {
                 try {
                     String time = hourOfDay + ":" + minute1;
-                    Date parseDate = new SimpleDateFormat("hh:mm").parse(time);
+                    Date parseDate = new SimpleDateFormat("HH:mm").parse(time);
+
                     if (parseDate == null) {
                         Toast.makeText(requireActivity(), "Unknown date time error occurred. Please try again.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    String formattedTime = new SimpleDateFormat(DEFAULT_TIME_FORMAT).format(parseDate);
+
+                    String formattedTime = new SimpleDateFormat("hh:mm aa").format(parseDate);
+
                     mViewModel.addSchedule(formattedTime);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             },
             hour,
             minute,
-            false).show();
+            true).show();
         });
 
         return binding.getRoot();

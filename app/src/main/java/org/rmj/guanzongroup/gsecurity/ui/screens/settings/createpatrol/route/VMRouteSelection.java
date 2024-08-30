@@ -83,14 +83,27 @@ public class VMRouteSelection extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void getNfcTags() {
+
         listErrorMessage.setValue("");
         isLoadingCheckpoints.setValue(true);
+
         GetNFCTagsParams params = new GetNFCTagsParams();
+
         if (Boolean.TRUE.equals(forUpdate.getValue())) {
-            params.setSWhouseID(Objects.requireNonNull(patrolRouteForUpdate.getValue()).getSWHouseID());
+
+            String sWhouseID = Objects.requireNonNull(patrolRouteForUpdate.getValue()).getSWHouseID();
+            if (sWhouseID != null){
+                params.setSWhouseID(sWhouseID);
+            }
+
         } else {
-            params.setSWhouseID(Objects.requireNonNull(patrolRoute.getValue()).getSWHouseID());
+
+            String sWhouseID = Objects.requireNonNull(patrolRoute.getValue()).getSWHouseID();
+            if (sWhouseID != null){
+                params.setSWhouseID(sWhouseID);
+            }
         }
+
         String timeStamp = checkpointRepository.getLatestTimeStamp();
         if (timeStamp != null) {
             params.setDTimeStmp(timeStamp);
