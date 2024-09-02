@@ -133,7 +133,7 @@ public class GSecureMessagingService extends FirebaseMessagingService {
                             listBaseResponse -> {
 
                                 if (listBaseResponse.getResult().equalsIgnoreCase("error")) {
-                                    return;
+                                    Timber.tag("GSecureMessagingService").d(listBaseResponse.getResult());
                                 }else {
 
                                     for(PatrolRouteModel obj: listBaseResponse.getData()) {

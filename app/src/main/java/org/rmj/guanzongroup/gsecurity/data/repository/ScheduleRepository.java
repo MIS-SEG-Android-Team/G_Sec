@@ -87,8 +87,8 @@ public class ScheduleRepository {
         patrolScheduleDao.save(value);
     }
 
-    public void updateRequestSchedule(String schedule){
-        patrolScheduleDao.updateCRequest(schedule);
+    public void updateRequestSchedule(String schedule, String nfcIDxx){
+        patrolScheduleDao.updateCRequest(schedule, nfcIDxx);
     }
 
     public String getCRequestTime(String schedule){

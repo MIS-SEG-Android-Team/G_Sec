@@ -205,6 +205,11 @@ public class VMPatrolRoute extends ViewModel {
 
                                     for (PatrolScheduleEntity value: patrolSchedules) {
                                         value.setCRequestd(obj.getcRequestx());
+                                        value.setSchedIDxx(obj.getSSchedIDx());
+                                    }
+
+                                    for (PatrolRouteEntity routes: patrolRoutes){
+                                        routes.setSchedIDxx(obj.getSSchedIDx());
                                     }
                                 }
 
@@ -308,7 +313,8 @@ public class VMPatrolRoute extends ViewModel {
 
                 //todo: update cRequest to '2' as it should be done by the day requested
                 scheduleRepository.updateRequestSchedule(
-                        scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase());
+                        scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase(),
+                        patrol.getsNFCIDxxx());
             }else {
 
                 //todo: this should be same value with visit schedule 'cRequested'

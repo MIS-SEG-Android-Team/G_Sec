@@ -12,8 +12,9 @@ public interface PatrolScheduleDao {
     @Upsert
     void save(List<PatrolScheduleEntity> value);
 
-    @Query("UPDATE Patrol_Schedule SET cRequestxx = '2' WHERE dTimexxxx <= :schedule AND cRequestxx = '1'")
-    void updateCRequest(String schedule);
+    @Query("UPDATE Patrol_Schedule SET cRequestxx = '2' WHERE dTimexxxx <= :schedule AND cRequestxx = '1' " +
+            "AND schedIDxx = :schedIDxx")
+    void updateCRequest(String schedule, String schedIDxx);
 
     @Query("SELECT * FROM Patrol_Schedule WHERE cRequestxx IN ('0', '1') ORDER BY dTimexxxx ASC")
     List<PatrolScheduleEntity> getPatrolScheduleList();
