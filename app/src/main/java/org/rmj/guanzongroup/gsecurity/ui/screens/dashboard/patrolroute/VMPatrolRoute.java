@@ -312,9 +312,14 @@ public class VMPatrolRoute extends ViewModel {
                 patrolLogEntity.setcRequested("2");
 
                 //todo: update cRequest to '2' as it should be done by the day requested
-                scheduleRepository.updateRequestSchedule(
+                /*scheduleRepository.updateRequestSchedule(
                         scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase(),
-                        patrol.getsNFCIDxxx());
+                        patrol.getsNFCIDxxx());*/
+
+                scheduleRepository.updateRawVisitRqst(
+                        scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase(),
+                        patrol.getsNFCIDxxx()
+                );
             }else {
 
                 //todo: this should be same value with visit schedule 'cRequested'

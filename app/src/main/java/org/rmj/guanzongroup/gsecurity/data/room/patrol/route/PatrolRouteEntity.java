@@ -8,8 +8,6 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "Patrol_Route", primaryKeys = {"sNFCIDxxx"})
 public class PatrolRouteEntity {
 
-    @ColumnInfo(name = "schedIDxx")
-    protected String schedIDxx;
     @NonNull
     @ColumnInfo(name = "sNFCIDxxx")
     protected String sNFCIDxxx;
@@ -19,6 +17,8 @@ public class PatrolRouteEntity {
     protected String sDescript;
     @ColumnInfo(name = "cRecdStat")
     protected String cRecdStat;
+    @ColumnInfo(name = "schedIDxx")
+    protected String schedIDxx;
 
     @NonNull
     public String getSNFCIDxxx() { return sNFCIDxxx; }

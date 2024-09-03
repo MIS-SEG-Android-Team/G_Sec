@@ -17,8 +17,6 @@ public class PatrolScheduleEntity {
     protected String cRequestxx;
     @ColumnInfo(name = "cAlarmxxx")
     protected boolean cAlarmxxx = false;
-    @ColumnInfo(name = "nfcIDxx")
-    protected String nfcIDxx;
     @ColumnInfo(name = "schedIDxx")
     protected String schedIDxx;
 
@@ -41,9 +39,6 @@ public class PatrolScheduleEntity {
     public void setCAlarmxxx(boolean cAlarmxxx) {
         this.cAlarmxxx = cAlarmxxx;
     }
-
-    public String getNfcIDxx(){return nfcIDxx;}
-    public void setNfcIDxx(String nfcIDxx){this.nfcIDxx = nfcIDxx;}
 
     public String getSchedIDxx() {return schedIDxx;}
     public void setSchedIDxx(String schedIDxx) {this.schedIDxx = schedIDxx;}

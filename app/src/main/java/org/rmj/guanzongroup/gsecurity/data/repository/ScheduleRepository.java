@@ -3,8 +3,11 @@ package org.rmj.guanzongroup.gsecurity.data.repository;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SimpleSQLiteQuery;
+
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolSchedulerCache;
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolUpdateCache;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
@@ -17,12 +20,17 @@ import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.Perso
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
+
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+
 import javax.inject.Inject;
 import io.reactivex.rxjava3.core.Observable;
+import timber.log.Timber;
 
 public class ScheduleRepository {
 
@@ -87,16 +95,55 @@ public class ScheduleRepository {
         patrolScheduleDao.save(value);
     }
 
-    public void updateRequestSchedule(String schedule, String nfcIDxx){
-        patrolScheduleDao.updateCRequest(schedule, nfcIDxx);
+    public void updateRawVisitRqst(String schedule, String nfcIDxx){
+
+        String query = "UPDATE Patrol_Schedule SET cRequestxx = '2' " +
+                "WHERE dTimexxxx %s <= "+ schedule + "AND cRequestxx = '1' " +
+                "AND " + nfcIDxx + " = (SELECT sNFCIDxxx FROM Patrol_Route WHERE schedIDxx = Patrol_Schedule.schedIDxx)";
+
+        int frstindex = query.indexOf("dTimexxxx");
+        int lstindex = frstindex + "dTimexxxx".length();
+
+        @SuppressLint({"NewApi", "LocalSuppress"})
+        DateTimeFormatter dateTimeFormatter =
+                new DateTimeFormatterBuilder()
+                        .parseCaseInsensitive()
+                        .appendPattern(DEFAULT_TIME_FORMAT)
+                        .toFormatter(Locale.ENGLISH);
+
+        @SuppressLint({"NewApi", "LocalSuppress"})
+        LocalTime secFormat = LocalTime.parse(query.substring(frstindex, lstindex), dateTimeFormatter);
+
+        patrolScheduleDao.executeRawQueryt(new SimpleSQLiteQuery(String.format(query, secFormat).replace("dTimexxxx", "")));
+
+    }
+
+    public String getRecentSchedule(String schedule){
+
+        String query = "SELECT * FROM Patrol_Schedule " +
+                "WHERE dTimexxxx < " + schedule + " ORDER BY dTimexxxx DESC LIMIT 1";
+
+        int frstindex = query.indexOf("dTimexxxx");
+        int lstindex = frstindex + "dTimexxxx".length();
+
+        @SuppressLint({"NewApi", "LocalSuppress"})
+        DateTimeFormatter dateTimeFormatter =
+                new DateTimeFormatterBuilder()
+                        .parseCaseInsensitive()
+                        .appendPattern(DEFAULT_TIME_FORMAT)
+                        .toFormatter(Locale.ENGLISH);
+
+        @SuppressLint({"NewApi", "LocalSuppress"})
+        LocalTime secFormat = LocalTime.parse(query.substring(frstindex, lstindex), dateTimeFormatter);
+
+        Timber.tag("ScheduleRepository").d(String.format(query, secFormat).replace("dTimexxxx", ""));
+
+        return patrolScheduleDao.executeRawQueryt(new SimpleSQLiteQuery(String.format(query, secFormat).replace("dTimexxxx", ""))).toString();
+
     }
 
     public String getCRequestTime(String schedule){
         return patrolScheduleDao.getCRequest(schedule);
-    }
-
-    public String getRecentSchedule(String schedule){
-        return patrolScheduleDao.getRecentSchedule(schedule);
     }
 
     public List<PatrolScheduleEntity> getPatrolScheduleList() {
