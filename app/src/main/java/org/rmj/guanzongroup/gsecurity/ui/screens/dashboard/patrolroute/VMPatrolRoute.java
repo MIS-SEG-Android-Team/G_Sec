@@ -232,9 +232,12 @@ public class VMPatrolRoute extends ViewModel {
         try {
             // Triggers the loading dialog on Main Thread...
             isLoadingPosting.setValue(true);
+
             Gson gson = new Gson();
+
             Type type = new TypeToken<AddNfcTagParams>() {
             }.getType();
+
             AddNfcTagParams nfcTag = gson.fromJson(value.replace("\u0002en", ""), type);
 
             PatrolCheckpoint patrol = taggingCheckpoint.getValue();
@@ -276,7 +279,7 @@ public class VMPatrolRoute extends ViewModel {
 
             String patrolSchedule = scheduleDateTime.format(defaultDateTimeFormat);
 
-            //TODO: CHECK PREVIOUS SCHEDULE BEHIND THE CURRENT CACHE IF VISITED
+            //TODO: CHECK PREVIOUS SCHEDULE BEFORE THE CURRENT CACHE IF VISITED
             if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null) {
 
                 //TODO: IF VISITED, SET PATROL SCHEDULE TO CURRENT CACHE
@@ -303,30 +306,24 @@ public class VMPatrolRoute extends ViewModel {
             patrolLogEntity.setCSendStat("0");
             patrolLogEntity.setDSchedule(patrolSchedule);
 
-            String cRequestSchedule = scheduleRepository.getCRequestTime(
-                    scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase());
+            String cRequestSchedule = scheduleRepository.getCRequestTime(patrolSchedule);
 
             if (cRequestSchedule.equals("1")){
 
                 //todo: this should be same value with visit schedule 'cRequested'
                 patrolLogEntity.setcRequested("2");
 
-                //todo: update cRequest to '2' as it should be done by the day requested
-                /*scheduleRepository.updateRequestSchedule(
-                        scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase(),
-                        patrol.getsNFCIDxxx());*/
-
-                scheduleRepository.updateRawVisitRqst(
-                        scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()).toLowerCase(),
-                        patrol.getsNFCIDxxx()
-                );
             }else {
 
                 //todo: this should be same value with visit schedule 'cRequested'
                 patrolLogEntity.setcRequested(cRequestSchedule);
             }
 
+            //todo: save to patrol log
             patrolRepository.savePatrolLog(patrolLogEntity);
+
+            //todo: update cRequest to '2' all visit requests 'cRequest = 1' behind current time
+            scheduleRepository.updateRequestSchedule(patrolSchedule, patrol.getsNFCIDxxx());
 
             isLoadingPosting.setValue(false);
             successMessage.setValue("You visited " + nfcTag.getSDescript());
@@ -342,6 +339,7 @@ public class VMPatrolRoute extends ViewModel {
             }
 
             postTaggedCheckpoints();
+
         } catch (JsonSyntaxException e) {
 
             e.printStackTrace();

@@ -29,12 +29,12 @@ public class TestTimeFormat {
                         .toFormatter(Locale.ENGLISH);
 
         LocalTime firstFormat = LocalTime.parse(
-                LocalTime.parse("09:20:00")
+                LocalTime.parse("21:20:00")
                         .format(dateTimeFormatter), dateTimeFormatter);
 
         LocalTime secFormat = LocalTime.parse("09:20 pm", dateTimeFormatter);
 
-        System.out.println(firstFormat);
+        System.out.println(firstFormat.toString());
         System.out.println(secFormat);
         System.out.println(firstFormat.equals(secFormat));
 

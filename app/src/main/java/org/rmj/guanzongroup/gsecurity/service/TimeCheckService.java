@@ -127,7 +127,7 @@ public class TimeCheckService extends Service {
 
             if (!scheduledTime.isEmpty()) {
 
-                LocalTime localTimeSchedule = LocalTime.parse(scheduledTime, dateTimeFormatter);
+                LocalTime localTimeSchedule = LocalTime.parse(LocalTime.parse(scheduledTime).format(dateTimeFormatter), dateTimeFormatter);
                 LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), localTimeSchedule);
 
                 scheduledTime = scheduleDateTime.format(dateTimeFormatter);
@@ -238,7 +238,7 @@ public class TimeCheckService extends Service {
         for (PatrolScheduleEntity obj: patrolSchedule) {
 
             // Parse the time from the lists
-            LocalTime patrolTime = LocalTime.parse(obj.getDTimexxxx(), dateTimeFormatter);
+            LocalTime patrolTime = LocalTime.parse(LocalTime.parse(obj.getDTimexxxx()).format(dateTimeFormatter), dateTimeFormatter);
 
             Duration duration = Duration.between(currentTime, patrolTime);
 
@@ -251,7 +251,7 @@ public class TimeCheckService extends Service {
 
                 //TODO: 2. SET PATROL STARTED TO FALSE, SCHEDULE TO CURRENT SCHEDULE INDEX
                 patrolCache.setPatrolStarted(false);
-                patrolCache.setPatrolSchedule(patrolTime.format(dateTimeFormatter));
+                patrolCache.setPatrolSchedule(patrolTime.toString());
 
                 if (patrolCache.getPatrolSchedule().isEmpty()) {
                     reportException("", "Patrol schedule is empty");
