@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Patrol_Route", primaryKeys = {"sNFCIDxxx"})
+@Entity(tableName = "Patrol_Route", primaryKeys = {"sNFCIDxxx", "schedIDxx"})
 public class PatrolRouteEntity {
 
     @NonNull
@@ -17,6 +17,7 @@ public class PatrolRouteEntity {
     protected String sDescript;
     @ColumnInfo(name = "cRecdStat")
     protected String cRecdStat;
+    @NonNull
     @ColumnInfo(name = "schedIDxx")
     protected String schedIDxx;
 
@@ -33,6 +34,7 @@ public class PatrolRouteEntity {
     public String getCRecdStat() { return cRecdStat; }
     public void setCRecdStat(String cRecdStat) { this.cRecdStat = cRecdStat; }
 
+    @NonNull
     public String getSchedIDxx() {return schedIDxx;}
-    public void setSchedIDxx(String schedIDxx) {this.schedIDxx = schedIDxx;}
+    public void setSchedIDxx(@NonNull String schedIDxx) {this.schedIDxx = schedIDxx;}
 }

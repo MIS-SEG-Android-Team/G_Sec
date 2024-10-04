@@ -1,12 +1,18 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
+import android.annotation.SuppressLint;
+
 import androidx.lifecycle.LiveData;
 
+import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.RequestSiteVisitParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitDao;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.inject.Inject;
 
@@ -34,15 +40,20 @@ public class RequestVisitRepository {
         requestVisitDao.update(value);
     }
 
-    public LiveData<RequestVisitEntity> getRequestedVisit() {
-        return requestVisitDao.getRequestedVisit();
+    @SuppressLint("NewApi")
+    public LiveData<RequestVisitDao.RequestSchedule> getRequestedVisit() {
+        return requestVisitDao.getRequestedVisit(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 
-    public Observable<BaseResponse<Void>> sendVisitedNotification(RequestVisitEntity params) {
+    /*public Observable<BaseResponse<Void>> sendVisitedNotification(RequestVisitEntity params) {
         return apiService.sendVisitedNotification(params);
-    }
+    }*/
 
     public Observable<BaseResponse<Void>> sendVisitationRequest(RequestSiteVisitParams params) {
         return apiService.sendVisitationRequest(params);
+    }
+
+    public Observable<BaseResponse<RequestVisitEntity>> downloadVisitRequests(GetPatrolRouteParams params) {
+        return apiService.downloadVisitRequests(params);
     }
 }

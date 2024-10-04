@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,16 +55,20 @@ public class FragmentPatrolRoute extends Fragment {
     private DialogLoad dialogLoad;
     private FragmentPatrolRouteBinding binding;
 
-    private Boolean isTaggingRequestedVisit = false;
+    //private Boolean isTaggingRequestedVisit = false;
     private String QrCodeData = "";
 
     private final ActivityResultLauncher<Intent> intentFrontCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
        if(result.getResultCode() == RESULT_OK) {
-           if (!isTaggingRequestedVisit) {
+
+           /*if (!isTaggingRequestedVisit) {
                mViewModel.tagVisitedCheckpoint(QrCodeData);
            } else {
                mViewModel.tagRequestedVisit(QrCodeData);
-           }
+           }*/
+
+           mViewModel.tagVisitedCheckpoint(QrCodeData);
+
        } else if(result.getResultCode() == RESULT_CANCELED) {
            Toast.makeText(requireActivity(), "Selfie tagging cancelled.", Toast.LENGTH_SHORT).show();
        } else {
@@ -103,11 +108,14 @@ public class FragmentPatrolRoute extends Fragment {
                 String payload = intentResult.getStringExtra(READ_NFC_DATA_PAYLOAD);
                 Timber.tag("NFC").d("Received NFC data: %s", payload);
 
-                if (!isTaggingRequestedVisit) {
+                /*if (!isTaggingRequestedVisit) {
                     mViewModel.tagVisitedCheckpoint(payload);
                 } else {
                     mViewModel.tagRequestedVisit(payload);
-                }
+                }*/
+
+                mViewModel.tagVisitedCheckpoint(payload);
+
             }
         } else if(result.getResultCode() == RESULT_CANCELED) {
             Toast.makeText(
@@ -169,10 +177,14 @@ public class FragmentPatrolRoute extends Fragment {
                 return;
             }
 
-            binding.nfcSiteDescription.setText(requestedVisit.getSDescript());
-            binding.siteRemarks.setText(requestedVisit.getSRemark1());
+            binding.nfcSiteDescription.setText(requestedVisit.getsDescript());
+            binding.siteRemarks.setText(requestedVisit.getsRemarksx());
+
+            Log.d("FragmentPatrolRoute", requestedVisit.getsRemarksx());
+
             binding.visitRequestBanner.setVisibility(View.VISIBLE);
-            binding.visitRequestBanner.setOnClickListener( view -> {
+
+            /*binding.visitRequestBanner.setOnClickListener( view -> {
 
                 new DialogTagOption(requireActivity(), requestedVisit.getSDescript(), new DialogTagOption.DialogTagOptionCallback() {
                     @Override
@@ -192,7 +204,7 @@ public class FragmentPatrolRoute extends Fragment {
                         intentQrCodeScanner.launch(intent);
                     }
                 }).show();
-            });
+            });*/
         });
 
         mViewModel.isLoadingPatrolRoute().observe(getViewLifecycleOwner(), loadingPatrolRoute -> {
@@ -221,7 +233,7 @@ public class FragmentPatrolRoute extends Fragment {
                 new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
                     @Override
                     public void onClickNFCButton(String remarks) {
-                        isTaggingRequestedVisit = false;
+                        //isTaggingRequestedVisit = false;
                         mViewModel.setCheckpoint(patrol, position);
                         mViewModel.setRemarks(remarks);
                         Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
@@ -230,7 +242,7 @@ public class FragmentPatrolRoute extends Fragment {
 
                     @Override
                     public void onClickQrCodeButton(String remarks) {
-                        isTaggingRequestedVisit = false;
+                        //isTaggingRequestedVisit = false;
                         mViewModel.setCheckpoint(patrol, position);
                         mViewModel.setRemarks(remarks);
                         Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);

@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Patrol_Schedule", primaryKeys = {"dTimexxxx"})
+@Entity(tableName = "Patrol_Schedule", primaryKeys = {"dTimexxxx", "schedIDxx"})
 public class PatrolScheduleEntity {
 
     @NonNull
@@ -17,6 +17,7 @@ public class PatrolScheduleEntity {
     protected String cRequestxx;
     @ColumnInfo(name = "cAlarmxxx")
     protected boolean cAlarmxxx = false;
+    @NonNull
     @ColumnInfo(name = "schedIDxx")
     protected String schedIDxx;
 
@@ -40,6 +41,7 @@ public class PatrolScheduleEntity {
         this.cAlarmxxx = cAlarmxxx;
     }
 
+    @NonNull
     public String getSchedIDxx() {return schedIDxx;}
-    public void setSchedIDxx(String schedIDxx) {this.schedIDxx = schedIDxx;}
+    public void setSchedIDxx(@NonNull String schedIDxx) {this.schedIDxx = schedIDxx;}
 }

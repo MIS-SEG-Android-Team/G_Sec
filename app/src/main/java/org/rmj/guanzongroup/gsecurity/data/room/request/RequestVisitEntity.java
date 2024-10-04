@@ -4,44 +4,71 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-@Entity(tableName = "Request_Visit", primaryKeys = {"sNFCIDxxx", "dTimexxxx"})
+@Entity(tableName = "Request_Visit", primaryKeys = {"sRquestID"})
 public class RequestVisitEntity {
 
     @NonNull
+    @ColumnInfo(name = "sRquestID")
+    protected String sRquestID;
+    @NonNull
+    @ColumnInfo(name = "sUserIDxx")
+    protected String sUserIDxx;
+    @ColumnInfo(name = "sWHouseID")
+    protected String sWHouseID;
     @ColumnInfo(name = "sNFCIDxxx")
     protected String sNFCIDxxx;
+    @ColumnInfo(name = "dSchedule")
+    protected String dSchedule;
+    @ColumnInfo(name = "sRemarksx")
+    protected String sRemarksx;
+
     @NonNull
-    @ColumnInfo(name = "dTimexxxx")
-    protected String dTimexxxx;
-    @ColumnInfo(name = "sDescript")
-    protected String sDescript;
-    @ColumnInfo(name = "dVisitedx")
-    protected String dVisitedx;
-    @ColumnInfo(name = "sRemarks1")
-    protected String sRemarks1;
-    @ColumnInfo(name = "sRemarks2")
-    protected String sRemarks2;
-    @ColumnInfo(name = "cSendStat")
-    protected String cSendStat;
+    public String getsRquestID() {
+        return sRquestID;
+    }
 
-    public String getSNFCIDxxx() { return sNFCIDxxx; }
-    public void setSNFCIDxxx(@NonNull String value) { this.sNFCIDxxx = value; }
+    public void setsRquestID(@NonNull String sRquestID) {
+        this.sRquestID = sRquestID;
+    }
 
-    public String getDTimexxxx() { return dTimexxxx; }
-    public void setDTimexxxx(@NonNull String value) { this.dTimexxxx = value; }
+    @NonNull
+    public String getsUserIDxx() {
+        return sUserIDxx;
+    }
 
-    public String getSDescript() { return sDescript; }
-    public void setSDescript(String sDescript) { this.sDescript = sDescript; }
+    public void setsUserIDxx(@NonNull String sUserIDxx) {
+        this.sUserIDxx = sUserIDxx;
+    }
 
-    public String getDVisitedx() { return dVisitedx; }
-    public void setDVisitedx(String value) { this.dVisitedx = value; }
+    public String getsWHouseID() {
+        return sWHouseID;
+    }
 
-    public String getSRemark1() { return sRemarks1; }
-    public void setSRemark1(String value) { this.sRemarks1 = value; }
+    public void setsWHouseID(String sWHouseID) {
+        this.sWHouseID = sWHouseID;
+    }
 
-    public String getSRemark2() { return sRemarks2; }
-    public void setSRemark2(String value) { this.sRemarks2 = value; }
+    public String getsNFCIDxxx() {
+        return sNFCIDxxx;
+    }
 
-    public String getCSendStat() { return cSendStat; }
-    public void setCSendStat(String value) { this.cSendStat = value; }
+    public void setsNFCIDxxx(String sNFCIDxxx) {
+        this.sNFCIDxxx = sNFCIDxxx;
+    }
+
+    public String getdSchedule() {
+        return dSchedule;
+    }
+
+    public void setdSchedule(String dSchedule) {
+        this.dSchedule = dSchedule;
+    }
+
+    public String getsRemarksx() {
+        return sRemarksx;
+    }
+
+    public void setsRemarksx(String sRemarksx) {
+        this.sRemarksx = sRemarksx;
+    }
 }

@@ -14,6 +14,6 @@ public interface PatrolRouteDao {
     @Upsert
     void save(List<PatrolRouteEntity> value);
 
-    @Query("SELECT * FROM Patrol_Route WHERE cRecdStat == 1 ORDER BY nPatrolNo ASC")
+    @Query("SELECT * FROM Patrol_Route WHERE cRecdStat == 1 GROUP BY sNFCIDxxx ORDER BY nPatrolNo ASC")
     List<PatrolRouteEntity> getPatrolCheckPoints();
 }

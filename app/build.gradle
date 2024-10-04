@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace 'org.rmj.guanzongroup.gsecurity'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.gsecurity"
         minSdk 24
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "Build Version 1.0 (05-09-2024 5.00)"
 

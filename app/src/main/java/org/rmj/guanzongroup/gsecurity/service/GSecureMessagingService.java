@@ -123,7 +123,6 @@ public class GSecureMessagingService extends FirebaseMessagingService {
         try{
 
             GetPatrolRouteParams params = new GetPatrolRouteParams();
-
             params.setSUserIDxx(dataStore.getUserId());
 
             patrolRepository.getPatrolRouteSchedule(params)
@@ -160,6 +159,26 @@ public class GSecureMessagingService extends FirebaseMessagingService {
                             throwable -> {
                                 Timber.tag("GSecureMessagingService").d(throwable);
                                 reportException("", throwable.toString());
+                            }
+                    );
+
+            Thread.sleep(1000);
+
+            requestVisitRepository.downloadVisitRequests(params)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            requestVisitEntityBaseResponse -> {
+
+                                if (requestVisitEntityBaseResponse.getResult().equalsIgnoreCase("error")) {
+
+                                    Timber.tag("GSecureMessagingService").d(requestVisitEntityBaseResponse.getResult());
+
+                                }else {
+
+                                    requestVisitRepository.save(requestVisitEntityBaseResponse.getData());
+
+                                }
                             }
                     );
 

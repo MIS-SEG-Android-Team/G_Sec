@@ -6,6 +6,7 @@ import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FO
 
 import android.annotation.SuppressLint;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -37,6 +38,7 @@ public class TestTimeFormat {
         System.out.println(firstFormat.toString());
         System.out.println(secFormat);
         System.out.println(firstFormat.equals(secFormat));
+        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
     }
 }

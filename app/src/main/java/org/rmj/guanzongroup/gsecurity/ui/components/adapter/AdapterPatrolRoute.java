@@ -44,8 +44,6 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     public void onBindViewHolder(@NonNull ItineraryViewHolder holder, int position) {
         PatrolCheckpoint patrolRoute = patrolRouteList.get(position);
         holder.binding.nfcSiteDescription.setText(patrolRoute.getsDescript());
-//        holder.binding.siteWarehouse.setText(patrolRoute.getWarehouse());
-//        holder.binding.patrolStatus.setText(patrolRoute.getPatrolType());
 
         if(patrolRoute.isVisited())
             holder.binding.patrolRouteIcon.setImageResource(R.drawable.ic_location_check);

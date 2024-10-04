@@ -31,22 +31,16 @@ import org.rmj.guanzongroup.gsecurity.data.repository.UserProfileRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitDao;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
-import org.rmj.guanzongroup.gsecurity.ui.activity.AlarmActivity;
-import org.rmj.guanzongroup.gsecurity.utils.TimeComparator;
 
 import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -151,7 +145,7 @@ public class VMPatrolRoute extends ViewModel {
         return errorMessage;
     }
 
-    public LiveData<RequestVisitEntity> getRequestedVisit() {
+    public LiveData<RequestVisitDao.RequestSchedule> getRequestedVisit() {
         return requestVisitRepository.getRequestedVisit();
     }
 
@@ -164,9 +158,9 @@ public class VMPatrolRoute extends ViewModel {
         this.checkpointIndex.setValue(position);
     }
 
-    public void setRequestedVisit(RequestVisitEntity patrol) {
+    /*public void setRequestedVisit(RequestVisitEntity patrol) {
         this.requestedVisit.setValue(patrol);
-    }
+    }*/
 
     public void setRemarks(String value) {
         this.taggingRemarks.setValue(value);
@@ -179,52 +173,82 @@ public class VMPatrolRoute extends ViewModel {
     @SuppressLint("CheckResult")
     public void getPatrolRouteSchedules() {
 
-        isLoadingPatrolRoutes.setValue(true);
+        try {
 
-        GetPatrolRouteParams params = new GetPatrolRouteParams();
-        params.setSUserIDxx(dataStore.getUserId());
+            isLoadingPatrolRoutes.setValue(true);
 
-        patrolRepository.getPatrolRouteSchedule(params)
+            GetPatrolRouteParams params = new GetPatrolRouteParams();
+            params.setSUserIDxx(dataStore.getUserId());
+
+            patrolRepository.getPatrolRouteSchedule(params)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            response -> {
+
+                                if (response.getResult().equalsIgnoreCase("error")) {
+                                    return;
+                                }
+
+                                for(PatrolRouteModel obj: response.getData()) {
+
+                                    List<PatrolRouteEntity> patrolRoutes = obj.getSRoutexxx();
+                                    List<PatrolScheduleEntity> patrolSchedules = obj.getSSchedule();
+
+                                    if (patrolSchedules.isEmpty()) {
+                                        reportException("", "Imported patrol schedules is empty.");
+                                    }else {
+
+                                        for (PatrolScheduleEntity value: patrolSchedules) {
+                                            value.setCRequestd(obj.getcRequestx());
+                                            value.setSchedIDxx(obj.getSSchedIDx());
+                                        }
+
+                                        for (PatrolRouteEntity routes: patrolRoutes){
+                                            routes.setSchedIDxx(obj.getSSchedIDx());
+                                        }
+                                    }
+
+                                    patrolRepository.savePatrolRoute(patrolRoutes);
+                                    scheduleRepository.savePatrolSchedule(patrolSchedules);
+                                    isLoadingPatrolRoutes.setValue(false);
+
+                                }
+
+                            },
+                            throwable -> {
+                                Timber.tag("VMPatrolRoute").d(throwable);
+                                isLoadingPatrolRoutes.setValue(false);
+                            }
+                    );
+
+            Thread.sleep(1000);
+
+
+
+            requestVisitRepository.downloadVisitRequests(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        response -> {
 
-                            if (response.getResult().equalsIgnoreCase("error")) {
-                                return;
-                            }
+                        requestVisitEntityBaseResponse -> {
 
-                            for(PatrolRouteModel obj: response.getData()) {
+                            if (requestVisitEntityBaseResponse.getResult().equalsIgnoreCase("error")) {
 
-                                List<PatrolRouteEntity> patrolRoutes = obj.getSRoutexxx();
-                                List<PatrolScheduleEntity> patrolSchedules = obj.getSSchedule();
+                                Timber.tag("GSecureMessagingService").d(requestVisitEntityBaseResponse.getResult());
 
-                                if (patrolSchedules.isEmpty()) {
-                                    reportException("", "Imported patrol schedules is empty.");
-                                }else {
+                            }else {
 
-                                    for (PatrolScheduleEntity value: patrolSchedules) {
-                                        value.setCRequestd(obj.getcRequestx());
-                                        value.setSchedIDxx(obj.getSSchedIDx());
-                                    }
-
-                                    for (PatrolRouteEntity routes: patrolRoutes){
-                                        routes.setSchedIDxx(obj.getSSchedIDx());
-                                    }
-                                }
-
-                                patrolRepository.savePatrolRoute(patrolRoutes);
-                                scheduleRepository.savePatrolSchedule(patrolSchedules);
-                                isLoadingPatrolRoutes.setValue(false);
+                                requestVisitRepository.save(requestVisitEntityBaseResponse.getData());
 
                             }
 
-                        },
-                        throwable -> {
-                            Timber.tag("VMPatrolRoute").d(throwable);
-                            isLoadingPatrolRoutes.setValue(false);
                         }
                 );
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @SuppressLint("NewApi")
@@ -410,7 +434,7 @@ public class VMPatrolRoute extends ViewModel {
                 );
     }
 
-    @SuppressLint({"NewApi", "CheckResult"})
+    /*@SuppressLint({"NewApi", "CheckResult"})
     public void tagRequestedVisit(String value) {
         try {
             // Triggers the loading dialog on Main Thread...
@@ -464,5 +488,5 @@ public class VMPatrolRoute extends ViewModel {
             e.printStackTrace();
             errorMessage.setValue("Invalid payload has been scan. Please try again...");
         }
-    }
+    }*/
 }
