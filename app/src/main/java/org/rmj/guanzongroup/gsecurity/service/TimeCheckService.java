@@ -130,7 +130,7 @@ public class TimeCheckService extends Service {
                 LocalTime localTimeSchedule = LocalTime.parse(LocalTime.parse(scheduledTime).format(dateTimeFormatter), dateTimeFormatter);
                 LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), localTimeSchedule);
 
-                scheduledTime = scheduleDateTime.format(dateTimeFormatter);
+                scheduledTime = scheduleDateTime.toString();//.format(dateTimeFormatter);
 
                 if (isPatrolFinished(scheduledTime)) {
 

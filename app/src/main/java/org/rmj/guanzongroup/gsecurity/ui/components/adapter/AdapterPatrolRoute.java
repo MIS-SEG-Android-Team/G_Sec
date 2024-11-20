@@ -2,30 +2,46 @@ package org.rmj.guanzongroup.gsecurity.ui.components.adapter;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
+
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.gsecurity.R;
+import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
 import org.rmj.guanzongroup.gsecurity.databinding.ListItemPatrolRouteBinding;
 import org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute.PatrolCheckpoint;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
+import java.util.Locale;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.ItineraryViewHolder> {
 
     private final List<PatrolCheckpoint> patrolRouteList;
     private final PatrolRouteClickListener mListener;
+    private final String patrolCacheSchedule;
 
     public interface PatrolRouteClickListener{
         void onClick(PatrolCheckpoint patrol, int position);
     }
 
-    public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, PatrolRouteClickListener listener) {
+    public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule, PatrolRouteClickListener listener) {
         this.patrolRouteList = patrolRouteList;
         this.mListener = listener;
+        this.patrolCacheSchedule = patrolCacheSchedule;
     }
 
     @NonNull
@@ -40,6 +56,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
         );
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ItineraryViewHolder holder, int position) {
         PatrolCheckpoint patrolRoute = patrolRouteList.get(position);
@@ -57,6 +74,19 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
 
             mListener.onClick(patrolRoute, position);
         });
+
+        @SuppressLint({"NewApi", "LocalSuppress"})
+        DateTimeFormatter dateTimeFormatter =
+                new DateTimeFormatterBuilder()
+                        .parseCaseInsensitive()
+                        .appendPattern(DEFAULT_TIME_FORMAT)
+                        .toFormatter(Locale.ENGLISH);
+
+        if (!patrolCacheSchedule.isEmpty()){
+            holder.binding.nextsched
+                    .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))
+                            .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        }
     }
 
     @Override

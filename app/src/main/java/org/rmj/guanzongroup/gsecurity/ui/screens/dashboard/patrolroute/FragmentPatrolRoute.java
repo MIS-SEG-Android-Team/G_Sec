@@ -32,6 +32,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPatrolRouteBinding;
 import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
@@ -51,6 +52,9 @@ public class FragmentPatrolRoute extends Fragment {
 
     @Inject
     VMPatrolRoute mViewModel;
+
+    @Inject
+    PatrolCache patrolCache;
 
     private DialogLoad dialogLoad;
     private FragmentPatrolRouteBinding binding;
@@ -221,38 +225,44 @@ public class FragmentPatrolRoute extends Fragment {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
             linearLayoutManager.setOrientation(VERTICAL);
             
-            AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, (patrol, position) -> {
-                if (patrol.isVisited()) {
-                    new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
-                        dialog.dismiss();
-                        mViewModel.clearMessage();
-                    }).showDialog();
-                    return;
-                }
+            mViewModel.getPatrolCache().observe(getViewLifecycleOwner(), schedule -> {
 
-                new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
-                    @Override
-                    public void onClickNFCButton(String remarks) {
-                        //isTaggingRequestedVisit = false;
-                        mViewModel.setCheckpoint(patrol, position);
-                        mViewModel.setRemarks(remarks);
-                        Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
-                        intentNFCReader.launch(intent);
+                AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, schedule, (patrol, position) -> {
+                    if (patrol.isVisited()) {
+                        new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
+                            dialog.dismiss();
+                            mViewModel.clearMessage();
+                        }).showDialog();
+                        return;
                     }
 
-                    @Override
-                    public void onClickQrCodeButton(String remarks) {
-                        //isTaggingRequestedVisit = false;
-                        mViewModel.setCheckpoint(patrol, position);
-                        mViewModel.setRemarks(remarks);
-                        Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
-                        intentQrCodeScanner.launch(intent);
-                    }
-                }).show();
+                    new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
+                        @Override
+                        public void onClickNFCButton(String remarks) {
+                            //isTaggingRequestedVisit = false;
+                            mViewModel.setCheckpoint(patrol, position);
+                            mViewModel.setRemarks(remarks);
+                            Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
+                            intentNFCReader.launch(intent);
+                        }
+
+                        @Override
+                        public void onClickQrCodeButton(String remarks) {
+                            //isTaggingRequestedVisit = false;
+                            mViewModel.setCheckpoint(patrol, position);
+                            mViewModel.setRemarks(remarks);
+                            Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
+                            intentQrCodeScanner.launch(intent);
+                        }
+                    }).show();
+
+                });
+
+                binding.patrolRouteList.setLayoutManager(linearLayoutManager);
+                binding.patrolRouteList.setAdapter(adapterPatrolRoute);
+
             });
 
-            binding.patrolRouteList.setLayoutManager(linearLayoutManager);
-            binding.patrolRouteList.setAdapter(adapterPatrolRoute);
         });
 
         setupObservables();

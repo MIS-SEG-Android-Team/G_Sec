@@ -104,7 +104,7 @@ public class FragmentCategory extends Fragment {
             }
         });
 
-        binding.tieCategory.addTextChangedListener(new TextWatcher() {
+        binding.tieDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

@@ -92,7 +92,10 @@ public class FragmentAddPersonnel extends Fragment {
 
         });
 
-        binding.savePersonnelButton.setOnClickListener( view -> mViewModel.addPersonnel());
+        binding.savePersonnelButton.setOnClickListener( view -> {
+            mViewModel.addPersonnel();
+            binding.tieMPIN.setText("");
+        });
 
         return binding.getRoot();
     }

@@ -182,4 +182,5 @@
 
     <string name="content_descript_add_button">Add Schedule</string>
     <string name="content_descript_error_icon">Error</string>
+    <string name="checkpoint">Checkpoint</string>
 </resources>

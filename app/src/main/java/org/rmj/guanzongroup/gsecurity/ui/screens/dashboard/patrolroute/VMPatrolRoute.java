@@ -76,6 +76,7 @@ public class VMPatrolRoute extends ViewModel {
     private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
     private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
+    private final MutableLiveData<String> nextsched = new MutableLiveData<>("");
 
     @Inject
     public VMPatrolRoute(
@@ -123,6 +124,25 @@ public class VMPatrolRoute extends ViewModel {
             );
         }
         patrolCheckpoints.setValue(checkpoints);
+    }
+
+    public LiveData<String> getPatrolCache(){
+
+        if (patrolCache == null){
+            nextsched.setValue("");
+        }else {
+            if (patrolCache.getPatrolSchedule() == null){
+                nextsched.setValue("");
+            }else {
+                if (patrolCache.getPatrolSchedule().isEmpty()){
+                    nextsched.setValue("");
+                }else {
+                    nextsched.setValue(patrolCache.getPatrolSchedule());
+                }
+            }
+        }
+
+        return nextsched;
     }
 
     public LiveData<List<PatrolCheckpoint>> getPatrolCheckpoints() {
