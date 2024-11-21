@@ -75,13 +75,6 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
             mListener.onClick(patrolRoute, position);
         });
 
-        @SuppressLint({"NewApi", "LocalSuppress"})
-        DateTimeFormatter dateTimeFormatter =
-                new DateTimeFormatterBuilder()
-                        .parseCaseInsensitive()
-                        .appendPattern(DEFAULT_TIME_FORMAT)
-                        .toFormatter(Locale.ENGLISH);
-
         if (!patrolCacheSchedule.isEmpty()){
             holder.binding.nextsched
                     .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))

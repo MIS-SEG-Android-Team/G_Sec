@@ -190,7 +190,7 @@ public class VMPatrolRoute extends ViewModel {
         this.successMessage.setValue("");
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult", "NewApi"})
     public void getPatrolRouteSchedules() {
 
         try {
@@ -210,6 +210,13 @@ public class VMPatrolRoute extends ViewModel {
                                     return;
                                 }
 
+                                @SuppressLint({"NewApi", "LocalSuppress"})
+                                DateTimeFormatter dateTimeFormatter =
+                                        new DateTimeFormatterBuilder()
+                                                .parseCaseInsensitive()
+                                                .appendPattern(DEFAULT_TIME_FORMAT)
+                                                .toFormatter(Locale.ENGLISH);
+
                                 for(PatrolRouteModel obj: response.getData()) {
 
                                     List<PatrolRouteEntity> patrolRoutes = obj.getSRoutexxx();
@@ -222,6 +229,12 @@ public class VMPatrolRoute extends ViewModel {
                                         for (PatrolScheduleEntity value: patrolSchedules) {
                                             value.setCRequestd(obj.getcRequestx());
                                             value.setSchedIDxx(obj.getSSchedIDx());
+
+                                            Timber.tag("VMPatrolRoute").d(value.getDTimexxxx());
+
+                                            LocalTime schedFormat = LocalTime.parse(value.getDTimexxxx(), dateTimeFormatter);
+                                            String formattedTime = schedFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                                            value.setDTimexxxx(formattedTime);
                                         }
 
                                         for (PatrolRouteEntity routes: patrolRoutes){

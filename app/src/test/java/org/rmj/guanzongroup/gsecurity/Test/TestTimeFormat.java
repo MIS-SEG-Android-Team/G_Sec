@@ -35,7 +35,7 @@ public class TestTimeFormat {
 
         LocalTime secFormat = LocalTime.parse("09:20 pm", dateTimeFormatter);
 
-        System.out.println(LocalDateTime.of(LocalDateTime.now().toLocalDate(), firstFormat).format(dateTimeFormatter));
+        System.out.println(secFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
         /*System.out.println(secFormat);
         System.out.println(firstFormat.equals(secFormat));
         System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));*/
