@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import timber.log.Timber;
 
 @HiltViewModel
 public class VMScheduleReview extends ViewModel {
@@ -45,7 +46,6 @@ public class VMScheduleReview extends ViewModel {
             // Validate if the cache has value this means UI is being use to create schedule,
             // else UI is being use to preview schedule for specific officer.
             createdSchedule.setValue(scheduleRepository.getPatrolScheduleFromCache());
-            return;
         }
     }
 

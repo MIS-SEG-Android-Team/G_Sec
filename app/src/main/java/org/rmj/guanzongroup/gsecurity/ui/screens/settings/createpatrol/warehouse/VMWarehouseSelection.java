@@ -51,6 +51,7 @@ public class VMWarehouseSelection extends ViewModel {
     public void setWarehouse(String warehouseID, String warehouseName) {
         Objects.requireNonNull(schedule.getValue()).setSWHouseID(warehouseID);
         Objects.requireNonNull(schedule.getValue()).setSWHouseNm(warehouseName);
+
         scheduleRepository.createNewPatrolScheduleToCache(schedule.getValue());
     }
 

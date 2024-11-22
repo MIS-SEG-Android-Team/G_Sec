@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.review;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_ID;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 public class FragmentScheduleReview extends Fragment {
 
@@ -73,6 +76,7 @@ public class FragmentScheduleReview extends Fragment {
                 ArrayList<String> patrolSchedules = new ArrayList<>();
                 for (int x = 0; x < schedules.size(); x++) {
                     patrolSchedules.add(schedules.get(x).getDTimexxxx());
+                    Timber.tag("FragmentSchedulerReview").d(schedules.get(x).getDTimexxxx());
                 }
 
                 binding.patrolCheckpoints.setAdapter(
