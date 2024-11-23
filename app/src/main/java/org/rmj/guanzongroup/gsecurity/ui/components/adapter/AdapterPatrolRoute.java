@@ -33,15 +33,18 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     private final List<PatrolCheckpoint> patrolRouteList;
     private final PatrolRouteClickListener mListener;
     private final String patrolCacheSchedule;
+    private final String patrolCacheNFCID;
 
     public interface PatrolRouteClickListener{
         void onClick(PatrolCheckpoint patrol, int position);
     }
 
-    public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule, PatrolRouteClickListener listener) {
+    public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule, String patrolCacheNFCID,
+                              PatrolRouteClickListener listener) {
         this.patrolRouteList = patrolRouteList;
         this.mListener = listener;
         this.patrolCacheSchedule = patrolCacheSchedule;
+        this.patrolCacheNFCID = patrolCacheNFCID;
     }
 
     @NonNull
@@ -75,11 +78,28 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
             mListener.onClick(patrolRoute, position);
         });
 
-        if (!patrolCacheSchedule.isEmpty()){
-            holder.binding.nextsched
-                    .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))
-                            .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        //todo: check saved nfc id on cache
+        if (!patrolCacheNFCID.isEmpty()){
+
+            //todo: match current nfc id with saved nfc id
+            if (patrolCacheNFCID.equalsIgnoreCase(patrolRoute.getsNFCIDxxx())){
+
+                //todo: set next patrol schedule if not empty
+                if (!patrolCacheSchedule.isEmpty()){
+                    holder.binding.nextsched
+                            .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))
+                                    .format(DateTimeFormatter.ofPattern("hh:mm a")));
+                }else {
+                    holder.binding.nextsched.setText("N/A");
+                }
+
+            }else {
+                holder.binding.nextsched.setText("N/A");
+            }
+        }else {
+            holder.binding.nextsched.setText("N/A");
         }
+
     }
 
     @Override

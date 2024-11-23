@@ -32,4 +32,7 @@ public interface PatrolLogDao {
             "WHERE b.dSchedule =:dSchedule " +
             "AND b.sNFCIDxxx IS NOT NULL")
     int checkIfPatrolFinished(String dSchedule);
+
+    @Query("DELETE FROM Patrol_Log")
+    void clearPatrolLog();
 }

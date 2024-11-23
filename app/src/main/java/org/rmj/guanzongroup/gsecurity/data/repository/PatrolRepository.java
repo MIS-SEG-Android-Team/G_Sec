@@ -43,6 +43,10 @@ public class PatrolRepository {
         patrolRouteDao.save(value);
     }
 
+    public void clearPatrolRoute(){
+        patrolRouteDao.clearPatrolRoute();
+    }
+
     public List<PatrolRouteEntity> getPatrolCheckpoints() {
         return patrolRouteDao.getPatrolCheckPoints();
     }
@@ -53,6 +57,10 @@ public class PatrolRepository {
 
     public void savePatrolLog(PatrolLogEntity value) {
         patrolLogDao.save(value);
+    }
+
+    public void clearPatrollog(){
+        patrolLogDao.clearPatrolLog();
     }
 
     public void updatePatrolLog(List<PatrolLogEntity> value) {

@@ -91,6 +91,10 @@ public class ScheduleRepository {
         patrolScheduleDao.save(value);
     }
 
+    public void clearPatrolSchedule() {
+        patrolScheduleDao.clearPatrolSchedule();
+    }
+
     public void updateRequestSchedule(String schedule, String nfcIDxx){
         patrolScheduleDao.updateCRequest(schedule, nfcIDxx);
     }

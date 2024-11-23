@@ -221,13 +221,12 @@ public class FragmentPatrolRoute extends Fragment {
 
         mViewModel.getPatrolCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
             if(checkpoints == null) { return; }
-
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-            linearLayoutManager.setOrientation(VERTICAL);
             
-            mViewModel.getPatrolCache().observe(getViewLifecycleOwner(), schedule -> {
+            mViewModel.getPatrolCacheCheckpoint().observe(getViewLifecycleOwner(), cachecheckpoint -> {
 
-                AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, schedule, (patrol, position) -> {
+                AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, cachecheckpoint.getsNextSched(),
+                        cachecheckpoint.getsNFCIDxxx(), (patrol, position) -> {
+
                     if (patrol.isVisited()) {
                         new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
                             dialog.dismiss();
@@ -257,6 +256,9 @@ public class FragmentPatrolRoute extends Fragment {
                     }).show();
 
                 });
+
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+                linearLayoutManager.setOrientation(VERTICAL);
 
                 binding.patrolRouteList.setLayoutManager(linearLayoutManager);
                 binding.patrolRouteList.setAdapter(adapterPatrolRoute);

@@ -29,4 +29,7 @@ public interface PatrolScheduleDao {
     @Query("SELECT cRequestxx FROM Patrol_Schedule WHERE dTimexxxx = :schedule")
     String getCRequest(String schedule);
 
+    @Query("DELETE FROM Patrol_Schedule")
+    void clearPatrolSchedule();
+
 }

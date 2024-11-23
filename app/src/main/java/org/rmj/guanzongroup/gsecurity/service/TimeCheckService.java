@@ -21,6 +21,7 @@ import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AlarmActivity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
@@ -118,7 +119,7 @@ public class TimeCheckService extends Service {
                     .toFormatter(Locale.ENGLISH);
 
             // Parse the current time
-            LocalTime currentTime = LocalTime.parse(LocalTime.now().format(dateTimeFormatter), dateTimeFormatter);
+            LocalTime currentTime = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
 
             Timber.tag(TAG).d("Current Time: %s", currentTime);
             Timber.tag(TAG).d("Current Schedule: %s", patrolCache.getPatrolSchedule());
@@ -127,10 +128,11 @@ public class TimeCheckService extends Service {
 
             if (!scheduledTime.isEmpty()) {
 
-                LocalTime localTimeSchedule = LocalTime.parse(LocalTime.parse(scheduledTime).format(dateTimeFormatter), dateTimeFormatter);
+                /*LocalTime localTimeSchedule = LocalTime.parse(LocalTime.parse(scheduledTime)
+                        .format(DateTimeFormatter.ofPattern("HH:mm:ss")), DateTimeFormatter.ofPattern("HH:mm:ss"));
                 LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), localTimeSchedule);
 
-                scheduledTime = scheduleDateTime.toString();//.format(dateTimeFormatter);
+                scheduledTime = scheduleDateTime.toString();//.format(dateTimeFormatter);*/
 
                 if (isPatrolFinished(scheduledTime)) {
 
@@ -232,19 +234,30 @@ public class TimeCheckService extends Service {
         return patrolRepository.checkIfPatrolFinished(dSchedule) == 1;
     }
 
+    private void setCurrentNFC(String schedIDxx){
+        for (PatrolRouteEntity obj: patrolRepository.getPatrolCheckpoints()){
+
+            if (obj.getSchedIDxx().equals(schedIDxx)){
+                //save current schedule nfc id
+                patrolCache.setPatrolCheckpoint(obj.getSNFCIDxxx());
+            }
+        }
+    }
+
     @SuppressLint("NewApi")
     private void checkSchedules(List<PatrolScheduleEntity> patrolSchedule, DateTimeFormatter dateTimeFormatter, LocalTime currentTime) {
 
         for (PatrolScheduleEntity obj: patrolSchedule) {
 
             // Parse the time from the lists
-            LocalTime patrolTime = LocalTime.parse(LocalTime.parse(obj.getDTimexxxx()).format(dateTimeFormatter), dateTimeFormatter);
+            LocalTime patrolTime = LocalTime.parse(obj.getDTimexxxx());
 
             Duration duration = Duration.between(currentTime, patrolTime);
 
             long minutes = duration.toMinutes();
 
             Timber.tag(TAG).d("%s is current index", patrolTime);
+            Timber.tag("VMPatrolRoute").d("PatrolCache: %s", patrolCache.getCheckpoint());
 
             //TODO: 1. IF CURRENT SCHEDULE INDEX IS AFTER CURRENT LOCAL TIME
             if (patrolTime.isAfter(currentTime)) {
@@ -253,10 +266,13 @@ public class TimeCheckService extends Service {
                 patrolCache.setPatrolStarted(false);
                 patrolCache.setPatrolSchedule(patrolTime.toString());
 
+                //TODO: SET CURRENT NFC ID
+                setCurrentNFC(obj.getSchedIDxx());
+
                 if (patrolCache.getPatrolSchedule().isEmpty()) {
                     reportException("", "Patrol schedule is empty");
                 }else {
-                    reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime.format(dateTimeFormatter));
+                    reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime);
                 }
 
                 //TODO: 3. CHECK MINUTES BEFORE PATROL SCHEDULE, NOTIFY USER

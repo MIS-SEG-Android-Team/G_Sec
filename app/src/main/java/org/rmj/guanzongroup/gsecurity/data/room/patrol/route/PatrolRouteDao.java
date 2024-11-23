@@ -16,4 +16,7 @@ public interface PatrolRouteDao {
 
     @Query("SELECT * FROM Patrol_Route WHERE cRecdStat == 1 GROUP BY sNFCIDxxx ORDER BY nPatrolNo ASC")
     List<PatrolRouteEntity> getPatrolCheckPoints();
+
+    @Query("DELETE FROM Patrol_Route")
+    void clearPatrolRoute();
 }
