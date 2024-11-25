@@ -33,18 +33,15 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     private final List<PatrolCheckpoint> patrolRouteList;
     private final PatrolRouteClickListener mListener;
     private final String patrolCacheSchedule;
-    private final String patrolCacheNFCID;
 
     public interface PatrolRouteClickListener{
         void onClick(PatrolCheckpoint patrol, int position);
     }
 
-    public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule, String patrolCacheNFCID,
-                              PatrolRouteClickListener listener) {
+    public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule, PatrolRouteClickListener listener) {
         this.patrolRouteList = patrolRouteList;
         this.mListener = listener;
         this.patrolCacheSchedule = patrolCacheSchedule;
-        this.patrolCacheNFCID = patrolCacheNFCID;
     }
 
     @NonNull
@@ -52,9 +49,9 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     public ItineraryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ItineraryViewHolder(
                 ListItemPatrolRouteBinding.inflate(
-                            LayoutInflater.from(
-                                    parent.getContext()
-                            ), parent, false
+                        LayoutInflater.from(
+                                parent.getContext()
+                        ), parent, false
                 )
         );
     }
@@ -78,28 +75,18 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
             mListener.onClick(patrolRoute, position);
         });
 
-        //todo: check saved nfc id on cache
-        if (!patrolCacheNFCID.isEmpty()){
+        @SuppressLint({"NewApi", "LocalSuppress"})
+        DateTimeFormatter dateTimeFormatter =
+                new DateTimeFormatterBuilder()
+                        .parseCaseInsensitive()
+                        .appendPattern(DEFAULT_TIME_FORMAT)
+                        .toFormatter(Locale.ENGLISH);
 
-            //todo: match current nfc id with saved nfc id
-            if (patrolCacheNFCID.equalsIgnoreCase(patrolRoute.getsNFCIDxxx())){
-
-                //todo: set next patrol schedule if not empty
-                if (!patrolCacheSchedule.isEmpty()){
-                    holder.binding.nextsched
-                            .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))
-                                    .format(DateTimeFormatter.ofPattern("hh:mm a")));
-                }else {
-                    holder.binding.nextsched.setText("N/A");
-                }
-
-            }else {
-                holder.binding.nextsched.setText("N/A");
-            }
-        }else {
-            holder.binding.nextsched.setText("N/A");
+        if (!patrolCacheSchedule.isEmpty()){
+            holder.binding.nextsched
+                    .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))
+                            .format(DateTimeFormatter.ofPattern("hh:mm a")));
         }
-
     }
 
     @Override

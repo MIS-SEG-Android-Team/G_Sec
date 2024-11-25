@@ -134,6 +134,8 @@ public class TimeCheckService extends Service {
 
                 scheduledTime = scheduleDateTime.toString();//.format(dateTimeFormatter);*/
 
+                scheduledTime = LocalTime.parse(scheduledTime).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
                 if (isPatrolFinished(scheduledTime)) {
 
                     patrolCache.setPatrolStarted(false);
@@ -257,7 +259,7 @@ public class TimeCheckService extends Service {
             long minutes = duration.toMinutes();
 
             Timber.tag(TAG).d("%s is current index", patrolTime);
-            Timber.tag("VMPatrolRoute").d("PatrolCache: %s", patrolCache.getCheckpoint());
+            Timber.tag("TimeCheckService").d("PatrolCache: %s", patrolCache.getCheckpoint());
 
             //TODO: 1. IF CURRENT SCHEDULE INDEX IS AFTER CURRENT LOCAL TIME
             if (patrolTime.isAfter(currentTime)) {

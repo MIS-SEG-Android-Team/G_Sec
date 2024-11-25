@@ -2,9 +2,12 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_DATE_TIME_FORMAT;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
+import static org.rmj.guanzongroup.gsecurity.etc.DateTime.formatDateTimeResult;
+import static org.rmj.guanzongroup.gsecurity.etc.DateTime.getCurrentLocalDateTime;
 import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -73,7 +76,7 @@ public class VMPatrolRoute extends ViewModel {
     private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
     private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
-    private final MutableLiveData<PatrolCheckpointCache> checkpointCache = new MutableLiveData<>(new PatrolCheckpointCache("", ""));
+    private final MutableLiveData<String> nextsched = new MutableLiveData<>("");
 
     @Inject
     public VMPatrolRoute(
@@ -123,30 +126,16 @@ public class VMPatrolRoute extends ViewModel {
         patrolCheckpoints.setValue(checkpoints);
     }
 
-    public LiveData<PatrolCheckpointCache> getPatrolCacheCheckpoint(){
-
-        String patrolSchedule = "";
-        String nfcIDxx = "";
-
-        if (patrolCache == null){
-            checkpointCache.setValue(new PatrolCheckpointCache("", ""));
+    public LiveData<String> getPatrolCache(){
+        /*if (patrolCache.getPatrolSchedule() == null){
+            nextsched.setValue("");
         }else {
-
-            if (patrolCache.getCheckpoint() != null){
-
-                if (!patrolCache.getPatrolSchedule().isEmpty()){
-                    patrolSchedule = patrolCache.getPatrolSchedule();
-                }
-
-                if (!patrolCache.getCheckpoint().isEmpty()){
-                    nfcIDxx = patrolCache.getCheckpoint();
-                }
-
+            if (!patrolCache.getPatrolSchedule().isEmpty()){
+                nextsched.setValue(patrolCache.getPatrolSchedule());
             }
-        }
+        }*/
 
-        checkpointCache.setValue(new PatrolCheckpointCache(nfcIDxx, patrolSchedule));
-        return checkpointCache;
+        return nextsched;
     }
 
     public LiveData<List<PatrolCheckpoint>> getPatrolCheckpoints() {
@@ -204,6 +193,12 @@ public class VMPatrolRoute extends ViewModel {
             GetPatrolRouteParams params = new GetPatrolRouteParams();
             params.setSUserIDxx(dataStore.getUserId());
 
+            //todo: clear data before importing
+            patrolRepository.clearPatrolRoute();
+            patrolRepository.clearPatrollog();
+            scheduleRepository.clearPatrolSchedule();
+            scheduleRepository.clearCache();
+
             patrolRepository.getPatrolRouteSchedule(params)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -221,11 +216,6 @@ public class VMPatrolRoute extends ViewModel {
                                                 .appendPattern(DEFAULT_TIME_FORMAT)
                                                 .toFormatter(Locale.ENGLISH);
 
-                                //clear data first
-                                patrolRepository.clearPatrolRoute();
-                                scheduleRepository.clearPatrolSchedule();
-                                patrolRepository.clearPatrollog();
-
                                 for(PatrolRouteModel obj: response.getData()) {
 
                                     List<PatrolRouteEntity> patrolRoutes = obj.getSRoutexxx();
@@ -235,12 +225,14 @@ public class VMPatrolRoute extends ViewModel {
                                         reportException("", "Imported patrol schedules is empty.");
                                     }else {
 
-                                        //format result values before saving to local
                                         for (PatrolScheduleEntity value: patrolSchedules) {
                                             value.setCRequestd(obj.getcRequestx());
                                             value.setSchedIDxx(obj.getSSchedIDx());
 
                                             Timber.tag("VMPatrolRoute").d(value.getDTimexxxx());
+                                            if (patrolCache.getPatrolSchedule().isEmpty()){
+                                                nextsched.setValue(value.getDTimexxxx());
+                                            }
 
                                             LocalTime schedFormat = LocalTime.parse(value.getDTimexxxx(), dateTimeFormatter);
                                             String formattedTime = schedFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
@@ -267,27 +259,25 @@ public class VMPatrolRoute extends ViewModel {
 
             Thread.sleep(1000);
 
-
-
             requestVisitRepository.downloadVisitRequests(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
 
-                        requestVisitEntityBaseResponse -> {
+                            requestVisitEntityBaseResponse -> {
 
-                            if (requestVisitEntityBaseResponse.getResult().equalsIgnoreCase("error")) {
+                                if (requestVisitEntityBaseResponse.getResult().equalsIgnoreCase("error")) {
 
-                                Timber.tag("GSecureMessagingService").d(requestVisitEntityBaseResponse.getResult());
+                                    Timber.tag("GSecureMessagingService").d(requestVisitEntityBaseResponse.getResult());
 
-                            }else {
+                                }else {
 
-                                requestVisitRepository.save(requestVisitEntityBaseResponse.getData());
+                                    requestVisitRepository.save(requestVisitEntityBaseResponse.getData());
+
+                                }
 
                             }
-
-                        }
-                );
+                    );
 
         }catch (Exception e){
             e.printStackTrace();
@@ -339,18 +329,19 @@ public class VMPatrolRoute extends ViewModel {
             String currentTime = dateTimeFormatter.format(LocalTime.now());
 
             //TODO: FORMAT SCHEDULE TIME, SET SCHEDULE TO PREVIOUS ONE BEHIND CURRENT CACHE
-            LocalTime schedule = LocalTime.parse(scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()));
+            LocalTime schedule = LocalTime.parse(scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()),
+                    dateTimeFormatter);
 
             LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), schedule);
 
-            String patrolSchedule = scheduleDateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            String patrolSchedule = scheduleDateTime.format(defaultDateTimeFormat);
 
             //TODO: CHECK PREVIOUS SCHEDULE BEFORE THE CURRENT CACHE IF VISITED
             if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null) {
 
                 //TODO: IF VISITED, SET PATROL SCHEDULE TO CURRENT CACHE
                 patrolSchedule = LocalDateTime.of(LocalDateTime.now().toLocalDate(),
-                        LocalTime.parse(patrolCache.getPatrolSchedule())).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                        LocalTime.parse(patrolCache.getPatrolSchedule(), dateTimeFormatter)).format(defaultDateTimeFormat);
 
                 //TODO: CHECK AGAIN, IF CURRENT SCHEDULE VISITED RETURN
                 if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null){
@@ -474,24 +465,6 @@ public class VMPatrolRoute extends ViewModel {
                             errorMessage.setValue(throwable.getMessage());
                         }
                 );
-    }
-
-    public class PatrolCheckpointCache {
-        String sNFCIDxxx;
-        String sNextSched;
-
-        public PatrolCheckpointCache(String sNFCIDxxx, String sNextSched) {
-            this.sNFCIDxxx = sNFCIDxxx;
-            this.sNextSched = sNextSched;
-        }
-
-        public String getsNFCIDxxx() {
-            return sNFCIDxxx;
-        }
-
-        public String getsNextSched() {
-            return sNextSched;
-        }
     }
 
     /*@SuppressLint({"NewApi", "CheckResult"})

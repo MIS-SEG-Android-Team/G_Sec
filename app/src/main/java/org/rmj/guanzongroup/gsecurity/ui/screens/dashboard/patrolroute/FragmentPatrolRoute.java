@@ -219,51 +219,50 @@ public class FragmentPatrolRoute extends Fragment {
             }
         });
 
+        mViewModel.getPatrolCache().observe(getViewLifecycleOwner(), schedule -> {
+            Timber.tag("FragmentPatrolRoute").d(schedule);
+        });
+
         mViewModel.getPatrolCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
             if(checkpoints == null) { return; }
-            
-            mViewModel.getPatrolCacheCheckpoint().observe(getViewLifecycleOwner(), cachecheckpoint -> {
 
-                AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, cachecheckpoint.getsNextSched(),
-                        cachecheckpoint.getsNFCIDxxx(), (patrol, position) -> {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+            linearLayoutManager.setOrientation(VERTICAL);
 
-                    if (patrol.isVisited()) {
-                        new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
-                            dialog.dismiss();
-                            mViewModel.clearMessage();
-                        }).showDialog();
-                        return;
+            AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, "15:00", (patrol, position) -> {
+
+                if (patrol.isVisited()) {
+                    new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
+                        dialog.dismiss();
+                        mViewModel.clearMessage();
+                    }).showDialog();
+                    return;
+                }
+
+                new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
+                    @Override
+                    public void onClickNFCButton(String remarks) {
+                        //isTaggingRequestedVisit = false;
+                        mViewModel.setCheckpoint(patrol, position);
+                        mViewModel.setRemarks(remarks);
+                        Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
+                        intentNFCReader.launch(intent);
                     }
 
-                    new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
-                        @Override
-                        public void onClickNFCButton(String remarks) {
-                            //isTaggingRequestedVisit = false;
-                            mViewModel.setCheckpoint(patrol, position);
-                            mViewModel.setRemarks(remarks);
-                            Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
-                            intentNFCReader.launch(intent);
-                        }
-
-                        @Override
-                        public void onClickQrCodeButton(String remarks) {
-                            //isTaggingRequestedVisit = false;
-                            mViewModel.setCheckpoint(patrol, position);
-                            mViewModel.setRemarks(remarks);
-                            Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
-                            intentQrCodeScanner.launch(intent);
-                        }
-                    }).show();
-
-                });
-
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-                linearLayoutManager.setOrientation(VERTICAL);
-
-                binding.patrolRouteList.setLayoutManager(linearLayoutManager);
-                binding.patrolRouteList.setAdapter(adapterPatrolRoute);
+                    @Override
+                    public void onClickQrCodeButton(String remarks) {
+                        //isTaggingRequestedVisit = false;
+                        mViewModel.setCheckpoint(patrol, position);
+                        mViewModel.setRemarks(remarks);
+                        Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
+                        intentQrCodeScanner.launch(intent);
+                    }
+                }).show();
 
             });
+
+            binding.patrolRouteList.setLayoutManager(linearLayoutManager);
+            binding.patrolRouteList.setAdapter(adapterPatrolRoute);
 
         });
 
