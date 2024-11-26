@@ -11,6 +11,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
 
 import java.util.List;
 

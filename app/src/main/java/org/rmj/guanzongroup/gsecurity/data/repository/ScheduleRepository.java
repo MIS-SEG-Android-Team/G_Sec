@@ -107,6 +107,23 @@ public class ScheduleRepository {
         return patrolScheduleDao.getRecentSchedule(schedule);
     }
 
+    @SuppressLint("NewApi")
+    public PatrolScheduleDao.CacheSchedule getCacheSchedule(){
+
+        LocalTime current = LocalTime.parse(LocalTime.now().format(dateTimeFormatter), dateTimeFormatter);
+        String formattedtime = current.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        //todo: check remaining schedule for the day
+        if(patrolScheduleDao.getNextCacheSchedule(formattedtime) != null){
+            return patrolScheduleDao.getNextCacheSchedule(formattedtime);
+        }else {
+
+            //todo: check first schedule of the next day
+            String startTime = "00:00:00";
+            return patrolScheduleDao.getNextCacheSchedule(startTime);
+        }
+    }
+
     public List<PatrolScheduleEntity> getPatrolScheduleList() {
         return patrolScheduleDao.getPatrolScheduleList();
     }

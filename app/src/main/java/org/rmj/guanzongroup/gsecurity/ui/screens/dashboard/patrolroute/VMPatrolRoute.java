@@ -43,6 +43,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -76,7 +77,7 @@ public class VMPatrolRoute extends ViewModel {
     private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
     private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
-    private final MutableLiveData<String> nextsched = new MutableLiveData<>("");
+    private final MutableLiveData<CacheNFCSchedule> nfcCache = new MutableLiveData<>(new CacheNFCSchedule("", ""));
 
     @Inject
     public VMPatrolRoute(
@@ -126,16 +127,9 @@ public class VMPatrolRoute extends ViewModel {
         patrolCheckpoints.setValue(checkpoints);
     }
 
-    public LiveData<String> getPatrolCache(){
-        /*if (patrolCache.getPatrolSchedule() == null){
-            nextsched.setValue("");
-        }else {
-            if (!patrolCache.getPatrolSchedule().isEmpty()){
-                nextsched.setValue(patrolCache.getPatrolSchedule());
-            }
-        }*/
-
-        return nextsched;
+    public LiveData<CacheNFCSchedule> getNFCCache(){
+        nfcCache.setValue(new CacheNFCSchedule(patrolCache.getCheckpoint(), patrolCache.getPatrolSchedule()));
+        return nfcCache;
     }
 
     public LiveData<List<PatrolCheckpoint>> getPatrolCheckpoints() {
@@ -230,24 +224,51 @@ public class VMPatrolRoute extends ViewModel {
                                             value.setSchedIDxx(obj.getSSchedIDx());
 
                                             Timber.tag("VMPatrolRoute").d(value.getDTimexxxx());
-                                            if (patrolCache.getPatrolSchedule().isEmpty()){
-                                                nextsched.setValue(value.getDTimexxxx());
-                                            }
 
                                             LocalTime schedFormat = LocalTime.parse(value.getDTimexxxx(), dateTimeFormatter);
                                             String formattedTime = schedFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
                                             value.setDTimexxxx(formattedTime);
                                         }
 
                                         for (PatrolRouteEntity routes: patrolRoutes){
+
                                             routes.setSchedIDxx(obj.getSSchedIDx());
+
                                         }
+
                                     }
 
                                     patrolRepository.savePatrolRoute(patrolRoutes);
                                     scheduleRepository.savePatrolSchedule(patrolSchedules);
                                     isLoadingPatrolRoutes.setValue(false);
 
+                                }
+
+                                //todo: triggers observation of schedule cache upon first login, due to delayed cache
+
+                                if (patrolCache.getPatrolSchedule().isEmpty()){
+                                    patrolCache.setPatrolSchedule(
+                                            LocalTime.parse(
+                                                    scheduleRepository.getCacheSchedule().getdTimexxxx(),
+                                                    DateTimeFormatter.ofPattern("HH:mm:ss")
+                                            ).format(DateTimeFormatter.ofPattern("HH:mm"))
+                                    );
+                                }
+
+                                if (patrolCache.getCheckpoint().isEmpty()){
+                                    patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
+                                }
+
+                                if (!patrolCache.getPatrolSchedule().isEmpty() && !patrolCache.getCheckpoint().isEmpty()){
+                                    nfcCache.setValue(
+                                            new CacheNFCSchedule(
+                                                    scheduleRepository.getCacheSchedule().getsNFCIDxxx(),
+                                                    LocalTime.parse(
+                                                            scheduleRepository.getCacheSchedule().getdTimexxxx(),
+                                                            DateTimeFormatter.ofPattern("HH:mm:ss")
+                                                    ).format(DateTimeFormatter.ofPattern("HH:mm"))
+                                            ));
                                 }
 
                             },
@@ -465,6 +486,24 @@ public class VMPatrolRoute extends ViewModel {
                             errorMessage.setValue(throwable.getMessage());
                         }
                 );
+    }
+
+    static class CacheNFCSchedule{
+        String nfccheckpoint;
+        String schedule;
+
+        public CacheNFCSchedule(String nfccheckpoint, String schedule) {
+            this.nfccheckpoint = nfccheckpoint;
+            this.schedule = schedule;
+        }
+
+        public String getNfccheckpoint() {
+            return nfccheckpoint;
+        }
+
+        public String getSchedule() {
+            return schedule;
+        }
     }
 
     /*@SuppressLint({"NewApi", "CheckResult"})

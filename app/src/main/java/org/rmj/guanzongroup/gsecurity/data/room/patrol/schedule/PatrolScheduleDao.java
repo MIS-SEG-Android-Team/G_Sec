@@ -26,10 +26,29 @@ public interface PatrolScheduleDao {
     @Query("SELECT dTimexxxx FROM Patrol_Schedule WHERE dTimexxxx < :schedule ORDER BY dTimexxxx DESC LIMIT 1")
     String getRecentSchedule(String schedule);
 
+    @Query("SELECT a.sNFCIDxxx, b.dTimexxxx FROM Patrol_Route a, Patrol_Schedule b " +
+            "WHERE a.schedIDxx = b.schedIDxx " +
+            "AND b.dTimexxxx > :dTimex " +
+            "ORDER BY b.dTimexxxx ASC LIMIT 1")
+    CacheSchedule getNextCacheSchedule(String dTimex);
+
     @Query("SELECT cRequestxx FROM Patrol_Schedule WHERE dTimexxxx = :schedule")
     String getCRequest(String schedule);
 
     @Query("DELETE FROM Patrol_Schedule")
     void clearPatrolSchedule();
+
+    class CacheSchedule{
+        public String sNFCIDxxx;
+        public String dTimexxxx;
+
+        public String getsNFCIDxxx() {
+            return sNFCIDxxx;
+        }
+
+        public String getdTimexxxx() {
+            return dTimexxxx;
+        }
+    }
 
 }

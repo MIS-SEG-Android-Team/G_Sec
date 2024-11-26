@@ -33,15 +33,17 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     private final List<PatrolCheckpoint> patrolRouteList;
     private final PatrolRouteClickListener mListener;
     private final String patrolCacheSchedule;
+    private final String patrolCacheCheckpoint;
 
     public interface PatrolRouteClickListener{
         void onClick(PatrolCheckpoint patrol, int position);
     }
 
-    public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule, PatrolRouteClickListener listener) {
+    public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule, String patrolCacheCheckpoint, PatrolRouteClickListener listener) {
         this.patrolRouteList = patrolRouteList;
         this.mListener = listener;
         this.patrolCacheSchedule = patrolCacheSchedule;
+        this.patrolCacheCheckpoint = patrolCacheCheckpoint;
     }
 
     @NonNull
@@ -75,17 +77,22 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
             mListener.onClick(patrolRoute, position);
         });
 
-        @SuppressLint({"NewApi", "LocalSuppress"})
-        DateTimeFormatter dateTimeFormatter =
-                new DateTimeFormatterBuilder()
-                        .parseCaseInsensitive()
-                        .appendPattern(DEFAULT_TIME_FORMAT)
-                        .toFormatter(Locale.ENGLISH);
+        if (!patrolCacheCheckpoint.isEmpty()){
 
-        if (!patrolCacheSchedule.isEmpty()){
-            holder.binding.nextsched
-                    .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))
-                            .format(DateTimeFormatter.ofPattern("hh:mm a")));
+            if (patrolRoute.getsNFCIDxxx().equalsIgnoreCase(patrolCacheCheckpoint)){
+
+                if (!patrolCacheSchedule.isEmpty()){
+                    holder.binding.nextsched
+                            .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))
+                                    .format(DateTimeFormatter.ofPattern("hh:mm a")));
+                }else {
+
+                    holder.binding.nextsched
+                            .setText("N/A");
+
+                }
+
+            }
         }
     }
 
