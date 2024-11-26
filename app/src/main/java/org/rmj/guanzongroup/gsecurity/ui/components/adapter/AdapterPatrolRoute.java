@@ -79,6 +79,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
 
         if (!patrolCacheCheckpoint.isEmpty()){
 
+            //todo: display time schedule for next checkpoint, else "N/A", means "Not Available"
             if (patrolRoute.getsNFCIDxxx().equalsIgnoreCase(patrolCacheCheckpoint)){
 
                 if (!patrolCacheSchedule.isEmpty()){

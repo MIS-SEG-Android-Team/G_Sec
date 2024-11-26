@@ -128,12 +128,6 @@ public class TimeCheckService extends Service {
 
             if (!scheduledTime.isEmpty()) {
 
-                /*LocalTime localTimeSchedule = LocalTime.parse(LocalTime.parse(scheduledTime)
-                        .format(DateTimeFormatter.ofPattern("HH:mm:ss")), DateTimeFormatter.ofPattern("HH:mm:ss"));
-                LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), localTimeSchedule);
-
-                scheduledTime = scheduleDateTime.toString();//.format(dateTimeFormatter);*/
-
                 scheduledTime = LocalTime.parse(scheduledTime).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
                 if (isPatrolFinished(scheduledTime)) {

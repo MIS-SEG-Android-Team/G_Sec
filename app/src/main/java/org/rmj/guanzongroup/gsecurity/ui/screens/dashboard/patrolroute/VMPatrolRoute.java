@@ -245,9 +245,10 @@ public class VMPatrolRoute extends ViewModel {
 
                                 }
 
-                                //todo: triggers observation of schedule cache upon first login, due to delayed cache
-
+                                //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
                                 if (patrolCache.getPatrolSchedule().isEmpty()){
+
+                                    //todo: if empty, set patrol schedule from local data on cache
                                     patrolCache.setPatrolSchedule(
                                             LocalTime.parse(
                                                     scheduleRepository.getCacheSchedule().getdTimexxxx(),
@@ -257,9 +258,11 @@ public class VMPatrolRoute extends ViewModel {
                                 }
 
                                 if (patrolCache.getCheckpoint().isEmpty()){
+                                    //todo: if empty, set patrol checkpoint from local data on cache
                                     patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
                                 }
 
+                                //todo: if two cache above is set, set value for live observation of nfc cache
                                 if (!patrolCache.getPatrolSchedule().isEmpty() && !patrolCache.getCheckpoint().isEmpty()){
                                     nfcCache.setValue(
                                             new CacheNFCSchedule(

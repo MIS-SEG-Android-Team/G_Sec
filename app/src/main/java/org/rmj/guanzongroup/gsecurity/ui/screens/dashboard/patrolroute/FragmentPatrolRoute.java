@@ -219,14 +219,17 @@ public class FragmentPatrolRoute extends Fragment {
             }
         });
 
+        //todo: get patrol checkpoints
         mViewModel.getPatrolCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
             if(checkpoints == null) { return; }
 
+            //todo: observe data set from cache
             mViewModel.getNFCCache().observe(getViewLifecycleOwner(), nfcCache ->{
 
                 Timber.tag("FragmentPatrolRoute schedule").d(nfcCache.getSchedule());
                 Timber.tag("FragmentPatrolRoute nfc id").d(nfcCache.getNfccheckpoint());
 
+                //todo: set to adapter list
                 AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(), nfcCache.getNfccheckpoint(), (patrol, position) -> {
 
                     if (patrol.isVisited()) {
