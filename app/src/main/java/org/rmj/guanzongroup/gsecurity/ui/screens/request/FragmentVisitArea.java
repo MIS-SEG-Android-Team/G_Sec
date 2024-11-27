@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.request;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -20,12 +22,16 @@ import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 public class FragmentVisitArea extends Fragment {
 
@@ -34,10 +40,13 @@ public class FragmentVisitArea extends Fragment {
 
     private FragmentVisitAreaBinding binding;
 
+    private String warehouseIDxx;
+
     public static FragmentVisitArea newInstance() {
         return new FragmentVisitArea();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -130,18 +139,22 @@ public class FragmentVisitArea extends Fragment {
 
             mViewModel.getBranch().observe(getViewLifecycleOwner(), branch -> {
                 if (branch.isEmpty()) { return; }
+
                 ArrayList<String> warehouseNames = new ArrayList<>();
                 for (int x = 0; x < warehouses.size(); x++) {
+
                     if (warehouses.get(x).getSBranchCd().equalsIgnoreCase(branch)) {
                         String warehouse = warehouses.get(x).getSWHouseNm();
                         warehouseNames.add(warehouse);
                     }
                 }
+
                 binding.tieWarehouse.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, warehouseNames.toArray()));
                 binding.tieWarehouse.setOnItemClickListener((parent, view, position, id) -> {
                     for (int x = 0; x < warehouses.size(); x++) {
                         if (binding.tieWarehouse.getText().toString().equalsIgnoreCase(warehouses.get(x).getSWHouseNm())) {
                             mViewModel.setWarehouseID(warehouses.get(x).getSWHouseID());
+                            binding.tieCheckpoint.setText("");
                             break;
                         }
                     }
@@ -176,16 +189,47 @@ public class FragmentVisitArea extends Fragment {
             if (warehouseID.isEmpty()) { return; }
 
             mViewModel.getNfcTags(warehouseID);
+            warehouseIDxx = warehouseID;
         });
 
         mViewModel.getCheckpointList().observe(getViewLifecycleOwner(), checkpointList -> {
-            if (checkpointList == null) { return; }
-            if (checkpointList.isEmpty()) { return; }
+
+            //todo: pending, bug may exist if the checkpoint list is empty. "last list value is still displayed" -Guillier
+            if (checkpointList == null) {
+                binding.tieCheckpoint.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, new String[]{""}));
+                return;
+            }else if (checkpointList.isEmpty()) {
+                binding.tieCheckpoint.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, new String[]{""}));
+                return;
+            }
 
             ArrayList<String> checkpoints = new ArrayList<>();
             for (int x = 0; x < checkpointList.size(); x++) {
-                checkpoints.add(checkpointList.get(x).getSDescript());
+
+                //todo: add to checkpoint list, if selected warehouse id match the list
+                if (checkpointList.get(x).getSWHouseID().equalsIgnoreCase(warehouseIDxx)){
+
+                    //todo: get nfc tag latest timestamp, continue if not empty
+                    if (mViewModel.getNFCLatestTimeStamp(warehouseIDxx) != null){
+
+                        if (!mViewModel.getNFCLatestTimeStamp(warehouseIDxx).isEmpty()){
+
+                            Timber.tag("FragmentVisitArea").d(mViewModel.getNFCLatestTimeStamp(warehouseIDxx));
+
+                            //todo: format to local date time to compare
+                            LocalDateTime listTimestmp = LocalDateTime.parse(checkpointList.get(x).getDTimeStmp(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                            LocalDateTime vmTimestmp = LocalDateTime.parse(mViewModel.getNFCLatestTimeStamp(warehouseIDxx), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+                            //todo: compare two local datetime, if list timestamp is after vm timestamp, add to checkpoint list
+                            if (listTimestmp.isAfter(vmTimestmp) || listTimestmp.equals(vmTimestmp)) {
+                                checkpoints.add(checkpointList.get(x).getSDescript());
+                            }
+                        }
+                    }
+                }
+
             }
+
             binding.tieCheckpoint.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, checkpoints));
             binding.tieCheckpoint.setOnItemClickListener((parent, view, position, id) -> {
                 for (int x = 0; x < checkpointList.size(); x++) {

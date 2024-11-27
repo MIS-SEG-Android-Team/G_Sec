@@ -30,14 +30,11 @@ public class TestTimeFormat {
                         .appendPattern(DEFAULT_TIME_FORMAT)
                         .toFormatter(Locale.ENGLISH);
 
-        LocalTime firstFormat = LocalTime.parse(
-                LocalTime.parse("21:20:01")
-                        .format(DateTimeFormatter.ofPattern("HH:mm:ss")), DateTimeFormatter.ofPattern("HH:mm:ss"));
-
-        LocalTime secFormat = LocalTime.parse("09:20 pm", dateTimeFormatter);
-
         System.out.println(
-                LocalTime.parse("13:05").format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+                LocalDateTime.parse("2024-11-27 21:20:02", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                        .isAfter(
+                                LocalDateTime.parse("2024-11-27 21:20:01", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                        )
         );
 
     }

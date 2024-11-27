@@ -41,6 +41,10 @@ public class CheckpointRepository {
         return nfcDeviceDao.getLatestTimeStamp();
     }
 
+    public String getLatestNFCTimeStamp(String warehouseID) {
+        return nfcDeviceDao.getLatestNFCTimeStamp(warehouseID);
+    }
+
     public void saveNfcTags(List<NFCDeviceEntity> value) {
         nfcDeviceDao.saveCheckpoints(value);
     }

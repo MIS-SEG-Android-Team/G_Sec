@@ -19,6 +19,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.PersonnelPatrolRoute;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.PersonnelPatrolSchedule;
+import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentScheduleReviewBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
@@ -64,6 +65,16 @@ public class FragmentScheduleReview extends Fragment {
             mViewModel.getPatrolRouteForUpdate().observe(getViewLifecycleOwner(), patrolRouteModel -> {
 
                 if (patrolRouteModel == null) { return; }
+
+                //todo: pending for update, if approved to display multiple checkpoints and schedule
+//                List<PersonnelPatrolRoute> checkpoints = new ArrayList<>();
+//                List<PersonnelPatrolSchedule> schedules = new ArrayList<>();
+//
+//                for (PersonnelPatrolModel list: patrolRouteModel) {
+//
+//                    checkpoints.addAll(list.getSRoutexxx());
+//                    schedules.addAll(list.getSSchedule());
+//                }
 
                 List<PersonnelPatrolRoute> checkpoints = patrolRouteModel.getSRoutexxx();
                 List<PersonnelPatrolSchedule> schedules = patrolRouteModel.getSSchedule();

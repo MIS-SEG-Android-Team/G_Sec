@@ -17,6 +17,9 @@ public interface NFCDeviceDao {
     @Query("SELECT dTimeStmp FROM NFC_Device ORDER BY dTimeStmp DESC LIMIT 1")
     String getLatestTimeStamp();
 
+    @Query("SELECT dTimeStmp FROM NFC_Device WHERE sWHouseID =:warehouseID ORDER BY dTimeStmp DESC LIMIT 1")
+    String getLatestNFCTimeStamp(String warehouseID);
+
     @Query("SELECT * FROM NFC_Device WHERE sWHouseID =:warehouseID")
     LiveData<List<NFCDeviceEntity>> getNfcTags(String warehouseID);
 }

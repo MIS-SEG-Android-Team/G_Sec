@@ -101,8 +101,13 @@ public class VMVisitArea extends ViewModel {
     public LiveData<String> getWarehouseID() {
         return warehouseID;
     }
+
     public LiveData<String> getBranch() {
         return branch;
+    }
+
+    public String getNFCLatestTimeStamp(String warehouseID){
+        return checkpointRepository.getLatestNFCTimeStamp(warehouseID);
     }
 
     @SuppressLint("CheckResult")
@@ -136,13 +141,19 @@ public class VMVisitArea extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void getNfcTags(String warehouseID) {
+
         loadingCheckpoint.setValue(true);
+
         GetNFCTagsParams params = new GetNFCTagsParams();
         params.setSWhouseID(warehouseID);
-        String timeStamp = checkpointRepository.getLatestTimeStamp();
+
+        //todo: get latest nfc timestamp for this warehouse
+        String timeStamp = checkpointRepository.getLatestNFCTimeStamp(warehouseID);
         if (timeStamp != null) {
             params.setDTimeStmp(timeStamp);
         }
+
+        Timber.tag("VMVisitArea").d(warehouseID);
 
         checkpointRepository.getNFCTags(params)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -155,6 +166,11 @@ public class VMVisitArea extends ViewModel {
                             }
 
                             List<NFCDeviceEntity> nfcDeviceEntities = response.getData();
+
+                            for (NFCDeviceEntity nfcDevice: nfcDeviceEntities){
+                                Timber.tag("VMVisitArea").d(nfcDevice.getSDescript());
+                            }
+
                             checkpointRepository.saveNfcTags(nfcDeviceEntities);
                             checkpointList.setValue(nfcDeviceEntities);
                         },
