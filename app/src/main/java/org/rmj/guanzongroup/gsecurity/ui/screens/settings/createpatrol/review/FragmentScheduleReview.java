@@ -1,13 +1,18 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.settings.createpatrol.review;
 
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_ID;
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_NAME;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,33 +66,25 @@ public class FragmentScheduleReview extends Fragment {
 
             String userID = getArguments().getString(PERSONNEL_ID);
 
+            //todo: set default personnel assigned upon edit
+            binding.assignedPersonnel.setText(getArguments().getString(PERSONNEL_NAME));
+
             mViewModel.getPatrolSchedulerForUser(userID);
             mViewModel.getPatrolRouteForUpdate().observe(getViewLifecycleOwner(), patrolRouteModel -> {
 
                 if (patrolRouteModel == null) { return; }
 
                 //todo: pending for update, if approved to display multiple checkpoints and schedule
-//                List<PersonnelPatrolRoute> checkpoints = new ArrayList<>();
-//                List<PersonnelPatrolSchedule> schedules = new ArrayList<>();
-//
-//                for (PersonnelPatrolModel list: patrolRouteModel) {
-//
-//                    checkpoints.addAll(list.getSRoutexxx());
-//                    schedules.addAll(list.getSSchedule());
-//                }
+                List<PersonnelPatrolRoute> checkpoints = new ArrayList<>();
 
-                List<PersonnelPatrolRoute> checkpoints = patrolRouteModel.getSRoutexxx();
-                List<PersonnelPatrolSchedule> schedules = patrolRouteModel.getSSchedule();
+                for (PersonnelPatrolModel list: patrolRouteModel) {
+
+                    checkpoints.addAll(list.getSRoutexxx());
+                }
 
                 ArrayList<String> checkpointNames = new ArrayList<>();
                 for (int x = 0; x < checkpoints.size(); x++) {
                     checkpointNames.add(checkpoints.get(x).getSDescript());
-                }
-
-                ArrayList<String> patrolSchedules = new ArrayList<>();
-                for (int x = 0; x < schedules.size(); x++) {
-                    patrolSchedules.add(schedules.get(x).getDTimexxxx());
-                    Timber.tag("FragmentSchedulerReview").d(schedules.get(x).getDTimexxxx());
                 }
 
                 binding.patrolCheckpoints.setAdapter(
@@ -95,6 +92,72 @@ public class FragmentScheduleReview extends Fragment {
                                 android.R.layout.simple_dropdown_item_1line,
                                 checkpointNames)
                 );
+
+                //todo: by default, display first warehouse on list
+                if (mViewModel.getWarehouseNm(patrolRouteModel.get(0).getSWHouseID()) == null){
+                    binding.warehouse.setText(patrolRouteModel.get(0).getSWHouseID());
+                }else {
+                    if (mViewModel.getWarehouseNm(patrolRouteModel.get(0).getSWHouseID()).isEmpty()){
+                        binding.warehouse.setText(patrolRouteModel.get(0).getSWHouseID());
+                    }else {
+                        binding.warehouse.setText(mViewModel.getWarehouseNm(patrolRouteModel.get(0).getSWHouseID()));
+                    }
+                }
+
+                //todo: by default, set initial schedule on display
+                List<PersonnelPatrolSchedule> schedules = patrolRouteModel.get(0).getSSchedule();
+
+                //todo: set click listener for selecting checkpoints, to display its schedule
+                binding.patrolCheckpoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        //todo: set text colors based on selected item
+                        for (int i = 0; i < parent.getChildCount(); i++) {
+
+                            if (parent.getItemIdAtPosition(i) == id){
+                                ((TextView)parent.getChildAt(i)).setTextColor(Color.parseColor("#FF8200"));
+                            }else {
+                                ((TextView)parent.getChildAt(i)).setTextColor(Color.parseColor("#8C8C8C"));
+                            }
+
+                        }
+
+                        //todo: set selected warehouse id
+                        if (mViewModel.getWarehouseNm(patrolRouteModel.get(position).getSWHouseID()) == null){
+                            binding.warehouse.setText(patrolRouteModel.get(position).getSWHouseID());
+                        }else {
+                            if (mViewModel.getWarehouseNm(patrolRouteModel.get(position).getSWHouseID()).isEmpty()){
+                                binding.warehouse.setText(patrolRouteModel.get(position).getSWHouseID());
+                            }else {
+                                binding.warehouse.setText(mViewModel.getWarehouseNm(patrolRouteModel.get(position).getSWHouseID()));
+                            }
+                        }
+
+                        //todo: get checkpoint schedule based on selected checkpoint. through adapter position in list
+                        List<PersonnelPatrolSchedule> schedules = patrolRouteModel.get(position).getSSchedule();
+
+                        ArrayList<String> patrolSchedules = new ArrayList<>();
+                        for (int x = 0; x < schedules.size(); x++) {
+                            patrolSchedules.add(schedules.get(x).getDTimexxxx());
+                        }
+
+                        binding.patrolSchedule.setAdapter(
+                                new ArrayAdapter<>(requireActivity(),
+                                        android.R.layout.simple_dropdown_item_1line,
+                                        patrolSchedules)
+                        );
+
+                        mViewModel.setPatrolUpdateCache(patrolRouteModel.get(position));
+
+                    }
+                });
+
+                ArrayList<String> patrolSchedules = new ArrayList<>();
+                for (int x = 0; x < schedules.size(); x++) {
+                    patrolSchedules.add(schedules.get(x).getDTimexxxx());
+                }
 
                 binding.patrolSchedule.setAdapter(
                         new ArrayAdapter<>(requireActivity(),

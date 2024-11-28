@@ -19,12 +19,14 @@ import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import timber.log.Timber;
 
 @HiltViewModel
 public class VMRouteSelection extends ViewModel {
@@ -55,6 +57,7 @@ public class VMRouteSelection extends ViewModel {
         this.dataStore = dataStore;
         this.checkpointRepository = checkpointRepository;
         this.scheduleRepository = scheduleRepository;
+
         initPatrolRoutes();
     }
 
@@ -94,6 +97,7 @@ public class VMRouteSelection extends ViewModel {
             String sWhouseID = Objects.requireNonNull(patrolRouteForUpdate.getValue()).getSWHouseID();
             if (sWhouseID != null){
                 params.setSWhouseID(sWhouseID);
+                params.setDTimeStmp(checkpointRepository.getLatestNFCTimeStamp(sWhouseID));
             }
 
         } else {
@@ -101,13 +105,16 @@ public class VMRouteSelection extends ViewModel {
             String sWhouseID = Objects.requireNonNull(patrolRoute.getValue()).getSWHouseID();
             if (sWhouseID != null){
                 params.setSWhouseID(sWhouseID);
+                params.setDTimeStmp(checkpointRepository.getLatestNFCTimeStamp(sWhouseID));
             }
+
         }
 
-        String timeStamp = checkpointRepository.getLatestTimeStamp();
+        //todo: it doesnt get the accurate timestamp for the selected warehouse
+        /*String timeStamp = checkpointRepository.getLatestTimeStamp();
         if (timeStamp != null) {
             params.setDTimeStmp(timeStamp);
-        }
+        }*/
 
         checkpointRepository.getNFCTags(params)
                 .observeOn(AndroidSchedulers.mainThread())

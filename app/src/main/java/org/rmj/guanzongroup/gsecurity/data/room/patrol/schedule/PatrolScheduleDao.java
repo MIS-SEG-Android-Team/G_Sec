@@ -32,6 +32,9 @@ public interface PatrolScheduleDao {
             "ORDER BY b.dTimexxxx ASC LIMIT 1")
     CacheSchedule getNextCacheSchedule(String dTimex);
 
+    @Query("SELECT sWHouseNm FROM Warehouse WHERE sWHouseID = :wHouseID")
+    String getWarehouseName(String wHouseID);
+
     @Query("SELECT cRequestxx FROM Patrol_Schedule WHERE dTimexxxx = :schedule")
     String getCRequest(String schedule);
 

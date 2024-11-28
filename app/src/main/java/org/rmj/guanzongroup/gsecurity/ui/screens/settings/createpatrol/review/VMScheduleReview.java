@@ -8,10 +8,14 @@ import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateScheduleParams;
+import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
+import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,7 +30,7 @@ public class VMScheduleReview extends ViewModel {
     private final ScheduleRepository scheduleRepository;
 
     private final MutableLiveData<CreateScheduleParams> createdSchedule = new MutableLiveData<>();
-    private final MutableLiveData<PersonnelPatrolModel> patrolRouteModel = new MutableLiveData<>();
+    private final MutableLiveData<List<PersonnelPatrolModel>> patrolRouteModel = new MutableLiveData<>();
 
     private final MutableLiveData<Boolean> isLoadingSchedule = new MutableLiveData<>(false);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
@@ -37,7 +41,9 @@ public class VMScheduleReview extends ViewModel {
     @Inject
     public VMScheduleReview(ScheduleRepository scheduleRepository,
                             PatrolRepository patrolRepository) {
+
         this.scheduleRepository = scheduleRepository;
+
         initPatrolSchedule();
     }
 
@@ -68,8 +74,16 @@ public class VMScheduleReview extends ViewModel {
     public LiveData<CreateScheduleParams> getCreatedSchedule() {
         return createdSchedule;
     }
-    public LiveData<PersonnelPatrolModel> getPatrolRouteForUpdate() {
+    public LiveData<List<PersonnelPatrolModel>> getPatrolRouteForUpdate() {
         return patrolRouteModel;
+    }
+
+    public void setPatrolUpdateCache(PersonnelPatrolModel value) {
+        scheduleRepository.setPatrolUpdateCache(value);
+    }
+
+    public String getWarehouseNm(String warehouseID){
+        return scheduleRepository.getWarehouseNm(warehouseID);
     }
 
     @SuppressLint("CheckResult")
@@ -118,8 +132,9 @@ public class VMScheduleReview extends ViewModel {
                                 return;
                             }
 
+                            //todo: by default, set initial cache for update
                             scheduleRepository.setPatrolUpdateCache(response.getData().get(0));
-                            patrolRouteModel.setValue(response.getData().get(0));
+                            patrolRouteModel.setValue(response.getData());
                         },
                         error -> {
                             isLoadingSchedule.setValue(false);

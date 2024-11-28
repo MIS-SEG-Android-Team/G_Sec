@@ -100,8 +100,11 @@ public class FragmentRouteSelection extends Fragment {
                 navController.popBackStack();
             }).showDialog();
         });
+
         mViewModel.forUpdate().observe(getViewLifecycleOwner(), forUpdate-> {
+
             if (forUpdate) {
+
                 mViewModel.initForUpdate();
                 mViewModel.getNfcTags();
                 mViewModel.getNfcDeviceEntities().observe(getViewLifecycleOwner(), nfcDeviceEntities -> {
@@ -125,6 +128,7 @@ public class FragmentRouteSelection extends Fragment {
                 binding.continueButton.setText("Update Route");
                 binding.continueButton.setOnClickListener(view -> mViewModel.updatePatrolRoute());
             } else {
+
                 mViewModel.initForCreatingSchedule();
                 mViewModel.getNfcTags();
                 mViewModel.getNfcDeviceEntities().observe(getViewLifecycleOwner(), nfcDeviceEntities -> {
@@ -148,6 +152,7 @@ public class FragmentRouteSelection extends Fragment {
                 binding.continueButton.setOnClickListener(view -> mViewModel.saveRouteSelection());
             }
         });
+
         mViewModel.getCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
             if (checkpoints == null) { return; }
             if (checkpoints.size() == 0) { return; }

@@ -79,6 +79,10 @@ public class ScheduleRepository {
         patrolSchedulerCache.setPatrolSchedule(value);
     }
 
+    public String getWarehouseNm(String warehouseID){
+        return patrolScheduleDao.getWarehouseName(warehouseID);
+    }
+
     public CreateScheduleParams getPatrolScheduleFromCache() {
         return patrolSchedulerCache.getPatrolSchedule();
     }
