@@ -61,10 +61,10 @@ public class FragmentAddPersonnel extends Fragment {
                 return;
             }
 
-            binding.tieLastName.setText("");
+            /*binding.tieLastName.setText("");
             binding.tieFirstName.setText("");
             binding.tieMiddleName.setText("");
-            binding.tiePosition.setText("");
+            binding.tiePosition.setText("");*/
             binding.tieMPIN.setText(mpin);
             new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New personnel info has been saved.", Dialog::dismiss).showDialog();
         });

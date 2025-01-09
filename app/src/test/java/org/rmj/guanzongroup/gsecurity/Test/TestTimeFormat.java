@@ -23,18 +23,9 @@ public class TestTimeFormat {
     @Test
     public void TestDateTime() {
 
-        @SuppressLint("NewApi")
-        DateTimeFormatter dateTimeFormatter =
-                new DateTimeFormatterBuilder()
-                        .parseCaseInsensitive()
-                        .appendPattern(DEFAULT_TIME_FORMAT)
-                        .toFormatter(Locale.ENGLISH);
-
         System.out.println(
-                LocalDateTime.parse("2024-11-27 21:20:02", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                        .isAfter(
-                                LocalDateTime.parse("2024-11-27 21:20:01", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                        )
+                LocalTime.parse("10:49:00",
+                        DateTimeFormatter.ofPattern("HH:mm:ss"))
         );
 
     }

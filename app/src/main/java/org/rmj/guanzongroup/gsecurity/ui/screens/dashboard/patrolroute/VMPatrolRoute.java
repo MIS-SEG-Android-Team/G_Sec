@@ -354,18 +354,17 @@ public class VMPatrolRoute extends ViewModel {
 
             //TODO: FORMAT SCHEDULE TIME, SET SCHEDULE TO PREVIOUS ONE BEHIND CURRENT CACHE
             LocalTime schedule = LocalTime.parse(scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()),
-                    dateTimeFormatter);
+                    DateTimeFormatter.ofPattern("HH:mm:ss"));
 
             LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), schedule);
 
-            String patrolSchedule = scheduleDateTime.format(defaultDateTimeFormat);
+            String patrolSchedule = scheduleDateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
             //TODO: CHECK PREVIOUS SCHEDULE BEFORE THE CURRENT CACHE IF VISITED
             if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null) {
 
                 //TODO: IF VISITED, SET PATROL SCHEDULE TO CURRENT CACHE
-                patrolSchedule = LocalDateTime.of(LocalDateTime.now().toLocalDate(),
-                        LocalTime.parse(patrolCache.getPatrolSchedule(), dateTimeFormatter)).format(defaultDateTimeFormat);
+                patrolSchedule = patrolCache.getPatrolSchedule();
 
                 //TODO: CHECK AGAIN, IF CURRENT SCHEDULE VISITED RETURN
                 if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null){

@@ -1,8 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.data.room.patrol.route;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Upsert;
 
