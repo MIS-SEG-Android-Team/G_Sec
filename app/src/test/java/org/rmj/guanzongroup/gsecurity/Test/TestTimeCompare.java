@@ -25,16 +25,17 @@ public class TestTimeCompare {
                         .toFormatter(Locale.ENGLISH);
 
         ArrayList<String> schedules = new ArrayList<>();
-        schedules.add("10:35 am");
-        schedules.add("10:40 am");
-        schedules.add("10:45 am");
+        schedules.add("11:35 am");
+        schedules.add("11:40 am");
+        schedules.add("11:45 am");
 
         for (int i = 0; i < schedules.size(); i++){
 
-            LocalTime current = LocalTime.parse(LocalTime.now().format(dateTimeFormatter), dateTimeFormatter);
+            LocalTime current = LocalTime.now();
             LocalTime schedule = LocalTime.parse(schedules.get(i), dateTimeFormatter);
 
-            System.out.println(current.compareTo(schedule));
+            System.out.println(schedule.getHour() - current.getHour());
+            System.out.println(schedule.getMinute() - current.getMinute());
 
             if (current.isAfter(schedule)){
                 System.out.println(schedule + " is finished");

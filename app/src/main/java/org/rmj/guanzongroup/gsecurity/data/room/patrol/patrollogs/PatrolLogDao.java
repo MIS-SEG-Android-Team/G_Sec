@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -32,11 +31,6 @@ public interface PatrolLogDao {
             "WHERE b.dSchedule =:dSchedule " +
             "AND b.sNFCIDxxx IS NOT NULL")
     int checkIfPatrolFinished(String dSchedule);
-
-    /*@Query("SELECT * " +
-            "FROM Patrol_Log a, Patrol_Route b " +
-            "WHERE (a.sNFCIDxxx = b.sNFCIDxxx) " +
-            "AND (b.sNFCIDxxx)")*/
 
     @Query("DELETE FROM Patrol_Log")
     void clearPatrolLog();

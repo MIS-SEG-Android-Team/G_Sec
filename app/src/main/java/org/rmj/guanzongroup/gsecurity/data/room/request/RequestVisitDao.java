@@ -17,7 +17,7 @@ public interface RequestVisitDao {
 
     @Query("SELECT a.*, b.sDescript FROM Request_Visit a, Patrol_Route b " +
             "WHERE a.sNFCIDxxx = b.sNFCIDxxx " +
-            "AND a.sNFCIDxxx not in (SELECT sNFCIDxxx FROM Patrol_Log WHERE sNFCIDxxx = a.sNFCIDxxx and dSchedule = a.dSchedule and cRequested = '1') " +
+            "AND a.sNFCIDxxx not in (SELECT sNFCIDxxx FROM Patrol_Log WHERE sNFCIDxxx = a.sNFCIDxxx and dSchedule = a.dSchedule and cRequestd = '1') " +
             "AND a.dSchedule < :currentDate " +
             "GROUP BY a.sNFCIDxxx " +
             "ORDER BY dSchedule DESC " +

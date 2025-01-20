@@ -10,13 +10,10 @@ import java.util.List;
 @Dao
 public interface PatrolScheduleDao {
 
-    @RawQuery
-    Object executeRawQueryt(SimpleSQLiteQuery query);
-
     @Upsert
     void save(List<PatrolScheduleEntity> value);
 
-    @Query("UPDATE Patrol_Schedule SET cRequestxx = '2' WHERE dTimexxxx <= :schedule AND cRequestxx = '1' " +
+    @Query("UPDATE Patrol_Schedule SET cRequestxx = '2' WHERE dTimexxxx = :schedule AND cRequestxx = '1' " +
             "AND :nfcIDxx = (SELECT sNFCIDxxx FROM Patrol_Route WHERE schedIDxx = Patrol_Schedule.schedIDxx) ")
     void updateCRequest(String schedule, String nfcIDxx);
 

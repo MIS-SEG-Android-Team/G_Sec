@@ -1,14 +1,11 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 
-import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_DATE_TIME_FORMAT;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
-import static org.rmj.guanzongroup.gsecurity.etc.DateTime.formatDateTimeResult;
-import static org.rmj.guanzongroup.gsecurity.etc.DateTime.getCurrentLocalDateTime;
 import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
-
+import android.os.Build;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -43,8 +40,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -52,6 +47,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import timber.log.Timber;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 @HiltViewModel
 public class VMPatrolRoute extends ViewModel {
     private static final String TAG = TimeCheckService.class.getSimpleName();
@@ -127,8 +123,11 @@ public class VMPatrolRoute extends ViewModel {
         patrolCheckpoints.setValue(checkpoints);
     }
 
-    public LiveData<CacheNFCSchedule> getNFCCache(){
+    public void initNFCacheSchedule(){
         nfcCache.setValue(new CacheNFCSchedule(patrolCache.getCheckpoint(), patrolCache.getPatrolSchedule()));
+    }
+
+    public LiveData<CacheNFCSchedule> getNFCCache(){
         return nfcCache;
     }
 
@@ -165,16 +164,16 @@ public class VMPatrolRoute extends ViewModel {
         this.checkpointIndex.setValue(position);
     }
 
-    /*public void setRequestedVisit(RequestVisitEntity patrol) {
-        this.requestedVisit.setValue(patrol);
-    }*/
-
     public void setRemarks(String value) {
         this.taggingRemarks.setValue(value);
     }
 
     public void clearMessage() {
         this.successMessage.setValue("");
+    }
+
+    public boolean getPatrolStarted(){
+        return patrolCache.getPatrolStarted();
     }
 
     @SuppressLint({"CheckResult", "NewApi"})
@@ -186,12 +185,6 @@ public class VMPatrolRoute extends ViewModel {
 
             GetPatrolRouteParams params = new GetPatrolRouteParams();
             params.setSUserIDxx(dataStore.getUserId());
-
-            //todo: clear data before importing
-            patrolRepository.clearPatrolRoute();
-            patrolRepository.clearPatrollog();
-            scheduleRepository.clearPatrolSchedule();
-            scheduleRepository.clearCache();
 
             patrolRepository.getPatrolRouteSchedule(params)
                     .subscribeOn(Schedulers.io())
@@ -255,6 +248,7 @@ public class VMPatrolRoute extends ViewModel {
                                                     DateTimeFormatter.ofPattern("HH:mm:ss")
                                             ).format(DateTimeFormatter.ofPattern("HH:mm"))
                                     );
+
                                 }
 
                                 if (patrolCache.getCheckpoint().isEmpty()){
@@ -346,45 +340,57 @@ public class VMPatrolRoute extends ViewModel {
                     .appendPattern(DEFAULT_TIME_FORMAT)
                     .toFormatter(Locale.ENGLISH);
 
-            DateTimeFormatter defaultDateTimeFormat = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
+            DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             //TODO: FORMAT CURRENT DATE AND TIME
-            String currentDateTime = defaultDateTimeFormat.format(LocalDateTime.now());
-            String currentTime = dateTimeFormatter.format(LocalTime.now());
+            String currentDateTime = defaultDateFormat.format(LocalDateTime.now());
+            String currentTime = DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.now());
 
-            //TODO: FORMAT SCHEDULE TIME, SET SCHEDULE TO PREVIOUS ONE BEHIND CURRENT CACHE
-            LocalTime schedule = LocalTime.parse(scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()),
-                    DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-            LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), schedule);
+            //TODO: INITIALIZE PATROL SCHEDULE TO CURRENT CACHE
+            String patrolSchedule = LocalTime.parse(patrolCache.getPatrolSchedule(),
+                    DateTimeFormatter.ofPattern("HH:mm")).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-            String patrolSchedule = scheduleDateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            //TODO: SET SCHEDULE TO PREVIOUS ONE BEHIND CURRENT CACHE
+            if (scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()) != null){
 
-            //TODO: CHECK PREVIOUS SCHEDULE BEFORE THE CURRENT CACHE IF VISITED
-            if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null) {
+                LocalTime schedule = LocalTime.parse(scheduleRepository.getRecentSchedule(patrolCache.getPatrolSchedule()),
+                        DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-                //TODO: IF VISITED, SET PATROL SCHEDULE TO CURRENT CACHE
-                patrolSchedule = patrolCache.getPatrolSchedule();
+                LocalDateTime scheduleDateTime = LocalDateTime.of(LocalDateTime.now().toLocalDate(), schedule);
 
-                //TODO: CHECK AGAIN, IF CURRENT SCHEDULE VISITED RETURN
-                if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null){
+                patrolSchedule = scheduleDateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-                    errorMessage.setValue("You already tagged this checkpoint as visited.");
-                    return;
+                //TODO: CHECK PREVIOUS SCHEDULE BEFORE THE CURRENT CACHE IF VISITED
+                if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null) {
+
+                    //TODO: IF VISITED, SET PATROL SCHEDULE TO CURRENT CACHE
+                    patrolSchedule = LocalTime.parse(patrolCache.getPatrolSchedule(),
+                            DateTimeFormatter.ofPattern("HH:mm")).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
                 }
+
             }
 
             Timber.tag("VMPatrolRoute").d(patrolSchedule);
 
+            //TODO: CHECK AGAIN, IF CURRENT SCHEDULE VISITED RETURN
+            if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null){
+
+                errorMessage.setValue("You already tagged this checkpoint as visited.");
+                return;
+
+            }
+
             PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
-            patrolLogEntity.setDVisitedx(currentDateTime);
+            patrolLogEntity.setDVisitedx(currentDateTime +" "+ currentTime);
             patrolLogEntity.setDTimeVist(currentTime);
             patrolLogEntity.setSNFCIDxxx(patrol.getsNFCIDxxx());
             patrolLogEntity.setSRemarksx(remarks);
             patrolLogEntity.setSUserIDxx(dataStore.getUserId());
             patrolLogEntity.setCSendStat("0");
-            patrolLogEntity.setDSchedule(patrolSchedule);
+            patrolLogEntity.setDSchedule(
+                    defaultDateFormat.format(LocalDateTime.now()) + " " + patrolSchedule);
 
             String cRequestSchedule = scheduleRepository.getCRequestTime(patrolSchedule);
 
@@ -392,6 +398,9 @@ public class VMPatrolRoute extends ViewModel {
 
                 //todo: this should be same value with visit schedule 'cRequested'
                 patrolLogEntity.setcRequested("2");
+
+                //todo: update visit request's cRequest to '2'
+                scheduleRepository.updateRequestSchedule(patrolSchedule, patrol.getsNFCIDxxx());
 
             }else {
 
@@ -401,9 +410,6 @@ public class VMPatrolRoute extends ViewModel {
 
             //todo: save to patrol log
             patrolRepository.savePatrolLog(patrolLogEntity);
-
-            //todo: update cRequest to '2' all visit requests 'cRequest = 1' behind current time
-            scheduleRepository.updateRequestSchedule(patrolSchedule, patrol.getsNFCIDxxx());
 
             isLoadingPosting.setValue(false);
             successMessage.setValue("You visited " + nfcTag.getSDescript());
@@ -448,7 +454,7 @@ public class VMPatrolRoute extends ViewModel {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             response -> {
-                                if (response.getResult().equalsIgnoreCase("error")) {
+                                if ( response.getResult().equalsIgnoreCase("error")) {
                                     return;
                                 }
 
@@ -468,6 +474,13 @@ public class VMPatrolRoute extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void logoutUser() {
+
+        //todo: clear all data after logout
+        patrolRepository.clearPatrolRoute();
+        scheduleRepository.clearPatrolSchedule();
+        patrolRepository.clearPatrollog();
+        scheduleRepository.clearCache();
+
         loggingOut.setValue(true);
         userProfileRepository.logoutUser()
                 .subscribeOn(Schedulers.io())
@@ -506,6 +519,7 @@ public class VMPatrolRoute extends ViewModel {
         public String getSchedule() {
             return schedule;
         }
+
     }
 
     /*@SuppressLint({"NewApi", "CheckResult"})

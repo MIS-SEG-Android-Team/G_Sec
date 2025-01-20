@@ -75,11 +75,11 @@ public class PatrolCache {
     }
 
     public String getNotes() {
-        return preferences.getString(PATROL_WAREHOUSE, "");
+        return preferences.getString(PATROL_NOTES, "");
     }
 
     public void setNotes(String value) {
-        editor.putString(PATROL_WAREHOUSE, value);
+        editor.putString(PATROL_NOTES, value);
         editor.commit();
     }
 

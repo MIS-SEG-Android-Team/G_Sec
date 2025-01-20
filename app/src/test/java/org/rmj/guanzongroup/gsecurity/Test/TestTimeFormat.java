@@ -24,8 +24,7 @@ public class TestTimeFormat {
     public void TestDateTime() {
 
         System.out.println(
-                LocalTime.parse("10:49:00",
-                        DateTimeFormatter.ofPattern("HH:mm:ss"))
+                DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.now())
         );
 
     }

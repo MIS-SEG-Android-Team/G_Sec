@@ -271,6 +271,8 @@ public class TimeCheckService extends Service {
                     reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime);
                 }
 
+                Timber.tag("TimeCheckService").d("PatrolCache: %s", minutes);
+
                 //TODO: 3. CHECK MINUTES BEFORE PATROL SCHEDULE, NOTIFY USER
                 if (minutes <= 10) {
 

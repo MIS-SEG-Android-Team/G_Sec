@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static androidx.core.content.ContextCompat.registerReceiver;
 import static androidx.core.content.ContextCompat.startForegroundService;
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.QR_CODE_DATA;
@@ -10,12 +11,14 @@ import static org.rmj.guanzongroup.gsecurity.utils.ImageFileCreator.CreateImageU
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +46,9 @@ import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogTagOption;
+
+import java.time.LocalTime;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -226,12 +232,19 @@ public class FragmentPatrolRoute extends Fragment {
             //todo: observe data set from cache
             mViewModel.getNFCCache().observe(getViewLifecycleOwner(), nfcCache ->{
 
-                Timber.tag("FragmentPatrolRoute schedule").d(nfcCache.getSchedule());
-                Timber.tag("FragmentPatrolRoute nfc id").d(nfcCache.getNfccheckpoint());
-
                 //todo: set to adapter list
                 AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(), nfcCache.getNfccheckpoint(), (patrol, position) -> {
 
+                    //todo: check if patrol started
+                    if (!mViewModel.getPatrolStarted()){
+                        new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You haven't started patrol yet.", dialog -> {
+                            dialog.dismiss();
+                            mViewModel.clearMessage();
+                        }).showDialog();
+                        return;
+                    }
+
+                    //todo: check if patrol is done
                     if (patrol.isVisited()) {
                         new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
                             dialog.dismiss();
@@ -300,6 +313,30 @@ public class FragmentPatrolRoute extends Fragment {
         });
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //todo: create event receiver for every clock changed
+        final BroadcastReceiver timeReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if (Objects.equals(intent.getAction(), Intent.ACTION_TIME_TICK)){
+
+                    Timber.tag("TimeChangeReceiver").d("CLOCK CHANGED TO " + LocalTime.now());
+
+                    //todo: initialize cache schedule for observation every minute
+                    mViewModel.initNFCacheSchedule();
+                }
+
+            }
+        };
+
+        //todo: register event receiver
+        registerReceiver(Objects.requireNonNull(getContext()), timeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK), ContextCompat.RECEIVER_EXPORTED);
     }
 
     private void setupObservables() {
