@@ -225,10 +225,19 @@ public class FragmentAddCheckpoint extends Fragment {
 
         binding.printToNFCButton.setOnClickListener(view-> {
             try {
-                String payload = mViewModel.getAddCheckpointParams();
-                Intent intent = new Intent(requireActivity(), WriteNfcActivity.class);
-                intent.putExtra(WRITE_NFC_DATA_PAYLOAD, payload);
-                nfcWriterIntent.launch(intent);
+                //todo: added validation of required saving checkpoint description
+                if (mViewModel.getDescription().isEmpty()){
+                    new DialogResult(requireActivity(), DialogResult.RESULT.FAILED,
+                            "Please enter a description.", Dialog::dismiss).showDialog();
+                }else {
+
+                    String payload = mViewModel.getAddCheckpointParams();
+                    Intent intent = new Intent(requireActivity(), WriteNfcActivity.class);
+                    intent.putExtra(WRITE_NFC_DATA_PAYLOAD, payload);
+                    nfcWriterIntent.launch(intent);
+
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
