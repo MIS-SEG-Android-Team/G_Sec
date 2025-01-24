@@ -7,10 +7,13 @@ import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FO
 
 import android.annotation.SuppressLint;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -23,9 +26,19 @@ public class TestTimeFormat {
     @Test
     public void TestDateTime() {
 
-        System.out.println(
-                DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.now())
-        );
+        try {
 
+            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+            Date timeDate = timeFormat.parse("9:00 AM");
+
+            Date currentDate = new Date();
+            SimpleDateFormat combinedFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+            System.out.println(combinedFormat.format(currentDate) + " " + new SimpleDateFormat("HH:mm:ss", Locale.US).format(timeDate));
+
+
+        }catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

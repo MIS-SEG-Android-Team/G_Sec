@@ -176,6 +176,15 @@ public class VMPatrolRoute extends ViewModel {
         return patrolCache.getPatrolStarted();
     }
 
+    public String getLastNFCSchedule(String nfcIDxx){
+        return scheduleRepository.getLastNFCSchedule(nfcIDxx);
+    }
+
+    public String getRecentSchedule(String schedule){
+
+        return scheduleRepository.getRecentSchedule(schedule);
+    }
+
     @SuppressLint({"CheckResult", "NewApi"})
     public void getPatrolRouteSchedules() {
 
@@ -202,6 +211,11 @@ public class VMPatrolRoute extends ViewModel {
                                                 .parseCaseInsensitive()
                                                 .appendPattern(DEFAULT_TIME_FORMAT)
                                                 .toFormatter(Locale.ENGLISH);
+
+                                //todo: clear all data
+                                patrolRepository.clearPatrolRoute();
+                                scheduleRepository.clearPatrolSchedule();
+                                scheduleRepository.clearCache();
 
                                 for(PatrolRouteModel obj: response.getData()) {
 
@@ -260,9 +274,9 @@ public class VMPatrolRoute extends ViewModel {
                                 if (!patrolCache.getPatrolSchedule().isEmpty() && !patrolCache.getCheckpoint().isEmpty()){
                                     nfcCache.setValue(
                                             new CacheNFCSchedule(
-                                                    scheduleRepository.getCacheSchedule().getsNFCIDxxx(),
+                                                    patrolCache.getCheckpoint(),
                                                     LocalTime.parse(
-                                                            scheduleRepository.getCacheSchedule().getdTimexxxx(),
+                                                            patrolCache.getPatrolSchedule(),
                                                             DateTimeFormatter.ofPattern("HH:mm:ss")
                                                     ).format(DateTimeFormatter.ofPattern("HH:mm"))
                                             ));
@@ -480,6 +494,7 @@ public class VMPatrolRoute extends ViewModel {
         scheduleRepository.clearPatrolSchedule();
         patrolRepository.clearPatrollog();
         scheduleRepository.clearCache();
+        patrolCache.clear();
 
         loggingOut.setValue(true);
         userProfileRepository.logoutUser()

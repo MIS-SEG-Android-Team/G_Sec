@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
 import io.reactivex.rxjava3.core.Observable;
+import timber.log.Timber;
 
 public class ScheduleRepository {
 
@@ -126,6 +127,23 @@ public class ScheduleRepository {
             String startTime = "00:00:00";
             return patrolScheduleDao.getNextCacheSchedule(startTime);
         }
+    }
+
+    @SuppressLint("NewApi")
+    public String getLastNFCSchedule(String nfcIDxx){
+
+        LocalTime current = LocalTime.parse(LocalTime.now().format(dateTimeFormatter), dateTimeFormatter);
+        String formattedtime = current.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        //todo: check last nfc schedule
+        if(patrolScheduleDao.getLastNFCSchedule(nfcIDxx, formattedtime) != null){
+            return LocalTime.parse(patrolScheduleDao.getLastNFCSchedule(nfcIDxx, formattedtime),
+                    DateTimeFormatter.ofPattern("HH:mm:ss")).format(DateTimeFormatter.ofPattern("hh:mm a"));
+        }else {
+
+            return "N/A";
+        }
+
     }
 
     public List<PatrolScheduleEntity> getPatrolScheduleList() {

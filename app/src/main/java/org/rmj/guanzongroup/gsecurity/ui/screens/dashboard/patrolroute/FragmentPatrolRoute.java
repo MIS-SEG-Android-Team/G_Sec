@@ -10,6 +10,7 @@ import static org.rmj.guanzongroup.gsecurity.constants.Constants.READ_NFC_DATA_P
 import static org.rmj.guanzongroup.gsecurity.utils.ImageFileCreator.CreateImageUri;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -233,16 +234,9 @@ public class FragmentPatrolRoute extends Fragment {
             mViewModel.getNFCCache().observe(getViewLifecycleOwner(), nfcCache ->{
 
                 //todo: set to adapter list
-                AdapterPatrolRoute adapterPatrolRoute = new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(), nfcCache.getNfccheckpoint(), (patrol, position) -> {
-
-                    //todo: check if patrol started
-                    if (!mViewModel.getPatrolStarted()){
-                        new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You haven't started patrol yet.", dialog -> {
-                            dialog.dismiss();
-                            mViewModel.clearMessage();
-                        }).showDialog();
-                        return;
-                    }
+                AdapterPatrolRoute adapterPatrolRoute =
+                        new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(), nfcCache.getNfccheckpoint(),
+                                mViewModel.getPatrolStarted(), mViewModel, (patrol, position) -> {
 
                     //todo: check if patrol is done
                     if (patrol.isVisited()) {
@@ -321,12 +315,16 @@ public class FragmentPatrolRoute extends Fragment {
 
         //todo: create event receiver for every clock changed
         final BroadcastReceiver timeReceiver = new BroadcastReceiver() {
+            @SuppressLint("NewApi")
             @Override
             public void onReceive(Context context, Intent intent) {
 
                 if (Objects.equals(intent.getAction(), Intent.ACTION_TIME_TICK)){
 
-                    Timber.tag("TimeChangeReceiver").d("CLOCK CHANGED TO " + LocalTime.now());
+                    Timber.tag("TimeChangeReceiver").d("CLOCK CHANGED TO %s", LocalTime.now());
+
+                    //todo: import schedules from local data
+                    mViewModel.getPatrolRouteSchedules();
 
                     //todo: initialize cache schedule for observation every minute
                     mViewModel.initNFCacheSchedule();
@@ -336,9 +334,10 @@ public class FragmentPatrolRoute extends Fragment {
         };
 
         //todo: register event receiver
-        registerReceiver(Objects.requireNonNull(getContext()), timeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK), ContextCompat.RECEIVER_EXPORTED);
+        registerReceiver(requireContext(), timeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK), ContextCompat.RECEIVER_EXPORTED);
     }
 
+    @SuppressLint("NewApi")
     private void setupObservables() {
         // region Observables
         mViewModel.isLoggingOut().observe(getViewLifecycleOwner(), isLoggingOut -> {

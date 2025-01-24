@@ -252,12 +252,12 @@ public class FragmentVisitArea extends Fragment {
             new TimePickerDialog(requireActivity(), android.R.style.Theme_Holo_Dialog, (view1, hourOfDay, minute1) -> {
                 try {
                     String time = hourOfDay + ":" + minute1;
-                    Date parseDate = new SimpleDateFormat("hh:mm").parse(time);
+                    Date parseDate = new SimpleDateFormat("HH:mm").parse(time);
                     if (parseDate == null) {
                         Toast.makeText(requireActivity(), "Unknown date time error occurred. Please try again.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    String formattedTime = new SimpleDateFormat("hh:mm a").format(parseDate);
+                    String formattedTime = new SimpleDateFormat("hh:mm aa").format(parseDate);
                     mViewModel.setScheduleTime(formattedTime);
                     binding.tieTime.setText(formattedTime);
                 } catch (Exception e) {
@@ -266,7 +266,7 @@ public class FragmentVisitArea extends Fragment {
             },
                     hour,
                     minute,
-                    false).show();
+                    true).show();
         });
 
         binding.sendRequestButton.setOnClickListener(view-> {

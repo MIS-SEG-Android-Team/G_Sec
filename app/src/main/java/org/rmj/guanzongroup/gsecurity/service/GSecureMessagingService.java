@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.service;
 
+import static org.rmj.guanzongroup.gsecurity.constants.Constants.DEFAULT_TIME_FORMAT;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.NOTIFICATION_VISIT;
 import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
@@ -29,7 +30,11 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -117,7 +122,7 @@ public class GSecureMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0, notificationBuilder.build());
     }
     
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult", "NewApi"})
     private void importPatrolRoutes(){
 
         try{
@@ -135,6 +140,18 @@ public class GSecureMessagingService extends FirebaseMessagingService {
                                     Timber.tag("GSecureMessagingService").d(listBaseResponse.getResult());
                                 }else {
 
+                                    @SuppressLint({"NewApi", "LocalSuppress"})
+                                    DateTimeFormatter dateTimeFormatter =
+                                            new DateTimeFormatterBuilder()
+                                                    .parseCaseInsensitive()
+                                                    .appendPattern(DEFAULT_TIME_FORMAT)
+                                                    .toFormatter(Locale.ENGLISH);
+
+                                    //todo: clear all data
+                                    patrolRepository.clearPatrolRoute();
+                                    scheduleRepository.clearPatrolSchedule();
+                                    scheduleRepository.clearCache();
+
                                     for(PatrolRouteModel obj: listBaseResponse.getData()) {
 
                                         List<PatrolRouteEntity> patrolRoutes = obj.getSRoutexxx();
@@ -146,6 +163,20 @@ public class GSecureMessagingService extends FirebaseMessagingService {
 
                                             for (PatrolScheduleEntity value: patrolSchedules) {
                                                 value.setCRequestd(obj.getcRequestx());
+                                                value.setSchedIDxx(obj.getSSchedIDx());
+
+                                                Timber.tag("VMPatrolRoute").d(value.getDTimexxxx());
+
+                                                LocalTime schedFormat = LocalTime.parse(value.getDTimexxxx(), dateTimeFormatter);
+                                                String formattedTime = schedFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+                                                value.setDTimexxxx(formattedTime);
+                                            }
+
+                                            for (PatrolRouteEntity routes: patrolRoutes){
+
+                                                routes.setSchedIDxx(obj.getSSchedIDx());
+
                                             }
                                         }
 

@@ -258,8 +258,8 @@ public class TimeCheckService extends Service {
             //TODO: 1. IF CURRENT SCHEDULE INDEX IS AFTER CURRENT LOCAL TIME
             if (patrolTime.isAfter(currentTime)) {
 
-                //TODO: 2. SET PATROL STARTED TO FALSE, SCHEDULE TO CURRENT SCHEDULE INDEX
-                patrolCache.setPatrolStarted(false);
+                //TODO: 2. SET PATROL SCHEDULE TO CURRENT SCHEDULE INDEX
+                //patrolCache.setPatrolStarted(false);
                 patrolCache.setPatrolSchedule(patrolTime.toString());
 
                 //TODO: SET CURRENT NFC ID
@@ -275,6 +275,9 @@ public class TimeCheckService extends Service {
 
                 //TODO: 3. CHECK MINUTES BEFORE PATROL SCHEDULE, NOTIFY USER
                 if (minutes <= 10) {
+
+                    //todo: set patrolstarted to false when notification started within 10 minutes
+                    patrolCache.setPatrolStarted(false);
 
                     if (minutes > 5) {
                         showNotification("Patrol Reminder", "Your upcoming patrol schedule will start in " + minutes + " minutes.");

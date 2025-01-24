@@ -1,17 +1,8 @@
 package org.rmj.guanzongroup.gsecurity.ui.activity.personnel;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Toast;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,9 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityPersonnelBinding;
-import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
-import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
-
 import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
