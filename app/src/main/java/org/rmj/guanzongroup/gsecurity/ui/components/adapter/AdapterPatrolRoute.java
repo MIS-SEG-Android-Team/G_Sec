@@ -106,7 +106,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                         Timber.tag("AdapterPatrolRoute").d(patrolCacheSchedule);
                         Timber.tag("AdapterPatrolRoute").d(String.valueOf(patrolStarted));
 
-                        if (patrolStarted){
+                        if (!patrolStarted){
                             new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You haven't started patrol yet.", Dialog::dismiss).showDialog();
                             return;
                         }
