@@ -108,6 +108,10 @@ public class ScheduleRepository {
         return patrolScheduleDao.getCRequest(schedule);
     }
 
+    public PatrolScheduleDao.CacheSchedule getNextSchedule(String schedule){
+        return patrolScheduleDao.getNextCacheSchedule(schedule);
+    }
+
     public String getRecentSchedule(String schedule){
         return patrolScheduleDao.getRecentSchedule(schedule);
     }
@@ -118,14 +122,12 @@ public class ScheduleRepository {
         LocalTime current = LocalTime.parse(LocalTime.now().format(dateTimeFormatter), dateTimeFormatter);
         String formattedtime = current.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-        //todo: check remaining schedule for the day
-        if(patrolScheduleDao.getNextCacheSchedule(formattedtime) != null){
-            return patrolScheduleDao.getNextCacheSchedule(formattedtime);
-        }else {
+        String startTime = patrolScheduleDao.getRecentSchedule(formattedtime);
 
-            //todo: check first schedule of the next day
-            String startTime = "00:00:00";
+        if (patrolScheduleDao.getNextCacheSchedule(startTime) != null){
             return patrolScheduleDao.getNextCacheSchedule(startTime);
+        }else {
+            return patrolScheduleDao.getNextCacheSchedule(formattedtime);
         }
     }
 

@@ -27,6 +27,7 @@ import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.UserProfileRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDao;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitDao;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
@@ -176,13 +177,12 @@ public class VMPatrolRoute extends ViewModel {
         return patrolCache.getPatrolStarted();
     }
 
-    public String getLastNFCSchedule(String nfcIDxx){
-        return scheduleRepository.getLastNFCSchedule(nfcIDxx);
+    public PatrolScheduleDao.CacheSchedule getNextSchedule(String schedule){
+        return scheduleRepository.getNextSchedule(schedule);
     }
 
-    public String getRecentSchedule(String schedule){
-
-        return scheduleRepository.getRecentSchedule(schedule);
+    public String getLastNFCSchedule(String nfcIDxx){
+        return scheduleRepository.getLastNFCSchedule(nfcIDxx);
     }
 
     @SuppressLint({"CheckResult", "NewApi"})
@@ -216,6 +216,7 @@ public class VMPatrolRoute extends ViewModel {
                                 patrolRepository.clearPatrolRoute();
                                 scheduleRepository.clearPatrolSchedule();
                                 scheduleRepository.clearCache();
+                                patrolCache.clear();
 
                                 for(PatrolRouteModel obj: response.getData()) {
 
@@ -276,8 +277,7 @@ public class VMPatrolRoute extends ViewModel {
                                             new CacheNFCSchedule(
                                                     patrolCache.getCheckpoint(),
                                                     LocalTime.parse(
-                                                            patrolCache.getPatrolSchedule(),
-                                                            DateTimeFormatter.ofPattern("HH:mm:ss")
+                                                            patrolCache.getPatrolSchedule()
                                                     ).format(DateTimeFormatter.ofPattern("HH:mm"))
                                             ));
                                 }

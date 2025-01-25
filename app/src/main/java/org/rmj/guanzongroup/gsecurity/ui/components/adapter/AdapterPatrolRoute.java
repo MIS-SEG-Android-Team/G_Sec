@@ -82,14 +82,31 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                 //todo: check if current schedule is not empty
                 if (!patrolCacheSchedule.isEmpty()){
 
-                    //todo: display schedule
-                    holder.binding.nextsched
-                            .setText(LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"))
-                                    .format(DateTimeFormatter.ofPattern("hh:mm a")));
+                    if (mViewModel.getNextSchedule(patrolCacheSchedule) != null){
+
+                        //todo: display schedule
+                        holder.binding.nextsched
+                                .setText(LocalTime.parse(mViewModel.getNextSchedule(patrolCacheSchedule).getdTimexxxx(),
+                                                DateTimeFormatter.ofPattern("HH:mm:ss"))
+                                        .format(DateTimeFormatter.ofPattern("hh:mm a")));
+
+                    }else {
+
+                        //todo: display schedule
+                        holder.binding.nextsched
+                                .setText(LocalTime.parse(patrolCacheSchedule,
+                                                DateTimeFormatter.ofPattern("HH:mm:ss"))
+                                        .format(DateTimeFormatter.ofPattern("hh:mm a")));
+
+                    }
 
                     holder.binding.getRoot().setOnClickListener(view -> {
 
-                        if (!patrolStarted){
+                        Timber.tag("AdapterPatrolRoute").d(patrolCacheCheckpoint);
+                        Timber.tag("AdapterPatrolRoute").d(patrolCacheSchedule);
+                        Timber.tag("AdapterPatrolRoute").d(String.valueOf(patrolStarted));
+
+                        if (patrolStarted){
                             new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You haven't started patrol yet.", Dialog::dismiss).showDialog();
                             return;
                         }
@@ -114,27 +131,23 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                         @Override
                         public void onClick(View v) {
 
+                            Timber.tag("AdapterPatrolRoute").d(patrolCacheCheckpoint);
+                            Timber.tag("AdapterPatrolRoute").d(patrolCacheSchedule);
+                            Timber.tag("AdapterPatrolRoute").d(String.valueOf(patrolStarted));
+
                             if(position == NO_POSITION) {
                                 return;
                             }
 
-                            //todo: check current time if not after next patrol time
-                            if (LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))
-                                    .isAfter(LocalTime.parse(LocalTime.parse(patrolCacheSchedule).format(DateTimeFormatter.ofPattern("HH:mm:ss"))))){
+                            //todo: enable tagging if patrol is not started
+                            if (!patrolStarted){
 
+                                //todo:enable tagging
+                                mListener.onClick(patrolRoute, position);
+
+                            }else {
                                 new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "Patrol time is finished", Dialog::dismiss).showDialog();
-                                return;
                             }
-
-                                //todo: enable tagging if patrol is not started
-                                if (!patrolStarted){
-
-                                    //todo:enable tagging
-                                    mListener.onClick(patrolRoute, position);
-
-                                }else {
-                                    new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "Patrol time is finished", Dialog::dismiss).showDialog();
-                                }
 
                         }
                     });
