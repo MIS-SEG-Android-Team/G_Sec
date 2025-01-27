@@ -126,11 +126,13 @@ public class TimeCheckService extends Service {
 
             String scheduledTime = patrolCache.getPatrolSchedule();
 
+            //TODO: CHECK EMPTY SCHEDULE
             if (!scheduledTime.isEmpty()) {
 
                 scheduledTime = LocalTime.parse(scheduledTime).format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-                if (isPatrolFinished(scheduledTime)) {
+                //TODO: CHECK SCHEDULE IF FINISHED, RESET SCHEDULE
+                if (isPatrolFinished(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()) + " "+ scheduledTime)) {
 
                     patrolCache.setPatrolStarted(false);
                     patrolCache.setPatrolReSchedule("");
@@ -139,6 +141,7 @@ public class TimeCheckService extends Service {
 
                 } else {
 
+                    //TODO: CHECK SCHEDULE
                     checkSchedules(patrolSchedule, dateTimeFormatter, currentTime);
                 }
             } else {
@@ -258,15 +261,9 @@ public class TimeCheckService extends Service {
             //TODO: 1. IF CURRENT SCHEDULE INDEX IS AFTER CURRENT LOCAL TIME
             if (patrolTime.isAfter(currentTime)) {
 
-                if (patrolTime.isAfter(LocalTime.parse(patrolCache.getPatrolSchedule()))){
-                    patrolCache.setPatrolSchedule(patrolCache.getPatrolSchedule());
-                }else {
-                    patrolCache.setPatrolSchedule(patrolTime.toString());
-                }
-
                 //TODO: 2. SET PATROL SCHEDULE TO CURRENT SCHEDULE INDEX
-                //patrolCache.setPatrolStarted(false);
-                //patrolCache.setPatrolSchedule(patrolTime.toString());
+                patrolCache.setPatrolStarted(false);
+                patrolCache.setPatrolSchedule(patrolTime.toString());
 
                 //TODO: SET CURRENT NFC ID
                 setCurrentNFC(obj.getSchedIDxx());
@@ -281,9 +278,6 @@ public class TimeCheckService extends Service {
 
                 //TODO: 3. CHECK MINUTES BEFORE PATROL SCHEDULE, NOTIFY USER
                 if (minutes <= 10) {
-
-                    //todo: set patrol started to false when notification started within 10 minutes
-                    patrolCache.setPatrolStarted(false);
 
                     if (minutes > 5) {
                         showNotification("Patrol Reminder", "Your upcoming patrol schedule will start in " + minutes + " minutes.");

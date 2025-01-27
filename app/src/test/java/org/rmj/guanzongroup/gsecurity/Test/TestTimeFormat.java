@@ -26,19 +26,10 @@ public class TestTimeFormat {
     @Test
     public void TestDateTime() {
 
-        try {
-
-            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
-            Date timeDate = timeFormat.parse("9:00 AM");
-
-            Date currentDate = new Date();
-            SimpleDateFormat combinedFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-
-            System.out.println(combinedFormat.format(currentDate) + " " + new SimpleDateFormat("HH:mm:ss", Locale.US).format(timeDate));
+        System.out.println(
+                DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now())
+        );
 
 
-        }catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

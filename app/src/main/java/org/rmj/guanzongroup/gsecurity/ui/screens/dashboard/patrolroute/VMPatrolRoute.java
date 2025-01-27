@@ -177,6 +177,10 @@ public class VMPatrolRoute extends ViewModel {
         return patrolCache.getPatrolStarted();
     }
 
+    public int isPatrolVisited(String schedule){
+        return patrolRepository.checkIfPatrolFinished(schedule);
+    }
+
     public PatrolScheduleDao.CacheSchedule getNextSchedule(String schedule){
         return scheduleRepository.getNextSchedule(schedule);
     }
@@ -212,7 +216,7 @@ public class VMPatrolRoute extends ViewModel {
                                                 .appendPattern(DEFAULT_TIME_FORMAT)
                                                 .toFormatter(Locale.ENGLISH);
 
-                                //todo: clear all data
+                                //todo: clear all data, reset scheduling
                                 patrolRepository.clearPatrolRoute();
                                 scheduleRepository.clearPatrolSchedule();
                                 scheduleRepository.clearCache();
@@ -276,9 +280,7 @@ public class VMPatrolRoute extends ViewModel {
                                     nfcCache.setValue(
                                             new CacheNFCSchedule(
                                                     patrolCache.getCheckpoint(),
-                                                    LocalTime.parse(
-                                                            patrolCache.getPatrolSchedule()
-                                                    ).format(DateTimeFormatter.ofPattern("HH:mm"))
+                                                    patrolCache.getPatrolSchedule()
                                             ));
                                 }
 
@@ -348,18 +350,11 @@ public class VMPatrolRoute extends ViewModel {
                 return;
             }
 
-            //TODO: DEFAULT TIME FORMATTER
-            DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
-                    .parseCaseInsensitive()
-                    .appendPattern(DEFAULT_TIME_FORMAT)
-                    .toFormatter(Locale.ENGLISH);
-
             DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             //TODO: FORMAT CURRENT DATE AND TIME
             String currentDateTime = defaultDateFormat.format(LocalDateTime.now());
             String currentTime = DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.now());
-
 
             //TODO: INITIALIZE PATROL SCHEDULE TO CURRENT CACHE
             String patrolSchedule = LocalTime.parse(patrolCache.getPatrolSchedule(),
@@ -386,10 +381,8 @@ public class VMPatrolRoute extends ViewModel {
 
             }
 
-            Timber.tag("VMPatrolRoute").d(patrolSchedule);
-
             //TODO: CHECK AGAIN, IF CURRENT SCHEDULE VISITED RETURN
-            if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), patrolSchedule) != null){
+            if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), currentDateTime + " " + patrolSchedule) != null){
 
                 errorMessage.setValue("You already tagged this checkpoint as visited.");
                 return;

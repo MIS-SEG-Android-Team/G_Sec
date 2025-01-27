@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.gsecurity.ui.components.adapter;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 import org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute.PatrolCheckpoint;
 import org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute.VMPatrolRoute;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -60,7 +62,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
         );
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(@NonNull ItineraryViewHolder holder, int position) {
 
@@ -82,9 +84,10 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                 //todo: check if current schedule is not empty
                 if (!patrolCacheSchedule.isEmpty()){
 
+                    //todo: get next schedule
                     if (mViewModel.getNextSchedule(patrolCacheSchedule) != null){
 
-                        //todo: display schedule
+                        //todo: display next schedule
                         holder.binding.nextsched
                                 .setText(LocalTime.parse(mViewModel.getNextSchedule(patrolCacheSchedule).getdTimexxxx(),
                                                 DateTimeFormatter.ofPattern("HH:mm:ss"))
@@ -92,7 +95,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
 
                     }else {
 
-                        //todo: display schedule
+                        //todo: retain current schedule
                         holder.binding.nextsched
                                 .setText(LocalTime.parse(patrolCacheSchedule,
                                                 DateTimeFormatter.ofPattern("HH:mm:ss"))
@@ -100,34 +103,32 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
 
                     }
 
-                    holder.binding.getRoot().setOnClickListener(view -> {
-
-                        Timber.tag("AdapterPatrolRoute").d(patrolCacheCheckpoint);
-                        Timber.tag("AdapterPatrolRoute").d(patrolCacheSchedule);
-                        Timber.tag("AdapterPatrolRoute").d(String.valueOf(patrolStarted));
-
-                        if (!patrolStarted){
-                            new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You haven't started patrol yet.", Dialog::dismiss).showDialog();
-                            return;
-                        }
-
-                        //todo:enable tagging
-                        mListener.onClick(patrolRoute, position);
-                    });
-
                 }else {
+
+                    //todo: set by default
                     holder.binding.nextsched.setText("N/A");
                 }
 
             }else {
 
-                //todo: check if last nfc schedule is not empty, set last schedule and set onclick event
+                //todo: check if last nfc schedule is not empty, set last schedule
                 if (!mViewModel.getLastNFCSchedule(patrolRoute.getsNFCIDxxx()).equalsIgnoreCase("N/A")){
 
                     //todo: display last cached schedule
                     holder.binding.nextsched.setText(mViewModel.getLastNFCSchedule(patrolRoute.getsNFCIDxxx()));
 
+                }
+
+            }
+
+            //todo: check item's display
+            if (!holder.binding.nextsched.getText().toString().isEmpty()){
+
+                if (!holder.binding.nextsched.getText().toString().equalsIgnoreCase("N/A")){
+
+                    //todo: set onclick event
                     holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                        @SuppressLint("NewApi")
                         @Override
                         public void onClick(View v) {
 
@@ -139,8 +140,29 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                                 return;
                             }
 
-                            //todo: enable tagging if patrol is not started
-                            if (!patrolStarted){
+                            //TODO: FORMAT TIME AND DATE
+                            LocalTime schedFormat = LocalTime.parse(patrolCacheSchedule, DateTimeFormatter.ofPattern("HH:mm"));
+                            LocalTime displayFormat = LocalTime.parse(holder.binding.nextsched.getText().toString(),
+                                    DateTimeFormatter.ofPattern("hh:mm a"));
+                            String currentDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now());
+                            LocalTime currentTimeFormat = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+
+
+                            //todo: check current schedule on selected item's displayed schedule
+                            if (schedFormat.equals(LocalTime.parse(displayFormat.format(DateTimeFormatter.ofPattern("HH:mm"))))){
+
+                                //todo: check if schedule is visited, return if visited
+                                if (mViewModel.isPatrolVisited(currentDateFormat +" "+ displayFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss"))) > 0){
+
+                                    new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited", Dialog::dismiss).showDialog();
+                                    return;
+                                }
+
+                                //todo: check current time if before patrol schedule, return not started
+                                if (currentTimeFormat.isBefore(schedFormat)){
+                                    new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You haven't started patrol yet", Dialog::dismiss).showDialog();
+                                    return;
+                                }
 
                                 //todo:enable tagging
                                 mListener.onClick(patrolRoute, position);
@@ -153,7 +175,6 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                     });
 
                 }
-
             }
 
         }
