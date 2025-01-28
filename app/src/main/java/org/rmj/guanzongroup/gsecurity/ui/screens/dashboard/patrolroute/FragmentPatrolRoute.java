@@ -36,6 +36,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import org.rmj.guanzongroup.gsecurity.BuildConfig;
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPatrolRouteBinding;
 import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
@@ -156,6 +157,8 @@ public class FragmentPatrolRoute extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPatrolRoute.class);
         binding = FragmentPatrolRouteBinding.inflate(getLayoutInflater());
         dialogLoad = new DialogLoad(requireActivity());
+
+        binding.labelVersionInfo.setText(BuildConfig.VERSION_NAME);
 
         boolean isNotificationPermissionGranted =
                 ContextCompat.checkSelfPermission(requireActivity(),
@@ -328,6 +331,7 @@ public class FragmentPatrolRoute extends Fragment {
 
                     //todo: initialize cache schedule for observation every minute
                     mViewModel.initNFCacheSchedule();
+
                 }
 
             }

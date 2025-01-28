@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.admin;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.rmj.guanzongroup.gsecurity.BuildConfig;
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentAdminDashboardBinding;
 

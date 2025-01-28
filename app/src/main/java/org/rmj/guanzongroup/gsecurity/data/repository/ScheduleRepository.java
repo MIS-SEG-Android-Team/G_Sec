@@ -108,10 +108,6 @@ public class ScheduleRepository {
         return patrolScheduleDao.getCRequest(schedule);
     }
 
-    public String getRecentSchedule(String schedule){
-        return patrolScheduleDao.getRecentSchedule(schedule);
-    }
-
     public PatrolScheduleDao.CacheSchedule getNextSchedule(String schedule){
         return patrolScheduleDao.getNextCacheSchedule(schedule);
     }
@@ -122,6 +118,7 @@ public class ScheduleRepository {
         LocalTime current = LocalTime.parse(LocalTime.now().format(dateTimeFormatter), dateTimeFormatter);
         String formattedtime = current.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
+        //todo: get last cached schedule, and set as param to get next schedule. else set current time as param
         if (patrolScheduleDao.getRecentSchedule(formattedtime) != null){
             if (patrolScheduleDao.getNextCacheSchedule(patrolScheduleDao.getRecentSchedule(formattedtime)) != null){
                 return patrolScheduleDao.getNextCacheSchedule(patrolScheduleDao.getRecentSchedule(formattedtime));

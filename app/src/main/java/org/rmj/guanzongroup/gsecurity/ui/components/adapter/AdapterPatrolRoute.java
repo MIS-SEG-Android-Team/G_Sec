@@ -159,7 +159,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                                 }
 
                                 //todo: check current time if before patrol schedule, return not started
-                                if (currentTimeFormat.isBefore(schedFormat)){
+                                if (currentTimeFormat.isBefore(schedFormat) || currentTimeFormat.equals(schedFormat)){
                                     new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You haven't started patrol yet", Dialog::dismiss).showDialog();
                                     return;
                                 }
@@ -168,7 +168,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                                 mListener.onClick(patrolRoute, position);
 
                             }else {
-                                new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "Patrol time is finished", Dialog::dismiss).showDialog();
+                                new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "Patrol schedule not in this checkpoint", Dialog::dismiss).showDialog();
                             }
 
                         }
