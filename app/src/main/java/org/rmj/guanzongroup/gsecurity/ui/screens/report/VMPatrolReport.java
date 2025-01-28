@@ -95,12 +95,12 @@ public class VMPatrolReport extends ViewModel {
                                 return;
                             }
 
-                            reports.setValue(response.getData());
-
                             //todo: set personnel name to response data
                             for (PersonnelPatrolReport model : response.getData()) {
                                 model.setSOfficerx(userName.getValue());
                             }
+
+                            reports.setValue(response.getData());
                         },
                         error -> {
                             loadingReports.setValue(false);
