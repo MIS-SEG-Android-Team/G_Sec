@@ -386,7 +386,7 @@ public class VMPatrolRoute extends ViewModel {
                 patrolLogEntity.setcRequested("2");
 
                 //todo: update visit request's cRequest to '2'
-                scheduleRepository.updateRequestSchedule(patrolSchedule, patrol.getsNFCIDxxx());
+                scheduleRepository.updateRequestSchedule("2", patrolSchedule, patrol.getsNFCIDxxx());
 
             }else {
 

@@ -1,12 +1,14 @@
 package org.rmj.guanzongroup.gsecurity.ui.screens.authentication.login;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.guanzongroup.gsecurity.BuildConfig;
 import org.rmj.guanzongroup.gsecurity.data.preferences.AuthenticationCache;
 import org.rmj.guanzongroup.gsecurity.data.preferences.DataStore;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
@@ -117,6 +119,7 @@ public class VMLogin extends ViewModel {
 
         PINParams param = new PINParams();
         param.setMpin(mpin.getValue());
+        param.setVrsnNumber(BuildConfig.VERSION_CODE);
 
         repository.loginPersonnel(param)
                 .subscribeOn(Schedulers.io())

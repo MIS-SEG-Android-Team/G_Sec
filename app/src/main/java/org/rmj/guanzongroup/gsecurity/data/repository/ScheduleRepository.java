@@ -100,8 +100,12 @@ public class ScheduleRepository {
         patrolScheduleDao.clearPatrolSchedule();
     }
 
-    public void updateRequestSchedule(String schedule, String nfcIDxx){
-        patrolScheduleDao.updateCRequest(schedule, nfcIDxx);
+    public String getNFCIDxx(String schedIDxx){
+        return patrolScheduleDao.getNFCIDxx(schedIDxx);
+    }
+
+    public void updateRequestSchedule(String status, String schedule, String nfcIDxx){
+        patrolScheduleDao.updateCRequest(status, schedule, nfcIDxx);
     }
 
     public String getCRequestTime(String schedule){

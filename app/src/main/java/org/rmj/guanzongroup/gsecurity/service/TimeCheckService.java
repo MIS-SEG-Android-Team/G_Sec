@@ -310,6 +310,24 @@ public class TimeCheckService extends Service {
                 Timber.tag(TAG).d("%s is finished", patrolTime);
 
             }
+
+            //todo: if patrol index is request visit '1', then validate and update
+            if (obj.getCRequestd().equalsIgnoreCase("1")){
+
+                //todo: if patrol index is finished, update status as not visited '3'
+                if (patrolTime.isBefore(
+                        LocalTime.parse(LocalTime.parse(patrolCache.getPatrolSchedule())
+                                .format(DateTimeFormatter.ofPattern("HH:mm"))) )){
+
+                    if (scheduleRepository.getNFCIDxx(obj.getSchedIDxx()) != null){
+
+                        scheduleRepository.updateRequestSchedule("3", obj.getDTimexxxx(),
+                                scheduleRepository.getNFCIDxx(obj.getSchedIDxx()));
+                    }
+
+                    //todo: call api sending request entity
+                }
+            }
         }
     }
 }

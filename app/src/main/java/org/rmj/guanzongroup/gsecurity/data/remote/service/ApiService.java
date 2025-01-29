@@ -218,8 +218,8 @@ public interface ApiService {
     @POST("/gsecure/patrol/get_visit_request.php")
     Observable<BaseResponse<RequestVisitEntity>> downloadVisitRequests(@Body GetPatrolRouteParams params);
 
-    /*@POST("/gsecure/notification/send_request.php")
-    Observable<BaseResponse<Void>> sendVisitedNotification(@Body RequestVisitEntity params);*/
+    @POST("/gsecure/notification/send_request.php")
+    Observable<BaseResponse<Void>> sendVisitedNotification(@Body RequestVisitEntity params);
 
     // endregion
 

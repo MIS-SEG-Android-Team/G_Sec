@@ -70,6 +70,7 @@ public class FragmentPatrolRoute extends Fragment {
     //private Boolean isTaggingRequestedVisit = false;
     private String QrCodeData = "";
 
+    @SuppressLint("NewApi")
     private final ActivityResultLauncher<Intent> intentFrontCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
        if(result.getResultCode() == RESULT_OK) {
 
@@ -112,6 +113,7 @@ public class FragmentPatrolRoute extends Fragment {
         }
     });
 
+    @SuppressLint("NewApi")
     private final ActivityResultLauncher<Intent> intentNFCReader = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result-> {
         if(result.getResultCode() == RESULT_OK) {
             Intent intentResult = result.getData();
@@ -141,6 +143,7 @@ public class FragmentPatrolRoute extends Fragment {
     });
 
 
+    @SuppressLint("NewApi")
     private final ActivityResultLauncher<String> notificationPermission =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 mViewModel.setNotificationPermissionEnabled(isGranted);
