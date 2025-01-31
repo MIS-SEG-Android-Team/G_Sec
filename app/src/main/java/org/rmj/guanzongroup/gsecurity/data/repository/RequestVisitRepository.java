@@ -45,9 +45,9 @@ public class RequestVisitRepository {
         return requestVisitDao.getRequestedVisit(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 
-    public Observable<BaseResponse<Void>> sendVisitedNotification(RequestVisitEntity params) {
+    /*public Observable<BaseResponse<Void>> sendVisitedNotification(RequestVisitEntity params) {
         return apiService.sendVisitedNotification(params);
-    }
+    }*/
 
     public Observable<BaseResponse<Void>> sendVisitationRequest(RequestSiteVisitParams params) {
         return apiService.sendVisitationRequest(params);

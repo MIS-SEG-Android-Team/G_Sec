@@ -375,24 +375,9 @@ public class VMPatrolRoute extends ViewModel {
             patrolLogEntity.setSRemarksx(remarks);
             patrolLogEntity.setSUserIDxx(dataStore.getUserId());
             patrolLogEntity.setCSendStat("0");
+            patrolLogEntity.setcRequested(scheduleRepository.getCRequestTime(patrolSchedule));
             patrolLogEntity.setDSchedule(
                     defaultDateFormat.format(LocalDateTime.now()) + " " + patrolSchedule);
-
-            String cRequestSchedule = scheduleRepository.getCRequestTime(patrolSchedule);
-
-            if (cRequestSchedule.equals("1")){
-
-                //todo: this should be same value with visit schedule 'cRequested'
-                patrolLogEntity.setcRequested("2");
-
-                //todo: update visit request's cRequest to '2'
-                scheduleRepository.updateRequestSchedule("2", patrolSchedule, patrol.getsNFCIDxxx());
-
-            }else {
-
-                //todo: this should be same value with visit schedule 'cRequested'
-                patrolLogEntity.setcRequested(cRequestSchedule);
-            }
 
             //todo: save to patrol log
             patrolRepository.savePatrolLog(patrolLogEntity);
