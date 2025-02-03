@@ -139,11 +139,11 @@ public class TimeCheckService extends Service {
 
                     reportException("", "Patrol for " + scheduledTime + " has finished!!!");
 
-                } else {
-
-                    //TODO: CHECK SCHEDULE
-                    checkSchedules(patrolSchedule, dateTimeFormatter, currentTime);
                 }
+
+                //TODO: CHECK SCHEDULE
+                checkSchedules(patrolSchedule, dateTimeFormatter, currentTime);
+
             } else {
 
                 patrolSchedule.sort(new TimeComparator());
@@ -263,7 +263,6 @@ public class TimeCheckService extends Service {
 
                 //TODO: 2. RESET PATROL STARTED
                 patrolCache.setPatrolStarted(false);
-                //patrolCache.setPatrolSchedule(patrolTime.toString());
 
                 //TODO: SET CURRENT NFC ID
                 setCurrentNFC(obj.getSchedIDxx());
@@ -291,20 +290,12 @@ public class TimeCheckService extends Service {
 
             }else {
 
-                //TODO: RESET PATROL STARTED
-                patrolCache.setPatrolStarted(false);
+                //TODO: 5. START ALARM ACTIVITY, IF CURRENT TIME IS THE SCHEDULED TIME
+                if (minutes == 0) {
 
-                //TODO: 4. IF PATROL SCHEDULE IS NOT STARTED
-                if (!patrolCache.getPatrolStarted()){
+                    startAlarm();
 
-                    //TODO: 5. START ALARM ACTIVITY, IF CURRENT TIME IS THE SCHEDULED TIME
-                    if (minutes == 0) {
-
-                        startAlarm();
-
-                        Timber.tag(TAG).d("Starting patrol schedule %s", patrolTime.format(dateTimeFormatter));
-                    }
-
+                    Timber.tag(TAG).d("Starting patrol schedule %s", patrolTime.format(dateTimeFormatter));
                 }
 
                 Timber.tag(TAG).d("%s is finished", patrolTime);

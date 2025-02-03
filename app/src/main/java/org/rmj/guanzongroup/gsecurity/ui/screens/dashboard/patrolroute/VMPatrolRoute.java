@@ -173,10 +173,6 @@ public class VMPatrolRoute extends ViewModel {
         this.successMessage.setValue("");
     }
 
-    public boolean getPatrolStarted(){
-        return patrolCache.getPatrolStarted();
-    }
-
     public int isPatrolVisited(String schedule){
         return patrolRepository.checkIfPatrolFinished(schedule);
     }

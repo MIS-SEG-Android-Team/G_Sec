@@ -32,7 +32,6 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     private final PatrolRouteClickListener mListener;
     private final String patrolCacheSchedule;
     private final String patrolCacheCheckpoint;
-    private final Boolean patrolStarted;
     private final VMPatrolRoute mViewModel;
 
     public interface PatrolRouteClickListener{
@@ -40,13 +39,12 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     }
 
     public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule,
-                              String patrolCacheCheckpoint, Boolean patrolStarted, VMPatrolRoute mViewModel,
+                              String patrolCacheCheckpoint, VMPatrolRoute mViewModel,
                               PatrolRouteClickListener listener) {
         this.patrolRouteList = patrolRouteList;
         this.mListener = listener;
         this.patrolCacheSchedule = patrolCacheSchedule;
         this.patrolCacheCheckpoint = patrolCacheCheckpoint;
-        this.patrolStarted = patrolStarted;
         this.mViewModel = mViewModel;
     }
 
@@ -134,7 +132,6 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
 
                             Timber.tag("AdapterPatrolRoute").d(patrolCacheCheckpoint);
                             Timber.tag("AdapterPatrolRoute").d(patrolCacheSchedule);
-                            Timber.tag("AdapterPatrolRoute").d(String.valueOf(patrolStarted));
 
                             if(position == NO_POSITION) {
                                 return;

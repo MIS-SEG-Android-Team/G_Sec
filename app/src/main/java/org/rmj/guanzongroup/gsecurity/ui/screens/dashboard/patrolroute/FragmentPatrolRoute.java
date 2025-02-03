@@ -241,8 +241,8 @@ public class FragmentPatrolRoute extends Fragment {
 
                 //todo: set to adapter list
                 AdapterPatrolRoute adapterPatrolRoute =
-                        new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(), nfcCache.getNfccheckpoint(),
-                                mViewModel.getPatrolStarted(), mViewModel, (patrol, position) -> {
+                        new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(),
+                                nfcCache.getNfccheckpoint(), mViewModel, (patrol, position) -> {
 
                     //todo: check if patrol is done
                     if (patrol.isVisited()) {
