@@ -13,6 +13,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -53,7 +54,7 @@ public class RequestVisitRepository {
         return apiService.sendVisitationRequest(params);
     }
 
-    public Observable<BaseResponse<RequestVisitEntity>> downloadVisitRequests(GetPatrolRouteParams params) {
+    public Observable<BaseResponse<List<RequestVisitEntity>>> downloadVisitRequests(GetPatrolRouteParams params) {
         return apiService.downloadVisitRequests(params);
     }
 }

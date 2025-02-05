@@ -5,11 +5,12 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+import androidx.room.Upsert;
 
 @Dao
 public interface RequestVisitDao {
 
-    @Insert
+    @Upsert
     void save(RequestVisitEntity value);
 
     @Update

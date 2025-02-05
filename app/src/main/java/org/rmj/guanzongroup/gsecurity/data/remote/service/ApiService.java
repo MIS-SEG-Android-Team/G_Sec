@@ -216,7 +216,7 @@ public interface ApiService {
     Observable<BaseResponse<Void>> sendVisitationRequest(@Body RequestSiteVisitParams params);
 
     @POST("/gsecure/patrol/get_visit_request.php")
-    Observable<BaseResponse<RequestVisitEntity>> downloadVisitRequests(@Body GetPatrolRouteParams params);
+    Observable<BaseResponse<List<RequestVisitEntity>>> downloadVisitRequests(@Body GetPatrolRouteParams params);
 
     /*@POST("/gsecure/notification/send_request.php")
     Observable<BaseResponse<Void>> sendVisitedNotification(@Body RequestVisitEntity params);*/

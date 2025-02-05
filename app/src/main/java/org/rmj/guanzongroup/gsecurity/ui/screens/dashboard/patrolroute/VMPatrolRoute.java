@@ -237,6 +237,7 @@ public class VMPatrolRoute extends ViewModel {
                                             String formattedTime = schedFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
                                             value.setDTimexxxx(formattedTime);
+
                                         }
 
                                         for (PatrolRouteEntity routes: patrolRoutes){
@@ -251,33 +252,6 @@ public class VMPatrolRoute extends ViewModel {
                                     scheduleRepository.savePatrolSchedule(patrolSchedules);
                                     isLoadingPatrolRoutes.setValue(false);
 
-                                }
-
-                                //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
-                                if (patrolCache.getPatrolSchedule().isEmpty()){
-
-                                    //todo: if empty, set patrol schedule from local data on cache
-                                    patrolCache.setPatrolSchedule(
-                                            LocalTime.parse(
-                                                    scheduleRepository.getCacheSchedule().getdTimexxxx(),
-                                                    DateTimeFormatter.ofPattern("HH:mm:ss")
-                                            ).format(DateTimeFormatter.ofPattern("HH:mm"))
-                                    );
-
-                                }
-
-                                if (patrolCache.getCheckpoint().isEmpty()){
-                                    //todo: if empty, set patrol checkpoint from local data on cache
-                                    patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
-                                }
-
-                                //todo: if two cache above is set, set value for live observation of nfc cache
-                                if (!patrolCache.getPatrolSchedule().isEmpty() && !patrolCache.getCheckpoint().isEmpty()){
-                                    nfcCache.setValue(
-                                            new CacheNFCSchedule(
-                                                    patrolCache.getCheckpoint(),
-                                                    patrolCache.getPatrolSchedule()
-                                            ));
                                 }
 
                             },
@@ -302,12 +276,66 @@ public class VMPatrolRoute extends ViewModel {
 
                                 }else {
 
-                                    requestVisitRepository.save(requestVisitEntityBaseResponse.getData());
+                                    for(RequestVisitEntity response: requestVisitEntityBaseResponse.getData()){
+                                        requestVisitRepository.save(response);
+                                    }
 
                                 }
 
                             }
                     );
+
+            Thread.sleep(1000);
+
+            //TODO: GET SAVED SCHEDULE LIST
+            if (!scheduleRepository.getPatrolScheduleList().isEmpty()){
+
+                //TODO: SCAN EACH SCHEDULES
+                for (PatrolScheduleEntity entities: scheduleRepository.getPatrolScheduleList()){
+
+                    //TODO: UPDATE REQUEST STATUS, IF SCHEDULE IS TAG AS REQUEST VISIT
+                    if (entities.getCRequestd().equalsIgnoreCase("1")){
+
+                        String rqstSchedule = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()) + " "+ entities.getDTimexxxx();
+
+                        if (scheduleRepository.isRequestToday(rqstSchedule) <= 0 ){
+
+                            Timber.tag(TAG).d(String.valueOf(entities.getSchedIDxx()));
+
+                            //TODO: UPDATE STATUS TO '3', IDENTIFIED AS UNVISITED FROM ITS REQUESTED DAY
+                            scheduleRepository.updateRequest(entities.getSchedIDxx(), "3");
+                        }
+                    }
+
+                }
+            }
+
+            //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
+            if (patrolCache.getPatrolSchedule().isEmpty()){
+
+                //todo: if empty, set patrol schedule from local data on cache
+                patrolCache.setPatrolSchedule(
+                        LocalTime.parse(
+                                scheduleRepository.getCacheSchedule().getdTimexxxx(),
+                                DateTimeFormatter.ofPattern("HH:mm:ss")
+                        ).format(DateTimeFormatter.ofPattern("HH:mm"))
+                );
+
+            }
+
+            if (patrolCache.getCheckpoint().isEmpty()){
+                //todo: if empty, set patrol checkpoint from local data on cache
+                patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
+            }
+
+            //todo: if two cache above is set, set value for live observation of nfc cache
+            if (!patrolCache.getPatrolSchedule().isEmpty() && !patrolCache.getCheckpoint().isEmpty()){
+                nfcCache.setValue(
+                        new CacheNFCSchedule(
+                                patrolCache.getCheckpoint(),
+                                patrolCache.getPatrolSchedule()
+                        ));
+            }
 
         }catch (Exception e){
             e.printStackTrace();

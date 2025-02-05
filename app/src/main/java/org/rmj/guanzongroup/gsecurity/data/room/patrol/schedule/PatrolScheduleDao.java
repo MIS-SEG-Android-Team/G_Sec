@@ -22,6 +22,7 @@ public interface PatrolScheduleDao {
     @Query("SELECT a.sNFCIDxxx, b.dTimexxxx FROM Patrol_Route a, Patrol_Schedule b " +
             "WHERE a.schedIDxx = b.schedIDxx " +
             "AND b.dTimexxxx >= :dTimex " +
+            "AND b.cRequestxx IN ('0', '1')" +
             "ORDER BY b.dTimexxxx ASC LIMIT 1")
     CacheSchedule getNextCacheSchedule(String dTimex);
 
@@ -29,8 +30,9 @@ public interface PatrolScheduleDao {
             "WHERE a.schedIDxx = b.schedIDxx " +
             "AND a.sNFCIDxxx = :nfcIDxx " +
             "AND b.dTimexxxx <= :currentime " +
+            "AND b.cRequestxx IN ('0', '1') " +
             "group by  a.schedIDxx, b.dTimexxxx " +
-            "order by b.dTimexxxx desc limit 1")
+            "order by b.dTimexxxx DESC LIMIT 1")
     String getLastNFCSchedule(String nfcIDxx, String currentime);
 
     @Query("SELECT sWHouseNm FROM Warehouse WHERE sWHouseID = :wHouseID")
@@ -38,6 +40,12 @@ public interface PatrolScheduleDao {
 
     @Query("SELECT cRequestxx FROM Patrol_Schedule WHERE dTimexxxx = :schedule")
     String getCRequest(String schedule);
+
+    @Query("SELECT COUNT(*) FROM Request_Visit WHERE dSchedule = :schedule ")
+    int isRequestVisit(String schedule);
+
+    @Query("UPDATE Patrol_Schedule SET cRequestxx = :status WHERE schedIDxx = :schedIDxx")
+    void updateRequest(String schedIDxx, String status);
 
     @Query("DELETE FROM Patrol_Schedule")
     void clearPatrolSchedule();

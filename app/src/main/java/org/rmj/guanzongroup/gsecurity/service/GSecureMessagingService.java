@@ -28,6 +28,7 @@ import org.rmj.guanzongroup.gsecurity.data.repository.RequestVisitRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.route.PatrolRouteEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
 
 import java.time.LocalTime;
@@ -207,7 +208,9 @@ public class GSecureMessagingService extends FirebaseMessagingService {
 
                                 }else {
 
-                                    requestVisitRepository.save(requestVisitEntityBaseResponse.getData());
+                                    for(RequestVisitEntity response: requestVisitEntityBaseResponse.getData()){
+                                        requestVisitRepository.save(response);
+                                    }
 
                                 }
                             }
