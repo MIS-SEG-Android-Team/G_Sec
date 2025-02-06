@@ -107,11 +107,7 @@ public class ScheduleRepository {
     public int isRequestToday(String schedule){
         return patrolScheduleDao.isRequestVisit(schedule);
     }
-
-    public void updateRequest(String schedIDxx, String status){
-        patrolScheduleDao.updateRequest(schedIDxx, status);
-    }
-
+    
     public PatrolScheduleDao.CacheSchedule getNextSchedule(String schedule){
         return patrolScheduleDao.getNextCacheSchedule(schedule);
     }

@@ -44,9 +44,6 @@ public interface PatrolScheduleDao {
     @Query("SELECT COUNT(*) FROM Request_Visit WHERE dSchedule = :schedule ")
     int isRequestVisit(String schedule);
 
-    @Query("UPDATE Patrol_Schedule SET cRequestxx = :status WHERE schedIDxx = :schedIDxx")
-    void updateRequest(String schedIDxx, String status);
-
     @Query("DELETE FROM Patrol_Schedule")
     void clearPatrolSchedule();
 

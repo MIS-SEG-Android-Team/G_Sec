@@ -195,6 +195,30 @@ public class VMPatrolRoute extends ViewModel {
             GetPatrolRouteParams params = new GetPatrolRouteParams();
             params.setSUserIDxx(dataStore.getUserId());
 
+            requestVisitRepository.downloadVisitRequests(params)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+
+                            requestVisitEntityBaseResponse -> {
+
+                                if (requestVisitEntityBaseResponse.getResult().equalsIgnoreCase("error")) {
+
+                                    Timber.tag("GSecureMessagingService").d(requestVisitEntityBaseResponse.getResult());
+
+                                }else {
+
+                                    for(RequestVisitEntity response: requestVisitEntityBaseResponse.getData()){
+                                        requestVisitRepository.save(response);
+                                    }
+
+                                }
+
+                            }
+                    );
+
+            Thread.sleep(1000);
+
             patrolRepository.getPatrolRouteSchedule(params)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -227,6 +251,7 @@ public class VMPatrolRoute extends ViewModel {
                                         reportException("", "Imported patrol schedules is empty.");
                                     }else {
 
+                                        //TODO: INITIALIZE SCHEDULE
                                         for (PatrolScheduleEntity value: patrolSchedules) {
                                             value.setCRequestd(obj.getcRequestx());
                                             value.setSchedIDxx(obj.getSSchedIDx());
@@ -238,8 +263,24 @@ public class VMPatrolRoute extends ViewModel {
 
                                             value.setDTimexxxx(formattedTime);
 
+                                            //TODO: IF REQUESTED, CHECK IF DATED TODAY AND UPDATE STATUS. '3' IF NOT REQUESTED TODAY
+                                            if (value.getCRequestd().equalsIgnoreCase("1")){
+
+                                                String rqstSchedule = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()) + " "+ formattedTime;
+
+                                                if (scheduleRepository.isRequestToday(rqstSchedule) <= 0 ){
+
+                                                    Timber.tag(TAG).d(String.valueOf(value.getSchedIDxx()));
+
+                                                    value.setCRequestd("3");
+                                                }
+
+                                            }
+
+
                                         }
 
+                                        //TODO: SET SCHEDULE ID PER ROUTE
                                         for (PatrolRouteEntity routes: patrolRoutes){
 
                                             routes.setSchedIDxx(obj.getSSchedIDx());
@@ -248,6 +289,7 @@ public class VMPatrolRoute extends ViewModel {
 
                                     }
 
+                                    //TODO: IMPORT DATA
                                     patrolRepository.savePatrolRoute(patrolRoutes);
                                     scheduleRepository.savePatrolSchedule(patrolSchedules);
                                     isLoadingPatrolRoutes.setValue(false);
@@ -260,55 +302,6 @@ public class VMPatrolRoute extends ViewModel {
                                 isLoadingPatrolRoutes.setValue(false);
                             }
                     );
-
-            Thread.sleep(1000);
-
-            requestVisitRepository.downloadVisitRequests(params)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-
-                            requestVisitEntityBaseResponse -> {
-
-                                if (requestVisitEntityBaseResponse.getResult().equalsIgnoreCase("error")) {
-
-                                    Timber.tag("GSecureMessagingService").d(requestVisitEntityBaseResponse.getResult());
-
-                                }else {
-
-                                    for(RequestVisitEntity response: requestVisitEntityBaseResponse.getData()){
-                                        requestVisitRepository.save(response);
-                                    }
-
-                                }
-
-                            }
-                    );
-
-            Thread.sleep(1000);
-
-            //TODO: GET SAVED SCHEDULE LIST
-            if (!scheduleRepository.getPatrolScheduleList().isEmpty()){
-
-                //TODO: SCAN EACH SCHEDULES
-                for (PatrolScheduleEntity entities: scheduleRepository.getPatrolScheduleList()){
-
-                    //TODO: UPDATE REQUEST STATUS, IF SCHEDULE IS TAG AS REQUEST VISIT
-                    if (entities.getCRequestd().equalsIgnoreCase("1")){
-
-                        String rqstSchedule = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()) + " "+ entities.getDTimexxxx();
-
-                        if (scheduleRepository.isRequestToday(rqstSchedule) <= 0 ){
-
-                            Timber.tag(TAG).d(String.valueOf(entities.getSchedIDxx()));
-
-                            //TODO: UPDATE STATUS TO '3', IDENTIFIED AS UNVISITED FROM ITS REQUESTED DAY
-                            scheduleRepository.updateRequest(entities.getSchedIDxx(), "3");
-                        }
-                    }
-
-                }
-            }
 
             //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
             if (patrolCache.getPatrolSchedule().isEmpty()){

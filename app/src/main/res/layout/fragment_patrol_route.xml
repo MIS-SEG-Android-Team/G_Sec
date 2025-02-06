@@ -63,7 +63,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/view_padding_10">
+            android:padding="@dimen/view_padding_10"
+            android:visibility="gone">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/patrolRouteIcon"

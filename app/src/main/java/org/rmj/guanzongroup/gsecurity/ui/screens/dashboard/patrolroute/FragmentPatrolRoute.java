@@ -188,7 +188,7 @@ public class FragmentPatrolRoute extends Fragment {
             }
         });
 
-        mViewModel.getRequestedVisit().observe(getViewLifecycleOwner(), requestedVisit -> {
+        /*mViewModel.getRequestedVisit().observe(getViewLifecycleOwner(), requestedVisit -> {
             if (requestedVisit == null) {
                 binding.visitRequestBanner.setVisibility(View.GONE);
                 return;
@@ -201,7 +201,7 @@ public class FragmentPatrolRoute extends Fragment {
 
             binding.visitRequestBanner.setVisibility(View.VISIBLE);
 
-            /*binding.visitRequestBanner.setOnClickListener( view -> {
+            binding.visitRequestBanner.setOnClickListener( view -> {
 
                 new DialogTagOption(requireActivity(), requestedVisit.getSDescript(), new DialogTagOption.DialogTagOptionCallback() {
                     @Override
@@ -221,8 +221,8 @@ public class FragmentPatrolRoute extends Fragment {
                         intentQrCodeScanner.launch(intent);
                     }
                 }).show();
-            });*/
-        });
+            });
+        });*/
 
         mViewModel.isLoadingPatrolRoute().observe(getViewLifecycleOwner(), loadingPatrolRoute -> {
             if (loadingPatrolRoute) {
