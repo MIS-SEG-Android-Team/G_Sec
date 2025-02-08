@@ -122,15 +122,15 @@ public class FragmentVisitArea extends Fragment {
                     }
                 }
 
-                if (branchExist) { break; }
-
-                branchNames.add(branch);
+                if (!branchExist) {
+                    branchNames.add(branch);
+                }
             }
 
             binding.tieBranchName.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, branchNames.toArray()));
             binding.tieBranchName.setOnItemClickListener((parent, view, position, id) -> {
-                for (int x = 0; x < branchNames.size(); x ++) {
-                    if (binding.tieBranchName.getText().toString().equalsIgnoreCase(branchNames.get(x))) {
+                for (int x = 0; x < warehouses.size(); x ++) {
+                    if (binding.tieBranchName.getText().toString().equalsIgnoreCase(warehouses.get(x).getsBranchNm())) {
                         mViewModel.setBranch(warehouses.get(x).getSBranchCd());
                         break;
                     }
