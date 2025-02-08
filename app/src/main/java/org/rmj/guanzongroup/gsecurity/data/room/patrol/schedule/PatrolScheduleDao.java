@@ -23,7 +23,7 @@ public interface PatrolScheduleDao {
             "WHERE a.schedIDxx = b.schedIDxx " +
             "AND b.dTimexxxx >= :dTimex " +
             "AND b.cRequestxx IN ('0', '1') " +
-            "ORDER BY b.dTimexxxx DESC LIMIT 1")
+            "ORDER BY b.dTimexxxx ASC LIMIT 1")
     CacheSchedule getNextCacheSchedule(String dTimex);
 
     @Query("SELECT b.dTimexxxx FROM patrol_route a, patrol_schedule b " +
