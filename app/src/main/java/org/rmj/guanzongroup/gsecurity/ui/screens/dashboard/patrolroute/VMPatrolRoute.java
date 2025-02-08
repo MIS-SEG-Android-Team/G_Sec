@@ -296,6 +296,13 @@ public class VMPatrolRoute extends ViewModel {
 
                                 }
 
+                                if (patrolCache.getPatrolScheduleID().isEmpty()){
+
+                                    patrolCache.setPatrolScheduleID(
+                                            scheduleRepository.getCacheSchedule().getSchedIDxx()
+                                    );
+                                }
+
                                 //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
                                 if (patrolCache.getPatrolSchedule().isEmpty()){
 
@@ -389,6 +396,7 @@ public class VMPatrolRoute extends ViewModel {
             patrolLogEntity.setDVisitedx(currentDateTime +" "+ currentTime);
             patrolLogEntity.setDTimeVist(currentTime);
             patrolLogEntity.setSNFCIDxxx(patrol.getsNFCIDxxx());
+            patrolLogEntity.setSchedIDxx(patrolCache.getPatrolScheduleID());
             patrolLogEntity.setSRemarksx(remarks);
             patrolLogEntity.setSUserIDxx(dataStore.getUserId());
             patrolLogEntity.setCSendStat("0");

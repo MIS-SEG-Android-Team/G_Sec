@@ -22,6 +22,7 @@ public class PatrolCache {
     private static final String PATROL_RE_SCHEDULE = "patrol_re_schedule";
     private static final String PATROL_STARTED = "patrol_started";
     private static final String PATROL_CHECKPOINT = "patrol_nfcidxx";
+    private static final String PATROL_SCHEDULE_ID = "patrol_schedid";
 
     @Inject
     public PatrolCache(Application application) {
@@ -36,6 +37,15 @@ public class PatrolCache {
 
     public String getPatrolSchedule(){
         return preferences.getString(PATROL_SCHEDULE, "");
+    }
+
+    public void setPatrolScheduleID(String value) {
+        editor.putString(PATROL_SCHEDULE_ID, value);
+        editor.commit();
+    }
+
+    public String getPatrolScheduleID(){
+        return preferences.getString(PATROL_SCHEDULE_ID, "");
     }
 
     public void setPatrolReSchedule(String value) {

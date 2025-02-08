@@ -26,12 +26,17 @@ public class PatrolLogEntity {
     protected String dSchedule;
     @ColumnInfo(name = "cRequestd")
     protected String cRequestd;
+    @ColumnInfo(name = "sSchedIdxx")
+    protected String sSchedIdxx;
 
     public PatrolLogEntity() {
     }
 
     public String getSNFCIDxxx() { return sNFCIDxxx; }
     public void setSNFCIDxxx(@NonNull String value) { this.sNFCIDxxx = value; }
+
+    public String getSchedIDxx() { return sSchedIdxx; }
+    public void setSchedIDxx(String value) { this.sSchedIdxx = value; }
 
     public String getDVisitedx() { return dVisitedx; }
     public void setDVisitedx(@NonNull String value) { this.dVisitedx = value; }
