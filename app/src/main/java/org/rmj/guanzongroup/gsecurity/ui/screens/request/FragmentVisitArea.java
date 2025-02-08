@@ -173,8 +173,10 @@ public class FragmentVisitArea extends Fragment {
             binding.tiePersonnel.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, personnelNames));
             binding.tiePersonnel.setOnItemClickListener((parent, view, position, id) -> {
                 for (int x = 0; x < personnelList.size(); x++) {
+
                     String warehouseNm = personnelList.get(x).getSUserName();
                     String warehouseName = binding.tiePersonnel.getText().toString();
+
                     if (warehouseName.equalsIgnoreCase(warehouseNm)){
                         String personnelID = personnelList.get(x).getSUserIDxx();
                         mViewModel.setPersonnelID(personnelID);
@@ -185,14 +187,51 @@ public class FragmentVisitArea extends Fragment {
         });
 
         mViewModel.getWarehouseID().observe(getViewLifecycleOwner(), warehouseID -> {
+
             if (warehouseID == null) { return; }
             if (warehouseID.isEmpty()) { return; }
 
+            //TODO: IMPORT NFC TAGS
             mViewModel.getNfcTags(warehouseID);
-            warehouseIDxx = warehouseID;
+
+            //TODO: GET CHECKPOINT LIST AND DISPLAY SELECTION FOR SELECTED WAREHOUSE
+            mViewModel.getNFCCheckpointList(warehouseID).observe(getViewLifecycleOwner(), checkpointList -> {
+
+                if (checkpointList != null){
+
+                    ArrayList<String> checkpoints = new ArrayList<>();
+
+                    if (checkpointList.size() > 0){
+
+                        for (int x = 0; x < checkpointList.size(); x++) {
+                            checkpoints.add(checkpointList.get(x).getSDescript());
+                        }
+
+                    }
+
+                    binding.tieCheckpoint.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, checkpoints));
+                    binding.tieCheckpoint.setOnItemClickListener((parent, view, position, id) -> {
+                        for (int x = 0; x < checkpointList.size(); x++) {
+
+                            String warehouseNm = checkpointList.get(x).getSDescript();
+                            String warehouseName = binding.tieCheckpoint.getText().toString();
+
+                            if (warehouseName.equalsIgnoreCase(warehouseNm)){
+                                String checkpointID = checkpointList.get(x).getSNFCIDxxx();
+                                mViewModel.setCheckpointID(checkpointID);
+                                break;
+                            }
+
+                        }
+                    });
+
+                }
+
+            });
+
         });
 
-        mViewModel.getCheckpointList().observe(getViewLifecycleOwner(), checkpointList -> {
+        /*mViewModel.getCheckpointList().observe(getViewLifecycleOwner(), checkpointList -> {
 
             //todo: pending, bug may exist if the checkpoint list is empty. "last list value is still displayed" -Guillier
             if (checkpointList == null) {
@@ -242,7 +281,7 @@ public class FragmentVisitArea extends Fragment {
                     }
                 }
             });
-        });
+        });*/
 
         binding.tieTime.setOnClickListener(view -> {
             Calendar calendar = Calendar.getInstance();

@@ -106,6 +106,10 @@ public class VMVisitArea extends ViewModel {
         return branch;
     }
 
+    public LiveData<List<NFCDeviceEntity>> getNFCCheckpointList(String warehouseId) {
+        return checkpointRepository.getNfcTags(warehouseId);
+    }
+
     public String getNFCLatestTimeStamp(String warehouseID){
         return checkpointRepository.getLatestNFCTimeStamp(warehouseID);
     }
@@ -172,7 +176,7 @@ public class VMVisitArea extends ViewModel {
                             }
 
                             checkpointRepository.saveNfcTags(nfcDeviceEntities);
-                            checkpointList.setValue(nfcDeviceEntities);
+                            //checkpointList.setValue(nfcDeviceEntities);
                         },
                         error -> loadingCheckpoint.setValue(false)
                 );
@@ -210,7 +214,7 @@ public class VMVisitArea extends ViewModel {
         return warehouseRepository.getWarehouseList();
     }
     public LiveData<List<ActivePersonnelModel>> getPersonnelList() { return personnelList; }
-    public LiveData<List<NFCDeviceEntity>> getCheckpointList() { return checkpointList; }
+    public LiveData<List<NFCDeviceEntity>> getCheckpointList() {return checkpointList;}
     public LiveData<Boolean> sendingRequest() { return sendingRequest; }
     public LiveData<Boolean> hasSentRequest() { return requestSent; }
     public LiveData<String> getErrorMessage() { return errorMessage; }
