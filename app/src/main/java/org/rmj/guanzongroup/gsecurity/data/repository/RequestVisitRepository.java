@@ -37,6 +37,10 @@ public class RequestVisitRepository {
         requestVisitDao.save(value);
     }
 
+    public void clear(){
+        requestVisitDao.clear();
+    }
+
     public void update(RequestVisitEntity value) {
         requestVisitDao.update(value);
     }

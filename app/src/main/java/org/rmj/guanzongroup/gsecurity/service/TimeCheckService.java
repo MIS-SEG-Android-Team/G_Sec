@@ -251,7 +251,7 @@ public class TimeCheckService extends Service {
             // Parse the time from the lists
             LocalTime patrolTime = LocalTime.parse(obj.getDTimexxxx());
 
-            Duration duration = Duration.between(currentTime, patrolTime);
+            Duration duration = Duration.between(currentTime, LocalTime.parse(patrolCache.getPatrolSchedule()));
 
             long minutes = duration.toMinutes();
 
@@ -260,9 +260,6 @@ public class TimeCheckService extends Service {
 
             //TODO: 1. IF CURRENT SCHEDULE INDEX IS AFTER CURRENT LOCAL TIME
             if (patrolTime.isAfter(currentTime)) {
-
-                //TODO: 2. RESET PATROL STARTED
-                patrolCache.setPatrolStarted(false);
 
                 //TODO: SET CURRENT NFC ID
                 setCurrentNFC(obj.getSchedIDxx());
@@ -292,6 +289,8 @@ public class TimeCheckService extends Service {
 
                 //TODO: 5. START ALARM ACTIVITY, IF CURRENT TIME IS THE SCHEDULED TIME
                 if (minutes == 0) {
+
+                    patrolCache.setPatrolStarted(false);
 
                     startAlarm();
 

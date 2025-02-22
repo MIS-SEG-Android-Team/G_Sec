@@ -74,7 +74,7 @@ public class VMPatrolRoute extends ViewModel {
     private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
     private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
-    private final MutableLiveData<CacheNFCSchedule> nfcCache = new MutableLiveData<>(new CacheNFCSchedule("", ""));
+    private final MutableLiveData<CacheNFCSchedule> nfcCache = new MutableLiveData<>(new CacheNFCSchedule("", "", false));
 
     @Inject
     public VMPatrolRoute(
@@ -125,7 +125,7 @@ public class VMPatrolRoute extends ViewModel {
     }
 
     public void initNFCacheSchedule(){
-        nfcCache.setValue(new CacheNFCSchedule(patrolCache.getCheckpoint(), patrolCache.getPatrolSchedule()));
+        nfcCache.setValue(new CacheNFCSchedule(patrolCache.getCheckpoint(), patrolCache.getPatrolSchedule(), patrolCache.getPatrolStarted()));
     }
 
     public LiveData<CacheNFCSchedule> getNFCCache(){
@@ -208,7 +208,11 @@ public class VMPatrolRoute extends ViewModel {
 
                                 }else {
 
+                                    //TODO: CLEAR ALL REQUESTED VISIT
+                                    requestVisitRepository.clear();
+
                                     for(RequestVisitEntity response: requestVisitEntityBaseResponse.getData()){
+                                        //TODO: SAVE REQUESTED VISIT
                                         requestVisitRepository.save(response);
                                     }
 
@@ -240,7 +244,6 @@ public class VMPatrolRoute extends ViewModel {
                                 patrolRepository.clearPatrolRoute();
                                 scheduleRepository.clearPatrolSchedule();
                                 scheduleRepository.clearCache();
-                                patrolCache.clear();
 
                                 for(PatrolRouteModel obj: response.getData()) {
 
@@ -304,31 +307,24 @@ public class VMPatrolRoute extends ViewModel {
                                 }
 
                                 //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
-                                if (patrolCache.getPatrolSchedule().isEmpty()){
+                                //todo: if empty, set patrol schedule from local data on cache
+                                patrolCache.setPatrolSchedule(
+                                        LocalTime.parse(
+                                                scheduleRepository.getCacheSchedule().getdTimexxxx(),
+                                                DateTimeFormatter.ofPattern("HH:mm:ss")
+                                        ).format(DateTimeFormatter.ofPattern("HH:mm"))
+                                );
 
-                                    //todo: if empty, set patrol schedule from local data on cache
-                                    patrolCache.setPatrolSchedule(
-                                            LocalTime.parse(
-                                                    scheduleRepository.getCacheSchedule().getdTimexxxx(),
-                                                    DateTimeFormatter.ofPattern("HH:mm:ss")
-                                            ).format(DateTimeFormatter.ofPattern("HH:mm"))
-                                    );
-
-                                }
-
-                                if (patrolCache.getCheckpoint().isEmpty()){
-                                    //todo: if empty, set patrol checkpoint from local data on cache
-                                    patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
-                                }
+                                //todo: if empty, set patrol checkpoint from local data on cache
+                                patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
 
                                 //todo: if two cache above is set, set value for live observation of nfc cache
-                                if (!patrolCache.getPatrolSchedule().isEmpty() && !patrolCache.getCheckpoint().isEmpty()){
-                                    nfcCache.setValue(
-                                            new CacheNFCSchedule(
-                                                    patrolCache.getCheckpoint(),
-                                                    patrolCache.getPatrolSchedule()
-                                            ));
-                                }
+                                nfcCache.setValue(
+                                        new CacheNFCSchedule(
+                                                patrolCache.getCheckpoint(),
+                                                patrolCache.getPatrolSchedule(),
+                                                patrolCache.getPatrolStarted()
+                                        ));
 
                             },
                             throwable -> {
@@ -503,10 +499,12 @@ public class VMPatrolRoute extends ViewModel {
     static class CacheNFCSchedule{
         String nfccheckpoint;
         String schedule;
+        Boolean hasStarted;
 
-        public CacheNFCSchedule(String nfccheckpoint, String schedule) {
+        public CacheNFCSchedule(String nfccheckpoint, String schedule, Boolean hasStarted) {
             this.nfccheckpoint = nfccheckpoint;
             this.schedule = schedule;
+            this.hasStarted = hasStarted;
         }
 
         public String getNfccheckpoint() {
@@ -515,6 +513,10 @@ public class VMPatrolRoute extends ViewModel {
 
         public String getSchedule() {
             return schedule;
+        }
+
+        public Boolean getHasStarted() {
+            return hasStarted;
         }
 
     }

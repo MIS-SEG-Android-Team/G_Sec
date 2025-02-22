@@ -16,7 +16,7 @@ public interface PatrolScheduleDao {
     @Query("SELECT * FROM Patrol_Schedule WHERE cRequestxx IN ('0', '1') ORDER BY dTimexxxx ASC")
     List<PatrolScheduleEntity> getPatrolScheduleList();
 
-    @Query("SELECT dTimexxxx FROM Patrol_Schedule WHERE dTimexxxx < :schedule ORDER BY dTimexxxx DESC LIMIT 1")
+    @Query("SELECT dTimexxxx FROM Patrol_Schedule WHERE dTimexxxx <= :schedule ORDER BY dTimexxxx DESC LIMIT 1")
     String getRecentSchedule(String schedule);
 
     @Query("SELECT a.sNFCIDxxx, a.schedIDxx, b.dTimexxxx FROM Patrol_Route a, Patrol_Schedule b " +

@@ -33,18 +33,20 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     private final String patrolCacheSchedule;
     private final String patrolCacheCheckpoint;
     private final VMPatrolRoute mViewModel;
+    private final Boolean hasStarted;
 
     public interface PatrolRouteClickListener{
         void onClick(PatrolCheckpoint patrol, int position);
     }
 
     public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule,
-                              String patrolCacheCheckpoint, VMPatrolRoute mViewModel,
+                              String patrolCacheCheckpoint, VMPatrolRoute mViewModel, Boolean hasStarted,
                               PatrolRouteClickListener listener) {
         this.patrolRouteList = patrolRouteList;
         this.mListener = listener;
         this.patrolCacheSchedule = patrolCacheSchedule;
         this.patrolCacheCheckpoint = patrolCacheCheckpoint;
+        this.hasStarted = hasStarted;
         this.mViewModel = mViewModel;
     }
 
@@ -156,7 +158,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                                 }
 
                                 //todo: check current time if before patrol schedule, return not started
-                                if (currentTimeFormat.isBefore(schedFormat) || currentTimeFormat.equals(schedFormat)){
+                                if (!hasStarted){
                                     new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You haven't started patrol yet", Dialog::dismiss).showDialog();
                                     return;
                                 }

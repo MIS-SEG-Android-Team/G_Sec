@@ -13,6 +13,9 @@ public interface RequestVisitDao {
     @Upsert
     void save(RequestVisitEntity value);
 
+    @Query("DELETE FROM Request_Visit")
+    void clear();
+
     @Update
     void update(RequestVisitEntity value);
 
