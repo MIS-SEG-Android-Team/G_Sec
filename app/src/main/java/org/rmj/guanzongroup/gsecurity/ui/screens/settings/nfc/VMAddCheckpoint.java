@@ -41,6 +41,7 @@ public class VMAddCheckpoint extends ViewModel {
     private final MutableLiveData<String> warehouse = new MutableLiveData<>("");
     private final MutableLiveData<String> category = new MutableLiveData<>("");
     private final MutableLiveData<String> description = new MutableLiveData<>("");
+    private final MutableLiveData<String> nfcIDxx = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> hasCompleteInfo = new MutableLiveData<>(false);
 
     private final MutableLiveData<Boolean> addingCheckpoint = new MutableLiveData<>(false);
@@ -84,22 +85,34 @@ public class VMAddCheckpoint extends ViewModel {
         warehouse.setValue(value);
         hasCompleteInfo.setValue(!value.isEmpty() &&
                 !Objects.requireNonNull(category.getValue()).isEmpty() &&
-                !Objects.requireNonNull(description.getValue()).isEmpty());
+                !Objects.requireNonNull(description.getValue()).isEmpty() &&
+                !Objects.requireNonNull(category.getValue()).isEmpty());
     }
 
     public void setCategory(String value) {
         category.setValue(value);
         hasCompleteInfo.setValue(!value.isEmpty() &&
                 !Objects.requireNonNull(warehouse.getValue()).isEmpty() &&
-                !Objects.requireNonNull(description.getValue()).isEmpty());
+                !Objects.requireNonNull(description.getValue()).isEmpty() &&
+                !Objects.requireNonNull(category.getValue()).isEmpty());
     }
 
     public void setDescription(String value) {
         description.setValue(value);
         hasCompleteInfo.setValue(!value.isEmpty() &&
                 !Objects.requireNonNull(description.getValue()).isEmpty() &&
+                !Objects.requireNonNull(category.getValue()).isEmpty() &&
                 !Objects.requireNonNull(category.getValue()).isEmpty());
     }
+
+    public void setNfcIDxx(String value){
+        nfcIDxx.setValue(value);
+        hasCompleteInfo.setValue(!value.isEmpty() &&
+                !Objects.requireNonNull(warehouse.getValue()).isEmpty() &&
+                !Objects.requireNonNull(description.getValue()).isEmpty() &&
+                !Objects.requireNonNull(category.getValue()).isEmpty());
+    }
+
     public String getWarehouseID() {
         return warehouse.getValue();
     }
@@ -109,6 +122,10 @@ public class VMAddCheckpoint extends ViewModel {
     public String getDescription() {
         return description.getValue();
     }
+    public String getNFCIDxx(){
+        return nfcIDxx.getValue();
+    }
+
     public LiveData<List<CategoryEntity>> getCategories() {
         return categoryRepository.getCategories();
     }
@@ -128,19 +145,23 @@ public class VMAddCheckpoint extends ViewModel {
         params.setSWHouseID(warehouse.getValue());
         params.setSCatIDxxx(category.getValue());
         params.setSDescript(description.getValue());
+        params.setNFCIDxx(nfcIDxx.getValue());
         params.setCRecdStat("1");
 
         return new Gson().toJson(params);
     }
 
     @SuppressLint("CheckResult")
-    public void addCheckpoint() {
+    public void addCheckpoint(GetNFCIDResponse callback) {
+
         addingCheckpoint.setValue(true);
+
         AddNfcTagParams params = new AddNfcTagParams();
         params.setSWHouseID(warehouse.getValue());
         params.setSCatIDxxx(category.getValue());
         params.setSDescript(description.getValue());
         params.setCRecdStat("1");
+
         checkpointRepository.addNFCTag(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -152,6 +173,12 @@ public class VMAddCheckpoint extends ViewModel {
                                 return;
                             }
 
+                            //TODO: initialize to callback, returned by api nfc_add_tag
+                            String nfcId = baseResponse.getData();
+                            if (!nfcId.isEmpty()){
+                                callback.onResponse(nfcId);
+                            }
+
                             checkpointAdded.setValue(true);
                         },
                         throwable -> {
@@ -159,6 +186,10 @@ public class VMAddCheckpoint extends ViewModel {
                             errorMessage.setValue(throwable.getMessage());
                         }
                 );
+    }
+
+    interface GetNFCIDResponse{
+        void onResponse(String id);
     }
 
 

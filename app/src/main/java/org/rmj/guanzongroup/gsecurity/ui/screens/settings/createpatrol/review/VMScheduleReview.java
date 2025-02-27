@@ -8,12 +8,9 @@ import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.patrolschedule.CreateScheduleParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.param.timestamp.DateTimeStampParams;
-import org.rmj.guanzongroup.gsecurity.data.remote.response.patrol.PatrolRouteModel;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.personnelpatrol.PersonnelPatrolModel;
 import org.rmj.guanzongroup.gsecurity.data.repository.PatrolRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.ScheduleRepository;
-import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
 import java.util.List;
 

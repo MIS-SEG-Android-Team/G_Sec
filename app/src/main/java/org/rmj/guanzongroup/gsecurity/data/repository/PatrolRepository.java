@@ -56,6 +56,10 @@ public class PatrolRepository {
         return apiService.getRecentActivity(params);
     }
 
+    public Observable<BaseResponse<List<PatrolLogEntity>>> downloadPatrolLogs(GetPatrolRouteParams params){
+        return apiService.downloadPatrolLogs(params);
+    }
+
     public void savePatrolLog(PatrolLogEntity value) {
         patrolLogDao.save(value);
     }

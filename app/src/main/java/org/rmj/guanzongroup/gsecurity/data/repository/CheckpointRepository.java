@@ -29,7 +29,7 @@ public class CheckpointRepository {
         this.nfcDeviceDao = nfcDeviceDao;
     }
 
-    public Observable<BaseResponse<Void>> addNFCTag(AddNfcTagParams params){
+    public Observable<BaseResponse<String>> addNFCTag(AddNfcTagParams params){
         return apiService.addNFCTag(params);
     }
 

@@ -34,6 +34,7 @@ import org.rmj.guanzongroup.gsecurity.data.remote.response.recentactivity.Recent
 import org.rmj.guanzongroup.gsecurity.data.room.branch.BranchEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.category.CategoryEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.checkpoint.NFCDeviceEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs.PatrolLogEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
@@ -132,13 +133,10 @@ public interface ApiService {
     @POST("/gsecure/place/get_warehouse.php")
     Observable<BaseResponse<List<WarehouseEntity>>> getWarehouses(@Body DateTimeStampParams params);
 
-    @POST("/integsys/param/download_branch.php")
+    @POST("/integsys/param/download_branch_gsecure.php")
     Observable<BranchResponse<List<BranchEntity>>> getBranches(@Body GetBranchParams params);
 
     // endregion
-
-
-
 
     // region Category
 
@@ -169,7 +167,7 @@ public interface ApiService {
      */
 
     @POST("/gsecure/place/nfc_add_tag.php")
-    Observable<BaseResponse<Void>> addNFCTag(@Body AddNfcTagParams params);
+    Observable<BaseResponse<String>> addNFCTag(@Body AddNfcTagParams params);
 
     @POST("/gsecure/place/get_nfc_tags.php")
     Observable<BaseResponse<List<NFCDeviceEntity>>> getNFCTags(@Body GetNFCTagsParams params);
@@ -200,6 +198,9 @@ public interface ApiService {
 
     @POST("/gsecure/patrol/get_recent_activity.php")
     Observable<BaseResponse<List<RecentActivityModel>>> getRecentActivity(@Body GetRecentActivityParams params);
+
+    @POST("/gsecure/patrol/get_post_visited.php")
+    Observable<BaseResponse<List<PatrolLogEntity>>> downloadPatrolLogs(@Body GetPatrolRouteParams params);
 
     @POST("/gsecure/patrol/post_place_visited.php")
     Observable<BaseResponse<Void>> postPlaceVisited(@Body PostPatrolParams params);

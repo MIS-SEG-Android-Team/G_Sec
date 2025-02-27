@@ -33,6 +33,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class FragmentAddCheckpoint extends Fragment {
 
     @Inject
@@ -42,7 +44,8 @@ public class FragmentAddCheckpoint extends Fragment {
 
     private final ActivityResultLauncher<Intent> nfcWriterIntent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),  result -> {
         if(result.getResultCode() == RESULT_OK) {
-            mViewModel.addCheckpoint();
+            //mViewModel.addCheckpoint todo: disabled, moved to print button to get the nfc id response from server
+            Toast.makeText(requireActivity(), "Writing NFC payload successful", Toast.LENGTH_SHORT).show();
         } else if(result.getResultCode() == RESULT_CANCELED) {
             Toast.makeText(requireActivity(), "Writing NFC payload cancelled", Toast.LENGTH_SHORT).show();
         } else {
@@ -227,16 +230,34 @@ public class FragmentAddCheckpoint extends Fragment {
 
         binding.printToNFCButton.setOnClickListener(view-> {
             try {
-                //todo: added validation of required saving checkpoint description
+
                 if (mViewModel.getDescription().isEmpty()){
                     new DialogResult(requireActivity(), DialogResult.RESULT.FAILED,
                             "Please enter a description.", Dialog::dismiss).showDialog();
                 }else {
 
-                    String payload = mViewModel.getAddCheckpointParams();
-                    Intent intent = new Intent(requireActivity(), WriteNfcActivity.class);
-                    intent.putExtra(WRITE_NFC_DATA_PAYLOAD, payload);
-                    nfcWriterIntent.launch(intent);
+                    //TODO: save checkpoint first, to retrieve the nfc id of the checkpoint
+                    mViewModel.addCheckpoint(new VMAddCheckpoint.GetNFCIDResponse() {
+                        @Override
+                        public void onResponse(String id) {
+
+                            //todo: validate entry
+                            if (id.isEmpty()){
+                                new DialogResult(requireActivity(), DialogResult.RESULT.FAILED,
+                                        "Print failed. NFC ID is empty.", Dialog::dismiss).showDialog();
+                            }else {
+
+                                mViewModel.setNfcIDxx(id);
+
+                                String payload = mViewModel.getAddCheckpointParams();
+                                Intent intent = new Intent(requireActivity(), WriteNfcActivity.class);
+                                intent.putExtra(WRITE_NFC_DATA_PAYLOAD, payload);
+                                nfcWriterIntent.launch(intent);
+
+                            }
+
+                        }
+                    });
 
                 }
 

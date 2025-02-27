@@ -203,10 +203,10 @@ public class VMPatrolRoute extends ViewModel {
                             requestVisitEntityBaseResponse -> {
 
                                 if (requestVisitEntityBaseResponse.getResult().equalsIgnoreCase("error")) {
+                                    return;
+                                }
 
-                                    Timber.tag("GSecureMessagingService").d(requestVisitEntityBaseResponse.getResult());
-
-                                }else {
+                                if (requestVisitEntityBaseResponse.getData().size() > 0){
 
                                     //TODO: CLEAR ALL REQUESTED VISIT
                                     requestVisitRepository.clear();
@@ -333,6 +333,31 @@ public class VMPatrolRoute extends ViewModel {
                             }
                     );
 
+            Thread.sleep(1000);
+
+            patrolRepository.downloadPatrolLogs(params)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+
+                            response -> {
+
+                                if (response.getResult().equalsIgnoreCase("error")) {
+                                    return;
+                                }
+
+                                patrolRepository.clearPatrollog();
+
+                                if (response.getData().size() > 0 ){
+
+                                    for (PatrolLogEntity logs: response.getData()){
+                                        patrolRepository.savePatrolLog(logs);
+                                    }
+
+                                }
+                            }
+                    );
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -364,10 +389,35 @@ public class VMPatrolRoute extends ViewModel {
                 remarks = taggingRemarks.getValue();
             }
 
+            //todo: check if patrol schedule is empty, do not allow if empty
             if (patrolCache.getPatrolSchedule().isEmpty()) {
+
                 reportException("", "Patrol schedule is empty");
                 errorMessage.setValue("Unable to tag this checkpoint as visited. Wait for the next patrol schedule.");
                 return;
+
+            } else {
+
+                //todo: check if patrol checkpoint/ nfc id is empty, do not allow if empty
+                if (patrolCache.getCheckpoint().isEmpty()){
+
+                    reportException("", "Patrol checkpoint is empty");
+                    errorMessage.setValue("Unable to tag this checkpoint as visited. Wait for the next patrol checkpoint.");
+                    return;
+
+                }else {
+
+                    Timber.tag("VMPatrolRoute").d(patrolCache.getCheckpoint());
+
+                    //todo: if not empty, check if card's nfc id matches current nfc id
+                    if (!patrolCache.getCheckpoint().equalsIgnoreCase(nfcTag.getNFCIDxx())){
+
+                        reportException("", "NFC Card ID does not match patrol checkpoint.");
+                        errorMessage.setValue("Unable to tag this checkpoint as visited. Please tap the correct checkpoint.");
+                        return;
+
+                    }
+                }
             }
 
             DateTimeFormatter defaultDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -388,6 +438,7 @@ public class VMPatrolRoute extends ViewModel {
 
             }
 
+            //todo: initialize patrol log entity
             PatrolLogEntity patrolLogEntity = new PatrolLogEntity();
             patrolLogEntity.setDVisitedx(currentDateTime +" "+ currentTime);
             patrolLogEntity.setDTimeVist(currentTime);
@@ -470,9 +521,9 @@ public class VMPatrolRoute extends ViewModel {
         //todo: clear all data after logout
         patrolRepository.clearPatrolRoute();
         scheduleRepository.clearPatrolSchedule();
-        patrolRepository.clearPatrollog();
         scheduleRepository.clearCache();
-        patrolCache.clear();
+        patrolRepository.clearPatrollog();
+        //patrolCache.clear();
 
         loggingOut.setValue(true);
         userProfileRepository.logoutUser()
