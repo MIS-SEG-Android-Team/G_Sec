@@ -63,6 +63,7 @@ public class VMPatrolRoute extends ViewModel {
 
 
     private final MutableLiveData<Boolean> notificationPermissionEnabled = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> drawoverappsPermissionEnabled = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> isLoadingPatrolRoutes = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> hasLogout = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> loggingOut = new MutableLiveData<>(false);
@@ -95,6 +96,14 @@ public class VMPatrolRoute extends ViewModel {
         this.userProfileRepository = userProfileRepository;
 
         getPatrolRouteSchedules();
+    }
+
+    public void setDrawoverappsPermissionEnabled(boolean value){
+        drawoverappsPermissionEnabled.setValue(value);
+    }
+
+    public LiveData<Boolean> isDrawoverappsPermissionEnabled(){
+        return drawoverappsPermissionEnabled;
     }
 
     public void setNotificationPermissionEnabled(boolean value) {
@@ -299,12 +308,11 @@ public class VMPatrolRoute extends ViewModel {
 
                                 }
 
-                                if (patrolCache.getPatrolScheduleID().isEmpty()){
+                                patrolCache.setPatrolScheduleID(
+                                        scheduleRepository.getCacheSchedule().getSchedIDxx()
+                                );
 
-                                    patrolCache.setPatrolScheduleID(
-                                            scheduleRepository.getCacheSchedule().getSchedIDxx()
-                                    );
-                                }
+                                Timber.tag("VMPatrolRoute").d(patrolCache.getPatrolScheduleID());
 
                                 //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
                                 //todo: if empty, set patrol schedule from local data on cache
@@ -432,10 +440,8 @@ public class VMPatrolRoute extends ViewModel {
 
             //TODO: CHECK AGAIN, IF CURRENT SCHEDULE VISITED RETURN
             if (patrolRepository.checkIfCheckpointIsVisited(patrol.getsNFCIDxxx(), currentDateTime + " " + patrolSchedule) != null){
-
                 errorMessage.setValue("You already tagged this checkpoint as visited.");
                 return;
-
             }
 
             //todo: initialize patrol log entity

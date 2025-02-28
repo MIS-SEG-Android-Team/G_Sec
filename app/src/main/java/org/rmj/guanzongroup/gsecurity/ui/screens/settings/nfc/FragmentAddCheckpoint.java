@@ -33,8 +33,6 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import timber.log.Timber;
-
 public class FragmentAddCheckpoint extends Fragment {
 
     @Inject

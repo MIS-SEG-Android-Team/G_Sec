@@ -173,13 +173,22 @@ public class VMAddCheckpoint extends ViewModel {
                                 return;
                             }
 
-                            //TODO: initialize to callback, returned by api nfc_add_tag
-                            String nfcId = baseResponse.getData();
-                            if (!nfcId.isEmpty()){
-                                callback.onResponse(nfcId);
-                            }
+                            if (baseResponse.getData() != null){
 
-                            checkpointAdded.setValue(true);
+                                //TODO: initialize to callback, returned by api nfc_add_tag
+                                String nfcId = baseResponse.getData();
+                                if (!nfcId.isEmpty()){
+                                    callback.onResponse(nfcId);
+                                    checkpointAdded.setValue(true);
+                                }else {
+                                    callback.onResponse("");
+                                    checkpointAdded.setValue(false);
+                                }
+
+                            }else {
+                                callback.onResponse("");
+                                checkpointAdded.setValue(false);
+                            }
                         },
                         throwable -> {
                             addingCheckpoint.setValue(false);

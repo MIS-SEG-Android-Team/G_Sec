@@ -17,9 +17,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,7 +144,6 @@ public class FragmentPatrolRoute extends Fragment {
         }
     });
 
-
     @SuppressLint("NewApi")
     private final ActivityResultLauncher<String> notificationPermission =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -153,7 +154,7 @@ public class FragmentPatrolRoute extends Fragment {
         return new FragmentPatrolRoute();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    @SuppressLint("NewApi")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -163,17 +164,58 @@ public class FragmentPatrolRoute extends Fragment {
 
         binding.labelVersionInfo.setText(BuildConfig.VERSION_NAME);
 
+        //todo: check draw over apps permission
+        mViewModel.setDrawoverappsPermissionEnabled(Settings.canDrawOverlays(getContext()));
+        mViewModel.isDrawoverappsPermissionEnabled().observe(getViewLifecycleOwner(), isGranted -> {
+
+            if (!isGranted){
+
+                //todo: display dialog prompt to enable draw over apps permission
+                DialogMessage dialogMessage = new DialogMessage(requireActivity());
+                dialogMessage.initDialog("GSecure", "Your app should display over other applications. Please enable this permission to run properly.");
+
+                //todo: positive button to direct on settings page and close the app
+                dialogMessage.setPositiveButton("Enable", dialog -> {
+
+                    dialog.dismiss();
+
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:" + getContext().getPackageName()));
+
+                    startActivity(intent);
+                    requireActivity().finish();
+
+                });
+
+                //todo: negative button to close the app
+                dialogMessage.setNegativeButton("Cancel", dialog -> {
+                    dialog.dismiss();
+                    requireActivity().finish();
+                });
+                dialogMessage.show();
+
+            }
+
+        });
+
+        //todo: get notification permission
         boolean isNotificationPermissionGranted =
                 ContextCompat.checkSelfPermission(requireActivity(),
                         Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
 
+        //todo: set notification permission
         mViewModel.setNotificationPermissionEnabled(isNotificationPermissionGranted);
 
+        //todo: observe notification permission
         mViewModel.isNotificationPermissionEnabled().observe(requireActivity(), isGranted -> {
+
+            //todo: if granted, start service
             if (isGranted) {
                 Intent patrolServiceIntent = new Intent(requireActivity(), TimeCheckService.class);
                 startForegroundService(requireActivity(), patrolServiceIntent);
             } else {
+
+                //todo: display dialog prompt to enable notification permission
                 DialogMessage dialogMessage = new DialogMessage(requireActivity());
                 dialogMessage.initDialog("Permission", "Enable notifications permission in order to make the app run properly.");
                 dialogMessage.setNegativeButton("Enable", dialog -> {
@@ -343,6 +385,7 @@ public class FragmentPatrolRoute extends Fragment {
         //todo: register event receiver
         registerReceiver(requireContext(), timeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK), ContextCompat.RECEIVER_EXPORTED);
     }
+
 
     @SuppressLint("NewApi")
     private void setupObservables() {

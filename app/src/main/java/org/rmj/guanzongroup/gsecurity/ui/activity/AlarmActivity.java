@@ -1,11 +1,9 @@
 package org.rmj.guanzongroup.gsecurity.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
 import org.rmj.guanzongroup.gsecurity.R;
 import org.rmj.guanzongroup.gsecurity.data.preferences.PatrolCache;
 import org.rmj.guanzongroup.gsecurity.databinding.ActivityAlarmBinding;
@@ -15,7 +13,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class AlarmActivity extends AppCompatActivity {
+public class AlarmActivity extends AppCompatActivity{
 
     private ActivityAlarmBinding binding;
 
