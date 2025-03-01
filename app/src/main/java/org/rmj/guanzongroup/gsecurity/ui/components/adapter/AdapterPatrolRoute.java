@@ -144,8 +144,6 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                             LocalTime displayFormat = LocalTime.parse(holder.binding.nextsched.getText().toString(),
                                     DateTimeFormatter.ofPattern("hh:mm a"));
                             String currentDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now());
-                            LocalTime currentTimeFormat = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
-
 
                             //todo: check current schedule on selected item's displayed schedule
                             if (schedFormat.equals(LocalTime.parse(displayFormat.format(DateTimeFormatter.ofPattern("HH:mm"))))){

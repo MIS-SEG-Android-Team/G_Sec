@@ -34,6 +34,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
 
 import java.lang.reflect.Type;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -265,30 +266,38 @@ public class VMPatrolRoute extends ViewModel {
 
                                         //TODO: INITIALIZE SCHEDULE
                                         for (PatrolScheduleEntity value: patrolSchedules) {
+
+                                            //todo: set cRequestd status and schedule id from returned list
                                             value.setCRequestd(obj.getcRequestx());
                                             value.setSchedIDxx(obj.getSSchedIDx());
 
                                             Timber.tag("VMPatrolRoute").d(value.getDTimexxxx());
 
+                                            //todo: format schedule time and set to entity
                                             LocalTime schedFormat = LocalTime.parse(value.getDTimexxxx(), dateTimeFormatter);
                                             String formattedTime = schedFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
                                             value.setDTimexxxx(formattedTime);
 
-                                            //TODO: IF REQUESTED, CHECK IF DATED TODAY AND UPDATE STATUS. '3' IF NOT REQUESTED TODAY
+                                            //todo: check schedule minute range to current time,
+                                            long duration = Duration.between(LocalTime.parse(formattedTime),
+                                                    LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))).toMinutes();
+
+                                            //todo: update status to '3', if range is more than 30 minutes
+                                            if (duration > 30){
+                                                value.setCRequestd("3");
+                                            }
+
+                                            //TODO: IF REQUESTED, CHECK IF DATED TODAY AND UPDATE STATUS TO '3'
                                             if (value.getCRequestd().equalsIgnoreCase("1")){
 
                                                 String rqstSchedule = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()) + " "+ formattedTime;
 
                                                 if (scheduleRepository.isRequestToday(rqstSchedule) <= 0 ){
-
-                                                    Timber.tag(TAG).d(String.valueOf(value.getSchedIDxx()));
-
                                                     value.setCRequestd("3");
                                                 }
 
                                             }
-
 
                                         }
 
@@ -308,6 +317,7 @@ public class VMPatrolRoute extends ViewModel {
 
                                 }
 
+                                //todo: set patrol schedule id
                                 patrolCache.setPatrolScheduleID(
                                         scheduleRepository.getCacheSchedule().getSchedIDxx()
                                 );
@@ -485,7 +495,7 @@ public class VMPatrolRoute extends ViewModel {
     @SuppressLint("CheckResult")
     private void postTaggedCheckpoints() {
         try{
-            List<PatrolLogEntity> patrols = patrolRepository.getPatrolLogsForPosting();
+            List<PatrolLogEntity> patrols = patrolRepository.getPatrolLogsForPosting(dataStore.getUserId());
 
             if (patrols == null) {
                 return;

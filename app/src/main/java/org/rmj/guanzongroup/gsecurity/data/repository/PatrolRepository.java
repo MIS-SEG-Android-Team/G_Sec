@@ -72,8 +72,8 @@ public class PatrolRepository {
         patrolLogDao.update(value);
     }
 
-    public List<PatrolLogEntity> getPatrolLogsForPosting(){
-        return patrolLogDao.getPatrolLogsForPosting();
+    public List<PatrolLogEntity> getPatrolLogsForPosting(String sUserIDxx){
+        return patrolLogDao.getPatrolLogsForPosting(sUserIDxx);
     }
 
     public Observable<BaseResponse<Void>> postPlaceVisited(PostPatrolParams params){

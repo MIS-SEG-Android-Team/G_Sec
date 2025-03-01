@@ -16,8 +16,8 @@ public interface PatrolLogDao {
     @Update
     void update(List<PatrolLogEntity> value);
 
-    @Query("SELECT * FROM Patrol_Log WHERE cSendStat <> '1'")
-    List<PatrolLogEntity> getPatrolLogsForPosting();
+    @Query("SELECT * FROM Patrol_Log WHERE cSendStat <> '1' AND sUserIDxx = :sUserIDxx")
+    List<PatrolLogEntity> getPatrolLogsForPosting(String sUserIDxx);
 
     @Query("SELECT * FROM Patrol_Log WHERE sNFCIDxxx=:sNFCIDxxx AND dSchedule=:dSchedule")
     PatrolLogEntity checkIfCheckpointIsVisited(String sNFCIDxxx, String dSchedule);
@@ -32,6 +32,6 @@ public interface PatrolLogDao {
             "AND b.sNFCIDxxx IS NOT NULL")
     int checkIfPatrolFinished(String dSchedule);
 
-    @Query("DELETE FROM Patrol_Log")
+    @Query("DELETE FROM Patrol_Log WHERE cSendStat = '1'")
     void clearPatrolLog();
 }

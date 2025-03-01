@@ -15,15 +15,11 @@ public class DurationTest {
     @Test
     public void TestDuration(){
 
-        DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
-                .parseCaseInsensitive()
-                .appendPattern(DEFAULT_TIME_FORMAT)
-                .toFormatter(Locale.ENGLISH);
+        LocalTime currentTime = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        LocalTime schedule = LocalTime.parse("14:15:03");
 
-        LocalTime currentTime = LocalTime.parse("11:53 am", dateTimeFormatter);
-        LocalTime patrolTime = LocalTime.parse("12:30 am", dateTimeFormatter);
-
-        System.out.println(Duration.between(currentTime, patrolTime).toMinutes());
+        System.out.println(Duration.between(LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))),
+                LocalTime.parse("15:26:03")).toMinutes());
 
     }
 }

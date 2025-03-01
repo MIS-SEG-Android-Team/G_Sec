@@ -251,10 +251,6 @@ public class TimeCheckService extends Service {
             // Parse the time from the lists
             LocalTime patrolTime = LocalTime.parse(obj.getDTimexxxx());
 
-            Duration duration = Duration.between(currentTime, LocalTime.parse(patrolCache.getPatrolSchedule()));
-
-            long minutes = duration.toMinutes();
-
             Timber.tag(TAG).d("%s is current index", patrolTime);
             Timber.tag("TimeCheckService").d("PatrolCache: %s", patrolCache.getCheckpoint());
 
@@ -270,10 +266,14 @@ public class TimeCheckService extends Service {
                     reportException("", "Patrol schedule is set!, Patrol schedule " + patrolTime);
                 }
 
+                //todo: get minutes before current patrol time in list object
+                Duration duration = Duration.between(currentTime, patrolTime);
+                long minutes = duration.toMinutes();
+
                 Timber.tag("TimeCheckService").d("PatrolCache: %s", minutes);
 
                 //TODO: 3. CHECK MINUTES BEFORE PATROL SCHEDULE, NOTIFY USER
-                if (minutes <= 10) {
+                if (minutes <=  10) {
 
                     if (minutes > 5) {
                         showNotification("Patrol Reminder", "Your upcoming patrol schedule will start in " + minutes + " minutes.");
@@ -287,11 +287,16 @@ public class TimeCheckService extends Service {
 
             }else {
 
-                //TODO: 5. START ALARM ACTIVITY, IF CURRENT TIME IS THE SCHEDULED TIME
-                if (minutes == 0) {
+                //todo: remove seconds from patrol time
+                String schedule = LocalTime.parse(obj.getDTimexxxx()).format(DateTimeFormatter.ofPattern("HH:mm"));
 
+                //TODO: 5. START ALARM ACTIVITY, IF CURRENT TIME IS THE SCHEDULED TIME
+                if (schedule.equals(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")))) {
+
+                    //todo: reset patrol started
                     patrolCache.setPatrolStarted(false);
 
+                    //todo: start alarm
                     startAlarm();
 
                     Timber.tag(TAG).d("Starting patrol schedule %s", patrolTime.format(dateTimeFormatter));
