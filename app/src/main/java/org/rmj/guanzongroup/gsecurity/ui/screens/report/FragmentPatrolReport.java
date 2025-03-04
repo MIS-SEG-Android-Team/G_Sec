@@ -4,17 +4,13 @@ import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_ID;
 import static org.rmj.guanzongroup.gsecurity.constants.Constants.PERSONNEL_NAME;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -27,7 +23,6 @@ import com.opencsv.CSVWriter;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.patrolreport.PersonnelPatrolReport;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentPatrolReportBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.adapter.reports.AdapterPersonnelReports;
-import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 
 import java.io.File;

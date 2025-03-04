@@ -18,7 +18,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_title"
+            android:text="Route Time"
             android:fontFamily="@font/roboto_medium"
             android:textSize="@dimen/screen_header" />
 
@@ -26,28 +26,27 @@
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_select_tagging_option"
+            android:text="Enter time interval for this schedule"
             android:fontFamily="@font/roboto_regular"
             android:textSize="@dimen/screen_body"
             android:layout_margin="@dimen/view_padding_16" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilRemarks"
+            android:id="@+id/tilInterval"
             style="@style/TextInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/view_padding_16"
-            android:hint="@string/label_remarks">
+            android:hint="Minutes">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tieRemarks"
+                android:id="@+id/tieInterval"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLength="50"
-                android:nextFocusForward="@id/tiePassword" />
+                android:inputType="number"
+                android:maxLength="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,23 +58,14 @@
             android:layout_marginTop="@dimen/view_padding_24">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/nfcButton"
+                android:id="@+id/setButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/ic_nfc"
+                app:icon="@drawable/ic_alarm_clock"
                 app:iconGravity="textStart"
                 android:layout_marginHorizontal="@dimen/view_padding_4"
-                android:text="@string/button_nfc"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/qrCodeButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:icon="@drawable/ic_scan_qr_code"
-                android:visibility="gone"
-                app:iconGravity="textStart"
-                android:layout_marginHorizontal="@dimen/view_padding_4"
-                android:text="@string/button_qr_code"/>
+                android:text="Set"
+                android:enabled="false"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancel_button"

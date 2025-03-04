@@ -19,6 +19,7 @@ import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 import org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute.PatrolCheckpoint;
 import org.rmj.guanzongroup.gsecurity.ui.screens.dashboard.patrolroute.VMPatrolRoute;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -158,6 +159,16 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                                 //todo: check current time if before patrol schedule, return not started
                                 if (!hasStarted){
                                     new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You haven't started patrol yet", Dialog::dismiss).showDialog();
+                                    return;
+                                }
+
+                                //todo: check schedule minute range to current time,
+                                long duration = Duration.between(LocalTime.parse(patrolCacheSchedule),
+                                        LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))).toMinutes();
+
+                                //todo: notify user if assigned patrol duration, has exceeded
+                                if (duration > 30){
+                                    new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You have exceeded the duration of patrol", Dialog::dismiss).showDialog();
                                     return;
                                 }
 

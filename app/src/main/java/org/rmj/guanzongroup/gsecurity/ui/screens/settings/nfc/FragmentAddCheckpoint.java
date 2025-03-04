@@ -97,22 +97,32 @@ public class FragmentAddCheckpoint extends Fragment {
 
         mViewModel.checkpointAdded().observe(getViewLifecycleOwner(), checkpointAdded -> {
             if (checkpointAdded) {
+
+                //todo: show message checkpoint successfuly added
                 new DialogResult(requireActivity(), DialogResult.RESULT.SUCCESS, "New checkpoint added.", dialog -> {
                     dialog.dismiss();
+
+                    //todo: clear all fields and data
                     mViewModel.setDescription("");
                     mViewModel.setWarehouse("");
                     mViewModel.setCategory("");
+                    mViewModel.setNfcIDxx("");
+
                     binding.tieWarehouse.setText("");
                     binding.tieCategory.setText("");
                     binding.tieDescription.setText("");
+
                 }).showDialog();
             }
         });
 
         mViewModel.getWarehouses().observe(getViewLifecycleOwner(), warehouses -> {
+
+            //todo: validate warehouse data
             if (warehouses == null) { return; }
             if (warehouses.size() == 0) { return; }
 
+            //todo: collect all branch names
             ArrayList<String> branchNames = new ArrayList<>();
             for (int x = 0; x < warehouses.size(); x++) {
                 String branch = warehouses.get(x).getsBranchNm();
@@ -134,6 +144,7 @@ public class FragmentAddCheckpoint extends Fragment {
 
             }
 
+            //todo: display list of branch names to selection
             binding.tieBranchName.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, branchNames.toArray()));
             binding.tieBranchName.setOnItemClickListener((parent, view, position, id) -> {
                 for (int x = 0; x < warehouses.size(); x ++) {
@@ -144,8 +155,13 @@ public class FragmentAddCheckpoint extends Fragment {
                 }
             });
 
+            //todo: check collected branch names
             mViewModel.getBranch().observe(getViewLifecycleOwner(), branch -> {
+
+                //todo: validate if empty
                 if (branch.isEmpty()) { return; }
+
+                //todo: collect all warehouse names, based on the selected branch
                 ArrayList<String> warehouseNames = new ArrayList<>();
                 for (int x = 0; x < warehouses.size(); x++) {
                     if (warehouses.get(x).getSBranchCd().equalsIgnoreCase(branch)) {
@@ -153,6 +169,8 @@ public class FragmentAddCheckpoint extends Fragment {
                         warehouseNames.add(warehouse);
                     }
                 }
+
+                //todo: display list of warehouse names to selection
                 binding.tieWarehouse.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, warehouseNames.toArray()));
                 binding.tieWarehouse.setOnItemClickListener((parent, view, position, id) -> {
                     for (int x = 0; x < warehouses.size(); x++) {
@@ -166,13 +184,18 @@ public class FragmentAddCheckpoint extends Fragment {
         });
 
         mViewModel.getCategories().observe(getViewLifecycleOwner(), categories -> {
+
+            //todo: validate category data
             if (categories == null) { return; }
             if (categories.size() == 0) { return; }
 
+            //todo: collect all category names
             ArrayList<String> list = new ArrayList<>();
             for (int x = 0; x < categories.size(); x++) {
                 list.add(categories.get(x).getSCategory());
             }
+
+            //todo: display list of category names to selection
             binding.tieCategory.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, list.toArray()));
             binding.tieCategory.setOnItemClickListener((parent, view, position, id) -> {
                 for (int x = 0; x < categories.size(); x++) {
@@ -182,25 +205,6 @@ public class FragmentAddCheckpoint extends Fragment {
                     }
                 }
             });
-        });
-
-        binding.tieDescription.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().length() != 0) {
-                    mViewModel.setDescription(s.toString());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
         });
 
         mViewModel.addingCheckpoint().observe(getViewLifecycleOwner(), addingCheckpoint -> {
@@ -226,10 +230,28 @@ public class FragmentAddCheckpoint extends Fragment {
             }
         });
 
+        binding.tieDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().length() != 0) {
+                    mViewModel.setDescription(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         binding.printToNFCButton.setOnClickListener(view-> {
             try {
 
-                if (mViewModel.getDescription().isEmpty()){
+                if (mViewModel.getDescription().isEmpty()) {
                     new DialogResult(requireActivity(), DialogResult.RESULT.FAILED,
                             "Please enter a description.", Dialog::dismiss).showDialog();
                 }else {

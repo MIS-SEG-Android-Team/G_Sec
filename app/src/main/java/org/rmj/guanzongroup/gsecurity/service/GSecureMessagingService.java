@@ -31,6 +31,8 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEn
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
 import org.rmj.guanzongroup.gsecurity.ui.activity.AuthenticationActivity;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -148,7 +150,7 @@ public class GSecureMessagingService extends FirebaseMessagingService {
                                                     .appendPattern(DEFAULT_TIME_FORMAT)
                                                     .toFormatter(Locale.ENGLISH);
 
-                                    //todo: clear all data
+                                    //todo: clear all data, reset scheduling
                                     patrolRepository.clearPatrolRoute();
                                     scheduleRepository.clearPatrolSchedule();
                                     scheduleRepository.clearCache();
@@ -172,6 +174,28 @@ public class GSecureMessagingService extends FirebaseMessagingService {
                                                 String formattedTime = schedFormat.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
                                                 value.setDTimexxxx(formattedTime);
+
+                                                //todo: check schedule minute range to current time,
+                                                long duration = Duration.between(LocalTime.parse(formattedTime),
+                                                        LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))).toMinutes();
+
+                                                //todo: update status to '3', if range is more than 30 minutes
+                                                if (duration > 30){
+                                                    value.setCRequestd("3");
+                                                }
+
+                                                //TODO: IF REQUESTED, CHECK IF DATED TODAY AND UPDATE STATUS TO '3'
+                                                if (value.getCRequestd().equalsIgnoreCase("1")){
+
+                                                    String rqstSchedule = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()) + " "+ formattedTime;
+
+                                                    if (scheduleRepository.isRequestToday(rqstSchedule) <= 0 ){
+                                                        value.setCRequestd("3");
+                                                    }
+
+                                                }
+
+
                                             }
 
                                             for (PatrolRouteEntity routes: patrolRoutes){

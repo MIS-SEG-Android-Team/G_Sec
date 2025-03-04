@@ -20,6 +20,8 @@ public class PatrolRouteEntity {
     @NonNull
     @ColumnInfo(name = "schedIDxx")
     protected String schedIDxx;
+    @ColumnInfo(name = "duration")
+    protected String duration;
 
     @NonNull
     public String getSNFCIDxxx() { return sNFCIDxxx; }
@@ -37,4 +39,7 @@ public class PatrolRouteEntity {
     @NonNull
     public String getSchedIDxx() {return schedIDxx;}
     public void setSchedIDxx(@NonNull String schedIDxx) {this.schedIDxx = schedIDxx;}
+
+    public String getnDuration() {return duration;}
+    public void setnDuration(String duration) {this.duration = duration;}
 }

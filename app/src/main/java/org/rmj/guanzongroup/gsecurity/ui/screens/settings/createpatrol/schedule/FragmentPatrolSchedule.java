@@ -25,6 +25,7 @@ import org.rmj.guanzongroup.gsecurity.ui.components.adapter.schedule.AdapterPatr
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.Dialog_Route_Time;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -91,12 +92,31 @@ public class FragmentPatrolSchedule extends Fragment {
 
         mViewModel.foUpdate().observe(getViewLifecycleOwner(), forUpdate -> {
             if (forUpdate) {
+
                 mViewModel.initScheduleForUpdate();
                 binding.buttonNext.setText("Update Schedule");
-                binding.buttonNext.setOnClickListener( view -> mViewModel.updateSchedule());
+
+                binding.buttonNext.setOnClickListener( view -> {
+
+                    new Dialog_Route_Time(requireActivity(), new Dialog_Route_Time.DialogRouteTimeCallback() {
+                        @Override
+                        public void onClickButton(Integer limit) {
+                            mViewModel.updateSchedule(limit);
+                        }
+                    }).show();
+                });
             } else {
+
                 mViewModel.initCreatedSchedule();
-                binding.buttonNext.setOnClickListener( view -> mViewModel.saveSchedule());
+                binding.buttonNext.setOnClickListener( view -> {
+
+                    new Dialog_Route_Time(requireActivity(), new Dialog_Route_Time.DialogRouteTimeCallback() {
+                        @Override
+                        public void onClickButton(Integer limit) {
+                            mViewModel.saveSchedule(limit);
+                        }
+                    }).show();
+                });
             }
         });
 

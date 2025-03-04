@@ -141,7 +141,7 @@ public class VMSchedule extends ViewModel {
         errorMessage.setValue("");
     }
 
-    public void saveSchedule() {
+    public void saveSchedule(Integer interval) {
         List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
 
         if (schedules1 == null) {
@@ -155,13 +155,14 @@ public class VMSchedule extends ViewModel {
         }
 
         Objects.requireNonNull(patrolRoute.getValue()).setSSchedule(schedules1);
+        Objects.requireNonNull(patrolRoute.getValue()).setnDurationx(interval);
 
         scheduleRepository.updatePatrolScheduleToCache(patrolRoute.getValue());
         scheduleSaved.setValue(true);
     }
 
     @SuppressLint("CheckResult")
-    public void updateSchedule() {
+    public void updateSchedule(Integer interval) {
         isLoadingUpdateSchedule.setValue(true);
         List<PersonnelPatrolSchedule> schedules1 = schedules.getValue();
 
@@ -191,6 +192,7 @@ public class VMSchedule extends ViewModel {
         params.setSAdminIDx(dataStore.getUserId());
         params.setSSchedIDx(personnelPatrolSchedule.getSSchedIDx());
         params.setSSchedule(schedules1);
+        params.setnDurationx(interval);
 
         scheduleRepository.updateSchedule(params)
                 .subscribeOn(Schedulers.io())

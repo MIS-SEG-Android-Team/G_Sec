@@ -7,6 +7,7 @@ public class UpdatePatrolScheduleParams {
     private List<PersonnelPatrolSchedule> sSchedule;
     private String sAdminIDx;
     private String sSchedIDx;
+    private Integer nDurationx;
 
     public List<PersonnelPatrolSchedule> getSSchedule() { return sSchedule; }
     public void setSSchedule(List<PersonnelPatrolSchedule> value) { this.sSchedule = value; }
@@ -16,5 +17,8 @@ public class UpdatePatrolScheduleParams {
 
     public String getSSchedIDx() { return sSchedIDx; }
     public void setSSchedIDx(String value) { this.sSchedIDx = value; }
+
+    public Integer getnDurationx() {return nDurationx;}
+    public void setnDurationx(Integer nDurationx) {this.nDurationx = nDurationx;}
 }
 

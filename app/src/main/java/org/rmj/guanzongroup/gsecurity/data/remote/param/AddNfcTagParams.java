@@ -6,6 +6,7 @@ public class AddNfcTagParams {
     private String sCatIDxxx;
     private String cRecdStat;
     private String nfcIDxx;
+    private Integer routeTime;
 
     public String getSWHouseID() { return sWHouseID; }
     public void setSWHouseID(String value) { this.sWHouseID = value; }
@@ -21,4 +22,7 @@ public class AddNfcTagParams {
 
     public String getNFCIDxx() { return nfcIDxx; }
     public void setNFCIDxx(String value) { this.nfcIDxx = value; }
+
+    public Integer getRouteTime() { return routeTime; }
+    public void setRouteTime(Integer value) { this.routeTime = value; }
 }

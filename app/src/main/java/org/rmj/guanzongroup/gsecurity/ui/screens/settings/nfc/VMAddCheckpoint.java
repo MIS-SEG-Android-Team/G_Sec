@@ -86,7 +86,7 @@ public class VMAddCheckpoint extends ViewModel {
         hasCompleteInfo.setValue(!value.isEmpty() &&
                 !Objects.requireNonNull(category.getValue()).isEmpty() &&
                 !Objects.requireNonNull(description.getValue()).isEmpty() &&
-                !Objects.requireNonNull(category.getValue()).isEmpty());
+                !Objects.requireNonNull(nfcIDxx.getValue()).isEmpty());
     }
 
     public void setCategory(String value) {
@@ -94,15 +94,15 @@ public class VMAddCheckpoint extends ViewModel {
         hasCompleteInfo.setValue(!value.isEmpty() &&
                 !Objects.requireNonNull(warehouse.getValue()).isEmpty() &&
                 !Objects.requireNonNull(description.getValue()).isEmpty() &&
-                !Objects.requireNonNull(category.getValue()).isEmpty());
+                !Objects.requireNonNull(nfcIDxx.getValue()).isEmpty());
     }
 
     public void setDescription(String value) {
         description.setValue(value);
         hasCompleteInfo.setValue(!value.isEmpty() &&
-                !Objects.requireNonNull(description.getValue()).isEmpty() &&
+                !Objects.requireNonNull(warehouse.getValue()).isEmpty() &&
                 !Objects.requireNonNull(category.getValue()).isEmpty() &&
-                !Objects.requireNonNull(category.getValue()).isEmpty());
+                !Objects.requireNonNull(nfcIDxx.getValue()).isEmpty());
     }
 
     public void setNfcIDxx(String value){
@@ -116,14 +116,8 @@ public class VMAddCheckpoint extends ViewModel {
     public String getWarehouseID() {
         return warehouse.getValue();
     }
-    public String getCategoryID() {
-        return category.getValue();
-    }
     public String getDescription() {
         return description.getValue();
-    }
-    public String getNFCIDxx(){
-        return nfcIDxx.getValue();
     }
 
     public LiveData<List<CategoryEntity>> getCategories() {

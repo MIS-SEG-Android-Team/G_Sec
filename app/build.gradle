@@ -46,8 +46,8 @@ android {
 //       This way the endpoint of the API this app will connect will be on Development side/Testing
         dev {
             dimension "environment"
-            buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
-            //buildConfigField "String", "BASE_URL", "\"http://192.165.10.65/\""
+            //buildConfigField "String", "BASE_URL", "\"https://restgk.guanzongroup.com.ph\""
+            buildConfigField "String", "BASE_URL", "\"http://192.165.10.65/\""
             buildConfigField "String", "PRODUCT_ID", "\"gRider\""
             buildConfigField "String", "Build_Version", "\"11-18-2023\""
             buildConfigField "String", "NFC_SECURITY_KEY", "\"17BMOaV8\""

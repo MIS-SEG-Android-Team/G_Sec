@@ -10,6 +10,7 @@ public class CreateScheduleParams {
     private String sUserName;
     private List<PersonnelPatrolRoute> sRoutexxx;
     private String sNotesxxx;
+    private Integer nDurationx;
 
     public String getSWHouseID() { return sWHouseID; }
     public void setSWHouseID(String value) { this.sWHouseID = value; }
@@ -28,6 +29,9 @@ public class CreateScheduleParams {
 
     public List<PersonnelPatrolRoute> getSRoutexxx() { return sRoutexxx; }
     public void setSRoutexxx(List<PersonnelPatrolRoute> value) { this.sRoutexxx = value; }
+
+    public Integer getnDurationx() {return nDurationx;}
+    public void setnDurationx(Integer nDurationx) {this.nDurationx = nDurationx;}
 
     public String getSNotesxxx() { return sNotesxxx; }
     public void setSNotesxxx(String value) { this.sNotesxxx = value; }
