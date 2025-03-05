@@ -6,6 +6,7 @@ public class RequestSiteVisitParams {
     private String dTimexxxx;
     private String sRemarksx;
     private String sUserIDxx;
+    private Integer nDurationx;
 
     public String getSWHouseID() { return sWHouseID; }
     public void setSWHouseID(String value) { this.sWHouseID = value; }
@@ -21,4 +22,7 @@ public class RequestSiteVisitParams {
 
     public String getSUserIDxx() { return sUserIDxx; }
     public void setSUserIDxx(String value) { this.sUserIDxx = value; }
+
+    public Integer getnDurationx() {return nDurationx;}
+    public void setnDurationx(Integer nDurationx) {this.nDurationx = nDurationx;}
 }

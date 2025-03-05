@@ -35,6 +35,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
     private final String patrolCacheCheckpoint;
     private final VMPatrolRoute mViewModel;
     private final Boolean hasStarted;
+    private final Integer nDuration;
 
     public interface PatrolRouteClickListener{
         void onClick(PatrolCheckpoint patrol, int position);
@@ -42,12 +43,13 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
 
     public AdapterPatrolRoute(List<PatrolCheckpoint> patrolRouteList, String patrolCacheSchedule,
                               String patrolCacheCheckpoint, VMPatrolRoute mViewModel, Boolean hasStarted,
-                              PatrolRouteClickListener listener) {
+                              Integer nDuration, PatrolRouteClickListener listener) {
         this.patrolRouteList = patrolRouteList;
         this.mListener = listener;
         this.patrolCacheSchedule = patrolCacheSchedule;
         this.patrolCacheCheckpoint = patrolCacheCheckpoint;
         this.hasStarted = hasStarted;
+        this.nDuration = nDuration;
         this.mViewModel = mViewModel;
     }
 
@@ -167,7 +169,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                                         LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))).toMinutes();
 
                                 //todo: notify user if assigned patrol duration, has exceeded
-                                if (duration > 30){
+                                if (duration > nDuration){
                                     new DialogResult(holder.itemView.getContext(), DialogResult.RESULT.FAILED, "You have exceeded the duration of patrol", Dialog::dismiss).showDialog();
                                     return;
                                 }

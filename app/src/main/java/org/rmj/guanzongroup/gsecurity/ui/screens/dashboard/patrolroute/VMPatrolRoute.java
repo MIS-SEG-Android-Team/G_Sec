@@ -76,7 +76,7 @@ public class VMPatrolRoute extends ViewModel {
     private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
     private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
-    private final MutableLiveData<CacheNFCSchedule> nfcCache = new MutableLiveData<>(new CacheNFCSchedule("", "", false));
+    private final MutableLiveData<CacheNFCSchedule> nfcCache = new MutableLiveData<>(new CacheNFCSchedule("", "", false, 0));
 
     @Inject
     public VMPatrolRoute(
@@ -135,7 +135,7 @@ public class VMPatrolRoute extends ViewModel {
     }
 
     public void initNFCacheSchedule(){
-        nfcCache.setValue(new CacheNFCSchedule(patrolCache.getCheckpoint(), patrolCache.getPatrolSchedule(), patrolCache.getPatrolStarted()));
+        nfcCache.setValue(new CacheNFCSchedule(patrolCache.getCheckpoint(), patrolCache.getPatrolSchedule(), patrolCache.getPatrolStarted(), patrolCache.getCheckpointDuration()));
     }
 
     public LiveData<CacheNFCSchedule> getNFCCache(){
@@ -279,15 +279,6 @@ public class VMPatrolRoute extends ViewModel {
 
                                             value.setDTimexxxx(formattedTime);
 
-                                            //todo: check schedule minute range to current time,
-                                            long duration = Duration.between(LocalTime.parse(formattedTime),
-                                                    LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")))).toMinutes();
-
-                                            //todo: update status to '3', if range is more than 30 minutes
-                                            if (duration > 30){
-                                                value.setCRequestd("3");
-                                            }
-
                                             //TODO: IF REQUESTED, CHECK IF DATED TODAY AND UPDATE STATUS TO '3'
                                             if (value.getCRequestd().equalsIgnoreCase("1")){
 
@@ -322,10 +313,8 @@ public class VMPatrolRoute extends ViewModel {
                                         scheduleRepository.getCacheSchedule().getSchedIDxx()
                                 );
 
-                                Timber.tag("VMPatrolRoute").d(patrolCache.getPatrolScheduleID());
-
                                 //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
-                                //todo: if empty, set patrol schedule from local data on cache
+                                //todo: set patrol schedule from local data on cache
                                 patrolCache.setPatrolSchedule(
                                         LocalTime.parse(
                                                 scheduleRepository.getCacheSchedule().getdTimexxxx(),
@@ -333,15 +322,19 @@ public class VMPatrolRoute extends ViewModel {
                                         ).format(DateTimeFormatter.ofPattern("HH:mm"))
                                 );
 
-                                //todo: if empty, set patrol checkpoint from local data on cache
+                                //todo: set patrol checkpoint from local data on cache
                                 patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
+
+                                //todo: set patrol duration from local data on cache
+                                patrolCache.setCheckpointDuration(scheduleRepository.getCacheSchedule().getnDuration());
 
                                 //todo: if two cache above is set, set value for live observation of nfc cache
                                 nfcCache.setValue(
                                         new CacheNFCSchedule(
                                                 patrolCache.getCheckpoint(),
                                                 patrolCache.getPatrolSchedule(),
-                                                patrolCache.getPatrolStarted()
+                                                patrolCache.getPatrolStarted(),
+                                                patrolCache.getCheckpointDuration()
                                         ));
 
                             },
@@ -567,11 +560,13 @@ public class VMPatrolRoute extends ViewModel {
         String nfccheckpoint;
         String schedule;
         Boolean hasStarted;
+        Integer nDurationx;
 
-        public CacheNFCSchedule(String nfccheckpoint, String schedule, Boolean hasStarted) {
+        public CacheNFCSchedule(String nfccheckpoint, String schedule, Boolean hasStarted, Integer nDurationx) {
             this.nfccheckpoint = nfccheckpoint;
             this.schedule = schedule;
             this.hasStarted = hasStarted;
+            this.nDurationx = nDurationx;
         }
 
         public String getNfccheckpoint() {
@@ -585,6 +580,8 @@ public class VMPatrolRoute extends ViewModel {
         public Boolean getHasStarted() {
             return hasStarted;
         }
+
+        public Integer getnDurationx(){return nDurationx;}
 
     }
 

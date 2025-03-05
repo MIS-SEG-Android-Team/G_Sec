@@ -220,7 +220,7 @@ public class VMVisitArea extends ViewModel {
     public LiveData<String> getErrorMessage() { return errorMessage; }
 
     @SuppressLint("CheckResult")
-    public void sendVisitationRequest() {
+    public void sendVisitationRequest(Integer interval) {
 
         sendingRequest.setValue(true);
 
@@ -231,6 +231,7 @@ public class VMVisitArea extends ViewModel {
         params.setSUserIDxx(personnelID.getValue());
         params.setDTimexxxx(convertTimeToDateTime(scheduleTime.getValue()));
         params.setSRemarksx(remarks.getValue());
+        params.setnDurationx(interval);
 
         requestVisitRepository.sendVisitationRequest(params)
                 .subscribeOn(Schedulers.io())

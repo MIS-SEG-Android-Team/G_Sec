@@ -32,7 +32,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -284,7 +283,8 @@ public class FragmentPatrolRoute extends Fragment {
                 //todo: set to adapter list
                 AdapterPatrolRoute adapterPatrolRoute =
                         new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(),
-                                nfcCache.getNfccheckpoint(), mViewModel, nfcCache.getHasStarted(), (patrol, position) -> {
+                                nfcCache.getNfccheckpoint(), mViewModel, nfcCache.getHasStarted(),
+                                nfcCache.getnDurationx(), (patrol, position) -> {
 
                     //todo: check if patrol is done
                     if (patrol.isVisited()) {

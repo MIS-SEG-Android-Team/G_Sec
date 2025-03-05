@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import org.rmj.guanzongroup.gsecurity.databinding.FragmentVisitAreaBinding;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogLoad;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
+import org.rmj.guanzongroup.gsecurity.ui.components.dialog.Dialog_Route_Time;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -307,8 +308,16 @@ public class FragmentVisitArea extends Fragment {
         });
 
         binding.sendRequestButton.setOnClickListener(view-> {
-            mViewModel.setRemarks(Objects.requireNonNull(binding.tieRemarks.getText()).toString());
-            mViewModel.sendVisitationRequest();
+
+            new Dialog_Route_Time(requireActivity(), new Dialog_Route_Time.DialogRouteTimeCallback() {
+                @Override
+                public void onClickButton(Integer limit) {
+
+                    mViewModel.setRemarks(Objects.requireNonNull(binding.tieRemarks.getText()).toString());
+                    mViewModel.sendVisitationRequest(limit);
+
+                }
+            }).show();
         });
 
         return binding.getRoot();

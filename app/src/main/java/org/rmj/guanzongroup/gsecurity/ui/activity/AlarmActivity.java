@@ -37,6 +37,7 @@ public class AlarmActivity extends AppCompatActivity{
         });
 
         binding.patrolLaterButton.setOnClickListener(view -> {
+            patrolCache.setPatrolStarted(true);
             mediaPlayer.stop();
             finish();
         });

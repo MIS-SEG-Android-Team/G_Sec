@@ -19,7 +19,7 @@ public interface PatrolScheduleDao {
     @Query("SELECT dTimexxxx FROM Patrol_Schedule WHERE dTimexxxx <= :schedule ORDER BY dTimexxxx DESC LIMIT 1")
     String getRecentSchedule(String schedule);
 
-    @Query("SELECT a.sNFCIDxxx, a.schedIDxx, b.dTimexxxx FROM Patrol_Route a, Patrol_Schedule b " +
+    @Query("SELECT a.sNFCIDxxx, a.schedIDxx, b.dTimexxxx, a.nDuration FROM Patrol_Route a, Patrol_Schedule b " +
             "WHERE a.schedIDxx = b.schedIDxx " +
             "AND b.dTimexxxx >= :dTimex " +
             "AND b.cRequestxx IN ('0', '1') " +
@@ -51,18 +51,17 @@ public interface PatrolScheduleDao {
         public String sNFCIDxxx;
         public String schedIDxx;
         public String dTimexxxx;
+        public Integer nDuration;
 
-        public String getsNFCIDxxx() {
-            return sNFCIDxxx;
-        }
+        public String getsNFCIDxxx() {return sNFCIDxxx;}
 
-        public String getSchedIDxx() {
-            return schedIDxx;
-        }
+        public String getSchedIDxx() {return schedIDxx;}
 
         public String getdTimexxxx() {
             return dTimexxxx;
         }
+
+        public Integer getnDuration(){return nDuration;}
     }
 
 }

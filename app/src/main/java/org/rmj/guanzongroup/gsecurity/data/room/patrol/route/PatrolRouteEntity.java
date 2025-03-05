@@ -20,8 +20,8 @@ public class PatrolRouteEntity {
     @NonNull
     @ColumnInfo(name = "schedIDxx")
     protected String schedIDxx;
-    @ColumnInfo(name = "duration")
-    protected String duration;
+    @ColumnInfo(name = "nDuration")
+    protected String nDuration;
 
     @NonNull
     public String getSNFCIDxxx() { return sNFCIDxxx; }
@@ -40,6 +40,6 @@ public class PatrolRouteEntity {
     public String getSchedIDxx() {return schedIDxx;}
     public void setSchedIDxx(@NonNull String schedIDxx) {this.schedIDxx = schedIDxx;}
 
-    public String getnDuration() {return duration;}
-    public void setnDuration(String duration) {this.duration = duration;}
+    public String getnDuration() {return nDuration;}
+    public void setnDuration(String nDuration) {this.nDuration = nDuration;}
 }
