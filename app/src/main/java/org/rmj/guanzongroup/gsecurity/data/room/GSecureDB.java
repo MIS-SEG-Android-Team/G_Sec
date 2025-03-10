@@ -19,6 +19,8 @@ import org.rmj.guanzongroup.gsecurity.data.room.position.PositionDao;
 import org.rmj.guanzongroup.gsecurity.data.room.position.PositionEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitDao;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.user_log.EUserLog;
+import org.rmj.guanzongroup.gsecurity.data.room.user_log.UserLogDao;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseDao;
 import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
 
@@ -37,9 +39,10 @@ import org.rmj.guanzongroup.gsecurity.data.room.warehouse.WarehouseEntity;
                 CategoryEntity.class,
                 PositionEntity.class,
                 WarehouseEntity.class,
-                BranchEntity.class
+                BranchEntity.class,
+                EUserLog.class
         },
-        version = 7,
+        version = 8,
         exportSchema = false)
 public abstract class GSecureDB extends RoomDatabase {
 
@@ -52,5 +55,6 @@ public abstract class GSecureDB extends RoomDatabase {
     public abstract PatrolScheduleDao patrolScheduleDao();
     public abstract PatrolLogDao patrolLogDao();
     public abstract RequestVisitDao requestVisitDao();
+    public abstract UserLogDao userLogDao();
 
 }

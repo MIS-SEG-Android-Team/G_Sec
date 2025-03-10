@@ -34,6 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -50,7 +51,9 @@ import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogTagOption;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -377,8 +380,10 @@ public class FragmentPatrolRoute extends Fragment {
                     //todo: initialize cache schedule for observation every minute
                     mViewModel.initNFCacheSchedule();
 
-                }
+                    //todo: resend tagged checkpoints
+                    mViewModel.postTaggedCheckpoints();
 
+                }
             }
         };
 
@@ -389,7 +394,30 @@ public class FragmentPatrolRoute extends Fragment {
 
     @SuppressLint("NewApi")
     private void setupObservables() {
+
         // region Observables
+
+        //todo: observe lastlog, to auto logout
+        mViewModel.getLastLog().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+
+                if (s != null){
+
+                    if (!s.isEmpty()){
+
+                        String currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                        String logDate = s;
+
+                        if (!currentDate.equals(logDate)){
+                            mViewModel.logoutUser();
+                        }
+                    }
+                }
+
+            }
+        });
+
         mViewModel.isLoggingOut().observe(getViewLifecycleOwner(), isLoggingOut -> {
             if (isLoggingOut) {
                 dialogLoad.show("Signing out...");

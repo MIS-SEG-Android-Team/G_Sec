@@ -5,15 +5,10 @@ import android.annotation.SuppressLint;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.guanzongroup.gsecurity.data.preferences.TokenCache;
-import org.rmj.guanzongroup.gsecurity.data.remote.service.interceptor.BaseHeaderInterceptor;
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
 import org.rmj.guanzongroup.gsecurity.data.repository.UserProfileRepository;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import javax.inject.Inject;
 

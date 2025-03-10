@@ -15,9 +15,11 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.LoginParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.repository.AuthenticationRepository;
+import org.rmj.guanzongroup.gsecurity.data.room.user_log.EUserLog;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -111,7 +113,7 @@ public class VMLogin extends ViewModel {
         return hasOfficerLogin;
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult", "NewApi"})
     public void loginPersonnel() {
 
         // Display loading dialog on UI...
@@ -139,6 +141,13 @@ public class VMLogin extends ViewModel {
                             // saving of user information to DataStore/SharePreferences...
                             initDataStore(baseResponse);
 
+                            //save user log, for tracking logout purposes
+                            EUserLog userLog = new EUserLog();
+                            userLog.setsUserIDxx(dataStore.getUserId());
+                            userLog.setsLogDatexx(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+                            repository.saveUserLog(userLog);
+
                             isLoading.setValue(false);
                             hasOfficerLogin.setValue(true);
                         },
@@ -151,7 +160,7 @@ public class VMLogin extends ViewModel {
                 );
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult", "NewApi"})
     public void loginAdmin(
             String user,
             String password
@@ -181,6 +190,13 @@ public class VMLogin extends ViewModel {
 
                             // saving of user information to DataStore/SharePreferences...
                             initDataStore(baseResponse);
+
+                            //save user log, for tracking logout purposes
+                            EUserLog userLog = new EUserLog();
+                            userLog.setsUserIDxx(dataStore.getUserId());
+                            userLog.setsLogDatexx(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+                            repository.saveUserLog(userLog);
 
                             isLoading.setValue(false);
                             adminHasLogin.setValue(true);

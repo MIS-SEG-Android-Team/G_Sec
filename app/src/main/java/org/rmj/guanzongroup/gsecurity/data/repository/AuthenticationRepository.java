@@ -8,6 +8,8 @@ import org.rmj.guanzongroup.gsecurity.data.remote.param.PINParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.authentication.LoginBaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.response.base.BaseResponse;
 import org.rmj.guanzongroup.gsecurity.data.remote.service.ApiService;
+import org.rmj.guanzongroup.gsecurity.data.room.user_log.EUserLog;
+import org.rmj.guanzongroup.gsecurity.data.room.user_log.UserLogDao;
 
 import javax.inject.Inject;
 
@@ -15,14 +17,17 @@ public class AuthenticationRepository {
 
     private final ApiService apiService;
     private final DataStore dataStore;
+    private final UserLogDao userLogDao;
 
     @Inject
     public AuthenticationRepository(
             ApiService apiService,
-            DataStore dataStore
+            DataStore dataStore,
+            UserLogDao userLogDao
     ) {
         this.apiService = apiService;
         this.dataStore = dataStore;
+        this.userLogDao = userLogDao;
     }
 
     /**
@@ -38,5 +43,9 @@ public class AuthenticationRepository {
 
     public Observable<LoginBaseResponse> loginPersonnel(PINParams mpin) {
         return apiService.loginPersonnel(mpin);
+    }
+
+    public void saveUserLog(EUserLog userLog){
+        userLogDao.saveUserLog(userLog);
     }
 }

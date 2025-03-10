@@ -40,9 +40,21 @@ public class VMAdminSettings extends ViewModel {
         return errorMessage;
     }
 
+    public LiveData<String> getLastLog(){
+        return userProfileRepository.getLastLog();
+    }
+
     @SuppressLint("CheckResult")
     public void logoutUser() {
+
+        //todo: clear cache
+        userProfileRepository.clearCache();
+        userProfileRepository.clearUserLog();
+
+        //todo: logout user, without depending on api result
         loggingOut.setValue(true);
+        hasLogout.setValue(true);
+
         userProfileRepository.logoutAdmin()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

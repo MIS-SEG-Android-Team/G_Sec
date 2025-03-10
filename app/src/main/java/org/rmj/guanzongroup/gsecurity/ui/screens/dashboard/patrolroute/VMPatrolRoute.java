@@ -31,6 +31,7 @@ import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleDa
 import org.rmj.guanzongroup.gsecurity.data.room.patrol.schedule.PatrolScheduleEntity;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitDao;
 import org.rmj.guanzongroup.gsecurity.data.room.request.RequestVisitEntity;
+import org.rmj.guanzongroup.gsecurity.data.room.user_log.EUserLog;
 import org.rmj.guanzongroup.gsecurity.service.TimeCheckService;
 
 import java.lang.reflect.Type;
@@ -162,10 +163,6 @@ public class VMPatrolRoute extends ViewModel {
         return errorMessage;
     }
 
-    public LiveData<RequestVisitDao.RequestSchedule> getRequestedVisit() {
-        return requestVisitRepository.getRequestedVisit();
-    }
-
     public LiveData<String> successfullyTagged() {
         return successMessage;
     }
@@ -228,6 +225,10 @@ public class VMPatrolRoute extends ViewModel {
 
                                 }
 
+                            },
+                            throwable -> {
+                                Timber.tag("VMPatrolRoute").d(throwable);
+                                isLoadingPatrolRoutes.setValue(false);
                             }
                     );
 
@@ -366,6 +367,10 @@ public class VMPatrolRoute extends ViewModel {
                                     }
 
                                 }
+                            },
+                            throwable -> {
+                                Timber.tag("VMPatrolRoute").d(throwable);
+                                isLoadingPatrolRoutes.setValue(false);
                             }
                     );
 
@@ -486,7 +491,7 @@ public class VMPatrolRoute extends ViewModel {
     }
 
     @SuppressLint("CheckResult")
-    private void postTaggedCheckpoints() {
+    public void postTaggedCheckpoints() {
         try{
             List<PatrolLogEntity> patrols = patrolRepository.getPatrolLogsForPosting(dataStore.getUserId());
 
@@ -524,6 +529,10 @@ public class VMPatrolRoute extends ViewModel {
         }
     }
 
+    public LiveData<String> getLastLog(){
+        return userProfileRepository.getLastLog();
+    }
+
     @SuppressLint("CheckResult")
     public void logoutUser() {
 
@@ -532,9 +541,13 @@ public class VMPatrolRoute extends ViewModel {
         scheduleRepository.clearPatrolSchedule();
         scheduleRepository.clearCache();
         patrolRepository.clearPatrollog();
-        //patrolCache.clear();
+        userProfileRepository.clearCache();
+        userProfileRepository.clearUserLog();
 
+        //todo: should logout user without depending on api
         loggingOut.setValue(true);
+        hasLogout.setValue(true);
+
         userProfileRepository.logoutUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -548,6 +561,7 @@ public class VMPatrolRoute extends ViewModel {
 
                             userProfileRepository.clearCache();
                             hasLogout.setValue(true);
+
                         },
                         throwable -> {
                             loggingOut.setValue(false);
