@@ -309,35 +309,6 @@ public class VMPatrolRoute extends ViewModel {
 
                                 }
 
-                                //todo: set patrol schedule id
-                                patrolCache.setPatrolScheduleID(
-                                        scheduleRepository.getCacheSchedule().getSchedIDxx()
-                                );
-
-                                //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
-                                //todo: set patrol schedule from local data on cache
-                                patrolCache.setPatrolSchedule(
-                                        LocalTime.parse(
-                                                scheduleRepository.getCacheSchedule().getdTimexxxx(),
-                                                DateTimeFormatter.ofPattern("HH:mm:ss")
-                                        ).format(DateTimeFormatter.ofPattern("HH:mm"))
-                                );
-
-                                //todo: set patrol checkpoint from local data on cache
-                                patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
-
-                                //todo: set patrol duration from local data on cache
-                                patrolCache.setCheckpointDuration(scheduleRepository.getCacheSchedule().getnDuration());
-
-                                //todo: if two cache above is set, set value for live observation of nfc cache
-                                nfcCache.setValue(
-                                        new CacheNFCSchedule(
-                                                patrolCache.getCheckpoint(),
-                                                patrolCache.getPatrolSchedule(),
-                                                patrolCache.getPatrolStarted(),
-                                                patrolCache.getCheckpointDuration()
-                                        ));
-
                             },
                             throwable -> {
                                 Timber.tag("VMPatrolRoute").d(throwable);
@@ -377,6 +348,55 @@ public class VMPatrolRoute extends ViewModel {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void initPatrolCache(){
+
+        if (scheduleRepository.getCacheSchedule() != null){
+
+            if (!scheduleRepository.getCacheSchedule().getSchedIDxx().isEmpty()){
+
+                //todo: set patrol schedule id
+                patrolCache.setPatrolScheduleID(
+                        scheduleRepository.getCacheSchedule().getSchedIDxx()
+                );
+
+            }
+
+            if (!scheduleRepository.getCacheSchedule().getdTimexxxx().isEmpty()){
+
+                //todo: triggers observation of schedule cache upon first login, due to delayed cache upon starting service
+                //todo: set patrol schedule from local data on cache
+                patrolCache.setPatrolSchedule(
+                        LocalTime.parse(
+                                scheduleRepository.getCacheSchedule().getdTimexxxx(),
+                                DateTimeFormatter.ofPattern("HH:mm:ss")
+                        ).format(DateTimeFormatter.ofPattern("HH:mm"))
+                );
+
+            }
+
+            if (!scheduleRepository.getCacheSchedule().getsNFCIDxxx().isEmpty()){
+
+                //todo: set patrol checkpoint from local data on cache
+                patrolCache.setPatrolCheckpoint(scheduleRepository.getCacheSchedule().getsNFCIDxxx());
+
+            }
+
+            //todo: set patrol duration from local data on cache
+            patrolCache.setCheckpointDuration(scheduleRepository.getCacheSchedule().getnDuration());
+
+            //todo: if two cache above is set, set value for live observation of nfc cache
+            nfcCache.setValue(
+                    new CacheNFCSchedule(
+                            patrolCache.getCheckpoint(),
+                            patrolCache.getPatrolSchedule(),
+                            patrolCache.getPatrolStarted(),
+                            patrolCache.getCheckpointDuration()
+                    ));
+
+        }
+
     }
 
     @SuppressLint("NewApi")

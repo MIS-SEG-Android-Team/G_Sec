@@ -330,7 +330,7 @@ public class FragmentPatrolRoute extends Fragment {
 
         });
 
-        setupObservables();
+        setupObservables(); //todo: init observables
 
         binding.logoutButton.setOnClickListener(view -> {
             DialogMessage dialogMessage = new DialogMessage(requireActivity());
@@ -360,6 +360,23 @@ public class FragmentPatrolRoute extends Fragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("NewApi")
+    private void initSchedule(){
+
+        //todo: import schedules from local data
+        mViewModel.getPatrolRouteSchedules();
+
+        //todo: initialize patrol cache data
+        mViewModel.initPatrolCache();
+
+        //todo: initialize cache schedule for observation every minute
+        mViewModel.initNFCacheSchedule();
+
+        //todo: resend tagged checkpoints
+        mViewModel.postTaggedCheckpoints();
+
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -374,14 +391,7 @@ public class FragmentPatrolRoute extends Fragment {
 
                     Timber.tag("TimeChangeReceiver").d("CLOCK CHANGED TO %s", LocalTime.now());
 
-                    //todo: import schedules from local data
-                    mViewModel.getPatrolRouteSchedules();
-
-                    //todo: initialize cache schedule for observation every minute
-                    mViewModel.initNFCacheSchedule();
-
-                    //todo: resend tagged checkpoints
-                    mViewModel.postTaggedCheckpoints();
+                    initSchedule();
 
                 }
             }
@@ -390,7 +400,6 @@ public class FragmentPatrolRoute extends Fragment {
         //todo: register event receiver
         registerReceiver(requireContext(), timeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK), ContextCompat.RECEIVER_EXPORTED);
     }
-
 
     @SuppressLint("NewApi")
     private void setupObservables() {

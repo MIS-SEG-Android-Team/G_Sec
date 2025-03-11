@@ -101,7 +101,7 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
                         //todo: retain current schedule
                         holder.binding.nextsched
                                 .setText(LocalTime.parse(patrolCacheSchedule,
-                                                DateTimeFormatter.ofPattern("HH:mm:ss"))
+                                                DateTimeFormatter.ofPattern("HH:mm"))
                                         .format(DateTimeFormatter.ofPattern("hh:mm a")));
 
                     }
