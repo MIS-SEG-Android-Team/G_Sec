@@ -4,13 +4,11 @@ import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.gsecurity.R;
@@ -128,6 +126,8 @@ public class AdapterPatrolRoute extends RecyclerView.Adapter<AdapterPatrolRoute.
             if (!holder.binding.nextsched.getText().toString().isEmpty()){
 
                 if (!holder.binding.nextsched.getText().toString().equalsIgnoreCase("N/A")){
+
+                    boolean isClicked = false;
 
                     //todo: set onclick event
                     holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {

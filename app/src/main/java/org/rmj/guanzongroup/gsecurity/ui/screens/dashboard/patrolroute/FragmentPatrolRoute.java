@@ -17,11 +17,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +56,23 @@ import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogMessage;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogResult;
 import org.rmj.guanzongroup.gsecurity.ui.components.dialog.DialogTagOption;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import javax.inject.Inject;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import timber.log.Timber;
 
@@ -76,7 +92,7 @@ public class FragmentPatrolRoute extends Fragment {
 
     @SuppressLint("NewApi")
     private final ActivityResultLauncher<Intent> intentFrontCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-       if(result.getResultCode() == RESULT_OK) {
+        if(result.getResultCode() == RESULT_OK) {
 
            /*if (!isTaggingRequestedVisit) {
                mViewModel.tagVisitedCheckpoint(QrCodeData);
@@ -84,13 +100,13 @@ public class FragmentPatrolRoute extends Fragment {
                mViewModel.tagRequestedVisit(QrCodeData);
            }*/
 
-           mViewModel.tagVisitedCheckpoint(QrCodeData);
+            mViewModel.tagVisitedCheckpoint(QrCodeData);
 
-       } else if(result.getResultCode() == RESULT_CANCELED) {
-           Toast.makeText(requireActivity(), "Selfie tagging cancelled.", Toast.LENGTH_SHORT).show();
-       } else {
-           Toast.makeText(requireActivity(), "Unknown error occurred", Toast.LENGTH_SHORT).show();
-       }
+        } else if(result.getResultCode() == RESULT_CANCELED) {
+            Toast.makeText(requireActivity(), "Selfie tagging cancelled.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(requireActivity(), "Unknown error occurred", Toast.LENGTH_SHORT).show();
+        }
     });
 
     private final ActivityResultLauncher<Intent> intentQrCodeScanner = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -108,9 +124,9 @@ public class FragmentPatrolRoute extends Fragment {
             intentFrontCamera.launch(intentTakeSelfie);
         } else if(result.getResultCode() == RESULT_CANCELED) {
             Toast.makeText(
-                    requireActivity(),
-                    "Scanner has been cancelled",
-                    Toast.LENGTH_SHORT)
+                            requireActivity(),
+                            "Scanner has been cancelled",
+                            Toast.LENGTH_SHORT)
                     .show();
         } else {
 
@@ -151,6 +167,23 @@ public class FragmentPatrolRoute extends Fragment {
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 mViewModel.setNotificationPermissionEnabled(isGranted);
             });
+
+    //todo: create event receiver for every clock changed
+    private  final BroadcastReceiver timeReceiver = new BroadcastReceiver() {
+        @SuppressLint("NewApi")
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (Objects.equals(intent.getAction(), Intent.ACTION_TIME_TICK)){
+
+                Timber.tag("TimeChangeReceiver").d("CLOCK CHANGED TO %s", LocalTime.now());
+
+                //todo: import schedules from local data
+                mViewModel.getPatrolRouteSchedules();
+
+            }
+        }
+    };
 
     public static FragmentPatrolRoute newInstance() {
         return new FragmentPatrolRoute();
@@ -268,69 +301,116 @@ public class FragmentPatrolRoute extends Fragment {
             });
         });*/
 
-        mViewModel.isLoadingPatrolRoute().observe(getViewLifecycleOwner(), loadingPatrolRoute -> {
+        //todo: observe loading status
+        mViewModel.isLoadingPatrolRoute().observe(requireActivity(), loadingPatrolRoute -> {
             if (loadingPatrolRoute) {
 
             } else {
+
+                //todo: init patrol checkpoints
                 mViewModel.initPatrolCheckpoints();
-            }
-        });
 
-        //todo: get patrol checkpoints
-        mViewModel.getPatrolCheckpoints().observe(getViewLifecycleOwner(), checkpoints -> {
-            if(checkpoints == null) { return; }
+                //todo: initialize patrol cache data
+                mViewModel.initPatrolCache();
 
-            //todo: observe data set from cache
-            mViewModel.getNFCCache().observe(getViewLifecycleOwner(), nfcCache ->{
+                //todo: initialize cache schedule for observation every minute
+                mViewModel.initNFCacheSchedule();
 
-                //todo: set to adapter list
-                AdapterPatrolRoute adapterPatrolRoute =
-                        new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(),
-                                nfcCache.getNfccheckpoint(), mViewModel, nfcCache.getHasStarted(),
-                                nfcCache.getnDurationx(), (patrol, position) -> {
+                //todo: get patrol checkpoints
+                mViewModel.getPatrolCheckpoints().observe(requireActivity(), checkpoints -> {
+                    if(checkpoints == null) { return; }
 
-                    //todo: check if patrol is done
-                    if (patrol.isVisited()) {
-                        new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
-                            dialog.dismiss();
-                            mViewModel.clearMessage();
-                        }).showDialog();
-                        return;
-                    }
+                    //todo: observe data set from cache
+                    mViewModel.getNFCCache().observe(requireActivity(), nfcCache ->{
 
-                    new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
-                        @Override
-                        public void onClickNFCButton(String remarks) {
-                            //isTaggingRequestedVisit = false;
-                            mViewModel.setCheckpoint(patrol, position);
-                            mViewModel.setRemarks(remarks);
-                            Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
-                            intentNFCReader.launch(intent);
-                        }
+                        //todo: set to adapter list
+                        AdapterPatrolRoute adapterPatrolRoute =
+                                new AdapterPatrolRoute(checkpoints, nfcCache.getSchedule(),
+                                        nfcCache.getNfccheckpoint(), mViewModel, nfcCache.getHasStarted(),
+                                        nfcCache.getnDurationx(), (patrol, position) -> {
 
-                        @Override
-                        public void onClickQrCodeButton(String remarks) {
-                            //isTaggingRequestedVisit = false;
-                            mViewModel.setCheckpoint(patrol, position);
-                            mViewModel.setRemarks(remarks);
-                            Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
-                            intentQrCodeScanner.launch(intent);
-                        }
-                    }).show();
+                                    //todo: check if patrol is done
+                                    if (patrol.isVisited()) {
+                                        new DialogResult(requireActivity(), DialogResult.RESULT.FAILED, "You already tagged this checkpoint as visited.", dialog -> {
+                                            dialog.dismiss();
+                                            mViewModel.clearMessage();
+                                        }).showDialog();
+                                        return;
+                                    }
+
+                                    new DialogTagOption(requireActivity(), patrol.getsDescript(), new DialogTagOption.DialogTagOptionCallback() {
+                                        @Override
+                                        public void onClickNFCButton(String remarks) {
+                                            //isTaggingRequestedVisit = false;
+                                            mViewModel.setCheckpoint(patrol, position);
+                                            mViewModel.setRemarks(remarks);
+                                            Intent intent = new Intent(requireActivity(), ReadNfcActivity.class);
+                                            intentNFCReader.launch(intent);
+                                        }
+
+                                        @Override
+                                        public void onClickQrCodeButton(String remarks) {
+                                            //isTaggingRequestedVisit = false;
+                                            mViewModel.setCheckpoint(patrol, position);
+                                            mViewModel.setRemarks(remarks);
+                                            Intent intent = new Intent(requireActivity(), QrCodeScannerActivity.class);
+                                            intentQrCodeScanner.launch(intent);
+                                        }
+                                    }).show();
+
+                                });
+
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+                        linearLayoutManager.setOrientation(VERTICAL);
+
+                        binding.patrolRouteList.setLayoutManager(linearLayoutManager);
+                        binding.patrolRouteList.setAdapter(adapterPatrolRoute);
+
+                    });
 
                 });
 
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-                linearLayoutManager.setOrientation(VERTICAL);
+                if (isDeviceConnected(requireActivity())) {
 
-                binding.patrolRouteList.setLayoutManager(linearLayoutManager);
-                binding.patrolRouteList.setAdapter(adapterPatrolRoute);
+                    if (isReachable()) {
 
-            });
+                        //todo: resend tagged checkpoints, if not posting/sending
+                        mViewModel.getPosted().observe(requireActivity(), new Observer<Integer>() {
+                            @Override
+                            public void onChanged(Integer integer) {
 
+                                if (integer > 0){
+                                    mViewModel.postTaggedCheckpoints();
+
+//                                    mViewModel.isPostingCheckpoint().observe(requireActivity(), new Observer<Boolean>() {
+//                                        @Override
+//                                        public void onChanged(Boolean aBoolean) {
+//
+//                                            Log.d("ISPOST", String.valueOf(aBoolean));
+//
+//                                            if (!aBoolean){
+//                                                mViewModel.postTaggedCheckpoints();
+//                                            }
+//
+//                                        }
+//                                    });
+
+                                }
+
+                            }
+                        });
+
+                    }
+                }
+
+            }
         });
 
-        setupObservables(); //todo: init observables
+        //todo: init other observables
+        setupObservables();
+
+        //todo: register event receiver
+        registerReceiver(requireActivity(), timeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK), ContextCompat.RECEIVER_EXPORTED);
 
         binding.logoutButton.setOnClickListener(view -> {
             DialogMessage dialogMessage = new DialogMessage(requireActivity());
@@ -358,47 +438,6 @@ public class FragmentPatrolRoute extends Fragment {
         });
 
         return binding.getRoot();
-    }
-
-    @SuppressLint("NewApi")
-    private void initSchedule(){
-
-        //todo: import schedules from local data
-        mViewModel.getPatrolRouteSchedules();
-
-        //todo: initialize patrol cache data
-        mViewModel.initPatrolCache();
-
-        //todo: initialize cache schedule for observation every minute
-        mViewModel.initNFCacheSchedule();
-
-        //todo: resend tagged checkpoints
-        mViewModel.postTaggedCheckpoints();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        //todo: create event receiver for every clock changed
-        final BroadcastReceiver timeReceiver = new BroadcastReceiver() {
-            @SuppressLint("NewApi")
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                if (Objects.equals(intent.getAction(), Intent.ACTION_TIME_TICK)){
-
-                    Timber.tag("TimeChangeReceiver").d("CLOCK CHANGED TO %s", LocalTime.now());
-
-                    initSchedule();
-
-                }
-            }
-        };
-
-        //todo: register event receiver
-        registerReceiver(requireContext(), timeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK), ContextCompat.RECEIVER_EXPORTED);
     }
 
     @SuppressLint("NewApi")
@@ -457,5 +496,68 @@ public class FragmentPatrolRoute extends Fragment {
                 }).showDialog();
             }
         });
+    }
+
+    private boolean isDeviceConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnectedOrConnecting());
+    }
+
+    private boolean isReachable()
+    {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        trustAllCertificates();
+
+        try
+        {
+            String lsAddress = "http://192.165.10.65/"; //"https://restgk.guanzongroup.com.ph"
+
+            HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
+                    lsAddress).openConnection();
+            httpUrlConnection.setRequestProperty("Connection", "close");
+            httpUrlConnection.setRequestMethod("HEAD");
+            httpUrlConnection.setConnectTimeout(5000);
+            int responseCode = httpUrlConnection.getResponseCode();
+
+            return responseCode == HttpURLConnection.HTTP_OK;
+        } catch (IOException | NetworkOnMainThreadException noInternetConnection){
+            noInternetConnection.printStackTrace();
+            return false;
+        }
+    }
+
+    public void trustAllCertificates() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() {
+                            X509Certificate[] myTrustedAnchors = new X509Certificate[0];
+                            return myTrustedAnchors;
+                        }
+
+                        @Override
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        }
+                    }
+            };
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String arg0, SSLSession arg1) {
+                    return true;
+                }
+            });
+        } catch (Exception e) {
+        }
     }
 }

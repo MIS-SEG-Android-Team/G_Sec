@@ -24,6 +24,7 @@ public class PatrolCache {
     private static final String PATROL_CHECKPOINT = "patrol_nfcidxx";
     private static final String PATROL_SCHEDULE_ID = "patrol_schedid";
     private static final String PATROL_CHECKPOINT_DURATION = "patrol_checkpoint_duration";
+    private static final String PATROL_LOG_POSTING = "patrol_log_posting";
 
     @Inject
     public PatrolCache(Application application) {
@@ -90,6 +91,15 @@ public class PatrolCache {
     public void setCheckpointDuration(Integer value){
         editor.putInt(PATROL_CHECKPOINT_DURATION, value);
         editor.commit();
+    }
+
+    public void setPatrolLogPosting(boolean value) {
+        editor.putBoolean(PATROL_LOG_POSTING, value);
+        editor.commit();
+    }
+
+    public boolean getPatrolLogPosting() {
+        return preferences.getBoolean(PATROL_LOG_POSTING, false);
     }
 
     public String getNotes() {

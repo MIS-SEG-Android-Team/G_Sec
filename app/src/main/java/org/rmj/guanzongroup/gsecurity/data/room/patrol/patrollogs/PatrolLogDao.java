@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.gsecurity.data.room.patrol.patrollogs;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -18,6 +19,9 @@ public interface PatrolLogDao {
 
     @Query("SELECT * FROM Patrol_Log WHERE cSendStat <> '1' AND sUserIDxx = :sUserIDxx")
     List<PatrolLogEntity> getPatrolLogsForPosting(String sUserIDxx);
+
+    @Query("SELECT COUNT(*) FROM Patrol_Log WHERE cSendStat <> '1' AND sUserIDxx = :sUserIDxx")
+    LiveData<Integer> countUnsentPatrolLogs(String sUserIDxx);
 
     @Query("SELECT * FROM Patrol_Log WHERE sNFCIDxxx=:sNFCIDxxx AND dSchedule=:dSchedule")
     PatrolLogEntity checkIfCheckpointIsVisited(String sNFCIDxxx, String dSchedule);

@@ -5,6 +5,8 @@ import static org.rmj.guanzongroup.gsecurity.utils.BugReport.reportException;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.util.Log;
+
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -47,6 +49,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -75,7 +78,7 @@ public class VMPatrolRoute extends ViewModel {
     private final MutableLiveData<Integer> checkpointIndex = new MutableLiveData<>(0);
     private final MutableLiveData<List<PatrolCheckpoint>> patrolCheckpoints = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<String> taggingRemarks = new MutableLiveData<>("");
-    private final MutableLiveData<Boolean> isLoadingPosting = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> isPostedCheckpoint = new MutableLiveData<>(false);
     private final MutableLiveData<String> successMessage = new MutableLiveData<>("");
     private final MutableLiveData<CacheNFCSchedule> nfcCache = new MutableLiveData<>(new CacheNFCSchedule("", "", false, 0));
 
@@ -151,6 +154,14 @@ public class VMPatrolRoute extends ViewModel {
         return isLoadingPatrolRoutes;
     }
 
+    public LiveData<Boolean> isPostingCheckpoint() {
+        return isPostedCheckpoint;
+    }
+
+    public LiveData<Integer> getPosted() {
+        return patrolRepository.countPatrolLogsForPosting(dataStore.getUserId());
+    }
+
     public LiveData<Boolean> hasLogout() {
         return hasLogout;
     }
@@ -224,6 +235,8 @@ public class VMPatrolRoute extends ViewModel {
                                     }
 
                                 }
+
+                                isLoadingPatrolRoutes.setValue(false);
 
                             },
                             throwable -> {
@@ -338,6 +351,8 @@ public class VMPatrolRoute extends ViewModel {
                                     }
 
                                 }
+
+                                isLoadingPatrolRoutes.setValue(false);
                             },
                             throwable -> {
                                 Timber.tag("VMPatrolRoute").d(throwable);
@@ -346,6 +361,7 @@ public class VMPatrolRoute extends ViewModel {
                     );
 
         }catch (Exception e){
+            isLoadingPatrolRoutes.setValue(false);
             e.printStackTrace();
         }
     }
@@ -383,6 +399,9 @@ public class VMPatrolRoute extends ViewModel {
 
             }
 
+            //todo: set patrol log posting status
+            isPostedCheckpoint.setValue(patrolCache.getPatrolLogPosting());
+
             //todo: set patrol duration from local data on cache
             patrolCache.setCheckpointDuration(scheduleRepository.getCacheSchedule().getnDuration());
 
@@ -402,8 +421,6 @@ public class VMPatrolRoute extends ViewModel {
     @SuppressLint("NewApi")
     public void tagVisitedCheckpoint(String value) {
         try {
-            // Triggers the loading dialog on Main Thread...
-            isLoadingPosting.setValue(true);
 
             Gson gson = new Gson();
 
@@ -488,7 +505,7 @@ public class VMPatrolRoute extends ViewModel {
             //todo: save to patrol log
             patrolRepository.savePatrolLog(patrolLogEntity);
 
-            isLoadingPosting.setValue(false);
+            patrolCache.setPatrolLogPosting(true);
             successMessage.setValue("You visited " + nfcTag.getSDescript());
 
             if (checkpointIndex.getValue() != null) {
@@ -501,7 +518,7 @@ public class VMPatrolRoute extends ViewModel {
                 patrolCheckpoints.setValue(checkpoints);
             }
 
-            postTaggedCheckpoints();
+            //postTaggedCheckpoints();
 
         } catch (JsonSyntaxException e) {
 
@@ -512,6 +529,7 @@ public class VMPatrolRoute extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void postTaggedCheckpoints() {
+
         try{
             List<PatrolLogEntity> patrols = patrolRepository.getPatrolLogsForPosting(dataStore.getUserId());
 
@@ -526,25 +544,30 @@ public class VMPatrolRoute extends ViewModel {
             PostPatrolParams params = new PostPatrolParams();
             params.setData(patrols);
 
+            patrolCache.setPatrolLogPosting(false);
+
             patrolRepository.postPlaceVisited(params)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             response -> {
                                 if ( response.getResult().equalsIgnoreCase("error")) {
+                                    patrolCache.setPatrolLogPosting(true);
                                     return;
                                 }
 
                                 for (int x = 0; x < patrols.size(); x++) {
                                     patrols.get(x).setCSendStat("1");
                                 }
+
                                 patrolRepository.updatePatrolLog(patrols);
+                                patrolCache.setPatrolLogPosting(true);
+
                             },
                             error -> {
-
+                                patrolCache.setPatrolLogPosting(true);
                             }
                     );
         } catch (Exception e){
+            patrolCache.setPatrolLogPosting(true);
             e.printStackTrace();
         }
     }

@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.gsecurity.data.repository;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetPatrolRouteParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.GetRecentActivityParams;
 import org.rmj.guanzongroup.gsecurity.data.remote.param.PostPatrolParams;
@@ -74,6 +76,10 @@ public class PatrolRepository {
 
     public List<PatrolLogEntity> getPatrolLogsForPosting(String sUserIDxx){
         return patrolLogDao.getPatrolLogsForPosting(sUserIDxx);
+    }
+
+    public LiveData<Integer> countPatrolLogsForPosting(String sUserIDxx){
+        return patrolLogDao.countUnsentPatrolLogs(sUserIDxx);
     }
 
     public Observable<BaseResponse<Void>> postPlaceVisited(PostPatrolParams params){

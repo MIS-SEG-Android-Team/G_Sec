@@ -31,7 +31,7 @@ public class DialogResult {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(binding.getRoot());
         alertDialog = builder.create();
-        alertDialog.setCancelable(false);
+        alertDialog.setCancelable(true);
         Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
 
